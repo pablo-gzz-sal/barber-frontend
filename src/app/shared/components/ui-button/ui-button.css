@@ -1,0 +1,39 @@
+/* Base styles handled by Tailwind classes in HTML. */
+/* Add this for the smooth fill effect */
+
+:host {
+  display: inline-block;
+}
+
+button {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  /* Ensure the text color change is smooth */
+  transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+/* The invisible layer that slides up */
+button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+/* Hover state */
+button:hover::after {
+  transform: scaleY(1);
+}
+
+button:hover {
+  color: black; /* Text turns black against white background */
+  border-color: transparent;
+}

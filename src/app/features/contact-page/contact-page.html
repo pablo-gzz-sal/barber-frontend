@@ -1,0 +1,239 @@
+<app-header></app-header>
+ <div class="contact-page bg-white">
+      <!-- Hero Section with Products -->
+      <section class="py-16 lg:py-24 relative overflow-hidden">
+        <div class="container mx-auto px-6 lg:px-16">
+          <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Left Text -->
+            <div class="animate-fade-in-left">
+              <h1 class="text-5xl lg:text-6xl font-light mb-6">
+                {{ content.hero.title }}
+              </h1>
+              <p class="text-lg text-gray-600 leading-relaxed">
+                {{ content.hero.subtitle }}
+              </p>
+            </div>
+
+            <!-- Right Image -->
+            <div class="animate-fade-in-right">
+              <img 
+                src="assets/images/salon-products.jpg" 
+                alt="Salon Products" 
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Form Section -->
+      <section class="py-20 bg-black text-white">
+        <div class="container mx-auto px-6 lg:px-16">
+          <div class="grid lg:grid-cols-2 gap-16">
+            <!-- Left - CTA Text -->
+            <div class="animate-fade-in-up">
+              <h2 class="text-4xl lg:text-5xl font-light mb-6 leading-tight">
+                {{ content.form.title }}
+              </h2>
+              <p class="text-gray-400 leading-relaxed">
+                {{ content.form.description }}
+              </p>
+            </div>
+
+            <!-- Right - Form -->
+            <div class="animate-fade-in-up" style="animation-delay: 200ms">
+              <form (ngSubmit)="onSubmit()" class="space-y-6">
+                <!-- Name and Email Row -->
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <input
+                      type="text"
+                      [(ngModel)]="formData.fullName"
+                      name="fullName"
+                      placeholder="Full Name"
+                      class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="email"
+                      [(ngModel)]="formData.email"
+                      name="email"
+                      placeholder="Email Address"
+                      class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- Phone and Subject Row -->
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <input
+                      type="tel"
+                      [(ngModel)]="formData.phone"
+                      name="phone"
+                      placeholder="Phone"
+                      class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      [(ngModel)]="formData.subject"
+                      name="subject"
+                      placeholder="Subject"
+                      class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300"
+                    />
+                  </div>
+                </div>
+
+                <!-- Message -->
+                <div>
+                  <textarea
+                    [(ngModel)]="formData.message"
+                    name="message"
+                    placeholder="Type Your Message"
+                    rows="4"
+                    class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300 resize-none"
+                    required
+                  ></textarea>
+                </div>
+
+                <!-- Terms Checkbox -->
+                <div class="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="formData.agreedToTerms"
+                    name="agreedToTerms"
+                    id="terms"
+                    class="mt-1 w-4 h-4 accent-white"
+                    required
+                  />
+                  <label for="terms" class="text-sm text-gray-400">
+                    I agree to the 
+                    <a href="#" class="text-white underline hover:no-underline">Privacy Policy</a> 
+                    and 
+                    <a href="#" class="text-white underline hover:no-underline">Terms & Conditions</a>
+                  </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                  <button
+                    type="submit"
+                    class="bg-white text-black px-10 py-3 text-sm tracking-wider hover:bg-gray-200 transition-all duration-300 transform hover:scale-105"
+                  >
+                    {{ content.form.buttonText }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Locations Section -->
+      <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6 lg:px-16">
+          <!-- Featured Location -->
+          <div class="mb-20 animate-fade-in-up">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+              <!-- Image -->
+              <div class="order-2 lg:order-1">
+                <img 
+                  src="assets/images/salon-manhattan.jpg" 
+                  alt="Manhattan Location" 
+                  class="w-full h-auto"
+                />
+              </div>
+
+              <!-- Info -->
+              <div class="order-1 lg:order-2">
+                <h2 class="text-3xl font-light mb-8">{{ content.locations.title }}</h2>
+                
+                <div class="space-y-8">
+                  <div class="flex items-start gap-4">
+                    <svg class="w-6 h-6 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <div>
+                      <h3 class="text-2xl font-light mb-2">{{ content.locations.featured.name }}</h3>
+                      <address class="text-gray-600 not-italic">
+                        {{ content.locations.featured.address.line1 }}<br>
+                        {{ content.locations.featured.address.line2 }}
+                      </address>
+                      <a href="tel:{{ content.locations.featured.phone }}" class="text-black hover:underline mt-2 block">
+                        {{ content.locations.featured.phone }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Other Locations Grid -->
+          <div class="grid md:grid-cols-3 gap-8">
+            @for (location of content.locations.others; track location.name) {
+              <div class="text-center animate-fade-in-up" [style.animation-delay]="($index * 150) + 'ms'">
+                <div class="mb-6 flex justify-center">
+                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  </svg>
+                </div>
+                
+                <h3 class="text-xl font-light mb-3">{{ location.name }}</h3>
+                <address class="text-gray-600 text-sm not-italic mb-2">
+                  {{ location.address.line1 }}<br>
+                  {{ location.address.line2 }}
+                </address>
+                <a href="tel:{{ location.phone }}" class="text-black text-sm hover:underline">
+                  {{ location.phone }}
+                </a>
+              </div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Booking Info Section -->
+      <section class="py-20 bg-white">
+        <div class="container mx-auto px-6 lg:px-16">
+          <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Left - Image -->
+            <div class="animate-fade-in-left">
+              <img 
+                src="assets/images/booking-products.jpg" 
+                alt="Salon Products" 
+                class="w-full h-auto"
+              />
+            </div>
+
+            <!-- Right - Text -->
+            <div class="animate-fade-in-right">
+              <h2 class="text-4xl font-light mb-6">
+                {{ content.booking.title }}
+              </h2>
+              
+              <div class="space-y-4 text-gray-700 leading-relaxed mb-8">
+                <p>
+                  You can book your appointment 
+                  <a href="#" class="text-black underline hover:no-underline font-medium">online</a>, 
+                  or feel free to give us a call or send us an email to set it up.
+                </p>
+                
+                <p>
+                  Currently, only Tuesday and Wednesday appointments are available online. For any other service inquiries, plans or general questions, 
+                  please feel free to 
+                  <a href="#" class="text-black underline hover:no-underline font-medium">send us a message</a>, 
+                  or reach out via email or phone.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <app-footer></app-footer>

@@ -1,0 +1,54 @@
+<section class="relative w-full h-[800px] md:h-[700px] overflow-hidden bg-gray-900 text-white">
+      
+      <img src="assets/images/hair-wash-bg.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 md:opacity-100" alt="Hair Kinetics Background">
+      
+      <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent md:from-black/60 md:via-transparent"></div>
+
+      <div class="relative max-w-7xl mx-auto px-6 h-full flex flex-col md:flex-row">
+        
+        <div class="md:hidden pt-20 flex flex-col gap-8 h-full">
+           <h2 class="text-4xl font-light tracking-wide">
+             HAIR <br /> <span class="font-light">KINETICS</span>™
+           </h2>
+           
+           <div class="flex flex-col gap-6 overflow-y-auto pb-10">
+             <div *ngFor="let item of text.KINETICS.FEATURES" class="flex gap-4">
+                <div class="w-6 h-6 mt-1 flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <p class="text-sm font-light text-white/90 leading-relaxed max-w-[80%]">
+                  {{ item.desc }}
+                </p>
+             </div>
+           </div>
+        </div>
+
+        <div class="hidden md:block w-full h-full relative">
+          
+          <h2 class="absolute top-20 right-0 text-7xl lg:text-8xl font-thin tracking-widest text-white/90 text-right leading-none z-10">
+            HAIR <br /> KINETICS™
+          </h2>
+
+          <div class="absolute top-16 left-0 max-w-xs flex gap-4 animate-fade-in">
+             <div class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 4h16v16H4z"/></svg></div>
+             <p class="text-sm font-light text-white/90 leading-relaxed">{{ text.KINETICS.FEATURES[0].desc }}</p>
+          </div>
+
+          <div class="absolute top-1/3 left-12 max-w-xs flex gap-4 animate-fade-in" style="animation-delay: 0.2s">
+             <div class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/></svg></div>
+             <p class="text-sm font-light text-white/90 leading-relaxed">{{ text.KINETICS.FEATURES[1].desc }}</p>
+          </div>
+
+          <div class="absolute bottom-1/3 left-32 max-w-xs flex gap-4 animate-fade-in" style="animation-delay: 0.4s">
+             <div class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+             <p class="text-sm font-light text-white/90 leading-relaxed">{{ text.KINETICS.FEATURES[2].desc }}</p>
+          </div>
+
+          <div class="absolute bottom-12 left-0 max-w-xs flex gap-4 animate-fade-in" style="animation-delay: 0.6s">
+             <div class="w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="6" cy="18" r="3"/><line x1="18" y1="3" x2="18" y2="15"/><circle cx="18" cy="18" r="3"/></svg></div>
+             <p class="text-sm font-light text-white/90 leading-relaxed">{{ text.KINETICS.FEATURES[3].desc }}</p>
+          </div>
+
+        </div>
+      </div>
+    </section>

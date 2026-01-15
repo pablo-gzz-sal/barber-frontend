@@ -1,0 +1,102 @@
+<app-header></app-header>
+<div class="services-page bg-white">
+      <!-- Header -->
+      <section class="py-16 lg:py-24">
+        <div class="container mx-auto px-6 lg:px-16">
+          <h1 class="text-5xl lg:text-6xl font-light mb-4 animate-fade-in-up">
+            {{ content.title }}
+          </h1>
+        </div>
+      </section>
+
+      <!-- Services List -->
+      <section class="pb-20">
+        <div class="container mx-auto px-6 lg:px-16 max-w-4xl">
+          
+          <!-- Extensions -->
+          <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 100ms">
+            <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
+              {{ content.extensions.title }}
+            </h2>
+            
+            @for (service of content.extensions.services; track service.name) {
+              <div class="service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300">
+                <span class="text-base text-gray-800">{{ service.name }}</span>
+                <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Chemical Treatments -->
+          <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 200ms">
+            <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
+              {{ content.chemicalTreatments.title }}
+            </h2>
+            
+            @for (service of content.chemicalTreatments.services; track service.name) {
+              <div class="service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300">
+                <span class="text-base text-gray-800">{{ service.name }}</span>
+                <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Color -->
+          <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 300ms">
+            <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
+              {{ content.color.title }}
+            </h2>
+            
+            @for (service of content.color.services; track service.name) {
+              <div class="service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300">
+                <span class="text-base text-gray-800">{{ service.name }}</span>
+                <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Styling -->
+          <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 400ms">
+            <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
+              {{ content.styling.title }}
+            </h2>
+            
+            @for (service of content.styling.services; track service.name) {
+              <div class="service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300">
+                <span class="text-base text-gray-800">{{ service.name }}</span>
+                <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
+              </div>
+            }
+          </div>
+
+          <!-- Haircuts -->
+          <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 500ms">
+            <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
+              {{ content.haircuts.title }}
+            </h2>
+            
+            @for (service of content.haircuts.services; track service.name) {
+              <div class="service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300">
+                <span class="text-base text-gray-800">{{ service.name }}</span>
+                <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
+              </div>
+            }
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="py-20 bg-gray-50 animate-fade-in-up" style="animation-delay: 600ms">
+        <div class="container mx-auto px-6 text-center">
+          <h3 class="text-2xl font-light mb-4">{{ content.cta.title }}</h3>
+          <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+            {{ content.cta.description }}
+          </p>
+          <button class="bg-black text-white px-8 py-3 text-sm tracking-wider hover:bg-gray-800 transition-colors duration-300">
+            {{ content.cta.buttonText }}
+          </button>
+        </div>
+      </section>
+    </div>
+    <app-footer></app-footer>

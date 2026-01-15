@@ -1,0 +1,40 @@
+<section class="bg-[#f0f0f0] text-black overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 min-h-[600px]">
+        
+        <div class="flex flex-col justify-center px-8 md:px-24 py-20 order-2 md:order-1">
+          
+          <span class="inline-block text-[10px] font-bold tracking-[0.3em] uppercase mb-6 text-purple-600 animate-fade-in">
+            {{ text.SALE.SUBTITLE }}
+          </span>
+
+          <div class="overflow-hidden mb-4">
+            <h2 class="text-5xl md:text-7xl font-light tracking-wide uppercase leading-none animate-slide-up">
+              {{ text.SALE.TITLE }}
+            </h2>
+          </div>
+
+          <h3 class="text-2xl md:text-3xl font-normal mb-8 animate-fade-in delay-200">
+            {{ text.SALE.DISCOUNT }}
+          </h3>
+
+          <p class="max-w-md text-sm md:text-base text-gray-600 font-light leading-relaxed mb-10 animate-fade-in delay-300">
+            {{ text.SALE.DESC }}
+          </p>
+
+          <div class="animate-fade-in delay-500">
+            <app-ui-button 
+              [label]="text.SALE.BTN" 
+              customClass="border-black text-black hover:bg-black hover:text-white">
+            </app-ui-button>
+          </div>
+        </div>
+
+        <div class="relative h-[400px] md:h-auto overflow-hidden order-1 md:order-2 group">
+          <img [src]="text.SALE.IMG" alt="Archive Sale" 
+               class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-110">
+          
+          <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700"></div>
+        </div>
+
+      </div>
+    </section>

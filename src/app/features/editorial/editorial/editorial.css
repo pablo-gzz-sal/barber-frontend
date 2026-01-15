@@ -1,0 +1,11 @@
+/* Image transition */
+img {
+  filter: grayscale(100%);
+  transition: filter 0.8s ease, transform 0.8s ease;
+}
+
+/* Remove grayscale and slight scale up on hover */
+img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.02);
+}

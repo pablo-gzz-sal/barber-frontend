@@ -1,0 +1,27 @@
+<section class="relative bg-[#111] text-white overflow-hidden">
+      
+      <div class="absolute top-0 left-0 w-full z-20 border-b border-white/10 bg-black/50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between md:justify-end gap-8 text-xs tracking-widest font-light">
+           <ng-container *ngFor="let tab of text.TREATMENTS_HERO.TABS">
+             <span [class]="tab === text.TREATMENTS_HERO.ACTIVE_TAB 
+                 ? 'text-white text-lg md:text-sm font-normal' 
+                 : 'hidden md:block text-white/40 cursor-pointer hover:text-white transition-colors'">
+               {{ tab }}
+             </span>
+           </ng-container>
+        </div>
+      </div>
+
+      <div class="relative h-[600px] md:h-[800px] w-full">
+        <img src="assets/images/treatments-model.jpg" class="w-full h-full object-cover opacity-80" alt="Treatments Model">
+        
+        <div *ngFor="let label of text.TREATMENTS_HERO.LABELS" 
+             class="absolute text-white font-light tracking-wide text-sm md:text-base animate-fade-in"
+             [style.top]="label.top" 
+             [style.left]="label.left" 
+             [style.right]="label.right" 
+             [style.bottom]="label.bottom">
+          {{ label.text }}
+        </div>
+      </div>
+    </section>

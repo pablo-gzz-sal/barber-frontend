@@ -1,0 +1,10 @@
+/* Target the image inside the container */
+img {
+  will-change: transform;
+  transition: transform 1.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* When the user hovers over the parent card (.group), zoom the image */
+.group:hover img {
+  transform: scale(1.05);
+}

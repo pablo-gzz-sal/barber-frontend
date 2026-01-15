@@ -1,0 +1,48 @@
+<section class="pb-24 bg-white text-black">
+      <div class="max-w-7xl mx-auto px-6">
+        
+        <div class="mb-8 border-b border-gray-200 pb-2">
+           <h3 class="text-xl font-medium">{{ text.SERVICES.TITLE }}</h3>
+           <div class="flex items-center gap-2 mt-2">
+             <div class="w-2 h-2 bg-black rounded-full"></div>
+             <span class="text-xs uppercase tracking-wider text-gray-500">{{ text.SERVICES.SUBTITLE }}</span>
+           </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
+          <div *ngFor="let service of text.SERVICES.CARDS" class="group border border-gray-100 hover:border-gray-300 transition-colors p-4 md:p-6 flex flex-col h-full">
+             <h4 class="text-lg font-medium mb-1">{{ service.title }}</h4>
+             <p class="text-[10px] text-gray-400 uppercase mb-4">{{ text.SERVICES.SUBTITLE }}</p>
+             
+             <div class="aspect-square overflow-hidden mb-6 bg-gray-100">
+               <img [src]="service.img" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" [alt]="service.title">
+             </div>
+             
+             <a href="#" class="mt-auto text-xs font-bold underline decoration-1 underline-offset-4 decoration-gray-300 group-hover:decoration-black transition-all">
+               {{ text.SERVICES.BTN_BOOK }}
+             </a>
+          </div>
+        </div>
+
+        <div class="mb-24">
+           <button class="bg-[#333] text-white px-6 py-2 text-xs uppercase tracking-wide rounded-sm">
+             {{ text.SERVICES.BTN_ALL }}
+           </button>
+        </div>
+
+        <div class="text-center mb-10">
+           <h3 class="text-xs font-bold tracking-[0.2em] uppercase mb-8">{{ text.BRANDS.TITLE }}</h3>
+           
+           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+             <div *ngFor="let brand of text.BRANDS.LOGOS" class="border border-gray-100 aspect-[3/2] flex items-center justify-center p-8 hover:shadow-lg transition-shadow bg-white">
+                <img [src]="brand.img" [alt]="brand.name" class="max-w-full max-h-full object-contain mix-blend-multiply">
+             </div>
+           </div>
+
+           <button class="mt-12 bg-[#333] text-white px-6 py-2 text-xs uppercase tracking-wide rounded-sm">
+             {{ text.BRANDS.BTN_ALL }}
+           </button>
+        </div>
+
+      </div>
+    </section>

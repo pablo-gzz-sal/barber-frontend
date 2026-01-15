@@ -1,0 +1,44 @@
+<section
+  class="h-screen w-full bg-brand-dark flex flex-col items-center justify-center relative px-4 overflow-hidden"
+>
+  <div class="text-center z-10 mt-16 md:mt-0">
+    <h1
+      class="text-5xl md:text-8xl lg:text-[7rem] font-extralight text-white tracking-widest leading-tight animate-fade-in-up"
+    >
+      {{ text.HERO.LINE_1 }}
+    </h1>
+
+    <h2
+      class="text-5xl md:text-8xl lg:text-[7rem] font-extralight text-white/30 tracking-widest leading-tight mt-2 md:mt-4 animate-fade-in-up-delay"
+    >
+      {{ text.HERO.LINE_2 }}
+    </h2>
+  </div>
+
+  <div
+    class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+  >
+    <div
+      class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center animate-bounce-slow"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="m7 13 5 5 5-5" />
+        <path d="m7 6 5 5 5-5" />
+      </svg>
+    </div>
+  </div>
+
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 pointer-events-none"
+  ></div>
+</section>

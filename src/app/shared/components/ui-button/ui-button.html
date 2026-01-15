@@ -1,0 +1,11 @@
+<button
+  [class]="
+    'flex items-center gap-2 px-6 py-2 border rounded-full transition-all duration-300 ' +
+    'hover:bg-white hover:text-black font-light text-sm tracking-wide ' +
+    customClass
+  "
+>
+  <ng-content select="[icon]"></ng-content>
+
+  <span>{{ label }}</span>
+</button>
