@@ -1,39 +1,90 @@
-<section class="bg-[#f0f0f0] text-black overflow-hidden">
-      <div class="grid grid-cols-1 md:grid-cols-2 min-h-[600px]">
+  <section class="bg-white text-black overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
         
-        <div class="flex flex-col justify-center px-8 md:px-24 py-20 order-2 md:order-1">
-          
-          <span class="inline-block text-[10px] font-bold tracking-[0.3em] uppercase mb-6 text-purple-600 animate-fade-in">
-            {{ text.SALE.SUBTITLE }}
-          </span>
+        <!-- Left: Product Showcase -->
+        <div class="relative h-[500px] lg:h-auto overflow-hidden group order-2 lg:order-1 bg-gray-100">
+          <img 
+            src="assets/images/milbon-products.jpg" 
+            alt="Milbon Products" 
+            class="absolute inset-0 w-full h-full object-contain p-12 md:p-20 transition-transform duration-[1500ms] ease-out group-hover:scale-105"
+          />
+        </div>
 
-          <div class="overflow-hidden mb-4">
-            <h2 class="text-5xl md:text-7xl font-light tracking-wide uppercase leading-none animate-slide-up">
-              {{ text.SALE.TITLE }}
+        <!-- Right: Content -->
+        <div class="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-20 order-1 lg:order-2 bg-white">
+          
+          <!-- Title -->
+          <div class="mb-8 animate-fade-in-up">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+              Discover Milbon
             </h2>
+            <p class="text-sm md:text-base font-light italic text-gray-600">
+              Salon-exclusive formulas built on innovation and precision
+            </p>
           </div>
 
-          <h3 class="text-2xl md:text-3xl font-normal mb-8 animate-fade-in delay-200">
-            {{ text.SALE.DISCOUNT }}
-          </h3>
-
-          <p class="max-w-md text-sm md:text-base text-gray-600 font-light leading-relaxed mb-10 animate-fade-in delay-300">
-            {{ text.SALE.DESC }}
+          <!-- Description -->
+          <p class="max-w-md text-sm md:text-base text-gray-700 font-light leading-relaxed mb-10 animate-fade-in-up" style="animation-delay: 200ms">
+            Dive into a curated collection that repairs, strengthens, and refines hair with advanced science.
           </p>
 
-          <div class="animate-fade-in delay-500">
-            <app-ui-button 
-              [label]="text.SALE.BTN" 
-              customClass="border-black text-black hover:bg-black hover:text-white">
-            </app-ui-button>
+          <!-- CTA Button -->
+          <div class="animate-fade-in-up" style="animation-delay: 400ms">
+            <button class="bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-wider uppercase hover:bg-black transition-all duration-300 hover:px-10">
+              Shop Milbon
+            </button>
           </div>
         </div>
 
-        <div class="relative h-[400px] md:h-auto overflow-hidden order-1 md:order-2 group">
-          <img [src]="text.SALE.IMG" alt="Archive Sale" 
-               class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-110">
-          
-          <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700"></div>
+      </div>
+    </section>
+
+    <!-- Shop Sale Section -->
+    <section class="bg-white text-black py-20 md:py-24">
+      <div class="max-w-7xl mx-auto px-6">
+        
+        <!-- Section Title -->
+        <div class="text-center mb-12 md:mb-16 animate-fade-in-up">
+          <h2 class="text-xs md:text-sm tracking-[0.3em] font-bold uppercase mb-8">
+            {{ content.title }}
+          </h2>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          @for (product of content.products; track product.name; let i = $index) {
+            <div 
+              class="group cursor-pointer animate-fade-in-up"
+              [style.animation-delay]="(i * 100) + 'ms'"
+            >
+              <!-- Product Image -->
+              <div class="relative aspect-[3/4] bg-gray-50 mb-4 overflow-hidden">
+                <img 
+                  [src]="product.img" 
+                  [alt]="product.name"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+
+              <!-- Product Info -->
+              <div class="space-y-1">
+                <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">
+                  {{ product.brand }}
+                </p>
+                <h3 class="text-xs md:text-sm font-light leading-snug text-black">
+                  {{ product.name }}
+                </h3>
+                <div class="flex items-center gap-2 mt-2">
+                  <span class="text-xs md:text-sm text-red-600 font-medium">
+                    {{ product.salePrice }}
+                  </span>
+                  <span class="text-xs text-gray-400 line-through">
+                    {{ product.originalPrice }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
         </div>
 
       </div>

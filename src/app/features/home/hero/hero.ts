@@ -10,5 +10,11 @@ import { UI_TEXT } from '../../../core/constants/app-text';
 })
 export class Hero {
   protected readonly text = UI_TEXT;
+  content = {
+    hero: {
+      line1: 'HAIR IN MOTION',
+      line2: 'BEAUTY IN BALANCE'
+    }
+  }
 
 }

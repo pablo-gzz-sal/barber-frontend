@@ -12,4 +12,9 @@ import { UiButton } from '../../../shared/components/ui-button/ui-button';
 })
 export class Artist {
   protected readonly text = UI_TEXT;
+    content = {
+    label: 'THE ARTIST',
+    bio: 'Learn more about his award winning method and approach to hair.',
+    btnText: 'Learn More'
+  };  
 }

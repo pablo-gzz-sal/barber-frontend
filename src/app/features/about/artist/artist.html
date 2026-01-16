@@ -1,33 +1,60 @@
-<section class="bg-[#050505] text-white py-24 md:py-32 overflow-hidden">
+    <section class="bg-[#0a0a0a] text-white py-20 md:py-32 overflow-hidden">
       <div class="max-w-7xl mx-auto px-6">
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
-          <div class="relative group overflow-hidden aspect-[3/4] md:aspect-[4/5]">
-            <img [src]="text.ARTIST.IMG" alt="Joseph Battisti" 
-                 class="w-full h-full object-cover object-top opacity-90 transition-transform duration-[1.5s] ease-out group-hover:scale-105">
-            
-            <div class="absolute inset-0 border border-white/5 pointer-events-none"></div>
+          <!-- Left: Image -->
+          <div class="relative group animate-fade-in-left">
+            <div class="relative aspect-[3/4] lg:aspect-[4/5] overflow-hidden">
+              <img 
+                src="assets/images/joseph-portrait.jpg" 
+                alt="Joseph Battisti" 
+                class="w-full h-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-1000 ease-out group-hover:scale-105"
+              />
+              
+              <!-- Border Frame -->
+              <div class="absolute inset-0 border border-white/5 pointer-events-none"></div>
+              
+              <!-- Subtle Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
+            </div>
           </div>
 
-          <div class="flex flex-col justify-center items-start">
+          <!-- Right: Content -->
+          <div class="flex flex-col justify-center">
             
-            <div class="flex items-center gap-3 mb-6 animate-fade-in-right">
-              <span class="w-8 h-[1px] bg-purple-500"></span>
-              <span class="text-xs tracking-[0.3em] text-purple-400 uppercase">{{ text.ARTIST.TITLE }}</span>
+            <!-- Section Label -->
+            <div class="flex items-center gap-3 mb-8 animate-fade-in-up">
+              <div class="w-10 h-[1px] bg-white/30"></div>
+              <span class="text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase font-light">
+                {{ content.label }}
+              </span>
             </div>
 
-            <h2 class="text-4xl md:text-6xl font-light tracking-wide mb-8 leading-tight animate-fade-in-up">
-              JOSEPH <br /> <span class="font-bold text-white/30">BATTISTI</span>
+            <!-- Name -->
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-2 animate-fade-in-up" style="animation-delay: 100ms">
+              MEET
+            </h2>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-2 animate-fade-in-up" style="animation-delay: 150ms">
+              JOSEPH
+            </h2>
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-8 animate-fade-in-up" style="animation-delay: 200ms">
+              BATTISTI
             </h2>
 
-            <div class="space-y-6 text-white/70 font-light text-sm md:text-base leading-relaxed max-w-md animate-fade-in-up delay-200">
-              <p>{{ text.ARTIST.BIO_P1 }}</p>
-              <p>{{ text.ARTIST.BIO_P2 }}</p>
+            <!-- Bio -->
+            <div class="space-y-6 text-white/70 font-light text-sm md:text-base leading-relaxed max-w-lg mb-10 animate-fade-in-up" style="animation-delay: 300ms">
+              <p>{{ content.bio }}</p>
             </div>
 
-            <div class="mt-12 animate-fade-in-up delay-300">
-              <app-ui-button [label]="text.ARTIST.BTN" customClass="border-white text-white hover:bg-white hover:text-black"></app-ui-button>
+            <!-- CTA Button -->
+            <div class="animate-fade-in-up" style="animation-delay: 400ms">
+              <button class="group relative border border-white/30 text-white px-8 py-3 text-xs tracking-wider uppercase overflow-hidden transition-all duration-300 hover:bg-white hover:text-black hover:border-white">
+                <span class="relative z-10">{{ content.btnText }}</span>
+                
+                <!-- Hover effect background -->
+                <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></div>
+              </button>
             </div>
 
           </div>

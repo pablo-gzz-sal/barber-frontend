@@ -1,28 +1,58 @@
-<section class="py-20 bg-white text-black">
+<section class="py-16 md:py-24 bg-white text-black">
       <div class="max-w-7xl mx-auto px-6">
         
-        <h2 class="text-center text-sm tracking-[0.2em] font-medium mb-12 uppercase">
-          {{ text.SHOP.TITLE }}
+        <!-- Section Title -->
+        <h2 class="text-center text-xs md:text-sm tracking-[0.3em] font-medium mb-12 md:mb-16 uppercase animate-fade-in-up">
+          {{ content.title }}
         </h2>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10 md:gap-8">
-          <div *ngFor="let product of text.SHOP.PRODUCTS" class="flex flex-col group cursor-pointer">
-            
-            <div class="bg-[#f5f5f5] aspect-[4/5] mb-4 overflow-hidden relative">
-              <img [src]="product.img" alt="{{product.name}}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            </div>
+        <!-- Products Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
+          @for (product of content.products; track product.name; let i = $index) {
+            <div 
+              class="group cursor-pointer animate-fade-in-up"
+              [style.animation-delay]="(i * 100) + 'ms'"
+            >
+              <!-- Product Image -->
+              <div class="relative aspect-[3/4] bg-gray-100 mb-4 overflow-hidden rounded-sm">
+                <img 
+                  [src]="product.img" 
+                  [alt]="product.name"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                
+                <!-- Hover Overlay -->
+                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300"></div>
+              </div>
 
-            <div class="flex flex-col gap-1">
-              <span class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wide">{{ product.brand }}</span>
-              <h3 class="text-xs md:text-sm font-light leading-snug">{{ product.name }}</h3>
-              <span class="text-xs md:text-sm text-gray-900 mt-1">{{ product.price }}</span>
+              <!-- Product Info -->
+              <div class="space-y-1">
+                <!-- Brand -->
+                <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">
+                  {{ product.brand }}
+                </p>
+                
+                <!-- Name -->
+                <h3 class="text-xs md:text-sm font-light leading-snug text-black group-hover:text-gray-600 transition-colors">
+                  {{ product.name }}
+                </h3>
+                
+                <!-- Price -->
+                <p class="text-xs md:text-sm text-black font-normal mt-2">
+                  {{ product.price }}
+                </p>
+              </div>
             </div>
-          </div>
+          }
         </div>
 
-        <div class="flex justify-center mt-16">
-          <button class="bg-[#222] text-white px-8 py-3 text-sm font-light hover:bg-black transition-colors">
-            {{ text.SHOP.BTN_ALL }}
+        <!-- CTA Button -->
+        <div class="flex justify-center animate-fade-in-up" style="animation-delay: 400ms">
+          <button class="group relative bg-black text-white px-8 md:px-10 py-3 md:py-3.5 text-xs md:text-sm font-light tracking-wider uppercase overflow-hidden transition-all duration-300 hover:bg-gray-900">
+            <span class="relative z-10">{{ content.btnAll }}</span>
+            
+            <!-- Hover effect -->
+            <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
           </button>
         </div>
       </div>

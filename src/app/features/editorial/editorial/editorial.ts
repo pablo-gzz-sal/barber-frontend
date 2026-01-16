@@ -11,5 +11,10 @@ import { CommonModule } from '@angular/common';
 })
 export class Editorial {
   protected readonly text = UI_TEXT;
+    content = {
+    title: ['WHERE', 'PRECISION', 'MEETS', 'FLOW'],
+    tag: 'NEW',
+    caption: 'Precision cutting for sharp, clean and professional-looking hairstyles.'
+  }
 
 }

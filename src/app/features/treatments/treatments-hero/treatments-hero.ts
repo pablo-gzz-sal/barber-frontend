@@ -11,4 +11,12 @@ import { CommonModule } from '@angular/common';
 })
 export class TreatmentsHero {
 protected readonly text = UI_TEXT;
+ content = {
+    activeTab: 'treatments',
+    tabs: [
+      { id: 'extensions', number: '01', label: 'EXTENSIONS' },
+      { id: 'treatments', number: '02', label: 'TREATMENTS' },
+      { id: 'color', number: '03', label: 'COLOR' }
+    ]
+  };
 }

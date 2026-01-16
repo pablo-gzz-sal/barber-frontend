@@ -1,27 +1,75 @@
-<section class="relative bg-[#111] text-white overflow-hidden">
+<section class="relative bg-black text-white min-h-screen overflow-hidden">
       
-      <div class="absolute top-0 left-0 w-full z-20 border-b border-white/10 bg-black/50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between md:justify-end gap-8 text-xs tracking-widest font-light">
-           <ng-container *ngFor="let tab of text.TREATMENTS_HERO.TABS">
-             <span [class]="tab === text.TREATMENTS_HERO.ACTIVE_TAB 
-                 ? 'text-white text-lg md:text-sm font-normal' 
-                 : 'hidden md:block text-white/40 cursor-pointer hover:text-white transition-colors'">
-               {{ tab }}
-             </span>
-           </ng-container>
+      <!-- Top Navigation Bar -->
+      <div class="absolute top-0 left-0 w-full z-30 bg-black/80 backdrop-blur-sm border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-4 md:py-6">
+          <div class="flex items-center justify-between md:justify-end gap-6 md:gap-12">
+            @for (tab of content.tabs; track tab.id) {
+              <button 
+                class="group transition-all duration-300"
+                [class.active]="tab.id === content.activeTab"
+              >
+                <span class="text-[10px] md:text-xs tracking-[0.2em] font-light block mb-1"
+                      [class]="tab.id === content.activeTab ? 'text-white/50' : 'text-white/30 group-hover:text-white/50'">
+                  {{ tab.number }}
+                </span>
+                <span class="text-sm md:text-base tracking-[0.15em] font-light"
+                      [class]="tab.id === content.activeTab ? 'text-white font-normal' : 'text-white/40 group-hover:text-white/60'">
+                  {{ tab.label }}
+                </span>
+              </button>
+            }
+          </div>
         </div>
       </div>
 
-      <div class="relative h-[600px] md:h-[800px] w-full">
-        <img src="assets/images/treatments-model.jpg" class="w-full h-full object-cover opacity-80" alt="Treatments Model">
-        
-        <div *ngFor="let label of text.TREATMENTS_HERO.LABELS" 
-             class="absolute text-white font-light tracking-wide text-sm md:text-base animate-fade-in"
-             [style.top]="label.top" 
-             [style.left]="label.left" 
-             [style.right]="label.right" 
-             [style.bottom]="label.bottom">
-          {{ label.text }}
+      <!-- Main Image with Labels -->
+      <div class="relative h-screen w-full pt-20 md:pt-24">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+          <img 
+            src="assets/images/treatments-model.jpg" 
+            alt="Hair Treatments" 
+            class="w-full h-full object-cover"
+          />
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70"></div>
+        </div>
+
+        <!-- Floating Labels -->
+        <div class="relative z-20 h-full">
+          <!-- Label 1: GLOSS - Top Left -->
+          <div 
+            class="absolute top-[25%] left-[10%] animate-fade-in"
+            style="animation-delay: 400ms"
+          >
+            <div class="flex flex-col items-start">
+              <span class="text-[10px] tracking-[0.2em] text-white/50 mb-1">03</span>
+              <span class="text-lg md:text-xl tracking-[0.15em] font-light">GLOSS</span>
+            </div>
+          </div>
+
+          <!-- Label 2: REPAIRATIVE - Top Right -->
+          <div 
+            class="absolute top-[20%] right-[12%] animate-fade-in"
+            style="animation-delay: 600ms"
+          >
+            <div class="flex flex-col items-end">
+              <span class="text-[10px] tracking-[0.2em] text-white/50 mb-1">02</span>
+              <span class="text-lg md:text-xl tracking-[0.15em] font-light">REPAIRATIVE</span>
+            </div>
+          </div>
+
+          <!-- Label 3: SHINE - Bottom Center -->
+          <div 
+            class="absolute bottom-[25%] left-1/2 -translate-x-1/2 animate-fade-in"
+            style="animation-delay: 800ms"
+          >
+            <div class="flex flex-col items-center">
+              <span class="text-[10px] tracking-[0.2em] text-white/50 mb-1">02</span>
+              <span class="text-lg md:text-xl tracking-[0.15em] font-light">SHINE</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

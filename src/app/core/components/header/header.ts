@@ -13,6 +13,15 @@ export class Header {
   protected readonly text = UI_TEXT;
   isMenuOpen = false;
 
+  content = {
+    header: {
+      companyName: 'JOSEPH BATTISTI',
+      hours: 'Time: 9am to 9pm',
+      openStatus: 'Open Now',
+      btnBook: 'Book Appointment',
+    },
+  };
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }

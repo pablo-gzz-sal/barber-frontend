@@ -1,10 +1,15 @@
-.animate-fade-in {
-  opacity: 0;
-  animation: simpleFade 1.5s ease-out forwards;
-  animation-delay: 0.5s; /* Wait for image to load slightly */
-}
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-@keyframes simpleFade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+    .animate-fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }

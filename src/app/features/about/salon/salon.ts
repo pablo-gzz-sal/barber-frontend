@@ -11,5 +11,16 @@ import { CommonModule } from '@angular/common';
 })
 export class Salon {
   protected readonly text = UI_TEXT;
+  content = {
+    quote: "Battisti's chair is a haven for escapees from too-trendy stylists.",
+    title: 'From Manhattan to Los Angeles',
+    description: 'Come visit us at our New York City salon, or catch Joseph regularly in Rochester, NY or Los Angeles, CA.',
+    btnText: 'Learn More',
+    images: [
+      'assets/images/salon-interior-1.jpg',
+      'assets/images/salon-interior-2.jpg',
+      'assets/images/salon-products.jpg'
+    ]
+  };
 
 }
