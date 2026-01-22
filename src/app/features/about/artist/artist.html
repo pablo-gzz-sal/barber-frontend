@@ -1,64 +1,104 @@
-    <section class="bg-[#0a0a0a] text-white py-20 md:py-32 overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          
-          <!-- Left: Image -->
-          <div class="relative group animate-fade-in-left">
-            <div class="relative aspect-[3/4] lg:aspect-[4/5] overflow-hidden">
-              <img 
-                src="assets/images/joseph-portrait.jpg" 
-                alt="Joseph Battisti" 
-                class="w-full h-full object-cover object-center grayscale group-hover:grayscale-0 transition-all duration-1000 ease-out group-hover:scale-105"
-              />
-              
-              <!-- Border Frame -->
-              <div class="absolute inset-0 border border-white/5 pointer-events-none"></div>
-              
-              <!-- Subtle Gradient Overlay -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
-            </div>
-          </div>
+<section class="w-full bg-black text-white overflow-hidden">
+  <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[420px]">
+    <!-- Left: Image -->
+    <div class="relative min-h-[260px] lg:min-h-full">
+      <img
+        src="assets/images/candleHero.png"
+        alt="BU LOVE Candle"
+        class="absolute inset-0 w-full h-full object-cover object-center"
+      />
+    </div>
 
-          <!-- Right: Content -->
-          <div class="flex flex-col justify-center">
-            
-            <!-- Section Label -->
-            <div class="flex items-center gap-3 mb-8 animate-fade-in-up">
-              <div class="w-10 h-[1px] bg-white/30"></div>
-              <span class="text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase font-light">
-                {{ content.label }}
-              </span>
-            </div>
+    <!-- Right: Content -->
+    <div class="relative flex items-center">
+      <!-- Watermark -->
+      <div
+        class="pointer-events-none absolute top-10 left-10 text-white/5 text-7xl md:text-8xl font-extralight tracking-[0.35em]"
+      >
+        MEET
+      </div>
 
-            <!-- Name -->
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-2 animate-fade-in-up" style="animation-delay: 100ms">
-              MEET
-            </h2>
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-2 animate-fade-in-up" style="animation-delay: 150ms">
-              JOSEPH
-            </h2>
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-8 animate-fade-in-up" style="animation-delay: 200ms">
-              BATTISTI
-            </h2>
+      <div class="relative z-10 w-full px-8 md:px-14 lg:px-16 py-14">
+        <!-- Title -->
+        <h2 class="text-4xl md:text-5xl font-light leading-tight">
+          Discover<br />
+          <span class="font-normal">BU LOVE Candle</span>
+        </h2>
 
-            <!-- Bio -->
-            <div class="space-y-6 text-white/70 font-light text-sm md:text-base leading-relaxed max-w-lg mb-10 animate-fade-in-up" style="animation-delay: 300ms">
-              <p>{{ content.bio }}</p>
-            </div>
+        <!-- Description -->
+        <p class="mt-6 max-w-md text-sm md:text-base font-light leading-relaxed text-white/80">
+          Our signature candle born in a time of stillness, made to awaken connection.
+        </p>
 
-            <!-- CTA Button -->
-            <div class="animate-fade-in-up" style="animation-delay: 400ms">
-              <button class="group relative border border-white/30 text-white px-8 py-3 text-xs tracking-wider uppercase overflow-hidden transition-all duration-300 hover:bg-white hover:text-black hover:border-white">
-                <span class="relative z-10">{{ content.btnText }}</span>
-                
-                <!-- Hover effect background -->
-                <div class="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></div>
-              </button>
-            </div>
+        <!-- CTA -->
+        <div class="mt-10">
+          <button
+            class="bg-white/10 hover:bg-white/15 border border-white/15 text-white
+                   px-6 py-3 text-sm rounded-md transition"
+          >
+            Shop Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-          </div>
+<section class="relative w-full min-h-[70vh] lg:min-h-[80vh] overflow-hidden bg-black text-white">
+  <!-- Background image -->
+  <div class="absolute inset-0">
+    <img
+      src="assets/images/josephHero.png"
+      alt="Joseph Battisti"
+      class="w-full h-full object-cover object-left grayscale"
+    />
+
+    <!-- Fade so text reads well on the right -->
+    <div class="absolute inset-0 bg-gradient-to-r from-black/20 via-black/30 to-black/75"></div>
+
+    <!-- Optional subtle overall darkening -->
+    <div class="absolute inset-0 bg-black/10"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 max-w-7xl mx-auto px-6 py-20 md:py-28 lg:py-32">
+    <div class="flex items-center min-h-[60vh] lg:min-h-[70vh]">
+      <!-- Right aligned content block -->
+      <div class="ml-auto w-full max-w-xl text-right">
+        <!-- Label -->
+        <div class="flex items-center justify-end gap-3 mb-8">
+          <div class="w-14 h-[1px] bg-white/30"></div>
+          <span class="text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase font-light">
+            {{ content.label }}
+          </span>
         </div>
 
+        <!-- Title -->
+        <h2 class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05]">
+          MEET
+        </h2>
+        <h2 class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05] mt-3">
+          JOSEPH
+        </h2>
+        <h2 class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05] mt-3">
+          BATTISTI
+        </h2>
+
+        <!-- Bio -->
+        <p class="mt-8 text-sm md:text-base font-light leading-relaxed text-white/70 max-w-md ml-auto">
+          {{ content.bio }}
+        </p>
+
+        <!-- Button -->
+        <div class="mt-10 flex justify-end">
+          <button
+            class="border border-white/30 text-white px-10 py-3 text-[11px] tracking-[0.2em] uppercase
+                   hover:bg-white hover:text-black hover:border-white transition"
+          >
+            {{ content.btnText }}
+          </button>
+        </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>

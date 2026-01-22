@@ -1,66 +1,49 @@
-   <section class="py-20 md:py-32 bg-white text-black">
-      <div class="max-w-7xl mx-auto px-6">
-        
-        <!-- Header with Quote -->
-        <div class="text-center mb-16 md:mb-24 animate-fade-in-up">
-          <!-- Publication Quote -->
-          <div class="mb-12">
-            <div class="text-4xl md:text-5xl font-serif italic mb-4 text-black">
-              allure
-            </div>
-            <p class="text-sm md:text-base font-light text-gray-700 max-w-2xl mx-auto">
-              {{ content.quote }}
-            </p>
-          </div>
+<section class="bg-white text-black overflow-hidden">
+  <!-- Top black quote bar -->
+  <div class="bg-black text-white py-10 md:py-14">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <div class="text-4xl md:text-5xl font-serif italic mb-4">
+        allure
+      </div>
+      <p class="text-sm md:text-base font-light text-white/80 max-w-3xl mx-auto tracking-[0.2em] uppercase">
+        {{ content.quote }}
+      </p>
+    </div>
+  </div>
 
-          <!-- Section Title -->
-          <h2 class="text-3xl md:text-4xl lg:text-5xl font-light tracking-wide mb-6">
+  <!-- Main two-column block -->
+  <div class="max-w-7xl mx-auto px-6 py-14 md:py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12">
+      <!-- Left: image -->
+      <div class="lg:col-span-7 relative overflow-hidden min-h-[320px] md:min-h-[520px]">
+        <img
+          [src]="content.images[0]"
+          alt="Salon Interior Main"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Right: white content panel -->
+      <div class="lg:col-span-5 bg-white">
+        <div class="h-full flex flex-col justify-center p-10 md:p-14 lg:p-16">
+          <h2 class="text-4xl md:text-5xl font-light leading-tight tracking-wide">
             {{ content.title }}
           </h2>
-          <p class="max-w-2xl mx-auto text-gray-600 font-light leading-relaxed text-sm md:text-base">
+
+          <p class="mt-6 text-sm md:text-base font-light leading-relaxed text-black/60 max-w-md">
             {{ content.description }}
           </p>
-          <button class="mt-8 text-sm font-medium underline underline-offset-4 hover:no-underline transition-all">
-            {{ content.btnText }}
-          </button>
-        </div>
 
-        <!-- Image Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 animate-fade-in-up" style="animation-delay: 200ms">
-          
-          <!-- Large Image - Left -->
-          <div class="md:col-span-7 h-[400px] md:h-[600px] relative overflow-hidden group">
-            <img 
-              [src]="content.images[0]" 
-              alt="Salon Interior Main"
-              class="w-full h-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-105"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          </div>
-
-          <!-- Right Column - Two Images Stacked -->
-          <div class="md:col-span-5 flex flex-col gap-4 md:gap-6">
-            
-            <!-- Top Image -->
-            <div class="h-[300px] md:h-[calc(50%-12px)] relative overflow-hidden group">
-              <img 
-                [src]="content.images[1]" 
-                alt="Salon Detail"
-                class="w-full h-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-105"
-              />
-            </div>
-            
-            <!-- Bottom Product Showcase -->
-            <div class="h-[300px] md:h-[calc(50%-12px)] relative overflow-hidden group bg-gray-100">
-              <img 
-                [src]="content.images[2]" 
-                alt="Products"
-                class="w-full h-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-105"
-              />
-            </div>
-
+          <div class="mt-10">
+            <button
+              class="inline-flex items-center justify-center rounded-md bg-black text-white
+                     px-6 py-3 text-sm font-medium hover:bg-black/85 transition"
+            >
+              {{ content.btnText }}
+            </button>
           </div>
         </div>
-
       </div>
-    </section>
+    </div>
+  </div>
+</section>

@@ -4,7 +4,7 @@
   <section class="hero-section relative h-screen overflow-hidden">
     <div class="absolute inset-0">
       <img
-        src="assets/images/about-hero.jpg"
+        src="assets/images/josephHero.png"
         alt="Joseph Battisti"
         class="w-full h-full object-cover grayscale"
       />
@@ -55,218 +55,290 @@
   </section>
 
   <!-- Joseph Battisti Bio Section -->
-  <section class="py-20 lg:py-32 bg-gray-50">
-    <div class="container mx-auto px-6 lg:px-16">
-      <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-        <!-- Image -->
-        <div class="animate-fade-in-left">
-          <div class="aspect-[3/4] overflow-hidden">
+<section class="py-20 lg:py-32 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6 lg:px-16">
+
+    <!-- ROW 1: Portrait + Bio -->
+    <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+      <!-- Portrait -->
+      <div class="lg:col-span-5">
+        <div class="overflow-hidden rounded-md bg-white shadow-sm">
+          <div class="aspect-[3/4]">
             <img
-              src="assets/images/joseph-portrait.jpg"
+              src="assets/images/josephAbout.jpg"
               alt="Joseph Battisti"
-              class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              class="w-full h-full object-cover grayscale"
             />
           </div>
         </div>
+      </div>
 
-        <!-- Bio Text -->
-        <div class="space-y-8 animate-fade-in-right">
-          <h2 class="text-5xl lg:text-6xl font-light">
-            {{ content.artist.name }}
-          </h2>
+      <!-- Bio -->
+      <div class="lg:col-span-7">
+        <h2 class="text-5xl lg:text-6xl font-light text-black">
+          {{ content.artist.name }}
+        </h2>
 
-          <div class="space-y-6 text-gray-700 leading-relaxed">
-            <p>{{ content.artist.bio1 }}</p>
-            <p>{{ content.artist.bio2 }}</p>
-            <p>{{ content.artist.bio3 }}</p>
-          </div>
+        <div class="mt-8 space-y-6 text-gray-700 leading-relaxed max-w-2xl">
+          <p>{{ content.artist.bio1 }}</p>
+          <p>{{ content.artist.bio2 }}</p>
+          <p>{{ content.artist.bio3 }}</p>
+        </div>
+      </div>
+    </div>
 
-          <!-- TV Feature -->
-          <div class="pt-8 border-t border-gray-300">
-            <h4 class="text-xl font-light mb-4">{{ content.artist.tvFeature.title }}</h4>
-            <p class="text-gray-600 text-sm leading-relaxed mb-6">
-              {{ content.artist.tvFeature.description }}
-            </p>
+    <!-- ROW 2: TV Feature (text left, video right) -->
+    <div class="mt-20 lg:mt-24 grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+      <!-- TV Feature text -->
+      <div class="lg:col-span-5">
+        <h4 class="text-sm tracking-[0.25em] uppercase text-black/70 mb-4">
+          {{ content.artist.tvFeature.title }}
+        </h4>
 
-            <!-- Video Placeholder -->
-            <div
-              class="aspect-video bg-gray-900 flex items-center justify-center relative overflow-hidden group cursor-pointer"
-            >
-              <img
-                src="assets/images/tv-feature-thumb.jpg"
-                alt="TV Feature"
-                class="w-full h-full object-cover opacity-60"
-              />
-              <div class="absolute inset-0 flex items-center justify-center">
-                <div
-                  class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-                >
-                  <svg class="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
+        <p class="text-gray-700 text-sm leading-relaxed max-w-md">
+          {{ content.artist.tvFeature.description }}
+        </p>
+      </div>
+
+      <!-- Video -->
+      <div class="lg:col-span-7">
+        <div class="overflow-hidden rounded-md bg-black/90 shadow-sm">
+          <div class="relative aspect-[16/9] group cursor-pointer">
+            <img
+              src="assets/images/tv-feature-thumb.jpg"
+              alt="TV Feature"
+              class="absolute inset-0 w-full h-full object-cover opacity-90"
+            />
+
+            <!-- subtle dark overlay like the reference -->
+            <div class="absolute inset-0 bg-black/20"></div>
+
+            <!-- play button -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div
+                class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/85 flex items-center justify-center
+                       group-hover:scale-110 transition-transform duration-300"
+              >
+                <svg class="w-7 h-7 md:w-8 md:h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+
+  </div>
+</section>
+
 
   <!-- Meet The Team Section -->
-  <section class="py-20 lg:py-32 bg-gray-900 text-white">
-    <div class="container mx-auto px-6 lg:px-16">
-      <h2 class="text-4xl lg:text-5xl font-light mb-16 animate-fade-in-up">
-        {{ content.team.title }}
-      </h2>
+<section class="py-20 lg:py-32 bg-[#292524] text-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 lg:px-16">
 
-      <div class="grid md:grid-cols-3 gap-8 lg:gap-12">
-        @for (member of content.team.members; track member.name) {
-        <div
-          class="text-center group animate-fade-in-up"
-          [style.animation-delay]="$index * 150 + 'ms'"
-        >
-          <!-- Image -->
-          <div class="aspect-[3/4] overflow-hidden mb-6 relative">
-            <img
-              [src]="member.image"
-              [alt]="member.name"
-              class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-            />
+    <!-- Title -->
+    <h2 class="text-4xl lg:text-5xl font-light mb-16 tracking-wide">
+      {{ content.team.title }}
+    </h2>
 
-            <!-- Name appears larger in center on hover -->
-            <div
-              class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            >
-              <h3 class="text-4xl font-light" [class.text-6xl]="$index === 1">
-                {{ member.name }}
-              </h3>
-            </div>
-          </div>
+    <!-- Carousel -->
+    <div class="relative">
 
-          <!-- Name (static) -->
-          <h3 class="text-2xl font-light mb-2" [class.text-4xl]="$index === 1">
-            {{ member.name }}
-          </h3>
-
-          <!-- Bio (shows on hover or always visible for featured) -->
-          <p
-            class="text-gray-400 text-sm leading-relaxed mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            [class.opacity-100]="$index === 1"
+      <!-- Slides -->
+      <div class="flex items-center justify-center gap-10">
+        <ng-container *ngFor="let member of content.team.members; let i = index">
+          <div
+            class="transition-all duration-700 ease-out cursor-pointer"
+            [class.scale-100]="i === activeIndex"
+            [class.scale-75]="i !== activeIndex"
+            [class.opacity-100]="i === activeIndex"
+            [class.opacity-40]="i !== activeIndex"
+            (click)="setActive(i)"
           >
-            {{ member.bio }}
-          </p>
-        </div>
-        }
+            <!-- Image -->
+            <div
+              class="overflow-hidden rounded-md"
+              [class.w-[360px]]="i === activeIndex"
+              [class.h-[480px]]="i === activeIndex"
+              [class.w-[180px]]="i !== activeIndex"
+              [class.h-[240px]]="i !== activeIndex"
+            >
+              <img
+                [src]="member.image"
+                [alt]="member.name"
+                class="w-full h-full object-cover grayscale hover:grayscale-0 transition"
+              />
+            </div>
+
+            <!-- Name -->
+            <h3
+              class="mt-6 text-center font-light transition-all duration-500"
+              [class.text-3xl]="i === activeIndex"
+              [class.text-lg]="i !== activeIndex"
+            >
+              {{ member.name }}
+            </h3>
+          </div>
+        </ng-container>
       </div>
+
+      <!-- Bio -->
+      <div class="mt-16 max-w-3xl mx-auto text-center">
+        <p class="text-gray-300 text-sm leading-relaxed animate-fade-in">
+          {{ content.team.members[activeIndex].bio }}
+        </p>
+      </div>
+
+      <!-- Controls -->
+      <div class="absolute inset-y-0 left-0 flex items-center">
+        <button
+          (click)="prev()"
+          class="text-white/50 hover:text-white transition px-4"
+        >
+          ‹
+        </button>
+      </div>
+
+      <div class="absolute inset-y-0 right-0 flex items-center">
+        <button
+          (click)="next()"
+          class="text-white/50 hover:text-white transition px-4"
+        >
+          ›
+        </button>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- Hours & Contact Section -->
-  <section class="py-20 lg:py-32 bg-white">
-    <div class="container mx-auto px-6 lg:px-16">
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
-        <!-- Hours -->
-        <div class="animate-fade-in-up">
-          <div class="flex items-start gap-4 mb-8">
-            <svg
-              class="w-8 h-8 flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-              <line x1="16" y1="2" x2="16" y2="6" />
-              <line x1="8" y1="2" x2="8" y2="6" />
-              <line x1="3" y1="10" x2="21" y2="10" />
-            </svg>
-            <h3 class="text-2xl font-light">{{ content.contact.hoursTitle }}</h3>
-          </div>
+<section class="bg-white py-20 lg:py-32">
+  <div class="max-w-7xl mx-auto px-6 lg:px-16">
 
-          <div class="space-y-2 text-gray-700 pl-12">
-            @for (day of content.contact.hours; track day) {
-            <div class="flex justify-between">
-              <span>{{ day.day }}</span>
-              <span class="text-gray-500">{{ day.time }}</span>
-            </div>
-            }
-          </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
+
+      <!-- LEFT: HOURS -->
+      <div class="animate-fade-in-up">
+        <div class="flex items-center gap-4">
+          <svg
+            class="w-6 h-6 text-black/80"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+
+          <h3 class="text-2xl md:text-3xl font-light tracking-wide">
+            {{ content.contact.hoursTitle }}
+          </h3>
         </div>
 
-        <!-- Email -->
-        <div class="animate-fade-in-up" style="animation-delay: 150ms">
-          <div class="flex items-start gap-4 mb-8">
+        <div class="mt-8 space-y-2 text-[15px] tracking-wide text-black/70 max-w-sm">
+          @for (day of content.contact.hours; track day) {
+            <div class="flex justify-between">
+              <span>{{ day.day }}</span>
+              <span class="text-black/50">{{ day.time }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- RIGHT: CONTACT INFO -->
+      <div class="space-y-14 animate-fade-in-up" style="animation-delay: 150ms">
+
+        <!-- EMAIL -->
+        <div>
+          <div class="flex items-center gap-4">
             <svg
-              class="w-8 h-8 flex-shrink-0"
+              class="w-6 h-6 text-black/80"
               fill="none"
               stroke="currentColor"
+              stroke-width="1.5"
               viewBox="0 0 24 24"
             >
-              <path
-                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-              />
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
               <polyline points="22,6 12,13 2,6" />
             </svg>
-            <h3 class="text-2xl font-light">{{ content.contact.emailTitle }}</h3>
+
+            <h3 class="text-xl md:text-2xl font-light tracking-wide">
+              {{ content.contact.emailTitle }}
+            </h3>
           </div>
 
           <a
-            href="mailto:{{ content.contact.email }}"
-            class="text-gray-700 hover:text-black transition-colors pl-12 block"
+            [href]="'mailto:' + content.contact.email"
+            class="mt-5 block text-[15px] tracking-wide text-black/60 hover:text-black transition"
           >
             {{ content.contact.email }}
           </a>
         </div>
 
-        <!-- Call & Location -->
-        <div class="space-y-12 animate-fade-in-up" style="animation-delay: 300ms">
-          <!-- Call -->
-          <div>
-            <div class="flex items-start gap-4 mb-8">
-              <svg
-                class="w-8 h-8 flex-shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-                />
-              </svg>
-              <h3 class="text-2xl font-light">{{ content.contact.callTitle }}</h3>
-            </div>
-
-            <a
-              href="tel:{{ content.contact.phone }}"
-              class="text-gray-700 hover:text-black transition-colors pl-12 block"
+        <!-- CALL -->
+        <div>
+          <div class="flex items-center gap-4">
+            <svg
+              class="w-6 h-6 text-black/80"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
             >
-              {{ content.contact.phone }}
-            </a>
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              />
+            </svg>
+
+            <h3 class="text-xl md:text-2xl font-light tracking-wide">
+              {{ content.contact.callTitle }}
+            </h3>
           </div>
 
-          <!-- Location -->
-          <div>
-            <div class="flex items-start gap-4 mb-8">
-              <svg
-                class="w-8 h-8 flex-shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              <h3 class="text-2xl font-light">{{ content.contact.locationTitle }}</h3>
-            </div>
-
-            <address class="text-gray-700 not-italic pl-12">
-              {{ content.contact.address.line1 }}<br />
-              {{ content.contact.address.line2 }}
-            </address>
-          </div>
+          <a
+            [href]="'tel:' + content.contact.phone"
+            class="mt-5 block text-[15px] tracking-wide text-black/60 hover:text-black transition"
+          >
+            {{ content.contact.phone }}
+          </a>
         </div>
+
+        <!-- LOCATION -->
+        <div>
+          <div class="flex items-center gap-4">
+            <svg
+              class="w-6 h-6 text-black/80"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+
+            <h3 class="text-xl md:text-2xl font-light tracking-wide">
+              {{ content.contact.locationTitle }}
+            </h3>
+          </div>
+
+          <address class="mt-5 not-italic text-[15px] tracking-wide text-black/60 leading-relaxed">
+            {{ content.contact.address.line1 }}<br />
+            {{ content.contact.address.line2 }}
+          </address>
+        </div>
+
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+
 </div>
 <app-footer></app-footer>

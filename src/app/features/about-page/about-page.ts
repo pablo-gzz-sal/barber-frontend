@@ -42,17 +42,17 @@ export class AboutPage {
       members: [
         {
           name: 'Megan Richardson',
-          image: 'assets/images/team-megan.jpg',
+          image: 'assets/images/meganHero.png',
           bio: 'Senior stylist specializing in precision cuts and color correction with 10+ years of experience.'
         },
         {
           name: 'Nicole Chan',
-          image: 'assets/images/team-nicole.jpg',
+          image: 'assets/images/nicoleAbout.jpg',
           bio: 'Nicole was born and raised in Los Angeles and has trained at a string of prestigious salons including Toni and Guy, Vidal Sassoon, Sebastian, Bumble and Bumble, Frederic Fekkai, and Paul LaBrecque Salon. True to her West Coast roots, Nicole has a flair for creating authentic bohemian looks and flirtatious beach waves with natural-looking, sun-kissed blonde highlights. Expertly skilled at balayage, razor cuts, and working with naturally curly and wavy hair, Nicole produces looks that are low maintenance and naturally sexy. She is personable and approachable and has an intuitive sense of style that ensures your new look will perfectly suit you.'
         },
         {
           name: 'June Lastname',
-          image: 'assets/images/team-june.jpg',
+          image: 'assets/images/juneAbout.png',
           bio: 'Master colorist with expertise in balayage and dimensional color techniques.'
         }
       ]
@@ -78,5 +78,23 @@ export class AboutPage {
       }
     }
   };
+
+   activeIndex = 1; // center Nicole by default
+
+  setActive(index: number) {
+    this.activeIndex = index;
+  }
+
+  next() {
+    this.activeIndex =
+      (this.activeIndex + 1) % this.content.team.members.length;
+  }
+
+  prev() {
+    this.activeIndex =
+      (this.activeIndex - 1 + this.content.team.members.length) %
+      this.content.team.members.length;
+  }
+
 
 }

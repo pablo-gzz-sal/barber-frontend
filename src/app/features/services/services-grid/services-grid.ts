@@ -17,20 +17,20 @@ export class ServicesGrid {
       btnBook: 'Book Appointment',
       btnAll: 'See All Services',
       cards: [
-        { title: 'Hair Extensions', img: 'assets/services/extensions.jpg' },
-        { title: 'Treatments', img: 'assets/services/treatments.jpg' },
-        { title: 'Color', img: 'assets/services/color.jpg' },
-        { title: 'Styling', img: 'assets/services/styling.jpg' }
+        { title: 'Hair Extensions', img: 'assets/images/servicesHairHero.jpg' },
+        { title: 'Treatments', img: 'assets/images/hairKinetics.png' },
+        { title: 'Color', img: 'assets/images/servicesHairHero.jpg' },
+        { title: 'Styling', img: 'assets/images/stylingService.png' }
       ]
     },
     brands: {
       title: 'SHOP BRANDS WE LOVE',
       btnAll: 'See All Brands',
       logos: [
-        { name: 'Davines', img: 'assets/brands/davines-logo.png' },
-        { name: 'AZ', img: 'assets/brands/az-logo.png' },
-        { name: 'Nutrafol', img: 'assets/brands/nutrafol-logo.png' },
-        { name: "L'ANZA", img: 'assets/brands/lanza-logo.png' }
+        { name: 'Davines', img: 'assets/svg/davines.svg' },
+        { name: 'AZ', img: 'assets/svg/craftLuxury.svg' },
+        { name: 'Nutrafol', img: 'assets/svg/nutrafol.svg' },
+        { name: "L'ANZA", img: 'assets/svg/lanza.svg' }
       ]
     }
   };
