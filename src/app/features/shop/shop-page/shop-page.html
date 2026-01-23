@@ -1,1 +1,31 @@
-<p>shop-page works!</p>
+<app-header></app-header>
+<section class="bg-white py-8 sm:py-10 lg:py-12">
+  <div class="mx-auto w-full">
+    <div
+      class="group relative overflow-hidden bg-white
+             shadow-[0_12px_40px_rgba(0,0,0,0.12)]
+             ring-1 ring-black/5
+             rounded-xl sm:rounded-2xl"
+    >
+      <img
+        src="assets/images/productosHero.png"
+        alt="Shop Products We Love"
+        class="w-full object-cover object-center
+               h-[220px] sm:h-[280px] md:h-[360px] lg:h-[30rem]
+               transition-transform duration-[1200ms]
+               ease-[cubic-bezier(0.16,1,0.3,1)]
+               group-hover:scale-[1.04]"
+      />
+
+      <!-- optional: subtle top highlight for crispness -->
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white/30 to-transparent"></div>
+    </div>
+  </div>
+</section>
+
+<app-shop-best-sellers></app-shop-best-sellers>
+<app-shop-brands></app-shop-brands>
+<app-shop-by></app-shop-by>
+<app-shop-sale [milbonBanner]="false"></app-shop-sale>
+
+<app-footer></app-footer>
