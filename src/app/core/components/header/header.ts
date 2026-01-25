@@ -74,5 +74,18 @@ export class Header {
   onAccountClick() {
     this.router.navigateByUrl('/account');
   }
-}
 
+  onBook() {
+    if (typeof window === 'undefined') return;
+
+    const a = document.createElement('a');
+    a.href = 'https://booking.mangomint.com/307273';
+
+    // optional: avoid navigation if their script fails to load
+    a.style.display = 'none';
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+}

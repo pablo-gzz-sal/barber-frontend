@@ -75,6 +75,7 @@
         class="hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs tracking-wide hover:bg-white hover:text-black transition-all duration-300"
         [class.opacity-0]="isDesktopDropdownOpen"
         [class.pointer-events-none]="isDesktopDropdownOpen"
+        (click)="onBook()"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -269,6 +270,7 @@
       <!-- Mobile Action Buttons -->
       <div class="mt-8 space-y-3 animate-button-fade">
         <button
+        (click)="onBook()"
           class="w-full border border-white/30 px-6 py-3 rounded-full text-sm tracking-wide hover:bg-white hover:text-black transition-all duration-300"
         >
           {{ content.header.btnBook }}
