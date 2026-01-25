@@ -15,7 +15,7 @@ import { Footer } from "../../core/components/footer/footer";
   selector: 'app-home',
   standalone: true,
   imports: [Header, Hero, ShopBestSellers,
-    HairKinetics, TreatmentsHero, Editorial, ServicesGrid, Reviews, Artist, Salon, ShopSale, Footer],
+    HairKinetics, TreatmentsHero, Editorial, ServicesGrid, Artist, Salon, ShopSale, Footer],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

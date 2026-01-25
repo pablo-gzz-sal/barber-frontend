@@ -1,7 +1,11 @@
-<header class="fixed top-0 left-0 w-full z-50 bg-black/95 backdrop-blur-md text-white">
+<header class="fixed top-0 left-0 w-full z-[110] bg-black/95 backdrop-blur-md text-white">
   <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
     <!-- Left: Hours/Status (Desktop only) -->
-    <div class="hidden lg:flex items-center gap-3">
+    <div 
+      class="hidden lg:flex items-center gap-3 header-fade-out transition-all duration-300"
+      [class.opacity-0]="isDesktopDropdownOpen"
+      [class.pointer-events-none]="isDesktopDropdownOpen"
+    >
       <!-- Scissors Icon -->
       <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center">
         <img src="assets/svg/whiteLogo.svg" alt="" />
@@ -31,10 +35,11 @@
       </div>
     </div>
 
-    <!-- Mobile Left: Menu Icon -->
+    <!-- Mobile Left: Menu Icon (scissors) -->
     <button
       class="lg:hidden p-2 hover:bg-white/5 rounded-full transition-colors"
       (click)="toggleMenu()"
+      aria-label="Open menu"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -56,9 +61,7 @@
     <!-- Center: Logo -->
     <div class="absolute left-1/2 -translate-x-1/2">
       <a href="/" class="flex flex-col items-center group cursor-pointer">
-        <!-- Icon Mark -->
         <img src="assets/svg/whiteLogo.svg" class="h-6 my-2" alt="" />
-        <!-- Text -->
         <span class="text-[10px] md:text-xs tracking-[0.3em] font-light">
           {{ content.header.companyName }}
         </span>
@@ -70,6 +73,8 @@
       <!-- Book Appointment Button (Desktop) -->
       <button
         class="hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs tracking-wide hover:bg-white hover:text-black transition-all duration-300"
+        [class.opacity-0]="isDesktopDropdownOpen"
+        [class.pointer-events-none]="isDesktopDropdownOpen"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -88,8 +93,39 @@
         <span>{{ content.header.btnBook }}</span>
       </button>
 
+      <!-- Desktop: Menu Dropdown Button + Panel -->
+      <div class="relative hidden lg:block">
+        <button
+          type="button"
+          class="flex items-center gap-2 border border-white/30 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
+          (click)="toggleDesktopDropdown()"
+          aria-haspopup="menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Menu</span>
+        </button>
+      </div>
+
       <!-- Cart Icon -->
-      <button class="p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-colors relative">
+      <button
+        class="p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
+        aria-label="Cart"
+        [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
+        [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -110,10 +146,33 @@
         </span>
       </button>
 
-      <!-- Hamburger Menu (Mobile) -->
+      <!-- Account Icon -->
+      <button
+        class="p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300"
+        (click)="onAccountClick()"
+        aria-label="Account"
+        [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
+        [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M20 21a8 8 0 0 0-16 0" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      </button>
+
+      <!-- Mobile Right: Grid/Hamburger Icon -->
       <button
         class="lg:hidden p-2 hover:bg-white/5 rounded-full transition-colors"
         (click)="toggleMenu()"
+        aria-label="Open menu"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -132,48 +191,96 @@
       </button>
     </div>
   </div>
+</header>
 
-  <!-- Mobile Menu Overlay -->
-  <div
-    *ngIf="isMenuOpen"
-    class="lg:hidden fixed inset-0 top-16 md:top-20 bg-black z-40 animate-fade-in overflow-y-auto"
-  >
-    <nav class="flex flex-col p-8 gap-8">
-      <a
-        href="#"
-        class="text-3xl font-light text-white hover:text-white/60 transition-colors"
-        (click)="toggleMenu()"
-      >
-        Services
-      </a>
-      <a
-        href="#"
-        class="text-3xl font-light text-white hover:text-white/60 transition-colors"
-        (click)="toggleMenu()"
-      >
-        About
-      </a>
-      <a
-        href="#"
-        class="text-3xl font-light text-white hover:text-white/60 transition-colors"
-        (click)="toggleMenu()"
-      >
-        Shop
-      </a>
-      <a
-        href="#"
-        class="text-3xl font-light text-white hover:text-white/60 transition-colors"
-        (click)="toggleMenu()"
-      >
-        Contact
-      </a>
+<!-- Desktop Menu Overlay - FULLSCREEN -->
+<div
+  *ngIf="isDesktopDropdownOpen"
+  class="fixed left-0 right-0 top-0 bottom-0 bg-[#000000] z-[100] animate-menu-slide-down"
+  style="margin-top: 0 !important"
+>
+  <div class="h-[100vh] grid grid-cols-12 pt-20">
+    <!-- Left: Navigation Options -->
+    <div class="col-span-5 px-12 py-16 flex flex-col bg-[#000000] justify-center">
+      <div class="space-y-1">
+        <ng-container *ngFor="let item of menuItems; let i = index">
+          <button
+            type="button"
+            class="menu-stagger-item w-full text-left flex items-center justify-between py-3 text-5xl font-light tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover"
+            [class.text-white]="i === activePreviewIndex"
+            (mouseenter)="setPreview(i)"
+            (focus)="setPreview(i)"
+            (click)="navigateTo(item.route)"
+          >
+            <span>{{ item.label }}</span>
+            <span
+              class="text-2xl text-white/50 transition-all duration-300"
+              [class.opacity-100]="i === activePreviewIndex"
+              [class.opacity-0]="i !== activePreviewIndex"
+            >
+              ↗
+            </span>
+          </button>
+        </ng-container>
+      </div>
+    </div>
 
-      <!-- Mobile Book Button -->
-      <button
-        class="mt-4 border border-white/30 px-6 py-3 rounded-full text-sm tracking-wide hover:bg-white hover:text-black transition-all duration-300"
-      >
-        {{ content.header.btnBook }}
-      </button>
+    <!-- Right: Preview Image -->
+    <div class="col-span-7 relative animate-image-slide-in">
+      <div class="absolute inset-0">
+        <img
+          [src]="menuItems[activePreviewIndex]?.preview"
+          alt="Menu preview"
+          class="h-full w-full object-cover grayscale transition-opacity duration-500 ease-out"
+        />
+        <div class="absolute inset-0 bg-gradient-to-l from-black/0 via-black/20 to-black/90"></div>
+      </div>
+
+      <div class="relative h-full p-12 flex items-end">
+        <div class="text-white/60 text-xs tracking-[0.35em] uppercase animate-label">Preview</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Menu Overlay - FULLSCREEN -->
+<div
+  *ngIf="isMenuOpen"
+  class="lg:hidden fixed left-0 right-0 top-0 bottom-0 bg-black z-[100] overflow-hidden animate-mobile-menu"
+  style="margin-top: 0 !important"
+>
+  <div class="h-[100vh] grid grid-rows-[auto_1fr] pt-16 md:pt-20">
+    <!-- Mobile Navigation -->
+    <nav class="px-6 py-8 flex flex-col justify-center overflow-y-auto">
+      <div class="space-y-4">
+        <ng-container *ngFor="let item of menuItems; let i = index">
+          <button
+            type="button"
+            class="menu-stagger-item text-left text-4xl font-light tracking-wide transition-all duration-300 text-white/30 hover:text-white block w-full menu-item-hover"
+            [class.text-white]="i === activePreviewIndex"
+            (mouseenter)="setPreview(i)"
+            (click)="setPreview(i); navigateTo(item.route)"
+          >
+            {{ item.label }}
+          </button>
+        </ng-container>
+      </div>
+
+      <!-- Mobile Action Buttons -->
+      <div class="mt-8 space-y-3 animate-button-fade">
+        <button
+          class="w-full border border-white/30 px-6 py-3 rounded-full text-sm tracking-wide hover:bg-white hover:text-black transition-all duration-300"
+        >
+          {{ content.header.btnBook }}
+        </button>
+
+        <button
+          class="w-full border border-white/30 px-6 py-3 rounded-full text-sm tracking-wide hover:bg-white hover:text-black transition-all duration-300"
+          (click)="onAccountClick(); toggleMenu()"
+        >
+          Sign in / Account
+        </button>
+      </div>
     </nav>
   </div>
-</header>
+</div>

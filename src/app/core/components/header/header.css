@@ -14,3 +14,474 @@
     .animate-fade-in {
       animation: fadeIn 0.3s ease-out;
     }
+
+    /* ============================================
+   MENU ANIMATIONS - Add to your global styles
+   ============================================ */
+
+/* Fade In Animation - Used by current code */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Menu Slide Down Animation */
+@keyframes menu-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-menu-slide-down {
+  animation: menu-slide-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Menu Item Stagger Animation */
+@keyframes menu-item-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply staggered animation to menu items */
+.menu-stagger-item {
+  opacity: 0;
+  animation: menu-item-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Delay classes for staggered effect */
+.menu-stagger-item:nth-child(1) { animation-delay: 0.05s; }
+.menu-stagger-item:nth-child(2) { animation-delay: 0.10s; }
+.menu-stagger-item:nth-child(3) { animation-delay: 0.15s; }
+.menu-stagger-item:nth-child(4) { animation-delay: 0.20s; }
+.menu-stagger-item:nth-child(5) { animation-delay: 0.25s; }
+.menu-stagger-item:nth-child(6) { animation-delay: 0.30s; }
+
+/* Image Slide In from Right */
+@keyframes image-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-image-slide-in {
+  animation: image-slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  opacity: 0;
+}
+
+/* Smooth hover effect for menu items */
+.menu-item-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-item-hover:hover {
+  transform: translateX(8px);
+}
+
+/* Arrow bounce animation */
+@keyframes arrow-bounce {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(4px, -4px);
+  }
+}
+
+/* Mobile menu specific animations */
+@keyframes mobile-menu-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-mobile-menu {
+  animation: mobile-menu-slide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Button fade in with delay */
+@keyframes button-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-button-fade {
+  opacity: 0;
+  animation: button-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+}
+
+/* Backdrop blur animation */
+@keyframes backdrop-blur {
+  from {
+    backdrop-filter: blur(0px);
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* Header elements fade out */
+.header-fade-out {
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.header-fade-out.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+/* Overlay entrance */
+.menu-overlay-enter {
+  animation: menu-slide-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Preview label animation */
+@keyframes label-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-label {
+  animation: label-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  opacity: 0;
+}/* ============================================
+   MENU ANIMATIONS - Add to your global styles
+   ============================================ */
+
+/* Fade In Animation - Used by current code */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Fade Out Animation - For closing menu */
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.animate-fade-out {
+  animation: fade-out 0.25s ease-in forwards;
+}
+
+/* Menu Slide Down Animation - Opening */
+@keyframes menu-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-menu-slide-down {
+  animation: menu-slide-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Menu Slide Up Animation - Closing */
+@keyframes menu-slide-up {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.animate-menu-slide-up {
+  animation: menu-slide-up 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Menu Item Stagger Animation - Opening */
+@keyframes menu-item-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Menu Item Fade Out - Closing */
+@keyframes menu-item-fade-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+/* Apply staggered animation to menu items - Opening */
+.menu-stagger-item {
+  opacity: 0;
+  animation: menu-item-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Apply reverse staggered animation - Closing */
+.menu-stagger-item-out {
+  opacity: 1;
+  animation: menu-item-fade-out 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Delay classes for staggered effect - Opening */
+.menu-stagger-item:nth-child(1) { animation-delay: 0.05s; }
+.menu-stagger-item:nth-child(2) { animation-delay: 0.10s; }
+.menu-stagger-item:nth-child(3) { animation-delay: 0.15s; }
+.menu-stagger-item:nth-child(4) { animation-delay: 0.20s; }
+.menu-stagger-item:nth-child(5) { animation-delay: 0.25s; }
+.menu-stagger-item:nth-child(6) { animation-delay: 0.30s; }
+
+/* Reverse delay for closing */
+.menu-stagger-item-out:nth-child(1) { animation-delay: 0s; }
+.menu-stagger-item-out:nth-child(2) { animation-delay: 0s; }
+.menu-stagger-item-out:nth-child(3) { animation-delay: 0s; }
+.menu-stagger-item-out:nth-child(4) { animation-delay: 0s; }
+.menu-stagger-item-out:nth-child(5) { animation-delay: 0s; }
+.menu-stagger-item-out:nth-child(6) { animation-delay: 0s; }
+
+/* Image Slide In from Right - Opening */
+@keyframes image-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-image-slide-in {
+  animation: image-slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  opacity: 0;
+}
+
+/* Image Slide Out to Right - Closing */
+@keyframes image-slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+.animate-image-slide-out {
+  animation: image-slide-out 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Smooth hover effect for menu items */
+.menu-item-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-item-hover:hover {
+  transform: translateX(8px);
+}
+
+/* Arrow bounce animation */
+@keyframes arrow-bounce {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(4px, -4px);
+  }
+}
+
+/* Mobile menu specific animations - Opening */
+@keyframes mobile-menu-slide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-mobile-menu {
+  animation: mobile-menu-slide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Mobile menu slide out - Closing */
+@keyframes mobile-menu-slide-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.animate-mobile-menu-out {
+  animation: mobile-menu-slide-out 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Button fade in with delay - Opening */
+@keyframes button-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-button-fade {
+  opacity: 0;
+  animation: button-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+}
+
+/* Button fade out - Closing */
+@keyframes button-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.animate-button-fade-out {
+  animation: button-fade-out 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Backdrop blur animation */
+@keyframes backdrop-blur {
+  from {
+    backdrop-filter: blur(0px);
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* Header elements fade out */
+.header-fade-out {
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.header-fade-out.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+/* Overlay entrance */
+.menu-overlay-enter {
+  animation: menu-slide-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Overlay exit */
+.menu-overlay-exit {
+  animation: menu-slide-up 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Preview label animation - Opening */
+@keyframes label-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-label {
+  animation: label-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  opacity: 0;
+}
+
+/* Preview label animation - Closing */
+@keyframes label-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.animate-label-out {
+  animation: label-fade-out 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
