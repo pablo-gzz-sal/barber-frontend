@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { ProductCard } from '../../shared/models/Product-Card.model';
 
 export type ProductStatus = 'active' | 'archived' | 'draft';
 
@@ -343,5 +344,56 @@ export class Shopify {
     return this.http
       .get(`${this.baseUrl}/bestsellers`, { params: this.toHttpParams({ limit, days }) })
       .pipe(catchError((e) => this.handleError(e)));
+  }
+
+  getRandomFeaturedProducts(
+    collections: string[],
+    pickCount: number = 4,
+  ): Observable<ProductCard[]> {
+    return this.http
+      .post<any>(`${environment.apiUrl}/shopify/featured-products`, {
+        collections,
+        limitPerCollection: pickCount,
+      })
+      .pipe(
+        map((res) => {
+          /**
+           * Backend shape:
+           * {
+           *   "joeys-faves": { products: [...] },
+           *   "sale": { products: [...] }
+           * }
+           */
+
+          const allProducts = Object.values(res ?? {}).flatMap(
+            (section: any) => section?.products ?? [],
+          );
+
+          // shuffle (Fisher–Yates)
+          for (let i = allProducts.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allProducts[i], allProducts[j]] = [allProducts[j], allProducts[i]];
+          }
+
+          return allProducts.slice(0, pickCount).map(this.toProductCard);
+        }),
+      );
+  }
+
+  private toProductCard(p: any): ProductCard {
+    const prices = (p?.variants ?? [])
+      .map((v: any) => Number(v?.price))
+      .filter((n: unknown) => Number.isFinite(n));
+
+    const minPrice = prices.length ? Math.min(...prices) : null;
+
+    return {
+      id: String(p?.id ?? ''),
+      name: String(p?.title ?? ''),
+      brand: String(p?.vendor ?? ''),
+      price: minPrice !== null ? `from $${minPrice.toFixed(2)}` : '',
+      img: p?.image?.src || p?.images?.[0]?.src || 'assets/images/placeholder-product.png',
+      handle: String(p?.handle ?? ''),
+    };
   }
 }

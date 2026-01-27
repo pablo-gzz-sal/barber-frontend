@@ -51,38 +51,55 @@
 
     <!-- Products Grid -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-      @for (product of content.products; track product.name; let i = $index) {
-        <div
-          class="group cursor-pointer animate-fade-in-up"
-          [style.animation-delay]="i * 100 + 'ms'"
-        >
-          <!-- Product Image -->
-          <div class="relative aspect-[3/4] bg-gray-50 mb-4 overflow-hidden">
-            <img
-              [src]="product.img"
-              [alt]="product.name"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-          </div>
+      @if (products$ | async; as products) {
+        @for (product of products; track product.id; let i = $index) {
+          <div
+            class="group cursor-pointer animate-fade-in-up"
+            [style.animation-delay]="i * 100 + 'ms'"
+          >
+            <!-- Product Image -->
+            <div class="relative aspect-[3/4] bg-gray-50 mb-4 overflow-hidden">
+              <img
+                [src]="product.img"
+                [alt]="product.name"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+            </div>
 
-          <!-- Product Info -->
-          <div class="space-y-1">
-            <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">
-              {{ product.brand }}
-            </p>
-            <h3 class="text-xs md:text-sm font-light leading-snug text-black">
-              {{ product.name }}
-            </h3>
-            <div class="flex items-center gap-2 mt-2">
-              <span class="text-xs md:text-sm text-red-600 font-medium">
-                {{ product.salePrice }}
-              </span>
-              <span class="text-xs text-gray-400 line-through">
-                {{ product.originalPrice }}
-              </span>
+            <!-- Product Info -->
+            <div class="space-y-1">
+              <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider font-medium">
+                {{ product.brand }}
+              </p>
+
+              <h3 class="text-xs md:text-sm font-light leading-snug text-black">
+                {{ product.name }}
+              </h3>
+
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-xs md:text-sm font-medium text-black">
+                  {{ product.salePrice || product.price }}
+                </span>
+
+                @if (product.originalPrice) {
+                  <span class="text-xs text-gray-400 line-through">
+                    {{ product.originalPrice }}
+                  </span>
+                }
+              </div>
             </div>
           </div>
-        </div>
+        }
+      } @else {
+        <!-- Optional skeleton/loading -->
+        @for (x of [0, 1, 2, 3]; track x) {
+          <div class="animate-pulse">
+            <div class="aspect-[3/4] bg-gray-100 mb-4"></div>
+            <div class="h-3 bg-gray-100 w-20 mb-2"></div>
+            <div class="h-4 bg-gray-100 w-40"></div>
+            <div class="h-4 bg-gray-100 w-24 mt-3"></div>
+          </div>
+        }
       }
     </div>
   </div>
