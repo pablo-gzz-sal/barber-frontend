@@ -1,39 +1,46 @@
 <header class="fixed top-0 left-0 w-full z-[110] bg-black/95 backdrop-blur-md text-white">
   <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
     <!-- Left: Hours/Status (Desktop only) -->
-    <div 
-      class="hidden lg:flex items-center gap-3 header-fade-out transition-all duration-300"
-      [class.opacity-0]="isDesktopDropdownOpen"
-      [class.pointer-events-none]="isDesktopDropdownOpen"
-    >
-      <!-- Scissors Icon -->
-      <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center">
-        <img src="assets/svg/whiteLogo.svg" alt="" />
-      </div>
+<!-- Left: Hours/Status (Desktop only) -->
+<div
+  class="hidden lg:flex items-center gap-4 transition-all duration-300"
+  [class.opacity-0]="isDesktopDropdownOpen"
+  [class.pointer-events-none]="isDesktopDropdownOpen"
+>
+  <!-- Icon -->
+  <div
+    class="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center"
+  >
+    <img src="assets/svg/scissors.svg" class="h-6 w-auto" alt="Logo" />
+  </div>
 
-      <!-- Time & Status -->
-      <div class="flex flex-col text-[11px] font-light tracking-wide">
-        <div class="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
-          <span class="text-white/80">{{ content.header.hours }}</span>
-        </div>
-        <div class="flex items-center gap-2 mt-0.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
-          <span class="text-purple-400 font-medium">{{ content.header.openStatus }}</span>
-        </div>
-      </div>
+  <!-- Time + Open -->
+  <div class="flex flex-col text-[11px] font-light tracking-wide leading-tight">
+    <div class="flex items-center gap-2 text-white/80">
+      <!-- clock -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </svg>
+
+      <span>{{ content.header.hours }}</span>
     </div>
+
+    <div class="flex items-center gap-2 mt-1">
+      <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
+      <span class="text-purple-400 font-medium">{{ content.header.openStatus }}</span>
+    </div>
+  </div>
+</div>
+
 
     <!-- Mobile Left: Menu Icon (scissors) -->
     <button
@@ -61,10 +68,7 @@
     <!-- Center: Logo -->
     <div class="absolute left-1/2 -translate-x-1/2">
       <a href="/" class="flex flex-col items-center group cursor-pointer">
-        <img src="assets/svg/whiteLogo.svg" class="h-6 my-2" alt="" />
-        <span class="text-[10px] md:text-xs tracking-[0.3em] font-light">
-          {{ content.header.companyName }}
-        </span>
+        <img src="assets/svg/whiteLogo.svg" class="h-10 my-2" alt="" />
       </a>
     </div>
 
@@ -98,7 +102,7 @@
       <div class="relative hidden lg:block">
         <button
           type="button"
-          class="flex items-center gap-2 border border-white/30 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
+          class="hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
           (click)="toggleDesktopDropdown()"
           aria-haspopup="menu"
         >
@@ -122,7 +126,7 @@
 
       <!-- Cart Icon -->
       <button
-        class="p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
+        class="hidden lg:flex p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
         aria-label="Cart"
         [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
         [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
@@ -149,7 +153,7 @@
 
       <!-- Account Icon -->
       <button
-        class="p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300"
+        class="hidden lg:flex   p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300"
         (click)="onAccountClick()"
         aria-label="Account"
         [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"

@@ -23,14 +23,13 @@ export class Header {
   isDesktopDropdownOpen = false;
   activePreviewIndex = 0;
 
-  content = {
-    header: {
-      companyName: 'JOSEPH BATTISTI',
-      hours: 'Time: 9am to 9pm',
-      openStatus: 'Open Now',
-      btnBook: 'Book Appointment',
-    },
-  };
+    content = {
+      header: {
+        hours: 'Time: 9am to 9pm',
+        openStatus: 'Open Now',
+        btnBook: 'Book Appointment',
+      },
+    };
 
   // NEW: menu items with preview images
   menuItems = [
