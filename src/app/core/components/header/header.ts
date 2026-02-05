@@ -67,8 +67,10 @@ export class Header {
   }
 
   loginWithShopify() {
-    window.location.href = `${environment.apiUrl}/customer-auth/login`;
+    window.location.href = `https://shopify.com/57366020281/account`;
   }
+
+  
 
   onAccountClick() {
     this.router.navigateByUrl('/account');
