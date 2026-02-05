@@ -30,17 +30,17 @@ export class Checkout {
   }
 
   dec(item: CartItem) {
-    this.cart.updateQty(item.variantId, Math.max(0, item.qty - 1));
+    this.cart.updateQty(item.variantId.toString(), Math.max(0, item.qty - 1));
     this.refresh();
   }
 
   inc(item: CartItem) {
-    this.cart.updateQty(item.variantId, item.qty + 1);
+    this.cart.updateQty(item.variantId.toString(), item.qty + 1);
     this.refresh();
   }
 
   remove(item: CartItem) {
-    this.cart.remove(item.variantId);
+    this.cart.remove(item.variantId.toString());
     this.refresh();
   }
 

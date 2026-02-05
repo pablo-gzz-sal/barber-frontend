@@ -14,59 +14,85 @@ export type CartItem = {
 export class Cart {
   private key = 'barber_cart_v1';
 
+  // ✅ single source of truth
   private readonly _items = signal<CartItem[]>(this.read());
 
-  readonly count = computed(() => this._items().reduce((sum, i) => sum + (Number(i.qty) || 0), 0));
+  // ✅ header badge
+  readonly count = computed(() =>
+    this._items().reduce((sum, i) => sum + (Number(i.qty) || 0), 0),
+  );
 
+  // ✅ cart list consumers
   readonly items = computed(() => this._items());
 
+  // --------------------------
+  // Public API
+  // --------------------------
+
   getItems(): CartItem[] {
-    try {
-      return JSON.parse(localStorage.getItem(this.key) || '[]');
-    } catch {
-      return [];
-    }
+    // ✅ always return current state (reactive)
+    return this._items();
   }
 
   setItems(items: CartItem[]) {
-    localStorage.setItem(this.key, JSON.stringify(items));
+    this.commit(items);
   }
 
   add(item: CartItem) {
-    const items = this.getItems();
-    const existing = items.find((i) => i.variantId === item.variantId);
-    if (existing) existing.qty += item.qty;
-    else items.push(item);
-    this.setItems(items);
-     this._items.set(items);
+    const items = [...this._items()];
+    const existing = items.find((i) => String(i.variantId) === String(item.variantId));
+
+    if (existing) {
+      existing.qty += Number(item.qty) || 0;
+      // If you want to update display fields when re-adding:
+      existing.title = item.title ?? existing.title;
+      existing.image = item.image ?? existing.image;
+      existing.price = item.price ?? existing.price;
+    } else {
+      items.push({
+        ...item,
+        variantId: Number(item.variantId),
+        qty: Number(item.qty) || 0,
+      });
+    }
+
+    // Remove invalid qty
+    const cleaned = items.filter((i) => (Number(i.qty) || 0) > 0);
+
+    this.commit(cleaned);
   }
 
-  updateQty(variantId: number, qty: number) {
-    const items = this.getItems()
-      .map((i) => (i.variantId === variantId ? { ...i, qty } : i))
-      .filter((i) => i.qty > 0);
-    this.setItems(items);
+  updateQty(variantId: string, qty: number) {
+    const nextQty = Number(qty) || 0;
+    const items = [...this._items()];
+
+    const idx = items.findIndex((i) => String(i.variantId) === String(variantId));
+    if (idx === -1) return;
+
+    if (nextQty <= 0) {
+      items.splice(idx, 1);
+      this.commit(items);
+      return;
+    }
+
+    items[idx] = { ...items[idx], qty: nextQty };
+    this.commit(items);
   }
 
-  remove(variantId: number) {
-    this.setItems(this.getItems().filter((i) => i.variantId !== variantId));
+  remove(variantId: string) {
+    const items = this._items().filter((i) => String(i.variantId) !== String(variantId));
+    this.commit(items);
   }
 
   clear() {
-    localStorage.removeItem(this.key);
+    this.commit([]);
   }
 
   subtotal(): number {
-    return this.getItems().reduce((sum, i) => sum + (i?.price || 0) * i.qty, 0);
-  }
-
-    private read(): CartItem[] {
-    try {
-      const raw = localStorage.getItem(this.key);
-      return raw ? (JSON.parse(raw) as CartItem[]) : [];
-    } catch {
-      return [];
-    }
+    return this._items().reduce(
+      (sum, i) => sum + (Number(i.price) || 0) * (Number(i.qty) || 0),
+      0,
+    );
   }
 
   /**
@@ -74,10 +100,39 @@ export class Cart {
    * Shopify will show Shop Pay / PayPal / Google Pay if enabled in Shopify admin.
    */
   checkout(shopDomain: string) {
-    const items = this.getItems();
+    const items = this._items();
     if (!items.length) return;
 
+    // Shopify format: /cart/VARIANT_ID:QTY,VARIANT_ID:QTY
     const line = items.map((i) => `${i.variantId}:${i.qty}`).join(',');
     window.location.href = `https://${shopDomain}/cart/${line}`;
+  }
+
+  // --------------------------
+  // Internal helpers
+  // --------------------------
+
+  private commit(items: CartItem[]) {
+    this._items.set(items);
+    localStorage.setItem(this.key, JSON.stringify(items));
+  }
+
+  private read(): CartItem[] {
+    try {
+      const raw = localStorage.getItem(this.key);
+      const items = raw ? (JSON.parse(raw) as CartItem[]) : [];
+
+      // Normalize types defensively
+      return (items ?? [])
+        .map((i) => ({
+          ...i,
+          variantId: Number((i as any).variantId),
+          qty: Number((i as any).qty) || 0,
+          price: (i as any).price != null ? Number((i as any).price) : undefined,
+        }))
+        .filter((i) => i.qty > 0);
+    } catch {
+      return [];
+    }
   }
 }
