@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 
 export type CartItem = {
   variantId: number; // REQUIRED for Shopify cart permalink
@@ -13,6 +13,12 @@ export type CartItem = {
 })
 export class Cart {
   private key = 'barber_cart_v1';
+
+  private readonly _items = signal<CartItem[]>(this.read());
+
+  readonly count = computed(() => this._items().reduce((sum, i) => sum + (Number(i.qty) || 0), 0));
+
+  readonly items = computed(() => this._items());
 
   getItems(): CartItem[] {
     try {
@@ -32,6 +38,7 @@ export class Cart {
     if (existing) existing.qty += item.qty;
     else items.push(item);
     this.setItems(items);
+     this._items.set(items);
   }
 
   updateQty(variantId: number, qty: number) {
@@ -51,6 +58,15 @@ export class Cart {
 
   subtotal(): number {
     return this.getItems().reduce((sum, i) => sum + (i?.price || 0) * i.qty, 0);
+  }
+
+    private read(): CartItem[] {
+    try {
+      const raw = localStorage.getItem(this.key);
+      return raw ? (JSON.parse(raw) as CartItem[]) : [];
+    } catch {
+      return [];
+    }
   }
 
   /**

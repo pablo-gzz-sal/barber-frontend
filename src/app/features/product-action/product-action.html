@@ -1,3 +1,4 @@
+<app-header></app-header>
 <section class="min-h-screen bg-white text-black">
   <div class="max-w-6xl mx-auto px-6 lg:px-16 py-28">
     <!-- Header -->
@@ -7,7 +8,7 @@
           Product Details
         </h1>
         <p class="text-black/60 mt-2">
-          Choose how you want to purchase.
+          Select a variant, then choose how you want to purchase.
         </p>
       </div>
 
@@ -29,16 +30,22 @@
     </div>
 
     <!-- Content -->
-    <div *ngIf="product() as p" class="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+    <div
+      *ngIf="!loading() && !error() && product() as p"
+      class="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
+    >
       <!-- Image -->
       <div class="rounded-2xl overflow-hidden border border-black/10 bg-black/5">
         <img
-          *ngIf="p.imageUrl"
-          [src]="p.imageUrl"
+          *ngIf="selectedImageUrl() as img"
+          [src]="img"
           [alt]="p.title"
           class="w-full h-[420px] object-cover"
         />
-        <div *ngIf="!p.imageUrl" class="h-[420px] flex items-center justify-center text-black/40">
+        <div
+          *ngIf="!selectedImageUrl()"
+          class="h-[420px] flex items-center justify-center text-black/40"
+        >
           No image
         </div>
       </div>
@@ -49,21 +56,60 @@
           {{ p.title }}
         </h2>
 
-        <p *ngIf="p.price != null" class="mt-3 text-lg text-black/70">
-          {{ p.price }}
+        <p *ngIf="displayPrice() as price" class="mt-3 text-lg text-black/70">
+          {{ price }}
         </p>
 
-        <div *ngIf="p.descriptionHtml" class="prose max-w-none mt-6"
-             [innerHTML]="p.descriptionHtml">
+        <!-- Description -->
+        <div
+          *ngIf="p.body_html"
+          class="prose max-w-none mt-6"
+          [innerHTML]="p.body_html"
+        ></div>
+
+        <!-- Variant selector -->
+        <div class="mt-8">
+          <label class="block text-sm tracking-wide text-black/60 mb-2">
+            Variant
+          </label>
+
+          <select
+            class="w-full px-4 py-3 rounded-xl border border-black/20 bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+            [value]="selectedVariantId()"
+            (change)="onVariantChange(($any($event.target).value))"
+          >
+            <option *ngFor="let v of variants()" [value]="v.id">
+              {{ v.title }}
+            </option>
+          </select>
         </div>
 
         <!-- Qty -->
         <div class="mt-8 flex items-center gap-3">
           <span class="text-sm tracking-wide text-black/60">Quantity</span>
-          <div class="flex items-center rounded-full border border-black/20 overflow-hidden">
-            <button class="px-4 py-2 hover:bg-black hover:text-white transition" (click)="dec()">−</button>
-            <div class="px-5 py-2 min-w-[48px] text-center">{{ qty() }}</div>
-            <button class="px-4 py-2 hover:bg-black hover:text-white transition" (click)="inc()">+</button>
+
+          <div
+            class="flex items-center rounded-full border border-black/20 overflow-hidden"
+          >
+            <button
+              class="px-4 py-2 hover:bg-black hover:text-white transition"
+              (click)="dec()"
+              type="button"
+            >
+              −
+            </button>
+
+            <div class="px-5 py-2 min-w-[48px] text-center">
+              {{ qty() }}
+            </div>
+
+            <button
+              class="px-4 py-2 hover:bg-black hover:text-white transition"
+              (click)="inc()"
+              type="button"
+            >
+              +
+            </button>
           </div>
         </div>
 
@@ -73,6 +119,7 @@
             class="px-6 py-4 rounded-full bg-black text-white hover:bg-black/90 transition disabled:opacity-40"
             [disabled]="!canBuy()"
             (click)="buyWithShop()"
+            type="button"
           >
             Buy with Shop
           </button>
@@ -81,17 +128,14 @@
             class="px-6 py-4 rounded-full border border-black/20 hover:bg-black hover:text-white transition disabled:opacity-40"
             [disabled]="!canAdd()"
             (click)="addToCart()"
+            type="button"
           >
             Add to Cart
           </button>
         </div>
-
-        <!-- Small helper -->
-        <p class="mt-4 text-sm text-black/50">
-          “Buy with Shop” opens the official product page in a new tab.
-          “Add to Cart” keeps the user in your site.
-        </p>
       </div>
     </div>
   </div>
 </section>
+
+<app-footer></app-footer>

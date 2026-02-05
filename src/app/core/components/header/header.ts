@@ -5,6 +5,7 @@ import { UiButton } from '../../../shared/components/ui-button/ui-button';
 import { environment } from '../../../../environments/environment';
 import { CustomerService } from '../../services/customer-service';
 import { Router } from '@angular/router';
+import { Cart } from '../../services/cart';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -16,8 +17,11 @@ export class Header {
   protected readonly text = UI_TEXT;
   private router = inject(Router);
   private customer = inject(CustomerService);
+  private cart = inject(Cart);
 
   isMenuOpen = false;
+
+   cartCount = this.cart.count;
 
   // NEW: desktop dropdown state
   isDesktopDropdownOpen = false;
@@ -74,6 +78,10 @@ export class Header {
 
   onAccountClick() {
     this.router.navigateByUrl('/account');
+  }
+
+  onCart(){
+    this.router.navigateByUrl('/checkout');
   }
 
   onBook() {

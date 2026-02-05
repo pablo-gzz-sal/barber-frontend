@@ -3,4 +3,5 @@ export const environment = {
   apiUrl: 'http://localhost:3000/v1',
   shopifyEndpoint: '/shopify',
   mangomintEndpoint: '/mangomint',
+  shopifyStorefrontUrl: 'https://josephbattisti-com.myshopify.com',
 };

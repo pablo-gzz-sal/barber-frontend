@@ -44,26 +44,28 @@
 
     <!-- Mobile Left: Menu Icon (scissors) -->
     <button
-      class="lg:hidden p-2 hover:bg-white/5 rounded-full transition-colors"
-      (click)="toggleMenu()"
-      aria-label="Open menu"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-      >
-        <circle cx="6" cy="6" r="3" />
-        <circle cx="6" cy="18" r="3" />
-        <line x1="20" y1="4" x2="8.12" y2="15.88" />
-        <line x1="14.47" y1="14.48" x2="20" y2="20" />
-        <line x1="8.12" y1="8.12" x2="12" y2="12" />
-      </svg>
-    </button>
+  class="lg:hidden p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
+  aria-label="Cart"
+  [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
+  [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
+  (click)="onCart()"
+>
+  <!-- icon -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="1.5">
+    <circle cx="9" cy="21" r="1" />
+    <circle cx="20" cy="21" r="1" />
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+  </svg>
+
+  <!-- badge -->
+  <span
+    class="absolute -top-0.5 -right-0.5 w-4 h-4 text-[9px] bg-white text-black rounded-full flex items-center justify-center font-medium"
+    *ngIf="cartCount() > 0"
+  >
+    {{ cartCount() }}
+  </span>
+</button>
 
     <!-- Center: Logo -->
     <div class="absolute left-1/2 -translate-x-1/2">
@@ -125,31 +127,30 @@
       </div>
 
       <!-- Cart Icon -->
-      <button
-        class="hidden lg:flex p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
-        aria-label="Cart"
-        [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
-        [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-        >
-          <circle cx="9" cy="21" r="1" />
-          <circle cx="20" cy="21" r="1" />
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-        </svg>
-        <span
-          class="absolute -top-0.5 -right-0.5 w-4 h-4 text-[9px] bg-white text-black rounded-full flex items-center justify-center font-medium"
-        >
-          0
-        </span>
-      </button>
+  <button
+  class="hidden lg:flex p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
+  aria-label="Cart"
+  [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
+  [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
+  (click)="onCart()"
+>
+  <!-- icon -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="1.5">
+    <circle cx="9" cy="21" r="1" />
+    <circle cx="20" cy="21" r="1" />
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+  </svg>
+
+  <!-- badge -->
+  <span
+    class="absolute -top-0.5 -right-0.5 w-4 h-4 text-[9px] bg-white text-black rounded-full flex items-center justify-center font-medium"
+    *ngIf="cartCount() > 0"
+  >
+    {{ cartCount() }}
+  </span>
+</button>
+
 
       <!-- Account Icon -->
       <button

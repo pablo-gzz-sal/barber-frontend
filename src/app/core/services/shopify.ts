@@ -75,6 +75,22 @@ export interface CreateMetafieldDto {
   type: string; // ex: 'json'
   description?: string;
 }
+
+export type ProductVariantLite = {
+  id: string;
+  title: string;
+  price: string;
+  option1?: string;
+  option2?: string;
+  option3?: string;
+  image_id?: string | number | null;
+};
+
+export type ProductVariantsResponse = {
+  productId: string;
+  count: number;
+  variants: ProductVariantLite[];
+};
 @Injectable({
   providedIn: 'root',
 })
@@ -395,5 +411,29 @@ export class Shopify {
       img: p?.image?.src || p?.images?.[0]?.src || 'assets/images/placeholder-product.png',
       handle: String(p?.handle ?? ''),
     };
+  }
+
+  getProductVariants(productId: string): Observable<ProductVariantsResponse> {
+    return this.http
+      .get<ProductVariantsResponse>(
+        `${this.baseUrl}/products/${encodeURIComponent(productId)}/variants`,
+      )
+      .pipe(catchError((e) => this.handleError(e)));
+  }
+
+  getVariantById(variantId: string): Observable<any> {
+    return this.http
+      .get(`${this.baseUrl}/variants/${encodeURIComponent(variantId)}`)
+      .pipe(catchError((e) => this.handleError(e)));
+  }
+
+  resolveVariantId(productId: string, params: { option1?: string; title?: string }) {
+    const qs = new URLSearchParams();
+    if (params.option1) qs.set('option1', params.option1);
+    if (params.title) qs.set('title', params.title);
+
+    return this.http
+      .get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/variant-id?${qs.toString()}`)
+      .pipe(catchError((e) => this.handleError(e)));
   }
 }
