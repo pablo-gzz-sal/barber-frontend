@@ -1,7 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 
 export type CartItem = {
-  variantId: number; // REQUIRED for Shopify cart permalink
+  variantId: string; // REQUIRED for Shopify cart permalink
   title?: string;
   price?: number; // store as number for totals
   image?: string;
@@ -51,7 +51,7 @@ export class Cart {
     } else {
       items.push({
         ...item,
-        variantId: Number(item.variantId),
+        variantId: String(item.variantId),
         qty: Number(item.qty) || 0,
       });
     }
@@ -62,27 +62,28 @@ export class Cart {
     this.commit(cleaned);
   }
 
-  updateQty(variantId: string, qty: number) {
-    const nextQty = Number(qty) || 0;
-    const items = [...this._items()];
+updateQty(variantId: string, qty: number) {
+  const nextQty = Number(qty) || 0;
+  const items = [...this._items()];
 
-    const idx = items.findIndex((i) => String(i.variantId) === String(variantId));
-    if (idx === -1) return;
+  const idx = items.findIndex((i) => String(i.variantId) === String(variantId));
+  if (idx === -1) return;
 
-    if (nextQty <= 0) {
-      items.splice(idx, 1);
-      this.commit(items);
-      return;
-    }
-
-    items[idx] = { ...items[idx], qty: nextQty };
+  if (nextQty <= 0) {
+    items.splice(idx, 1);
     this.commit(items);
+    return;
   }
 
-  remove(variantId: string) {
-    const items = this._items().filter((i) => String(i.variantId) !== String(variantId));
-    this.commit(items);
-  }
+  items[idx] = { ...items[idx], qty: nextQty };
+  this.commit(items);
+}
+
+remove(variantId: string) {
+  const items = this._items().filter((i) => String(i.variantId) !== String(variantId));
+  this.commit(items);
+}
+
 
   clear() {
     this.commit([]);
@@ -126,7 +127,7 @@ export class Cart {
       return (items ?? [])
         .map((i) => ({
           ...i,
-          variantId: Number((i as any).variantId),
+          variantId: String((i as any).variantId),
           qty: Number((i as any).qty) || 0,
           price: (i as any).price != null ? Number((i as any).price) : undefined,
         }))

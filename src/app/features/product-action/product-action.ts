@@ -79,6 +79,7 @@ export class ProductAction {
   canAdd = computed(() => !!this.selectedVariantId());
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.error.set('Missing product id');
@@ -125,7 +126,7 @@ export class ProductAction {
     if (!v) return;
 
     this.cart.add({
-      variantId: Number(v.id),
+      variantId: String(v.id),
       qty: this.qty(),
     });
   }
