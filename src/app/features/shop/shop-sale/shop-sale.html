@@ -56,6 +56,8 @@
           <div
             class="group cursor-pointer animate-fade-in-up"
             [style.animation-delay]="i * 100 + 'ms'"
+            [routerLink]="['/product', product.id]"
+
           >
             <!-- Product Image -->
             <div class="relative aspect-[3/4] bg-gray-50 mb-4 overflow-hidden">

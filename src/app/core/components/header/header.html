@@ -154,7 +154,7 @@
       <!-- Account Icon -->
       <button
         class="hidden lg:flex   p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300"
-        (click)="onAccountClick()"
+        (click)="loginWithShopify()"
         aria-label="Account"
         [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
         [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
@@ -282,7 +282,7 @@
 
         <button
           class="w-full border border-white/30 px-6 py-3 rounded-full text-sm tracking-wide hover:bg-white hover:text-black transition-all duration-300"
-          (click)="onAccountClick(); toggleMenu()"
+          (click)="loginWithShopify(); toggleMenu()"
         >
           Sign in / Account
         </button>

@@ -6,11 +6,12 @@ import { map, tap } from 'rxjs/operators';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { Shopify } from '../../../core/services/shopify';
 import { ProductCard } from '../../../shared/models/Product-Card.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-shop-best-sellers',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './shop-best-sellers.html',
   styleUrl: './shop-best-sellers.css',
 })

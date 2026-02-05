@@ -6,6 +6,8 @@ import { ContactPage } from './features/contact-page/contact-page';
 import { ShopPage } from './features/shop/shop-page/shop-page';
 import { AccountAuthorize } from './core/constants/account-authorize/account-authorize';
 import { Account } from './core/constants/account/account';
+import { Checkout } from './features/checkout/checkout';
+import { ProductAction } from './features/product-action/product-action';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -13,11 +15,13 @@ export const routes: Routes = [
   { path: 'services', component: ServicesPage },
   { path: 'contact', component: ContactPage },
   { path: 'shop', component: ShopPage },
-  // { path: '**', redirectTo: '' },
+  { path: 'checkout', component: Checkout },
+  { path: 'product/:id', component: ProductAction },
+  { path: '**', redirectTo: '' },
   // {
   //   path: 'account/authorize',
   //   component: AccountAuthorize,
-  // },  
+  // },
   //   {
   //   path: 'account', component: Account
   // },

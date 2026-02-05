@@ -4,6 +4,7 @@ import { UI_TEXT } from '../../../core/constants/app-text';
 import { Observable, map } from 'rxjs';
 import { ProductCard } from '../../../shared/models/Product-Card.model';
 import { Shopify } from '../../../core/services/shopify';
+import { RouterModule } from '@angular/router';
 
 type SaleCard = ProductCard & {
   salePrice: string;
@@ -12,7 +13,7 @@ type SaleCard = ProductCard & {
 
 @Component({
   selector: 'app-shop-sale',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   standalone: true,
   templateUrl: './shop-sale.html',
   styleUrl: './shop-sale.css',
