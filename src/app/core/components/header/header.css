@@ -99,6 +99,7 @@
 
 .menu-item-hover:hover {
   transform: translateX(8px);
+  color: white;
 }
 
 /* Arrow bounce animation */

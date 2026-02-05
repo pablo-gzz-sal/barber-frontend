@@ -29,6 +29,6 @@ export class Footer {
       title: 'COMPANY',
       links: ['About']
     },
-    copyright: '© 2025 JOSEPH BATTISTI studio.'
+    copyright: '© 2026 JOSEPH BATTISTI studio.'
   };
 }

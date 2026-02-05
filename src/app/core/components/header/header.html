@@ -1,74 +1,78 @@
 <header class="fixed top-0 left-0 w-full z-[110] bg-black/95 backdrop-blur-md text-white">
   <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
     <!-- Left: Hours/Status (Desktop only) -->
-<!-- Left: Hours/Status (Desktop only) -->
-<div
-  class="hidden lg:flex items-center gap-4 transition-all duration-300"
-  [class.opacity-0]="isDesktopDropdownOpen"
-  [class.pointer-events-none]="isDesktopDropdownOpen"
->
-  <!-- Icon -->
-  <div
-    class="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center"
-  >
-    <img src="assets/svg/scissors.svg" class="h-6 w-auto" alt="Logo" />
-  </div>
+    <!-- Left: Hours/Status (Desktop only) -->
+    <div
+      class="hidden lg:flex items-center gap-4 transition-all duration-300"
+      [class.opacity-0]="isDesktopDropdownOpen"
+      [class.pointer-events-none]="isDesktopDropdownOpen"
+    >
+      <!-- Icon -->
+      <div class="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center">
+        <img src="assets/svg/scissors.svg" class="h-6 w-auto" alt="Logo" />
+      </div>
 
-  <!-- Time + Open -->
-  <div class="flex flex-col text-[11px] font-light tracking-wide leading-tight">
-    <div class="flex items-center gap-2 text-white/80">
-      <!-- clock -->
+      <!-- Time + Open -->
+      <div class="flex flex-col text-[11px] font-light tracking-wide leading-tight">
+        <div class="flex items-center gap-2 text-white/80">
+          <!-- clock -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+
+          <span>{{ content.header.hours }}</span>
+        </div>
+
+        <div class="flex items-center gap-2 mt-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
+          <span class="text-purple-400 font-medium">{{ content.header.openStatus }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Left: Menu Icon (scissors) -->
+    <button
+      class="cursor-pointer lg:hidden p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
+      aria-label="Cart"
+      [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
+      [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
+      (click)="onCart()"
+    >
+      <!-- icon -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="14"
-        height="14"
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         stroke-width="1.5"
       >
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
+        <circle cx="9" cy="21" r="1" />
+        <circle cx="20" cy="21" r="1" />
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
       </svg>
 
-      <span>{{ content.header.hours }}</span>
-    </div>
-
-    <div class="flex items-center gap-2 mt-1">
-      <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
-      <span class="text-purple-400 font-medium">{{ content.header.openStatus }}</span>
-    </div>
-  </div>
-</div>
-
-
-    <!-- Mobile Left: Menu Icon (scissors) -->
-    <button
-  class="lg:hidden p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
-  aria-label="Cart"
-  [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
-  [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
-  (click)="onCart()"
->
-  <!-- icon -->
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-       fill="none" stroke="currentColor" stroke-width="1.5">
-    <circle cx="9" cy="21" r="1" />
-    <circle cx="20" cy="21" r="1" />
-    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-  </svg>
-
-  <!-- badge -->
-  <span
-    class="absolute -top-0.5 -right-0.5 w-4 h-4 text-[9px] bg-white text-black rounded-full flex items-center justify-center font-medium"
-    *ngIf="cartCount() > 0"
-  >
-    {{ cartCount() }}
-  </span>
-</button>
+      <!-- badge -->
+      <span
+        class="absolute -top-0.5 -right-0.5 w-4 h-4 text-[9px] bg-white text-black rounded-full flex items-center justify-center font-medium"
+        *ngIf="cartCount() > 0"
+      >
+        {{ cartCount() }}
+      </span>
+    </button>
 
     <!-- Center: Logo -->
-    <div class="absolute left-1/2 -translate-x-1/2">
+    <div class="cursor-pointer absolute left-1/2 -translate-x-1/2">
       <a href="/" class="flex flex-col items-center group cursor-pointer">
         <img src="assets/svg/whiteLogo.svg" class="h-10 my-2" alt="" />
       </a>
@@ -78,7 +82,7 @@
     <div class="flex items-center gap-2 md:gap-3">
       <!-- Book Appointment Button (Desktop) -->
       <button
-        class="hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs tracking-wide hover:bg-white hover:text-black transition-all duration-300"
+        class="cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs tracking-wide hover:bg-white hover:text-black transition-all duration-300"
         [class.opacity-0]="isDesktopDropdownOpen"
         [class.pointer-events-none]="isDesktopDropdownOpen"
         (click)="onBook()"
@@ -104,7 +108,7 @@
       <div class="relative hidden lg:block">
         <button
           type="button"
-          class="hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
+          class="cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
           (click)="toggleDesktopDropdown()"
           aria-haspopup="menu"
         >
@@ -127,34 +131,40 @@
       </div>
 
       <!-- Cart Icon -->
-  <button
-  class="hidden lg:flex p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
-  aria-label="Cart"
-  [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
-  [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
-  (click)="onCart()"
->
-  <!-- icon -->
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-       fill="none" stroke="currentColor" stroke-width="1.5">
-    <circle cx="9" cy="21" r="1" />
-    <circle cx="20" cy="21" r="1" />
-    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-  </svg>
+      <button
+        class="cursor-pointer hidden lg:flex p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
+        aria-label="Cart"
+        [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
+        [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
+        (click)="onCart()"
+      >
+        <!-- icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
 
-  <!-- badge -->
-  <span
-    class="absolute -top-0.5 -right-0.5 w-4 h-4 text-[9px] bg-white text-black rounded-full flex items-center justify-center font-medium"
-    *ngIf="cartCount() > 0"
-  >
-    {{ cartCount() }}
-  </span>
-</button>
-
+        <!-- badge -->
+        <span
+          class="absolute -top-0.5 -right-0.5 w-4 h-4 text-[9px] bg-white text-black rounded-full flex items-center justify-center font-medium"
+          *ngIf="cartCount() > 0"
+        >
+          {{ cartCount() }}
+        </span>
+      </button>
 
       <!-- Account Icon -->
       <button
-        class="hidden lg:flex   p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300"
+        class="cursor-pointer hidden lg:flex p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300"
         (click)="loginWithShopify()"
         aria-label="Account"
         [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
@@ -212,7 +222,7 @@
         <ng-container *ngFor="let item of menuItems; let i = index">
           <button
             type="button"
-            class="menu-stagger-item w-full text-left flex items-center justify-between py-3 text-5xl font-light tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover"
+            class="cursor-pointer menu-stagger-item w-full text-left flex items-center justify-between py-3 text-5xl font-light tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover"
             [class.text-white]="i === activePreviewIndex"
             (mouseenter)="setPreview(i)"
             (focus)="setPreview(i)"
@@ -220,7 +230,8 @@
           >
             <span>{{ item.label }}</span>
             <span
-              class="text-2xl text-white/50 transition-all duration-300"
+              class="cursor-pointer hover:text-white
+              text-2xl text-white/50 transition-all duration-300"
               [class.opacity-100]="i === activePreviewIndex"
               [class.opacity-0]="i !== activePreviewIndex"
             >
@@ -239,7 +250,7 @@
           alt="Menu preview"
           class="h-full w-full object-cover grayscale transition-opacity duration-500 ease-out"
         />
-        <div class="absolute inset-0 bg-gradient-to-l from-black/0 via-black/20 to-black/90"></div>
+        <div class="absolute inset-0"></div>
       </div>
 
       <div class="relative h-full p-12 flex items-end">
@@ -275,7 +286,7 @@
       <!-- Mobile Action Buttons -->
       <div class="mt-8 space-y-3 animate-button-fade">
         <button
-        (click)="onBook()"
+          (click)="onBook()"
           class="w-full border border-white/30 px-6 py-3 rounded-full text-sm tracking-wide hover:bg-white hover:text-black transition-all duration-300"
         >
           {{ content.header.btnBook }}
