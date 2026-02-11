@@ -16,7 +16,7 @@
           <button
             type="button"
             (click)="activeTab = 'benefit'"
-            class="px-5 py-3 sm:py-4 outline outline-2 outline-offset-[-2px] transition-all duration-300
+            class="rounded-full px-5 py-3 sm:py-4 outline outline-2 outline-offset-[-2px] transition-all duration-300
                    hover:-translate-y-[1px]"
             [ngClass]="activeTab === 'benefit'
               ? 'bg-black text-white outline-black shadow-[0_10px_28px_rgba(0,0,0,0.18)]'
@@ -30,7 +30,7 @@
           <button
             type="button"
             (click)="activeTab = 'type'"
-            class="px-5 py-3 sm:py-4 outline outline-2 outline-offset-[-2px] transition-all duration-300
+            class="rounded-full px-5 py-3 sm:py-4 outline outline-2 outline-offset-[-2px] transition-all duration-300
                    hover:-translate-y-[1px]"
             [ngClass]="activeTab === 'type'
               ? 'bg-black text-white outline-black shadow-[0_10px_28px_rgba(0,0,0,0.18)]'
@@ -54,7 +54,7 @@
         >
           <!-- Image tile -->
           <div
-            class="relative overflow-hidden bg-neutral-100 rounded-lg
+            class="relative overflow-hidden bg-neutral-100 rounded-full
                    aspect-square
                    ring-1 ring-black/10
                    shadow-[0_10px_25px_rgba(0,0,0,0.06)]

@@ -62,7 +62,7 @@
     <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
       <!-- Portrait -->
       <div class="lg:col-span-5">
-        <div class="overflow-hidden rounded-md bg-white shadow-sm">
+        <div class="overflow-hidden rounded-full bg-white shadow-sm">
           <div class="aspect-[3/4]">
             <img
               src="assets/images/josephAbout.jpg"
@@ -102,7 +102,7 @@
 
       <!-- Video -->
       <div class="lg:col-span-7">
-        <div class="overflow-hidden rounded-md bg-black/90 shadow-sm">
+        <div class="overflow-hidden rounded-full bg-black/90 shadow-sm">
           <div class="relative aspect-[16/9] group cursor-pointer">
             <img
               src="assets/images/tv-feature-thumb.jpg"
@@ -158,7 +158,7 @@
           >
             <!-- Image -->
             <div
-              class="overflow-hidden rounded-md"
+              class="overflow-hidden rounded-full"
               [class.w-[360px]]="i === activeIndex"
               [class.h-[480px]]="i === activeIndex"
               [class.w-[180px]]="i !== activeIndex"
@@ -194,7 +194,7 @@
       <div class="absolute inset-y-0 left-0 flex items-center">
         <button
           (click)="prev()"
-          class="text-white/50 hover:text-white transition px-4"
+          class="rounded-full text-white/50 hover:text-white transition px-4"
         >
           ‹
         </button>
@@ -203,7 +203,7 @@
       <div class="absolute inset-y-0 right-0 flex items-center">
         <button
           (click)="next()"
-          class="text-white/50 hover:text-white transition px-4"
+          class="rounded-full text-white/50 hover:text-white transition px-4"
         >
           ›
         </button>

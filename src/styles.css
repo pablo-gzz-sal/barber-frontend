@@ -1,5 +1,6 @@
 /* 1. Import Tailwind */
 @import "tailwindcss";
+@import 'tailwindcss-primeui';
 
 /* 2. Configure your Theme here (replaces tailwind.config.js) 
 /* 3. Add global base styles */
@@ -26,6 +27,31 @@ html {
 
     /* Define the 'Inter' font family */
   --font-sans: "Inter", "sans-serif";
+
+      --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+
+    --container-sm: 640px;
+    --container-md: 768px;
+    --container-lg: 1024px;
+    --container-xl: 1280px;
+    --container-2xl: 1536px;
+
+    --animate-infinite-scroll: infinite-scroll 40s linear infinite;
+
+    @keyframes infinite-scroll {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
 
   /* Define your custom colors */
   --color-brand-dark: #0a0a0a;   /* The deep black bg */
@@ -439,4 +465,28 @@ html {
   .no-print {
     display: none !important;
   }
+}
+
+.p-toast .p-toast-message {
+  backdrop-filter: blur(12px);
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  border-radius: 16px;
+}
+
+.p-toast-message-success {
+  border-left: 4px solid #22c55e;
+}
+
+.p-toast-message-error {
+  border-left: 4px solid #ef4444;
+}
+
+.p-toast-message-warn {
+  border-left: 4px solid #facc15;
+}
+
+.p-toast-message-info {
+  border-left: 4px solid #3b82f6;
 }

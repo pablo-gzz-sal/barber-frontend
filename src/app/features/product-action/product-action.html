@@ -74,7 +74,7 @@
           </label>
 
           <select
-            class="w-full px-4 py-3 rounded-xl border border-black/20 bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+            class="w-full px-4 py-3 rounded-full border border-black/20 bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
             [value]="selectedVariantId()"
             (change)="onVariantChange(($any($event.target).value))"
           >
@@ -92,7 +92,7 @@
             class="flex items-center rounded-full border border-black/20 overflow-hidden"
           >
             <button
-              class="px-4 py-2 hover:bg-black hover:text-white transition"
+              class="rounded-full px-4 py-2 hover:bg-black hover:text-white transition"
               (click)="dec()"
               type="button"
             >
@@ -104,7 +104,7 @@
             </div>
 
             <button
-              class="px-4 py-2 hover:bg-black hover:text-white transition"
+              class="rounded-fullpx-4 py-2 hover:bg-black hover:text-white transition"
               (click)="inc()"
               type="button"
             >
@@ -116,7 +116,7 @@
         <!-- Actions -->
         <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <button
-            class="px-6 py-4 rounded-full bg-black text-white hover:bg-black/90 transition disabled:opacity-40"
+            class="rounded-full px-6 py-4 rounded-full bg-black text-white hover:bg-black/90 transition disabled:opacity-40"
             [disabled]="!canBuy()"
             (click)="buyWithShop()"
             type="button"
@@ -125,7 +125,7 @@
           </button>
 
           <button
-            class="px-6 py-4 rounded-full border border-black/20 hover:bg-black hover:text-white transition disabled:opacity-40"
+            class="rounded-full px-6 py-4 rounded-full border border-black/20 hover:bg-black hover:text-white transition disabled:opacity-40"
             [disabled]="!canAdd()"
             (click)="addToCart()"
             type="button"

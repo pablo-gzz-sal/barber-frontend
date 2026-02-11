@@ -1,74 +1,102 @@
 <section class="relative bg-black text-white min-h-screen overflow-hidden">
-      
-      <!-- Top Navigation Bar -->
-      <div class="absolute top-0 left-0 w-full z-30 bg-black/80 backdrop-blur-sm border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 py-4 md:py-6">
-          <div class="flex items-center justify-between md:justify-end gap-6 md:gap-12">
-            @for (tab of content.tabs; track tab.id) {
-              <button 
-                class="group transition-all duration-300"
-                [class.active]="tab.id === content.activeTab"
-              >
-                <span class="text-[10px] md:text-xs tracking-[0.2em] font-light block mb-1"
-                      [class]="tab.id === content.activeTab ? 'text-white/50' : 'text-white/30 group-hover:text-white/50'">
-                  {{ tab.number }}
-                </span>
-                <span class="text-sm md:text-base tracking-[0.15em] font-light"
-                      [class]="tab.id === content.activeTab ? 'text-white font-normal' : 'text-white/40 group-hover:text-white/60'">
-                  {{ tab.label }}
-                </span>
-              </button>
-            }
-          </div>
-        </div>
+  <!-- Top Navigation Bar -->
+  <div
+    class="absolute top-0 left-0 w-full z-30 bg-black/80 backdrop-blur-sm border-b border-white/10"
+  >
+    <div class="max-w-7xl mx-auto px-6 py-4 md:py-6">
+      <div class="flex items-center justify-between md:justify-end gap-6 md:gap-12">
+        @for (tab of content.tabs; track tab.id) {
+          <button
+            class="group transition-all duration-300"
+            [class.active]="tab.id === content.activeTab"
+            (click)="setTab(tab.id)"
+
+          >
+            <span
+              class="text-[10px] md:text-xs tracking-[0.2em] font-light block mb-1"
+              [class]="
+                tab.id === content.activeTab
+                  ? 'text-white/50'
+                  : 'text-white/30 group-hover:text-white/50'
+              "
+            >
+              {{ tab.number }}
+            </span>
+            <span
+              class="text-sm md:text-base tracking-[0.15em] font-light"
+              [class]="
+                tab.id === content.activeTab
+                  ? 'text-white font-normal'
+                  : 'text-white/40 group-hover:text-white/60'
+              "
+            >
+              {{ tab.label }}
+            </span>
+          </button>
+        }
       </div>
+    </div>
+  </div>
 
-      <!-- Main Image with Labels -->
-      <div class="relative h-screen w-full pt-20 md:pt-24">
-        <!-- Background Image -->
-        <div class="absolute inset-0">
-          <img 
-            src="assets/images/treatmentsHero.png" 
-            alt="Hair Treatments" 
-            class="w-full h-full object-cover"
-          />
-          <!-- Gradient Overlay -->
- <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70"></div>        </div>
+  <!-- Main Image with Labels -->
+  <!-- Main Image with Labels -->
+  <div class="relative h-screen w-full pt-20 md:pt-24">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+      <img
+        [src]="heroImageSrc"
+        alt="Hair Treatments"
+        class="w-full h-full object-cover transition-opacity duration-300"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70"></div>
+    </div>
 
-        <!-- Floating Labels -->
-        <div class="relative z-20 h-full">
-          <!-- Label 1: GLOSS - Top Left -->
-          <div 
-            class="absolute top-[25%] left-[10%] animate-fade-in"
-            style="animation-delay: 400ms"
+    <!-- Floating Labels (same style/positions as before) -->
+    <div class="relative z-20 h-full" (mouseleave)="onLeaveOptions()">
+      @for (opt of activeOptions; track opt.id) {
+        <button
+          type="button"
+          class="absolute animate-fade-in group"
+          (mouseenter)="onHoverOption(opt.id)"
+          [ngStyle]="{
+            top: opt.position.top,
+            left: opt.position.left,
+            right: opt.position.right,
+            bottom: opt.position.bottom,
+            transform: opt.position.transform,
+          }"
+        >
+          <div
+            class="flex flex-col"
+            [class.items-start]="opt.position.align === 'start'"
+            [class.items-center]="opt.position.align === 'center'"
+            [class.items-end]="opt.position.align === 'end'"
           >
-            <div class="flex flex-col items-start">
-              <span class="text-[10px] tracking-[0.2em] text-white/50 mb-1">03</span>
-              <span class="text-lg md:text-xl tracking-[0.15em] font-light">GLOSS</span>
-            </div>
-          </div>
+            <span
+              class="text-[10px] tracking-[0.2em] mb-1 transition-colors duration-300"
+              [class.text-white/70]="hoveredOptionId === opt.id"
+              [class.text-white/50]="hoveredOptionId !== opt.id"
+            >
+              {{ opt.number }}
+            </span>
 
-          <!-- Label 2: REPAIRATIVE - Top Right -->
-          <div 
-            class="absolute top-[20%] right-[12%] animate-fade-in"
-            style="animation-delay: 600ms"
-          >
-            <div class="flex flex-col items-end">
-              <span class="text-[10px] tracking-[0.2em] text-white/50 mb-1">02</span>
-              <span class="text-lg md:text-xl tracking-[0.15em] font-light">REPAIRATIVE</span>
-            </div>
-          </div>
+            <span
+              class="text-lg md:text-xl tracking-[0.15em] font-light transition-all duration-300"
+              [class.text-white]="hoveredOptionId === opt.id"
+              [class.text-white/85]="hoveredOptionId !== opt.id"
+              [class.opacity-100]="hoveredOptionId === opt.id"
+              [class.opacity-90]="hoveredOptionId !== opt.id"
+            >
+              {{ opt.title }}
+            </span>
 
-          <!-- Label 3: SHINE - Bottom Center -->
-          <div 
-            class="absolute bottom-[25%] left-1/2 -translate-x-1/2 animate-fade-in"
-            style="animation-delay: 800ms"
-          >
-            <div class="flex flex-col items-center">
-              <span class="text-[10px] tracking-[0.2em] text-white/50 mb-1">02</span>
-              <span class="text-lg md:text-xl tracking-[0.15em] font-light">SHINE</span>
-            </div>
+            <!-- subtle underline on hover (optional) -->
+            <span
+              class="mt-2 h-[1px] w-10 bg-white/0 group-hover:bg-white/40 transition-all duration-300"
+            ></span>
           </div>
-        </div>
-      </div>
-    </section>
+        </button>
+      }
+    </div>
+  </div>
+</section>

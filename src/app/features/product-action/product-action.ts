@@ -8,6 +8,7 @@ import { Shopify, ProductVariantLite } from '../../core/services/shopify';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 import { environment } from '../../../environments/environment';
+import { ToastService } from '../../core/services/toast-service';
 
 type ShopifyImage = {
   src: string;
@@ -35,6 +36,7 @@ export class ProductAction {
   private route = inject(ActivatedRoute);
   private cart = inject(Cart);
   private shopify = inject(Shopify);
+  private toast = inject(ToastService);
 
   loading = signal(true);
   error = signal<string | null>(null);
@@ -123,33 +125,22 @@ export class ProductAction {
 
   addToCart() {
     const v = this.selectedVariant();
-    if (!v) return;
+    if (!v) {
+      this.toast.error('Please select a variant');
+      return;
+    }
 
-    this.cart.add({
-      variantId: String(v.id),
-      qty: this.qty(),
-    });
+    try {
+      this.cart.add({
+        variantId: String(v.id),
+        qty: this.qty(),
+      });
+
+      this.toast.success('Item added to cart');
+    } catch (e: any) {
+      this.toast.error('Failed to add to cart', e?.message ?? '');
+    }
   }
-
-  // addToCart() {
-  //   const p = this.product();
-  //   const v = this.selectedVariant();
-  //   if (!p || !v) return;
-
-  //   // ✅ Use selected variant ID (no more missing variantId)
-  //   const item: CartItem = {
-  //     variantId: Number(v.id),
-  //     qty: this.qty(),
-
-  //     // these fields are optional depending on your CartItem type
-  //     // (keep them if your cart UI uses them)
-  //     title: `${p.title} — ${v.title}`,
-  //     image: this.selectedImageUrl() ?? undefined,
-  //     price: parseFloat(v.price || '0') || 0,
-  //   };
-
-  //   this.cart.add(item);
-  // }
 
   inc() {
     this.qty.set(Math.min(99, this.qty() + 1));
