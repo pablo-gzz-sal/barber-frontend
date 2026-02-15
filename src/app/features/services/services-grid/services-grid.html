@@ -18,6 +18,7 @@
               <div 
                 class="group border border-gray-200 hover:border-gray-400 transition-all duration-300 overflow-hidden animate-fade-in-up"
                 [style.animation-delay]="(i * 100) + 'ms'"
+                (click)="openBooking(service.bookingUrl)"
               >
                 <!-- Card Header -->
                 <div class="p-5 border-b border-gray-200">
