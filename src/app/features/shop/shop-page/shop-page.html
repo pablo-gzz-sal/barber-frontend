@@ -1,27 +1,64 @@
 <app-header></app-header>
 <section class="bg-white py-8 sm:py-10 lg:py-12">
   <div class="mx-auto w-full">
-    <div
-      class="group relative overflow-hidden bg-white
-             shadow-[0_12px_40px_rgba(0,0,0,0.12)]
-             ring-1 ring-black/5
-             rounded-full sm:rounded-2xl"
-    >
-      <img
-        src="assets/images/productosHero.png"
-        alt="Shop Products We Love"
-        class="w-full object-cover object-center
-               h-[220px] sm:h-[280px] md:h-[360px] lg:h-[30rem]
-               transition-transform duration-[1200ms]
-               ease-[cubic-bezier(0.16,1,0.3,1)]
-               group-hover:scale-[1.04]"
-      />
+    <div class="relative overflow-hidden">
+      <!-- Image -->
+      <div class="relative overflow-hidden">
+        <img
+          src="assets/images/saloonTools.jpeg"
+          alt="Shop Products We Love"
+          class="w-full object-cover object-center
+                 h-[220px] sm:h-[280px] md:h-[360px] lg:h-[30rem]
+                 transition-transform duration-[1200ms] ease-out
+                 hover:scale-[1.03]"
+        />
 
-      <!-- optional: subtle top highlight for crispness -->
-      <div class="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-white/30 to-transparent"></div>
+        <!-- subtle overlays (desktop only) -->
+        <div class="hidden sm:block absolute inset-0 bg-black/10"></div>
+        <div class="hidden sm:block pointer-events-none absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-black/10"></div>
+
+        <!-- Overlay Card (sm and up) -->
+        <div
+          class="hidden sm:block absolute left-8 md:left-10 lg:left-14 top-1/2 -translate-y-1/2 z-10
+                 w-[340px] md:w-[380px] lg:w-[420px]
+                 bg-black/90 text-white rounded-2xl
+                 px-7 md:px-8 py-7 md:py-8
+                 shadow-[0_25px_60px_rgba(0,0,0,0.45)]
+                 ring-1 ring-white/10"
+        >
+          <h3 class="font-serif text-3xl md:text-4xl leading-[1.05]">
+            Shop Products<br />We Love
+          </h3>
+
+          <p class="mt-4 text-sm md:text-[13px] leading-relaxed text-white/80">
+            A curated selection of the world’s leading haircare and beauty innovators—chosen
+            by Joseph Battisti for their quality, performance, and artistry.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mobile Card (below image) -->
+      <div class="sm:hidden px-5 pt-5">
+        <div
+          class="bg-black text-white rounded-2xl
+                 px-6 py-6 shadow-[0_18px_40px_rgba(0,0,0,0.25)]
+                 ring-1 ring-black/10"
+        >
+          <h3 class="font-serif text-3xl leading-[1.05]">
+            Shop Products<br />We Love
+          </h3>
+
+          <p class="mt-4 text-sm leading-relaxed text-white/80">
+            A curated selection of the world’s leading haircare and beauty innovators—chosen
+            by Joseph Battisti for their quality, performance, and artistry.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
+
 
 <app-shop-best-sellers></app-shop-best-sellers>
 <app-shop-brands></app-shop-brands>
