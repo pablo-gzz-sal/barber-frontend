@@ -1,20 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { CommonModule } from '@angular/common';
-import { UiButton } from '../../../shared/components/ui-button/ui-button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-artist',
-  imports: [CommonModule, UiButton],
+  imports: [CommonModule],
   standalone: true,
   templateUrl: './artist.html',
   styleUrl: './artist.css',
 })
-export class Artist {
+export class Artist implements OnInit {
   protected readonly text = UI_TEXT;
-    content = {
+  constructor(private router: Router) {}
+  content = {
     label: 'THE ARTIST',
     bio: 'Learn more about his award winning method and approach to hair.',
-    btnText: 'Learn More'
-  };  
+    btnText: 'Learn More',
+  };
+
+  ngOnInit() {
+    window.scrollTo(0, 0);
+  }
+
+  onAbout() {
+    this.router.navigate(['/about']);
+  }
+
+  onShop() {
+    this.router.navigate(['/shop']);
+  }
 }

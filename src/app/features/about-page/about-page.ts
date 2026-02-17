@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-about-page',
@@ -10,7 +10,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@
   templateUrl: './about-page.html',
   styleUrl: './about-page.css',
 })
-export class AboutPage implements AfterViewInit {
+export class AboutPage implements AfterViewInit, OnInit{
    @ViewChild('viewport', { static: true }) viewport!: ElementRef<HTMLElement>;
   // protected readonly content = UI_TEXT.ABOUT;
   // Tune these to match your design
@@ -90,6 +90,10 @@ export class AboutPage implements AfterViewInit {
   railTransform = 'translateX(0px)';
 
   trackByIdx = (i: number) => i;
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
+  }
 
   ngAfterViewInit(): void {
     this.updateRail();

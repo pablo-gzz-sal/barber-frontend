@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-salon',
@@ -9,8 +10,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './salon.html',
   styleUrl: './salon.css',
 })
-export class Salon {
+export class Salon implements OnInit {
   protected readonly text = UI_TEXT;
+
+  constructor(private router: Router) {}
+
   content = {
     quote: "Battisti's chair is a haven for escapees from too-trendy stylists.",
     title: 'From Manhattan to Los Angeles',
@@ -22,5 +26,13 @@ export class Salon {
       'assets/images/salon-products.jpg'
     ]
   };
+
+    ngOnInit() {
+    window.scrollTo(0, 0);
+  }
+
+  onAbout() {
+    this.router.navigate(['/about']);
+  }
 
 }

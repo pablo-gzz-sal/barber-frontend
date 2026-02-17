@@ -33,6 +33,7 @@
         <!-- CTA -->
         <div class="mt-10">
           <button
+          (click)="onShop()"
             class="cursor-pointer group relative overflow-hidden rounded-full bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
           >
             <span class="relative z-10">Shop Now</span>
@@ -103,14 +104,11 @@
         <!-- Button -->
         <div class="mt-10 flex justify-end">
           <button
+          (click)="onAbout()"
             class="cursor-pointer group relative overflow-hidden rounded-full bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
           >
             {{ content.btnText }}
           </button>
-          <span
-            class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-          >
-          </span>
         </div>
       </div>
     </div>
