@@ -2,10 +2,10 @@
   <!-- Top black quote bar -->
   <div class="bg-black text-white py-10 md:py-14">
     <div class="max-w-7xl mx-auto px-6 text-center">
-      <div class="text-4xl md:text-5xl font-serif italic mb-4">
-        allure
-      </div>
-      <p class="text-sm md:text-base font-light text-white/80 max-w-3xl mx-auto tracking-[0.2em] uppercase">
+      <div class="text-4xl md:text-5xl font-serif italic mb-4">allure</div>
+      <p
+        class="text-sm md:text-base font-light text-white/80 max-w-3xl mx-auto tracking-[0.2em] uppercase"
+      >
         {{ content.quote }}
       </p>
     </div>
@@ -36,10 +36,15 @@
 
           <div class="mt-10">
             <button
-              class="rounded-full inline-flex items-center justify-center rounded-full bg-black text-white
-                     px-6 py-3 text-sm font-medium hover:bg-black/85 transition"
+              class="cursor-pointer group relative overflow-hidden rounded-full bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
             >
-              {{ content.btnText }}
+              <span class="relative z-10">{{ content.btnText }}</span>
+
+              <!-- subtle glow -->
+              <span
+                class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              >
+              </span>
             </button>
           </div>
         </div>

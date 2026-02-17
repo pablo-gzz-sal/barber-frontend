@@ -33,10 +33,15 @@
         <!-- CTA -->
         <div class="mt-10">
           <button
-            class="rounded-full bg-white/10 hover:bg-white/15 border border-white/15 text-white
-                   px-6 py-3 text-sm rounded-full transition"
+            class="cursor-pointer group relative overflow-hidden rounded-full bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
           >
-            Shop Now
+            <span class="relative z-10">Shop Now</span>
+
+            <!-- subtle glow -->
+            <span
+              class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+            >
+            </span>
           </button>
         </div>
       </div>
@@ -77,26 +82,35 @@
         <h2 class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05]">
           MEET
         </h2>
-        <h2 class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05] mt-3">
+        <h2
+          class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05] mt-3"
+        >
           JOSEPH
         </h2>
-        <h2 class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05] mt-3">
+        <h2
+          class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05] mt-3"
+        >
           BATTISTI
         </h2>
 
         <!-- Bio -->
-        <p class="mt-8 text-sm md:text-base font-light leading-relaxed text-white/70 max-w-md ml-auto">
+        <p
+          class="mt-8 text-sm md:text-base font-light leading-relaxed text-white/70 max-w-md ml-auto"
+        >
           {{ content.bio }}
         </p>
 
         <!-- Button -->
         <div class="mt-10 flex justify-end">
           <button
-            class="rounded-full border border-white/30 text-white px-10 py-3 text-[11px] tracking-[0.2em] uppercase
-                   hover:bg-white hover:text-black hover:border-white transition"
+            class="cursor-pointer group relative overflow-hidden rounded-full bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
           >
             {{ content.btnText }}
           </button>
+          <span
+            class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          >
+          </span>
         </div>
       </div>
     </div>

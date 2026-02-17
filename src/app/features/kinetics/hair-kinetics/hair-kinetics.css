@@ -22,4 +22,18 @@
       animation: fadeInLeft 0.9s ease-out forwards;
     }
 
+    @keyframes verticalLoop {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-vertical-loop {
+  animation: verticalLoop 25s linear infinite;
+}
+
+
     
