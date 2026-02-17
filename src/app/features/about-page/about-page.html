@@ -26,26 +26,32 @@
   <!-- Hair Kinetics Section -->
   <section class="py-20 lg:py-32 bg-white">
     <div class="container mx-auto px-6 lg:px-16">
-      <div class="grid lg:grid-cols-2 gap-16 lg:gap-24">
-        <!-- Left Column - Main Text -->
+      <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+        <!-- Left Column -->
         <div class="space-y-8 animate-fade-in-left">
-          <h2 class="text-4xl lg:text-5xl font-light mb-8">
-            {{ content.kinetics.title }}
-          </h2>
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.32em] text-black/45 mb-4">Hair Kinetics</p>
+            <h2 class="text-4xl lg:text-5xl font-light tracking-tight">
+              {{ content.kinetics.title }}
+            </h2>
+            <div class="mt-6 h-px w-14 bg-black/15"></div>
+          </div>
 
-          <div class="space-y-6 text-gray-700 leading-relaxed">
+          <div class="space-y-6 text-black/70 leading-relaxed">
             <p>{{ content.kinetics.description1 }}</p>
             <p>{{ content.kinetics.description2 }}</p>
           </div>
         </div>
 
-        <!-- Right Column - Commitment Box -->
+        <!-- Right Column -->
         <div class="animate-fade-in-right">
-          <div class="bg-gray-50 p-10 lg:p-12 h-full flex flex-col justify-center">
-            <h3 class="text-3xl lg:text-4xl font-light mb-6">
+          <div
+            class="bg-gray-50 rounded-2xl border border-black/5 shadow-[0_18px_55px_rgba(0,0,0,0.08)] p-10 lg:p-12 h-full"
+          >
+            <h3 class="text-3xl lg:text-4xl font-light mb-6 tracking-tight">
               {{ content.kinetics.commitment.title }}
             </h3>
-            <p class="text-gray-700 leading-relaxed">
+            <p class="text-black/70 leading-relaxed">
               {{ content.kinetics.commitment.description }}
             </p>
           </div>
@@ -55,332 +61,336 @@
   </section>
 
   <!-- Joseph Battisti Bio Section -->
-<section class="py-20 lg:py-32 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-6 lg:px-16">
-
-    <!-- ROW 1: Portrait + Bio -->
-    <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-      <!-- Portrait -->
-      <div class="lg:col-span-5">
-        <div class="overflow-hidden rounded-full bg-white shadow-sm">
-          <div class="aspect-[3/4]">
-            <img
-              src="assets/images/josephAbout.jpg"
-              alt="Joseph Battisti"
-              class="w-full h-full object-cover grayscale"
-            />
+  <section class="py-20 lg:py-32 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16">
+      <!-- ROW 1: Portrait + Bio -->
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+        <!-- Portrait -->
+        <div class="lg:col-span-5">
+          <div
+            class="overflow-hidden rounded-full bg-white border border-black/5 shadow-[0_18px_50px_rgba(0,0,0,0.10)]"
+          >
+            <div class="aspect-[3/4]">
+              <img
+                src="assets/images/josephAbout.jpg"
+                alt="Joseph Battisti"
+                class="w-full h-full object-cover grayscale transition duration-700 ease-out hover:scale-[1.02]"
+              />
+            </div>
           </div>
         </div>
+
+        <!-- Bio -->
+        <div class="lg:col-span-7">
+          <h2 class="text-5xl lg:text-6xl font-light text-black">
+            {{ content.artist.name }}
+          </h2>
+
+          <div class="mt-8 space-y-6 text-gray-700 leading-relaxed max-w-2xl">
+            <p>{{ content.artist.bio1 }}</p>
+            <p>{{ content.artist.bio2 }}</p>
+            <p>{{ content.artist.bio3 }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2: TV Feature (text left, video right) -->
+      <div class="mt-20 lg:mt-24 grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+        <!-- TV Feature text -->
+        <div class="lg:col-span-5">
+          <h4 class="text-sm tracking-[0.25em] uppercase text-black/70 mb-4">
+            {{ content.artist.tvFeature.title }}
+          </h4>
+
+          <p class="text-gray-700 text-sm leading-relaxed max-w-md">
+            {{ content.artist.tvFeature.description }}
+          </p>
+        </div>
+
+        <!-- Video -->
+        <div class="lg:col-span-7">
+          <div
+            class="overflow-hidden rounded-full bg-black/90 border border-white/10 shadow-[0_22px_70px_rgba(0,0,0,0.35)]"
+          >
+            <div class="relative aspect-[16/9] group cursor-pointer">
+              <img
+                src="assets/images/tv-feature-thumb.jpg"
+                alt="TV Feature"
+                class="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              />
+
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/35 via-black/15 to-black/10"
+              ></div>
+
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div
+                  class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/90 backdrop-blur flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-white"
+                >
+                  <svg
+                    class="w-7 h-7 md:w-8 md:h-8 text-black ml-1"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet The Team Section -->
+  <section class="py-20 lg:py-32 bg-[#292524] text-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16">
+      <div class="flex items-end justify-between gap-6 mb-12">
+        <h2 class="text-4xl lg:text-5xl font-light tracking-wide">
+          {{ content.team.title }}
+        </h2>
+
+        <!-- Dots -->
+        <div class="hidden md:flex items-center gap-2">
+          <button
+            *ngFor="let _ of content.team.members; let i = index"
+            (click)="setActive(i)"
+            class="h-2.5 rounded-full transition-all"
+            [class.w-10]="i === activeIndex"
+            [class.w-2.5]="i !== activeIndex"
+            [class.bg-white]="i === activeIndex"
+            [class.bg-white/30]="i !== activeIndex"
+            aria-label="Go to slide"
+          ></button>
+        </div>
+      </div>
+
+      <!-- Carousel viewport -->
+      <div class="relative" #viewport>
+        <!-- soft fade edges -->
+        <div
+          class="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#292524] to-transparent z-10"
+        ></div>
+        <div
+          class="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#292524] to-transparent z-10"
+        ></div>
+
+        <!-- Rail -->
+        <div class="overflow-hidden">
+          <div
+            class="flex items-center gap-8 will-change-transform transition-transform duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
+            [style.transform]="railTransform"
+          >
+            <ng-container
+              *ngFor="let member of content.team.members; let i = index; trackBy: trackByIdx"
+            >
+              <button
+                type="button"
+                class="group relative shrink-0 text-left"
+                (click)="setActive(i)"
+                [style.width.px]="slideWidth"
+              >
+                <!-- Card -->
+                <div
+                  class="relative mx-auto overflow-hidden rounded-[999px] ring-1 ring-white/10 bg-white/5 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
+                  [class.scale-100]="i === activeIndex"
+                  [class.scale-[0.82]]="i !== activeIndex"
+                  [class.opacity-100]="i === activeIndex"
+                  [class.opacity-45]="i !== activeIndex"
+                  [class.w-[320px]]="true"
+                  [class.h-[440px]]="true"
+                >
+                  <img
+                    [src]="member.image"
+                    [alt]="member.name"
+                    class="w-full h-full object-cover transition duration-700 grayscale group-hover:grayscale-0"
+                  />
+
+                  <!-- modern glow for active -->
+                  <div
+                    class="absolute inset-0 opacity-0 transition duration-700"
+                    [class.opacity-100]="i === activeIndex"
+                    style="
+                      box-shadow:
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+                        0 30px 80px rgba(0, 0, 0, 0.45);
+                    "
+                  ></div>
+                </div>
+
+                <!-- Name -->
+                <div class="mt-6 text-center">
+                  <h3
+                    class="font-light tracking-wide transition-all duration-500"
+                    [class.text-3xl]="i === activeIndex"
+                    [class.text-lg]="i !== activeIndex"
+                  >
+                    {{ member.name }}
+                  </h3>
+                  <p
+                    class="mt-1 text-xs text-white/60 tracking-widest uppercase transition-opacity duration-500"
+                    [class.opacity-100]="i === activeIndex"
+                    [class.opacity-0]="i !== activeIndex"
+                  >
+                    Team Member
+                  </p>
+                </div>
+              </button>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <button
+          (click)="prev()"
+          class="absolute left-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/5 ring-1 ring-white/15 backdrop-blur hover:bg-white/10 transition grid place-items-center"
+          aria-label="Previous"
+        >
+          ‹
+        </button>
+
+        <button
+          (click)="next()"
+          class="absolute right-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/5 ring-1 ring-white/15 backdrop-blur hover:bg-white/10 transition grid place-items-center"
+          aria-label="Next"
+        >
+          ›
+        </button>
       </div>
 
       <!-- Bio -->
-      <div class="lg:col-span-7">
-        <h2 class="text-5xl lg:text-6xl font-light text-black">
-          {{ content.artist.name }}
-        </h2>
-
-        <div class="mt-8 space-y-6 text-gray-700 leading-relaxed max-w-2xl">
-          <p>{{ content.artist.bio1 }}</p>
-          <p>{{ content.artist.bio2 }}</p>
-          <p>{{ content.artist.bio3 }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ROW 2: TV Feature (text left, video right) -->
-    <div class="mt-20 lg:mt-24 grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-      <!-- TV Feature text -->
-      <div class="lg:col-span-5">
-        <h4 class="text-sm tracking-[0.25em] uppercase text-black/70 mb-4">
-          {{ content.artist.tvFeature.title }}
-        </h4>
-
-        <p class="text-gray-700 text-sm leading-relaxed max-w-md">
-          {{ content.artist.tvFeature.description }}
+      <div class="mt-14 max-w-3xl mx-auto text-center">
+        <p class="text-white/70 text-sm leading-relaxed">
+          {{ content.team.members[activeIndex].bio }}
         </p>
       </div>
-
-      <!-- Video -->
-      <div class="lg:col-span-7">
-        <div class="overflow-hidden rounded-full bg-black/90 shadow-sm">
-          <div class="relative aspect-[16/9] group cursor-pointer">
-            <img
-              src="assets/images/tv-feature-thumb.jpg"
-              alt="TV Feature"
-              class="absolute inset-0 w-full h-full object-cover opacity-90"
-            />
-
-            <!-- subtle dark overlay like the reference -->
-            <div class="absolute inset-0 bg-black/20"></div>
-
-            <!-- play button -->
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div
-                class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/85 flex items-center justify-center
-                       group-hover:scale-110 transition-transform duration-300"
-              >
-                <svg class="w-7 h-7 md:w-8 md:h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-
-  </div>
-</section>
-
-
-  <!-- Meet The Team Section -->
-<section class="py-20 lg:py-32 bg-[#292524] text-white overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6 lg:px-16">
-    <div class="flex items-end justify-between gap-6 mb-12">
-      <h2 class="text-4xl lg:text-5xl font-light tracking-wide">
-        {{ content.team.title }}
-      </h2>
-
-      <!-- Dots -->
-      <div class="hidden md:flex items-center gap-2">
-        <button
-          *ngFor="let _ of content.team.members; let i = index"
-          (click)="setActive(i)"
-          class="h-2.5 rounded-full transition-all"
-          [class.w-10]="i === activeIndex"
-          [class.w-2.5]="i !== activeIndex"
-          [class.bg-white]="i === activeIndex"
-          [class.bg-white/30]="i !== activeIndex"
-          aria-label="Go to slide"
-        ></button>
-      </div>
-    </div>
-
-    <!-- Carousel viewport -->
-    <div class="relative" #viewport>
-      <!-- soft fade edges -->
-      <div class="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#292524] to-transparent z-10"></div>
-      <div class="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#292524] to-transparent z-10"></div>
-
-      <!-- Rail -->
-      <div class="overflow-hidden">
-        <div
-          class="flex items-center gap-8 will-change-transform transition-transform duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
-          [style.transform]="railTransform"
-        >
-          <ng-container *ngFor="let member of content.team.members; let i = index; trackBy: trackByIdx">
-            <button
-              type="button"
-              class="group relative shrink-0 text-left"
-              (click)="setActive(i)"
-              [style.width.px]="slideWidth"
-            >
-              <!-- Card -->
-              <div
-                class="relative mx-auto overflow-hidden rounded-[999px] ring-1 ring-white/10 bg-white/5 backdrop-blur-md
-                       transition-all duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
-                [class.scale-100]="i === activeIndex"
-                [class.scale-[0.82]]="i !== activeIndex"
-                [class.opacity-100]="i === activeIndex"
-                [class.opacity-45]="i !== activeIndex"
-                [class.w-[320px]]="true"
-                [class.h-[440px]]="true"
-              >
-                <img
-                  [src]="member.image"
-                  [alt]="member.name"
-                  class="w-full h-full object-cover transition duration-700
-                         grayscale group-hover:grayscale-0"
-                />
-
-                <!-- modern glow for active -->
-                <div
-                  class="absolute inset-0 opacity-0 transition duration-700"
-                  [class.opacity-100]="i === activeIndex"
-                  style="box-shadow: inset 0 0 0 1px rgba(255,255,255,.10), 0 30px 80px rgba(0,0,0,.45);"
-                ></div>
-              </div>
-
-              <!-- Name -->
-              <div class="mt-6 text-center">
-                <h3
-                  class="font-light tracking-wide transition-all duration-500"
-                  [class.text-3xl]="i === activeIndex"
-                  [class.text-lg]="i !== activeIndex"
-                >
-                  {{ member.name }}
-                </h3>
-                <p
-                  class="mt-1 text-xs text-white/60 tracking-widest uppercase transition-opacity duration-500"
-                  [class.opacity-100]="i === activeIndex"
-                  [class.opacity-0]="i !== activeIndex"
-                >
-                  Team Member
-                </p>
-              </div>
-            </button>
-          </ng-container>
-        </div>
-      </div>
-
-      <!-- Controls -->
-      <button
-        (click)="prev()"
-        class="absolute left-0 top-1/2 -translate-y-1/2 z-20
-               h-12 w-12 rounded-full bg-white/5 ring-1 ring-white/15 backdrop-blur
-               hover:bg-white/10 transition grid place-items-center"
-        aria-label="Previous"
-      >
-        ‹
-      </button>
-
-      <button
-        (click)="next()"
-        class="absolute right-0 top-1/2 -translate-y-1/2 z-20
-               h-12 w-12 rounded-full bg-white/5 ring-1 ring-white/15 backdrop-blur
-               hover:bg-white/10 transition grid place-items-center"
-        aria-label="Next"
-      >
-        ›
-      </button>
-    </div>
-
-    <!-- Bio -->
-    <div class="mt-14 max-w-3xl mx-auto text-center">
-      <p class="text-white/70 text-sm leading-relaxed">
-        {{ content.team.members[activeIndex].bio }}
-      </p>
-    </div>
-  </div>
-</section>
-
-
+  </section>
 
   <!-- Hours & Contact Section -->
-<section class="bg-white py-20 lg:py-32">
-  <div class="max-w-7xl mx-auto px-6 lg:px-16">
+  <section class="bg-white py-20 lg:py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
+        <!-- LEFT: HOURS -->
+        <div class="animate-fade-in-up">
+          <div class="flex items-center gap-4">
+            <svg
+              class="w-6 h-6 text-black/80"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
+            <h3 class="text-2xl md:text-3xl font-light tracking-wide">
+              {{ content.contact.hoursTitle }}
+            </h3>
+          </div>
 
-      <!-- LEFT: HOURS -->
-      <div class="animate-fade-in-up">
-        <div class="flex items-center gap-4">
-          <svg
-            class="w-6 h-6 text-black/80"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            viewBox="0 0 24 24"
-          >
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-          </svg>
-
-          <h3 class="text-2xl md:text-3xl font-light tracking-wide">
-            {{ content.contact.hoursTitle }}
-          </h3>
+          <div class="mt-8 space-y-2 text-[15px] tracking-wide text-black/70 max-w-sm">
+            @for (day of content.contact.hours; track day) {
+              <div class="flex justify-between">
+                <span>{{ day.day }}</span>
+                <span class="text-black/50">{{ day.time }}</span>
+              </div>
+            }
+          </div>
         </div>
 
-        <div class="mt-8 space-y-2 text-[15px] tracking-wide text-black/70 max-w-sm">
-          @for (day of content.contact.hours; track day) {
-            <div class="flex justify-between">
-              <span>{{ day.day }}</span>
-              <span class="text-black/50">{{ day.time }}</span>
+        <!-- RIGHT: CONTACT INFO -->
+        <div class="space-y-14 animate-fade-in-up" style="animation-delay: 150ms">
+          <!-- EMAIL -->
+          <div>
+            <div class="flex items-center gap-4">
+              <svg
+                class="w-6 h-6 text-black/80"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+
+              <h3 class="text-xl md:text-2xl font-light tracking-wide">
+                {{ content.contact.emailTitle }}
+              </h3>
             </div>
-          }
-        </div>
-      </div>
 
-      <!-- RIGHT: CONTACT INFO -->
-      <div class="space-y-14 animate-fade-in-up" style="animation-delay: 150ms">
-
-        <!-- EMAIL -->
-        <div>
-          <div class="flex items-center gap-4">
-            <svg
-              class="w-6 h-6 text-black/80"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              viewBox="0 0 24 24"
+            <a
+              [href]="'mailto:' + content.contact.email"
+              class="mt-5 block text-[15px] tracking-wide text-black/60 hover:text-black transition"
             >
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,13 2,6" />
-            </svg>
-
-            <h3 class="text-xl md:text-2xl font-light tracking-wide">
-              {{ content.contact.emailTitle }}
-            </h3>
+              {{ content.contact.email }}
+            </a>
           </div>
 
-          <a
-            [href]="'mailto:' + content.contact.email"
-            class="mt-5 block text-[15px] tracking-wide text-black/60 hover:text-black transition"
-          >
-            {{ content.contact.email }}
-          </a>
-        </div>
+          <!-- CALL -->
+          <div>
+            <div class="flex items-center gap-4">
+              <svg
+                class="w-6 h-6 text-black/80"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                />
+              </svg>
 
-        <!-- CALL -->
-        <div>
-          <div class="flex items-center gap-4">
-            <svg
-              class="w-6 h-6 text-black/80"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              viewBox="0 0 24 24"
+              <h3 class="text-xl md:text-2xl font-light tracking-wide">
+                {{ content.contact.callTitle }}
+              </h3>
+            </div>
+
+            <a
+              [href]="'tel:' + content.contact.phone"
+              class="mt-5 block text-[15px] tracking-wide text-black/60 hover:text-black transition"
             >
-              <path
-                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-              />
-            </svg>
-
-            <h3 class="text-xl md:text-2xl font-light tracking-wide">
-              {{ content.contact.callTitle }}
-            </h3>
+              {{ content.contact.phone }}
+            </a>
           </div>
 
-          <a
-            [href]="'tel:' + content.contact.phone"
-            class="mt-5 block text-[15px] tracking-wide text-black/60 hover:text-black transition"
-          >
-            {{ content.contact.phone }}
-          </a>
-        </div>
+          <!-- LOCATION -->
+          <div>
+            <div class="flex items-center gap-4">
+              <svg
+                class="w-6 h-6 text-black/80"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
 
-        <!-- LOCATION -->
-        <div>
-          <div class="flex items-center gap-4">
-            <svg
-              class="w-6 h-6 text-black/80"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              viewBox="0 0 24 24"
+              <h3 class="text-xl md:text-2xl font-light tracking-wide">
+                {{ content.contact.locationTitle }}
+              </h3>
+            </div>
+
+            <address
+              class="mt-5 not-italic text-[15px] tracking-wide text-black/60 leading-relaxed"
             >
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-              <circle cx="12" cy="10" r="3" />
-            </svg>
-
-            <h3 class="text-xl md:text-2xl font-light tracking-wide">
-              {{ content.contact.locationTitle }}
-            </h3>
+              {{ content.contact.address.line1 }}<br />
+              {{ content.contact.address.line2 }}
+            </address>
           </div>
-
-          <address class="mt-5 not-italic text-[15px] tracking-wide text-black/60 leading-relaxed">
-            {{ content.contact.address.line1 }}<br />
-            {{ content.contact.address.line2 }}
-          </address>
         </div>
-
       </div>
     </div>
-  </div>
-</section>
-
-
+  </section>
 </div>
 <app-footer></app-footer>
