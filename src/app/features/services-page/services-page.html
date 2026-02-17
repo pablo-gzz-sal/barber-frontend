@@ -1,125 +1,258 @@
 <app-header></app-header>
-<div class="services-page bg-white">
+<div class="services-page bg-white text-black">
   <!-- Header -->
   <section class="py-16 lg:py-24">
     <div class="container mx-auto px-6 lg:px-16">
-      <h1 class="text-5xl lg:text-6xl font-light mb-4 animate-fade-in-up">
-        {{ content.title }}
-      </h1>
+      <div class="animate-fade-in-up">
+        <p class="text-[11px] uppercase tracking-[0.32em] text-black/50 mb-4">
+          Services
+        </p>
+
+        <h1 class="text-5xl lg:text-6xl font-light tracking-tight leading-[0.95] mb-6 services-page-font">
+          {{ content.title }}
+        </h1>
+
+        <div class="h-px w-16 bg-black/15"></div>
+      </div>
     </div>
   </section>
 
   <!-- Services List -->
   <section class="pb-20">
     <div class="container mx-auto px-6 lg:px-16 max-w-4xl">
-      <!-- Extensions -->
-      <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 100ms">
-        <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
-          {{ content.extensions.title }}
-        </h2>
+      <!-- Helpers: consistent card container -->
+      <div class="space-y-12">
 
-        @for (service of content.extensions.services; track service.name) {
-          <button
-            type="button"
-            (click)="openBooking(service.bookingUrl)"
-            class="rounded-full service-item w-full flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300 text-left"
-          >
-            <div
-              class="w-full service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300"
-            >
-              <span class="text-base text-gray-800">{{ service.name }}</span>
-              <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
-            </div>
-          </button>
-        }
-      </div>
+        <!-- EXTENSIONS -->
+        <div class="service-category animate-fade-in-up" style="animation-delay: 100ms">
+          <div class="flex items-end justify-between gap-6 mb-6">
+            <h2 class="text-3xl font-light tracking-tight services-page-font">
+              {{ content.extensions.title }}
+            </h2>
+            <div class="hidden sm:block h-px flex-1 bg-black/10"></div>
+          </div>
 
-      <!-- Chemical Treatments -->
-      <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 200ms">
-        <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
-          {{ content.chemicalTreatments.title }}
-        </h2>
+          <div class="rounded-2xl border border-black/5 overflow-hidden bg-white shadow-[0_18px_55px_rgba(0,0,0,0.06)]">
+            @for (service of content.extensions.services; track service.name; let i = $index) {
+              <button
+                type="button"
+                (click)="openBooking(service.bookingUrl)"
+                class="group w-full text-left px-5 sm:px-7 py-4
+                       flex items-center justify-between gap-6
+                       transition-all duration-300 ease-out
+                       hover:bg-black/[0.03]
+                       active:bg-black/[0.05]"
+              >
+                <div class="min-w-0">
+                  <p class="text-base text-black/85 services-page-font truncate">
+                    {{ service.name }}
+                  </p>
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
+                    Tap to book
+                  </p>
+                </div>
 
-        @for (service of content.chemicalTreatments.services; track service.name) {
-          <button
-            type="button"
-            (click)="openBooking(service.bookingUrl)"
-            class="rounded-full service-item w-full flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300 text-left"
-          >
-            <div
-              class="w-full service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300"
-            >
-              <span class="text-base text-gray-800">{{ service.name }}</span>
-              <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
-            </div>
-          </button>
-        }
-      </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="text-base text-black/60 font-light">
+                    {{ service.price }}
+                  </span>
+                  <span class="text-black/35 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                    →
+                  </span>
+                </div>
+              </button>
 
-      <!-- Color -->
-      <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 300ms">
-        <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
-          {{ content.color.title }}
-        </h2>
+              @if (i !== content.extensions.services.length - 1) {
+                <div class="h-px bg-black/5 mx-5 sm:mx-7"></div>
+              }
+            }
+          </div>
+        </div>
 
-        @for (service of content.color.services; track service.name) {
-          <button
-            type="button"
-            (click)="openBooking(service.bookingUrl)"
-            class="rounded-full service-item w-full flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300 text-left"
-          >
-            <div
-              class="w-full service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300"
-            >
-              <span class="text-base text-gray-800">{{ service.name }}</span>
-              <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
-            </div>
-          </button>
-        }
-      </div>
+        <!-- CHEMICAL TREATMENTS -->
+        <div class="service-category animate-fade-in-up" style="animation-delay: 200ms">
+          <div class="flex items-end justify-between gap-6 mb-6">
+            <h2 class="text-3xl font-light tracking-tight services-page-font">
+              {{ content.chemicalTreatments.title }}
+            </h2>
+            <div class="hidden sm:block h-px flex-1 bg-black/10"></div>
+          </div>
 
-      <!-- Styling -->
-      <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 400ms">
-        <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
-          {{ content.styling.title }}
-        </h2>
+          <div class="rounded-2xl border border-black/5 overflow-hidden bg-white shadow-[0_18px_55px_rgba(0,0,0,0.06)]">
+            @for (service of content.chemicalTreatments.services; track service.name; let i = $index) {
+              <button
+                type="button"
+                (click)="openBooking(service.bookingUrl)"
+                class="group w-full text-left px-5 sm:px-7 py-4
+                       flex items-center justify-between gap-6
+                       transition-all duration-300 ease-out
+                       hover:bg-black/[0.03]
+                       active:bg-black/[0.05]"
+              >
+                <div class="min-w-0">
+                  <p class="text-base text-black/85 services-page-font truncate">
+                    {{ service.name }}
+                  </p>
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
+                    Tap to book
+                  </p>
+                </div>
 
-        @for (service of content.styling.services; track service.name) {
-          <button
-            type="button"
-            (click)="openBooking(service.bookingUrl)"
-            class="rounded-full w-full service-item w-full flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300 text-left"
-          >
-            <div
-              class="w-full service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300"
-            >
-              <span class="text-base text-gray-800">{{ service.name }}</span>
-              <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
-            </div>
-          </button>
-        }
-      </div>
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="text-base text-black/60 font-light">
+                    {{ service.price }}
+                  </span>
+                  <span class="text-black/35 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                    →
+                  </span>
+                </div>
+              </button>
 
-      <!-- Haircuts -->
-      <div class="service-category mb-16 animate-fade-in-up" style="animation-delay: 500ms">
-        <h2 class="text-3xl font-light mb-8 pb-4 border-b border-gray-200">
-          {{ content.haircuts.title }}
-        </h2>
+              @if (i !== content.chemicalTreatments.services.length - 1) {
+                <div class="h-px bg-black/5 mx-5 sm:mx-7"></div>
+              }
+            }
+          </div>
+        </div>
 
-        @for (service of content.haircuts.services; track service.name) {
-          <button
-            type="button"
-            (click)="openBooking(service.bookingUrl)"
-            class="rounded-full w-full service-item w-full flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300 text-left"
-          >
-            <div
-              class="w-full service-item flex justify-between items-center py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors duration-300"
-            >
-              <span class="text-base text-gray-800">{{ service.name }}</span>
-              <span class="text-base text-gray-600 font-light">{{ service.price }}</span>
-            </div>
-          </button>
-        }
+        <!-- COLOR -->
+        <div class="service-category animate-fade-in-up" style="animation-delay: 300ms">
+          <div class="flex items-end justify-between gap-6 mb-6">
+            <h2 class="text-3xl font-light tracking-tight services-page-font">
+              {{ content.color.title }}
+            </h2>
+            <div class="hidden sm:block h-px flex-1 bg-black/10"></div>
+          </div>
+
+          <div class="rounded-2xl border border-black/5 overflow-hidden bg-white shadow-[0_18px_55px_rgba(0,0,0,0.06)]">
+            @for (service of content.color.services; track service.name; let i = $index) {
+              <button
+                type="button"
+                (click)="openBooking(service.bookingUrl)"
+                class="group w-full text-left px-5 sm:px-7 py-4
+                       flex items-center justify-between gap-6
+                       transition-all duration-300 ease-out
+                       hover:bg-black/[0.03]
+                       active:bg-black/[0.05]"
+              >
+                <div class="min-w-0">
+                  <p class="text-base text-black/85 services-page-font truncate">
+                    {{ service.name }}
+                  </p>
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
+                    Tap to book
+                  </p>
+                </div>
+
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="text-base text-black/60 font-light">
+                    {{ service.price }}
+                  </span>
+                  <span class="text-black/35 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                    →
+                  </span>
+                </div>
+              </button>
+
+              @if (i !== content.color.services.length - 1) {
+                <div class="h-px bg-black/5 mx-5 sm:mx-7"></div>
+              }
+            }
+          </div>
+        </div>
+
+        <!-- STYLING -->
+        <div class="service-category animate-fade-in-up" style="animation-delay: 400ms">
+          <div class="flex items-end justify-between gap-6 mb-6">
+            <h2 class="text-3xl font-light tracking-tight services-page-font">
+              {{ content.styling.title }}
+            </h2>
+            <div class="hidden sm:block h-px flex-1 bg-black/10"></div>
+          </div>
+
+          <div class="rounded-2xl border border-black/5 overflow-hidden bg-white shadow-[0_18px_55px_rgba(0,0,0,0.06)]">
+            @for (service of content.styling.services; track service.name; let i = $index) {
+              <button
+                type="button"
+                (click)="openBooking(service.bookingUrl)"
+                class="group w-full text-left px-5 sm:px-7 py-4
+                       flex items-center justify-between gap-6
+                       transition-all duration-300 ease-out
+                       hover:bg-black/[0.03]
+                       active:bg-black/[0.05]"
+              >
+                <div class="min-w-0">
+                  <p class="text-base text-black/85 services-page-font truncate">
+                    {{ service.name }}
+                  </p>
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
+                    Tap to book
+                  </p>
+                </div>
+
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="text-base text-black/60 font-light">
+                    {{ service.price }}
+                  </span>
+                  <span class="text-black/35 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                    →
+                  </span>
+                </div>
+              </button>
+
+              @if (i !== content.styling.services.length - 1) {
+                <div class="h-px bg-black/5 mx-5 sm:mx-7"></div>
+              }
+            }
+          </div>
+        </div>
+
+        <!-- HAIRCUTS -->
+        <div class="service-category animate-fade-in-up" style="animation-delay: 500ms">
+          <div class="flex items-end justify-between gap-6 mb-6">
+            <h2 class="text-3xl font-light tracking-tight services-page-font">
+              {{ content.haircuts.title }}
+            </h2>
+            <div class="hidden sm:block h-px flex-1 bg-black/10"></div>
+          </div>
+
+          <div class="rounded-2xl border border-black/5 overflow-hidden bg-white shadow-[0_18px_55px_rgba(0,0,0,0.06)]">
+            @for (service of content.haircuts.services; track service.name; let i = $index) {
+              <button
+                type="button"
+                (click)="openBooking(service.bookingUrl)"
+                class="group w-full text-left px-5 sm:px-7 py-4
+                       flex items-center justify-between gap-6
+                       transition-all duration-300 ease-out
+                       hover:bg-black/[0.03]
+                       active:bg-black/[0.05]"
+              >
+                <div class="min-w-0">
+                  <p class="text-base text-black/85 services-page-font truncate">
+                    {{ service.name }}
+                  </p>
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
+                    Tap to book
+                  </p>
+                </div>
+
+                <div class="flex items-center gap-3 shrink-0">
+                  <span class="text-base text-black/60 font-light">
+                    {{ service.price }}
+                  </span>
+                  <span class="text-black/35 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                    →
+                  </span>
+                </div>
+              </button>
+
+              @if (i !== content.haircuts.services.length - 1) {
+                <div class="h-px bg-black/5 mx-5 sm:mx-7"></div>
+              }
+            }
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -127,17 +260,32 @@
   <!-- CTA Section -->
   <section class="py-20 bg-gray-50 animate-fade-in-up" style="animation-delay: 600ms">
     <div class="container mx-auto px-6 text-center">
-      <h3 class="text-2xl font-light mb-4">{{ content.cta.title }}</h3>
-      <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
-        {{ content.cta.description }}
-      </p>
-      <button
-        (click)="onBook()"
-        class="rounded-full bg-black text-white px-8 py-3 text-sm tracking-wider hover:bg-gray-800 transition-colors duration-300"
-      >
-        {{ content.cta.buttonText }}
-      </button>
+      <div class="max-w-2xl mx-auto rounded-2xl border border-black/5 bg-white shadow-[0_18px_55px_rgba(0,0,0,0.06)] p-10 md:p-12">
+        <h3 class="text-2xl md:text-3xl font-light tracking-tight mb-3">
+          {{ content.cta.title }}
+        </h3>
+        <p class="text-black/60 mb-8 leading-relaxed">
+          {{ content.cta.description }}
+        </p>
+
+        <button
+          (click)="onBook()"
+          class="rounded-full group relative bg-black text-white px-9 md:px-11 py-3.5
+                 text-xs md:text-sm font-light tracking-[0.22em] uppercase overflow-hidden
+                 transition-all duration-300 ease-out
+                 hover:bg-gray-900 hover:-translate-y-0.5 hover:shadow-[0_12px_35px_rgba(0,0,0,0.25)]
+                 active:translate-y-0 active:scale-[0.98]
+                 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2"
+        >
+          <span class="relative z-10">{{ content.cta.buttonText }}</span>
+          <span
+            class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0
+                   transition-transform duration-300 ease-out"
+          ></span>
+        </button>
+      </div>
     </div>
   </section>
 </div>
+
 <app-footer></app-footer>
