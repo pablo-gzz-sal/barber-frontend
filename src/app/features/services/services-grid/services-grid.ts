@@ -72,4 +72,8 @@ export class ServicesGrid {
   onAllServices() {
     this.router.navigate(['/services']);  
   }
+
+  onBrands() {
+    this.router.navigate(['/shop']);
+  }
 }

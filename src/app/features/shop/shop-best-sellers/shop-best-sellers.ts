@@ -6,7 +6,7 @@ import { map, tap } from 'rxjs/operators';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { Shopify } from '../../../core/services/shopify';
 import { ProductCard } from '../../../shared/models/Product-Card.model';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-shop-best-sellers',
@@ -25,7 +25,7 @@ export class ShopBestSellers {
 
   products$!: Observable<ProductCard[]>;
 
-  constructor(private shopifyService: Shopify) {
+  constructor(private shopifyService: Shopify, private router: Router) {
     this.products$ = this.shopifyService.getBestsellers(4).pipe(
       map((res: any) => this.asArray(res.bestsellers)),
       map((arr: any[]) => arr.slice(0, 4)),
@@ -59,5 +59,9 @@ export class ShopBestSellers {
     if (Array.isArray(res?.items)) return res.items;
 
     return [];
+  }
+
+  onShopAll() {
+    this.router.navigate(['/shop']);
   }
 }

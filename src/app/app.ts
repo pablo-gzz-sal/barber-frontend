@@ -7,7 +7,8 @@ import { Toast } from './shared/components/toast/toast';
   imports: [RouterOutlet, Toast],
   standalone: true,
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  
 })
 export class App {
   protected readonly title = signal('barber-frontend');

@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { Header } from "../../../core/components/header/header";
-import { Footer } from "../../../core/components/footer/footer";
-import { ShopBestSellers } from "../shop-best-sellers/shop-best-sellers";
-import { ShopBrands } from "../shop-brands/shop-brands";
-import { ShopBy } from "../shop-by/shop-by";
-import { ShopSale } from "../shop-sale/shop-sale";
+import { Component, OnInit } from '@angular/core';
+import { Header } from '../../../core/components/header/header';
+import { Footer } from '../../../core/components/footer/footer';
+import { ShopBestSellers } from '../shop-best-sellers/shop-best-sellers';
+import { ShopBrands } from '../shop-brands/shop-brands';
+import { ShopBy } from '../shop-by/shop-by';
+import { ShopSale } from '../shop-sale/shop-sale';
 
 @Component({
   selector: 'app-shop-page',
@@ -13,6 +13,8 @@ import { ShopSale } from "../shop-sale/shop-sale";
   templateUrl: './shop-page.html',
   styleUrl: './shop-page.css',
 })
-export class ShopPage {
-
+export class ShopPage implements OnInit {
+  ngOnInit() {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }
 }

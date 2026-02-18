@@ -172,8 +172,9 @@ export class ServicesPage implements OnInit {
   };
 
   ngOnInit() {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }
+  
 
   openBooking(url: string) {
     const a = document.createElement('a');
