@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 
@@ -10,7 +10,7 @@ import { Footer } from '../../core/components/footer/footer';
   templateUrl: './services-page.html',
   styleUrl: './services-page.css',
 })
-export class ServicesPage {
+export class ServicesPage implements OnInit {
   content = {
     title: 'Our Services',
     extensions: {
@@ -171,17 +171,21 @@ export class ServicesPage {
     },
   };
 
-openBooking(url: string) {
-  const a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  a.style.display = 'none';
+  ngOnInit() {
+    window.scrollTo(0, 0);
+  }
 
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-}
+  openBooking(url: string) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.display = 'none';
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
 
   onBook() {
     if (typeof window === 'undefined') return;
@@ -196,5 +200,4 @@ openBooking(url: string) {
     a.click();
     a.remove();
   }
-
 }

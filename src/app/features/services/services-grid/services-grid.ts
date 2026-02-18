@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-services-grid',
@@ -11,6 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class ServicesGrid {
   protected readonly text = UI_TEXT;
+
+
   content = {
     services: {
       title: 'Our Services',
@@ -52,6 +55,8 @@ export class ServicesGrid {
     },
   };
 
+  constructor(private router: Router) {}
+
   openBooking(url: string) {
     const a = document.createElement('a');
     a.href = url;
@@ -62,5 +67,9 @@ export class ServicesGrid {
     document.body.appendChild(a);
     a.click();
     a.remove();
+  }
+
+  onAllServices() {
+    this.router.navigate(['/services']);  
   }
 }
