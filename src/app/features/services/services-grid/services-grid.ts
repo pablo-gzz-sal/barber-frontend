@@ -47,10 +47,10 @@ export class ServicesGrid {
       title: 'SHOP BRANDS WE LOVE',
       btnAll: 'See All Brands',
       logos: [
-        { name: 'Davines', img: 'assets/svg/davines.svg' },
-        { name: 'AZ', img: 'assets/svg/craftLuxury.svg' },
-        { name: 'Nutrafol', img: 'assets/svg/nutrafol.svg' },
-        { name: "L'ANZA", img: 'assets/svg/lanza.svg' },
+        { name: 'Davines', img: 'assets/svg/davines.svg', dark: false },
+        { name: 'AZ', img: 'assets/svg/craftLuxury.svg', dark: true },
+        { name: 'Nutrafol', img: 'assets/svg/nutrafol.svg', dark: false },
+        { name: "L'ANZA", img: 'assets/svg/lanza.svg', dark: false },
       ],
     },
   };
