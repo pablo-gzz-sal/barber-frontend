@@ -8,6 +8,7 @@ import { AccountAuthorize } from './core/constants/account-authorize/account-aut
 import { Account } from './core/constants/account/account';
 import { Checkout } from './features/checkout/checkout';
 import { ProductAction } from './features/product-action/product-action';
+import { BrandPage } from './features/brand-page/brand-page';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'shop', component: ShopPage },
   { path: 'checkout', component: Checkout },
   { path: 'product/:id', component: ProductAction },
+  {path: 'shop/brand/:handle', component: BrandPage},
   { path: '**', redirectTo: '' },
   // {
   //   path: 'account/authorize',
