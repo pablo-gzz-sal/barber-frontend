@@ -1,12 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { catchError, finalize, map, of, switchMap } from 'rxjs';
+import { forkJoin } from 'rxjs';
+import { Shopify } from '../../core/services/shopify';
+import { CommonModule } from '@angular/common';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
-import { Shopify } from '../../core/services/shopify';
-import { map, switchMap, catchError, of } from 'rxjs';
 
 type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
+type BrandPageMode = 'single' | 'group';
 
 interface BrandVM {
   name: string;
@@ -20,8 +22,8 @@ interface ProductCardVM {
   vendor?: string;
   title: string;
   imageUrl: string;
-  price: string; // keep as formatted "$32.00"
-  category?: Exclude<CategoryKey, 'all'>;
+  price: string;
+  category: CategoryKey;
 }
 
 @Component({
@@ -34,21 +36,19 @@ interface ProductCardVM {
 export class BrandPage implements OnInit {
   loading = false;
 
-  // top visuals
+  mode: BrandPageMode = 'single';
+  isGroupedBrand = false;
+
+  brandGroup: any | null = null;
+
   brandHeroUrl = 'assets/images/brand-hero-placeholder.jpg';
   brandAboutImageUrl = 'assets/images/brand-about-placeholder.jpg';
-  signatureUrl = 'assets/images/signature-placeholder.png';
+  signatureUrl = 'assets/svg/blackLogo.svg';
 
-  brand: BrandVM | null = {
-    name: 'ALTERNA',
-    logoUrl: 'assets/svg/alterna.svg',
-    description:
-      'ALTERNA Haircare is a luxury haircare brand blending clean, skincare-inspired science with high-performance results. Since 1997, their salon-trusted formulas—free from harsh chemicals like parabens and sulfates—combine potent botanicals and innovative tech to nourish, protect, and transform hair with every use.',
-  };
+  brand: BrandVM | null = null;
 
   whyWeLoveText = 'Comments from Joey\nClient comments\nWhatever to show authority and POV';
 
-  // filters
   categories: { key: CategoryKey; label: string }[] = [
     { key: 'all', label: 'ALL' },
     { key: 'shampoo', label: 'SHAMPOO' },
@@ -57,32 +57,10 @@ export class BrandPage implements OnInit {
   ];
   selectedCategory: CategoryKey = 'all';
 
-  // products + pagination
   private pageSize = 12;
   private page = 1;
 
-  products: ProductCardVM[] = [
-    // Replace with real Shopify products
-    {
-      id: '1',
-      handle: 'sheer-dry-shampoo',
-      vendor: 'ALTERNA',
-      title: 'Sheer dry shampoo',
-      imageUrl: 'https://placehold.co/600x600',
-      price: '$32.00',
-      category: 'styling',
-    },
-    {
-      id: '2',
-      handle: 'caviar-anti-aging-shampoo',
-      vendor: 'ALTERNA',
-      title: 'Caviar Anti-Aging Shampoo',
-      imageUrl: 'https://placehold.co/600x600',
-      price: '$34.00',
-      category: 'shampoo',
-    },
-    // ...add more
-  ];
+  products: ProductCardVM[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -92,84 +70,175 @@ export class BrandPage implements OnInit {
   ngOnInit(): void {
     window.scrollTo(0, 0);
 
+    this.loading = true;
+
     this.route.paramMap
       .pipe(
-        map((params) => params.get('handle')),
-        switchMap((handle) => {
-          if (!handle) return of(null);
+        map((params) => params.get('brandKey') || params.get('handle')),
+        switchMap((param) => {
+          if (!param)
+            return of({ mode: 'single' as const, products: [], brand: null, brandGroup: null });
 
-          return this.shopifyService.getCollectionByHandle(handle).pipe(
-            switchMap((collection) => {
-              if (!collection?.id) return of(null);
+          return this.shopifyService.getCollections().pipe(
+            switchMap((res: any) => {
+              const brandGroups = res?.brandGroups ?? [];
+              const group =
+                brandGroups.find((g: any) => g.brandKey === param) ??
+                brandGroups.find((g: any) => (g.collectionHandles ?? []).includes(param)) ??
+                null;
 
-              // fetch products after we have the collection id
-              return this.shopifyService
-                .getCollectionProducts(collection.id)
-                .pipe(map((products) => ({ collection, products })));
+              if (group) {
+                this.brandGroup = group;
+
+                const ids: string[] = group.collectionIds ?? [];
+                const isGrouped = ids.length > 1;
+
+                this.isGroupedBrand = isGrouped;
+                this.mode = isGrouped ? 'group' : 'single';
+
+                const hero = group.hero ?? {};
+                const heroImg = hero?.image?.src ?? hero?.image?.url ?? null;
+
+                this.brand = {
+                  name: group.brandTitle ?? hero.title ?? 'Brand',
+                  description: this.stripHtml(hero.body_html ?? hero.description ?? ''),
+                  logoUrl: heroImg ?? '',
+                };
+
+                if (heroImg) {
+                  this.brandHeroUrl = heroImg;
+                  this.brandAboutImageUrl = heroImg;
+                }
+
+                if (!isGrouped) {
+                  const singleId = ids[0];
+                  if (!singleId) {
+                    return of({
+                      mode: 'single' as const,
+                      products: [],
+                      brand: this.brand,
+                      brandGroup: group,
+                    });
+                  }
+
+                  return this.shopifyService.getCollectionProducts(singleId).pipe(
+                    map((r: any) => ({
+                      mode: 'single' as const,
+                      products: r?.products ?? [],
+                      brand: this.brand,
+                      brandGroup: group,
+                    })),
+                  );
+                }
+
+                const calls = ids.map((id) =>
+                  this.shopifyService.getCollectionProducts(id).pipe(
+                    map((r: any) => r?.products ?? []),
+                    catchError(() => of([])),
+                  ),
+                );
+
+                return forkJoin(calls).pipe(
+                  map((lists) => {
+                    const flat = lists.flat();
+                    const mapById = new Map<string, any>();
+                    for (const p of flat) mapById.set(String(p.id), p);
+
+                    return {
+                      mode: 'group' as const,
+                      products: Array.from(mapById.values()),
+                      brand: this.brand,
+                      brandGroup: group,
+                    };
+                  }),
+                );
+              }
+              this.brandGroup = null;
+              this.isGroupedBrand = false;
+              this.mode = 'single';
+
+              return this.shopifyService.getCollectionByHandle(param).pipe(
+                switchMap((collection: any) => {
+                  if (!collection?.id) {
+                    return of({
+                      mode: 'single' as const,
+                      products: [],
+                      brand: null,
+                      brandGroup: null,
+                    });
+                  }
+
+                  const img = collection?.image?.src ?? collection?.image?.url ?? '';
+                  this.brand = {
+                    name: collection.title,
+                    description: this.stripHtml(
+                      collection.body_html ?? collection.description ?? '',
+                    ),
+                    logoUrl: img,
+                  };
+
+                  if (img) {
+                    this.brandHeroUrl = img;
+                    this.brandAboutImageUrl = img;
+                  }
+
+                  return this.shopifyService.getCollectionProducts(collection.id).pipe(
+                    map((r: any) => ({
+                      mode: 'single' as const,
+                      products: r?.products ?? [],
+                      brand: this.brand,
+                      brandGroup: null,
+                    })),
+                  );
+                }),
+              );
             }),
           );
         }),
         catchError((err) => {
           console.error('Brand page load error:', err);
-          return of(null);
+          return of({ mode: 'single' as const, products: [], brand: null, brandGroup: null });
+        }),
+        finalize(() => {
+          this.loading = false;
         }),
       )
       .subscribe((res) => {
-        if (!res) return;
-
-        const { collection, products } = res;
-
-        this.brand = {
-          name: collection.title,
-          description: collection.description ?? '',
-          logoUrl: collection.image?.url ?? collection.image?.src ?? '',
-        };
-
-
-        const list = Array.isArray(products)
-          ? products
-          : (products?.products ?? products?.nodes ?? products?.data ?? []);
-
-        this.products = (list ?? []).map((p: any) => {
+        this.loading = false;
+        const list = res?.products ?? [];
+        this.products = list.map((p: any) => {
           const imageUrl =
-            p.featuredImage?.url ??
             p.image?.src ??
             p.image?.url ??
-            p.images?.nodes?.[0]?.url ??
+            p.images?.[0]?.src ??
             'assets/images/product-placeholder.jpg';
 
-          const price = p.variants?.[0]?.price ?? '';
+          const priceRaw = p.price ?? p?.variants?.[0]?.price ?? '';
+          const price =
+            typeof priceRaw === 'string' && priceRaw
+              ? `$${priceRaw}`.replace('$$', '$')
+              : priceRaw
+                ? String(priceRaw)
+                : '';
+
           return {
             id: String(p.id),
             handle: p.handle,
             vendor: p.vendor,
             title: p.title,
             imageUrl,
-            price: typeof price === 'string' ? `$${price}`.replace('$$', '$') : String(price),
+            price,
             category: this.deriveCategoryFromProduct(p),
           };
         });
+        this.page = 1;
+        this.selectedCategory = 'all';
       });
-  }
-
-  private deriveCategory(p: any): 'all' | 'shampoo' | 'conditioner' | 'styling' {
-    const type = String(p.productType ?? p.product_type ?? '').toLowerCase();
-    const tags: string[] = Array.isArray(p.tags)
-      ? p.tags.map((t: any) => String(t).toLowerCase())
-      : [];
-
-    const haystack = [type, ...tags].join(' ');
-
-    if (haystack.includes('shampoo')) return 'shampoo';
-    if (haystack.includes('conditioner')) return 'conditioner';
-    if (haystack.includes('style') || haystack.includes('styling')) return 'styling';
-
-    return 'all';
   }
 
   selectCategory(key: CategoryKey) {
     this.selectedCategory = key;
-    this.page = 1; // reset pagination on filter change
+    this.page = 1;
   }
 
   get filteredProducts(): ProductCardVM[] {
@@ -192,7 +261,7 @@ export class BrandPage implements OnInit {
   private normalizeTags(tags: any): string[] {
     if (!tags) return [];
     if (Array.isArray(tags)) return tags.map((t) => String(t).trim().toLowerCase()).filter(Boolean);
-    // Shopify REST often returns comma-separated string
+
     return String(tags)
       .split(',')
       .map((t) => t.trim().toLowerCase())
@@ -208,7 +277,6 @@ export class BrandPage implements OnInit {
     if (haystack.includes('shampoo')) return 'shampoo';
     if (haystack.includes('conditioner')) return 'conditioner';
 
-    // styling signals
     if (
       haystack.includes('styling') ||
       haystack.includes('style') ||
@@ -219,9 +287,16 @@ export class BrandPage implements OnInit {
       haystack.includes('paste') ||
       haystack.includes('wax') ||
       haystack.includes('dry shampoo')
-    )
+    ) {
       return 'styling';
+    }
 
     return 'all';
+  }
+
+  private stripHtml(input: string): string {
+    return String(input)
+      .replace(/<[^>]*>/g, '')
+      .trim();
   }
 }
