@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 export class ServicesGrid {
   protected readonly text = UI_TEXT;
 
-
   content = {
     services: {
       title: 'Our Services',
@@ -47,15 +46,21 @@ export class ServicesGrid {
       title: 'SHOP BRANDS WE LOVE',
       btnAll: 'See All Brands',
       logos: [
-        { name: 'Davines', img: 'assets/svg/davines.svg', dark: false },
-        { name: 'AZ', img: 'assets/svg/craftLuxury.svg', dark: true },
-        { name: 'Nutrafol', img: 'assets/svg/nutrafol.svg', dark: false },
-        { name: "L'ANZA", img: 'assets/svg/lanza.svg', dark: false },
+        { name: 'Davines', img: 'assets/svg/davines.svg', dark: false, link: 'davines' },
+        { name: 'AZ', img: 'assets/svg/craftLuxury.svg', dark: true, link: 'craftLuxuryHaircare' },
+        { name: 'Nutrafol', img: 'assets/svg/nutrafol.svg', dark: false, link: 'nutrafol' },
+        { name: "L'ANZA", img: 'assets/svg/lanza.svg', dark: false, link: 'lanza' },
       ],
     },
   };
 
   constructor(private router: Router) {}
+
+  onBrand(link: string) {
+    console.log(`/shop/brand/${link}`);
+    
+    this.router.navigate([`/shop/brand/${link}`]);
+  }
 
   openBooking(url: string) {
     const a = document.createElement('a');
@@ -70,7 +75,7 @@ export class ServicesGrid {
   }
 
   onAllServices() {
-    this.router.navigate(['/services']);  
+    this.router.navigate(['/services']);
   }
 
   onBrands() {

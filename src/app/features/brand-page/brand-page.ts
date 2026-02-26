@@ -49,6 +49,8 @@ export class BrandPage implements OnInit {
 
   whyWeLoveText = 'Comments from Joey\nClient comments\nWhatever to show authority and POV';
 
+  collectionEntries: { handle: string; title: string; imageUrl: string }[] = [];
+
   categories: { key: CategoryKey; label: string }[] = [
     { key: 'all', label: 'ALL' },
     { key: 'shampoo', label: 'SHAMPOO' },
@@ -84,7 +86,11 @@ export class BrandPage implements OnInit {
               const brandGroups = res?.brandGroups ?? [];
               const group =
                 brandGroups.find((g: any) => g.brandKey === param) ??
-                brandGroups.find((g: any) => (g.collectionHandles ?? []).includes(param)) ??
+                brandGroups.find(
+                  (g: any) =>
+                    (g.collectionHandles ?? []).includes(param) &&
+                    (g.collectionIds ?? []).length === 1,
+                ) ??
                 null;
 
               if (group) {
@@ -106,8 +112,8 @@ export class BrandPage implements OnInit {
                 };
 
                 if (heroImg) {
-                  this.brandHeroUrl = heroImg;
-                  this.brandAboutImageUrl = heroImg;
+                  this.brandHeroUrl = this.buildBrandCoverUpperImage(this.brand?.name);
+                  this.brandAboutImageUrl = this.buildBrandBottomImage(this.brand?.name);
                 }
 
                 if (!isGrouped) {
@@ -178,8 +184,8 @@ export class BrandPage implements OnInit {
                   };
 
                   if (img) {
-                    this.brandHeroUrl = img;
-                    this.brandAboutImageUrl = img;
+                    this.brandHeroUrl = this.buildBrandCoverUpperImage(this.brand?.name);
+                    this.brandAboutImageUrl = this.buildBrandBottomImage(this.brand?.name);
                   }
 
                   return this.shopifyService.getCollectionProducts(collection.id).pipe(
@@ -205,6 +211,20 @@ export class BrandPage implements OnInit {
       )
       .subscribe((res) => {
         this.loading = false;
+
+        // Build collection entries for group mode
+        if (res.mode === 'group' && this.brandGroup) {
+          const handles: string[] = this.brandGroup.collectionHandles ?? [];
+          const titles: string[] = this.brandGroup.collectionTitles ?? [];
+          const images: string[] = this.brandGroup.collectionImages ?? [];
+          this.collectionEntries = handles.map((h, i) => ({
+            handle: h,
+            title: titles[i] ?? h,
+            imageUrl: images[i] ?? '',
+          }));
+        } else {
+          this.collectionEntries = [];
+        }
         const list = res?.products ?? [];
         this.products = list.map((p: any) => {
           const imageUrl =
@@ -298,5 +318,35 @@ export class BrandPage implements OnInit {
     return String(input)
       .replace(/<[^>]*>/g, '')
       .trim();
+  }
+
+  private buildBrandBottomImage(brandName: string | undefined | null): string {
+    if (!brandName) return 'assets/images/brand-about-placeholder.jpg';
+
+    // Normalize brand name to match file naming convention
+    const normalized = brandName
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // remove accents
+      .replace(/['’]/g, '') // remove apostrophes (L'ANZA -> lanza)
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]/g, ''); // remove spaces & special chars
+
+    return `assets/images/brands/${normalized}Brand.jpg`;
+  }
+
+  private buildBrandCoverUpperImage(brandName: string | undefined | null): string {
+    if (!brandName) return 'assets/images/brand-about-placeholder.jpg';
+
+    // Normalize brand name to match file naming convention
+    const normalized = brandName
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // remove accents
+      .replace(/['’]/g, '') // remove apostrophes (L'ANZA -> lanza)
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]/g, ''); // remove spaces & special chars
+
+    return `assets/images/coverBrands/${normalized}BrandCover.jpg`;
   }
 }

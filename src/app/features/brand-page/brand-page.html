@@ -2,37 +2,90 @@
 <section class="bg-background text-text-primary">
   <!-- ✅ GROUPED BRAND VERSION (EMPTY STRUCTURE FOR NOW) -->
   @if (mode === 'group') {
-    <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10 py-16">
-      <div class="rounded-2xl bg-secondary shadow-soft p-8 sm:p-10">
-        <p class="text-sm font-semibold uppercase tracking-wide-luxury text-text-secondary">
-          Group Brand Page
+    <!-- GROUP HERO -->
+    <div class="mx-auto w-full pt-6">
+      <div class="relative overflow-hidden bg-secondary shadow-soft">
+        <img
+          [src]="brandHeroUrl"
+          [alt]="brand?.name ?? 'Brand hero'"
+          class="w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[360px] object-cover object-center"
+          loading="lazy"
+        />
+      </div>
+    </div>
+
+    <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10">
+      <!-- BRAND HEADER -->
+      <div class="pt-12 sm:pt-14 lg:pt-16 flex flex-col items-center gap-8 sm:gap-10">
+        <p class="text-center text-text-primary text-sm sm:text-base font-semibold uppercase tracking-wide-luxury animate-fade-in-up">
+          About this Brand
         </p>
 
-        <h1 class="mt-4 text-3xl sm:text-4xl font-light text-text-primary">
-          {{ brandGroup?.brandTitle ?? brand?.name }}
-        </h1>
+        <!-- logo -->
+        <div class="w-[240px] sm:w-[280px] h-[110px] sm:h-[130px] lg:w-[320px] lg:h-[150px] flex items-center justify-center animate-scale-in delay-100">
+          <img
+            *ngIf="brand?.logoUrl; else fallbackLogoGroup"
+            [src]="brand!.logoUrl"
+            [alt]="brand?.name ?? 'Brand logo'"
+            class="max-w-full max-h-full object-contain"
+            loading="lazy"
+          />
+          <ng-template #fallbackLogoGroup>
+            <div class="w-full h-full rounded-xl bg-primary"></div>
+          </ng-template>
+        </div>
 
-        <p class="mt-3 text-text-secondary">
-          <!-- placeholder - you will replace with the grouped design later -->
-          Coming soon (group layout).
+        <p class="max-w-2xl text-center text-text-secondary text-sm sm:text-base leading-6 tracking-tight px-2 animate-fade-in-up delay-200">
+          {{ brand?.description }}
         </p>
+      </div>
 
-        <div class="mt-8 border-t border-border pt-6">
-          <p class="text-sm text-text-muted">
-            Collections in this group:
-            {{ brandGroup?.count ?? brandGroup?.collectionIds?.length ?? 0 }}
-          </p>
+      <!-- COLLECTIONS GRID -->
+      <div class="pt-12 sm:pt-14 lg:pt-16 pb-16 animate-fade-in-up delay-300">
+        <div class="px-1 mb-6">
+          <span class="text-text-primary text-base sm:text-lg font-semibold tracking-[0.24em]">
+            COLLECTIONS
+          </span>
+        </div>
 
-          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            @for (h of brandGroup?.collectionHandles ?? []; track h) {
-              <div class="rounded-xl bg-background border border-border p-4">
-                <p class="text-xs text-text-muted">Collection handle</p>
-                <p class="mt-1 text-sm font-medium text-text-primary">
-                  {{ h }}
-                </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (entry of collectionEntries; track entry.handle) {
+            <a
+              [routerLink]="['/shop/brand', entry.handle]"
+              class="group block rounded-2xl overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-shadow duration-300"
+            >
+              <!-- collection image -->
+              <div class="relative w-full aspect-[4/3] bg-background overflow-hidden">
+                <img
+                  *ngIf="entry.imageUrl; else collectionPlaceholder"
+                  [src]="entry.imageUrl"
+                  [alt]="entry.title"
+                  class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
+                  loading="lazy"
+                />
+                <ng-template #collectionPlaceholder>
+                  <div class="absolute inset-0 bg-primary/10 flex items-center justify-center">
+                    <span class="text-text-muted text-sm">{{ entry.title }}</span>
+                  </div>
+                </ng-template>
+                <div class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/5"></div>
               </div>
-            }
-          </div>
+
+              <!-- label -->
+              <div class="px-6 py-5 flex items-center justify-between">
+                <p class="text-text-primary text-sm sm:text-base font-semibold tracking-[0.18em] uppercase">
+                  {{ entry.title }}
+                </p>
+                <svg
+                  class="w-4 h-4 text-text-muted group-hover:text-text-primary transition-colors duration-300 shrink-0 ml-3"
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                </svg>
+              </div>
+            </a>
+          }
         </div>
       </div>
     </div>
@@ -63,7 +116,7 @@
 
         <!-- logo -->
         <div
-          class="w-[240px] sm:w-[280px] h-[110px] sm:h-[130px] flex items-center justify-center animate-scale-in delay-100"
+          class="w-[240px] sm:w-[280px] h-[110px] sm:h-[130px] lg:w-[320px] lg:h-[150px] flex items-center justify-center animate-scale-in delay-100"
         >
           <img
             *ngIf="brand?.logoUrl; else fallbackLogo"

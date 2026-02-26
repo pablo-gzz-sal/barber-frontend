@@ -94,6 +94,7 @@
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
         @for (brand of content.brands.logos; track brand.name) {
           <a
+            (click)="onBrand(brand.link)"
             class="group relative flex items-center justify-center aspect-[4/3] rounded-2xl ring-1 transition-all duration-300 ease-out hover:-translate-y-[2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30"
             [ngClass]="{
               'bg-white ring-black/10 shadow-[0_10px_25px_rgba(0,0,0,0.05)] hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]':

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { Shopify } from '../../../core/services/shopify';
 
 export interface BrandItem {
   name: string;
@@ -21,116 +22,191 @@ export class ShopBrands {
     {
       name: 'Allure',
       logo: 'assets/svg/allure-logo.svg',
-      link: '/shop/svg/allure',
+      link: 'allure',
       dark: true,
     },
     {
       name: 'Alterna',
       logo: 'assets/svg/alterna.svg',
-      link: '/shop/svg/alterna',
+      link: 'alterna',
     },
     {
       name: 'Baxter of California',
       logo: 'assets/svg/baxter.svg',
-      link: '/shop/svg/baxter',
+      link: 'baxter',
     },
     {
       name: 'Comfort Zone',
       logo: 'assets/svg/comfortZone.svg',
-      link: '/shop/svg/comfort-zone',
+      link: 'comfort-zone',
     },
     {
       name: 'Craft Luxury',
       logo: 'assets/svg/craftLuxury.svg',
-      link: '/shop/svg/craft-luxury',
+      link: 'craft-luxury',
       dark: true,
     },
     {
       name: 'Davines',
       logo: 'assets/svg/davines.svg',
-      link: '/shop/svg/davines',
+      link: 'davines',
     },
     {
       name: 'Deer',
       logo: 'assets/svg/deer.svg',
-      link: '/shop/svg/deer',
+      link: 'deer',
     },
     {
       name: 'Goldwell',
       logo: 'assets/svg/goldwell.svg',
-      link: '/shop/svg/goldwell',
+      link: 'goldwell',
     },
     {
       name: 'Iles Formula',
       logo: 'assets/svg/ilesFormula.svg',
-      link: '/shop/svg/iles-formula',
+      link: 'iles-formula',
     },
     {
       name: 'Jon Renau',
       logo: 'assets/svg/jonRenau.svg',
-      link: '/shop/svg/jon-renau',
+      link: 'jon-renau',
     },
     {
       name: 'K18',
       logo: 'assets/svg/k18.svg',
-      link: '/shop/svg/k18',
+      link: 'k18',
     },
     {
       name: 'KeraColor',
       logo: 'assets/svg/keraColor.svg',
-      link: '/shop/svg/kera-color',
+      link: 'kera-color',
     },
     {
       name: 'KeraTherapy',
       logo: 'assets/svg/keraTeraphy.svg',
-      link: '/shop/svg/kera-therapy',
+      link: 'kera-therapy',
     },
     {
       name: 'Lanza',
       logo: 'assets/svg/lanza.svg',
-      link: '/shop/svg/lanza',
+      link: 'lanza',
     },
     {
       name: 'Loma',
       logo: 'assets/svg/loma.svg',
-      link: '/shop/svg/loma',
+      link: 'loma',
     },
     {
       name: 'Nutrafol',
       logo: 'assets/svg/nutrafol.svg',
-      link: '/shop/svg/nutrafol',
+      link: 'nutrafol',
     },
     {
       name: 'Olaplex',
       logo: 'assets/svg/olaplex.svg',
-      link: '/shop/svg/olaplex',
+      link: 'olaplex',
     },
     {
       name: 'Phyto Paris',
       logo: 'assets/svg/pytho.svg', // matches your actual file name
-      link: '/shop/svg/phyto',
+      link: 'phyto',
     },
     {
       name: 'Magic Move',
       logo: 'assets/svg/magic-move.svg',
-      link: '/shop/svg/magic-move',
+      link: 'magic-move',
       dark: true,
     },
     {
       name: 'Style Edit',
       logo: 'assets/svg/styleEdit.svg',
-      link: '/shop/svg/style-edit',
+      link: 'style-edit',
     },
     {
       name: 'Viviscal',
       logo: 'assets/svg/viviscal.svg',
-      link: '/shop/svg/viviscal',
+      link: 'viviscal',
     },
     // {
     //   name: 'White Logo',
     //   logo: 'assets/svg/whiteLogo.svg',
-    //   link: '/shop/svg/white-logo',
+    //   link: 'white-logo',
     //   dark: true,
     // },
   ];
+
+  onBrand(link: string) {
+    this.router.navigate([`/shop/brand/${link}`]);
+  }
+
+  // brands: any[] = [];
+
+  constructor(
+    private shopifyService: Shopify,
+    private router: Router,
+  ) {}
+
+  // ngOnInit() {
+  //   this.shopifyService.getCollections().subscribe((res: any) => {
+  //     const groups = res?.brandGroups ?? [];
+
+  //     this.brands = groups.map((g: any) => {
+  //       const svgPath = this.buildBrandSvgPath(g.brandTitle);
+
+  //       return {
+  //         name: g.brandTitle,
+  //         brandKey: g.brandKey,
+  //         logo: svgPath,
+  //         link: `/shop/brand/${g.brandKey}`,
+  //         dark: ['craftluxury', 'allure', 'magicmove'].includes(
+  //           this.buildBrandSvgPath(g.brandTitle),
+  //         ),
+  //       };
+  //     });
+  //   });
+  // }
+
+  // private buildBrandSvgPath(brandTitle: string): string {
+  //   if (!brandTitle) return 'assets/svg/whiteLogo.svg';
+
+  //   const normalized = brandTitle
+  //     .toLowerCase()
+  //     .normalize('NFD')
+  //     .replace(/[\u0300-\u036f]/g, '')
+  //     .replace(/['’]/g, '')
+  //     .replace(/&/g, 'and')
+  //     .replace(/[^a-z0-9\s]/g, ' ') // keep spaces
+  //     .replace(/\s+/g, ' ')
+  //     .trim();
+
+  //   // Split into words
+  //   const words = normalized.split(' ');
+
+  //   let firstWord = words[0] ?? normalized;
+
+  //   // 🔥 Extra smart fallback:
+  //   // if no space but it starts with a known brand prefix
+  //   // example: "davinesmoreinside"
+  //   const knownPrefixes = [
+  //     'davines',
+  //     'lanza',
+  //     'keracolor',
+  //     'keratherapy',
+  //     'olaplex',
+  //     'nutrafol',
+  //     'goldwell',
+  //     'k18',
+  //   ];
+
+  //   for (const prefix of knownPrefixes) {
+  //     if (normalized.startsWith(prefix)) {
+  //       firstWord = prefix;
+  //       break;
+  //     }
+  //   }
+
+  //   console.log('Brand:', brandTitle, '→ SVG:', firstWord);
+
+  //   return `assets/svg/${firstWord}.svg`;
+  // }
 }
