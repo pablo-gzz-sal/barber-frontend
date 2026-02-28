@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 import { catchError, finalize, map, of, switchMap } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { Shopify } from '../../core/services/shopify';
@@ -35,6 +36,7 @@ interface ProductCardVM {
 })
 export class BrandPage implements OnInit {
   loading = false;
+  notFound = false;
 
   mode: BrandPageMode = 'single';
   isGroupedBrand = false;
@@ -67,12 +69,14 @@ export class BrandPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private shopifyService: Shopify,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
 
     this.loading = true;
+    this.notFound = false;
 
     this.route.paramMap
       .pipe(
@@ -84,6 +88,10 @@ export class BrandPage implements OnInit {
           return this.shopifyService.getCollections().pipe(
             switchMap((res: any) => {
               const brandGroups = res?.brandGroups ?? [];
+
+              // Match by brandKey, OR by handle only when the group has exactly 1 collection.
+              // Child handles of multi-collection groups (e.g. "davines-more-inside-1") fall
+              // through intentionally so they load as a single collection below.
               const group =
                 brandGroups.find((g: any) => g.brandKey === param) ??
                 brandGroups.find(
@@ -111,10 +119,9 @@ export class BrandPage implements OnInit {
                   logoUrl: heroImg ?? '',
                 };
 
-                if (heroImg) {
-                  this.brandHeroUrl = this.buildBrandCoverUpperImage(this.brand?.name);
-                  this.brandAboutImageUrl = this.buildBrandBottomImage(this.brand?.name);
-                }
+                // Always use the group's brandTitle for image file resolution
+                this.brandHeroUrl = this.buildBrandCoverUpperImage(group.brandTitle ?? this.brand.name);
+                this.brandAboutImageUrl = this.buildBrandBottomImage(group.brandTitle ?? this.brand.name);
 
                 if (!isGrouped) {
                   const singleId = ids[0];
@@ -159,6 +166,19 @@ export class BrandPage implements OnInit {
                   }),
                 );
               }
+
+              // ── Child collection or standalone handle ──────────────────────
+              // If this param belongs to a parent group (multi-collection brand),
+              // find it so we can use its brandTitle for image paths.
+              // e.g. "davines-more-inside-1" → parentGroup.brandTitle = "Davines"
+              // → resolves davinesBrandCover.jpg instead of davinesmoreinsideBrandCover.jpg
+              const parentGroup =
+                brandGroups.find(
+                  (g: any) =>
+                    (g.collectionHandles ?? []).includes(param) &&
+                    (g.collectionIds ?? []).length > 1,
+                ) ?? null;
+
               this.brandGroup = null;
               this.isGroupedBrand = false;
               this.mode = 'single';
@@ -166,6 +186,7 @@ export class BrandPage implements OnInit {
               return this.shopifyService.getCollectionByHandle(param).pipe(
                 switchMap((collection: any) => {
                   if (!collection?.id) {
+                    this.notFound = true;
                     return of({
                       mode: 'single' as const,
                       products: [],
@@ -183,10 +204,11 @@ export class BrandPage implements OnInit {
                     logoUrl: img,
                   };
 
-                  if (img) {
-                    this.brandHeroUrl = this.buildBrandCoverUpperImage(this.brand?.name);
-                    this.brandAboutImageUrl = this.buildBrandBottomImage(this.brand?.name);
-                  }
+                  // For image paths: use parent brand name when available so child collections
+                  // like "davines-more-inside-1" still resolve davinesBrandCover.jpg
+                  const imageNameSource = parentGroup?.brandTitle ?? collection.title;
+                  this.brandHeroUrl = this.buildBrandCoverUpperImage(imageNameSource);
+                  this.brandAboutImageUrl = this.buildBrandBottomImage(imageNameSource);
 
                   return this.shopifyService.getCollectionProducts(collection.id).pipe(
                     map((r: any) => ({
@@ -203,6 +225,9 @@ export class BrandPage implements OnInit {
         }),
         catchError((err) => {
           console.error('Brand page load error:', err);
+          if (err?.status === 404) {
+            this.notFound = true;
+          }
           return of({ mode: 'single' as const, products: [], brand: null, brandGroup: null });
         }),
         finalize(() => {
@@ -225,6 +250,7 @@ export class BrandPage implements OnInit {
         } else {
           this.collectionEntries = [];
         }
+
         const list = res?.products ?? [];
         this.products = list.map((p: any) => {
           const imageUrl =
@@ -256,6 +282,10 @@ export class BrandPage implements OnInit {
       });
   }
 
+  goBack(): void {
+    this.location.back();
+  }
+
   selectCategory(key: CategoryKey) {
     this.selectedCategory = key;
     this.page = 1;
@@ -281,7 +311,6 @@ export class BrandPage implements OnInit {
   private normalizeTags(tags: any): string[] {
     if (!tags) return [];
     if (Array.isArray(tags)) return tags.map((t) => String(t).trim().toLowerCase()).filter(Boolean);
-
     return String(tags)
       .split(',')
       .map((t) => t.trim().toLowerCase())
@@ -291,12 +320,10 @@ export class BrandPage implements OnInit {
   private deriveCategoryFromProduct(p: any): CategoryKey {
     const tags = this.normalizeTags(p.tags);
     const title = String(p.title ?? '').toLowerCase();
-
     const haystack = [...tags, title].join(' ');
 
     if (haystack.includes('shampoo')) return 'shampoo';
     if (haystack.includes('conditioner')) return 'conditioner';
-
     if (
       haystack.includes('styling') ||
       haystack.includes('style') ||
@@ -310,7 +337,6 @@ export class BrandPage implements OnInit {
     ) {
       return 'styling';
     }
-
     return 'all';
   }
 
@@ -320,33 +346,31 @@ export class BrandPage implements OnInit {
       .trim();
   }
 
-  private buildBrandBottomImage(brandName: string | undefined | null): string {
-    if (!brandName) return 'assets/images/brand-about-placeholder.jpg';
-
-    // Normalize brand name to match file naming convention
-    const normalized = brandName
+  private normalizeBrandKey(brandName: string | undefined | null): string | null {
+    if (!brandName) return null;
+    // Take only the first word so "Davines More Inside" → "davines"
+    const firstWord = brandName.trim().split(/\s+/)[0];
+    return firstWord
       .toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // remove accents
-      .replace(/['’]/g, '') // remove apostrophes (L'ANZA -> lanza)
+      .replace(/['\u2018\u2019]/g, '') // remove apostrophes (L'ANZA → lanza)
       .replace(/&/g, 'and')
-      .replace(/[^a-z0-9]/g, ''); // remove spaces & special chars
+      .replace(/[^a-z0-9]/g, '');      // remove remaining special chars
+  }
 
-    return `assets/images/brands/${normalized}Brand.jpg`;
+  private buildBrandBottomImage(brandName: string | undefined | null): string {
+    const key = this.normalizeBrandKey(brandName);
+    if (!key) return 'assets/images/brand-about-placeholder.jpg';
+      console.log(key);
+      
+    return `assets/images/brands/${key}Brand.jpg`;
   }
 
   private buildBrandCoverUpperImage(brandName: string | undefined | null): string {
-    if (!brandName) return 'assets/images/brand-about-placeholder.jpg';
-
-    // Normalize brand name to match file naming convention
-    const normalized = brandName
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // remove accents
-      .replace(/['’]/g, '') // remove apostrophes (L'ANZA -> lanza)
-      .replace(/&/g, 'and')
-      .replace(/[^a-z0-9]/g, ''); // remove spaces & special chars
-
-    return `assets/images/coverBrands/${normalized}BrandCover.jpg`;
+    const key = this.normalizeBrandKey(brandName);
+    if (!key) return 'assets/images/brand-about-placeholder.jpg';
+    console.log(key);
+    return `assets/images/coverBrands/${key}BrandCover.jpg`;
   }
-}
+} 

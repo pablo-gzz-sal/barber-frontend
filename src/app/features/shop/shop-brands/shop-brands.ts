@@ -42,7 +42,7 @@ export class ShopBrands {
     },
     {
       name: 'Craft Luxury',
-      logo: 'assets/svg/craftLuxury.svg',
+      logo: 'assets/svg/craftLuxuryHaircare.svg',
       link: 'craft-luxury',
       dark: true,
     },
