@@ -1,135 +1,183 @@
 <app-header></app-header>
-<section class="min-h-screen bg-white text-black">
+<section class="min-h-screen  bg-white text-black">
   <div class="max-w-6xl mx-auto px-6 lg:px-16 py-28">
     <!-- Header -->
-    <div class="flex items-center justify-between gap-4">
+    <div class="flex items-center justify-between gap-4 mb-14">
       <div>
-        <h1 class="text-3xl md:text-4xl font-light tracking-wide">
-          Product Details
-        </h1>
-        <p class="text-black/60 mt-2">
+        <h1 class="text-4xl md:text-5xl tracking-tight">Product Details</h1>
+        <p class="text-[#1a1a1a]/50 mt-2 text-sm tracking-wide">
           Select a variant, then choose how you want to purchase.
         </p>
       </div>
 
       <a
         routerLink="/shop"
-        class="px-5 py-3 border border-black/20 rounded-full hover:bg-black hover:text-white transition"
+        class="inline-flex items-center gap-2 px-5 py-3 border border-[#1a1a1a]/15 rounded-full text-sm font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-200"
       >
-        Back to Shop
+        ← Back to Shop
       </a>
     </div>
 
-    <!-- Loading / Error -->
-    <div *ngIf="loading()" class="mt-14 text-black/60">
-      Loading product...
+    <!-- Loading -->
+    <div *ngIf="loading()" class="flex items-center gap-3 text-[#1a1a1a]/50 mt-14">
+      <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+      </svg>
+      Loading product…
     </div>
 
-    <div *ngIf="error()" class="mt-14 text-red-600">
+    <!-- Error -->
+    <div
+      *ngIf="error()"
+      class="mt-14 px-5 py-4 rounded-2xl bg-red-50 border border-red-200 text-red-600 text-sm"
+    >
       {{ error() }}
     </div>
 
     <!-- Content -->
     <div
       *ngIf="!loading() && !error() && product() as p"
-      class="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
+      class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start"
     >
       <!-- Image -->
-      <div class="rounded-2xl overflow-hidden border border-black/10 bg-black/5">
+      <div class="rounded-3xl overflow-hidden border border-[#1a1a1a]/8 bg-[#efefed] aspect-square">
         <img
           *ngIf="selectedImageUrl() as img"
           [src]="img"
           [alt]="p.title"
-          class="w-full h-[420px] object-cover"
+          class="w-full h-full object-cover transition-opacity duration-300"
         />
-        <div
-          *ngIf="!selectedImageUrl()"
-          class="h-[420px] flex items-center justify-center text-black/40"
-        >
-          No image
+        <div *ngIf="!selectedImageUrl()" class="w-full h-full flex items-center justify-center">
+          <svg
+            class="w-16 h-16 text-[#1a1a1a]/20"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
         </div>
       </div>
 
       <!-- Details -->
-      <div>
-        <h2 class="text-2xl md:text-3xl font-semibold tracking-wide">
-          {{ p.title }}
-        </h2>
-
-        <p *ngIf="displayPrice() as price" class="mt-3 text-lg text-black/70">
-          {{ price }}
-        </p>
-
-        <!-- Description -->
-        <div
-          *ngIf="p.body_html"
-          class="prose max-w-none mt-6"
-          [innerHTML]="p.body_html"
-        ></div>
-
-        <!-- Variant selector -->
-        <div class="mt-8">
-          <label class="block text-sm tracking-wide text-black/60 mb-2">
-            Variant
-          </label>
-
-          <select
-            class="w-full px-4 py-3 rounded-full border border-black/20 bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
-            [value]="selectedVariantId()"
-            (change)="onVariantChange(($any($event.target).value))"
-          >
-            <option *ngFor="let v of variants()" [value]="v.id">
-              {{ v.title }}
-            </option>
-          </select>
+      <div class="flex flex-col gap-6">
+        <!-- Title + Price -->
+        <div>
+          <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
+            {{ p.title }}
+          </h2>
+          <p *ngIf="displayPrice() as price" class="mt-3 text-2xl font-medium text-[#1a1a1a]">
+            {{ price }}
+          </p>
         </div>
 
-        <!-- Qty -->
-        <div class="mt-8 flex items-center gap-3">
-          <span class="text-sm tracking-wide text-black/60">Quantity</span>
-
+        <!-- Description -->
+        @if (p.body_html) {
           <div
-            class="flex items-center rounded-full border border-black/20 overflow-hidden"
+            *ngIf="p.body_html"
+            class="prose prose-sm max-w-none text-[#1a1a1a]/70 leading-relaxed"
+            [innerHTML]="p.body_html"
+          ></div>
+        }
+
+        <!-- Variant selector — only if more than 1 variant (or variant title is not "Default Title") -->
+        @if (
+          variants().length > 1 ||
+          (variants().length === 1 && variants()[0].title !== 'Default Title')
+        ) {
+          <div>
+            <label
+              class="block text-xs font-semibold uppercase tracking-widest text-[#1a1a1a]/40 mb-2"
+            >
+              Variant
+            </label>
+            <select
+              class="w-full px-5 py-3 rounded-full border border-[#1a1a1a]/15 bg-white text-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-[#1a1a1a]/20 transition appearance-none cursor-pointer"
+              [value]="selectedVariantId()"
+              (change)="onVariantChange($any($event.target).value)"
+            >
+              @for (v of variants(); track $index) {
+                <option [value]="v.id">{{ v.title }}</option>
+              }
+            </select>
+          </div>
+        }
+
+        <!-- Quantity -->
+        <div>
+          <label
+            class="block text-xs font-semibold uppercase tracking-widest text-[#1a1a1a]/40 mb-2"
+          >
+            Quantity
+          </label>
+          <div
+            class="inline-flex items-center rounded-full border border-[#1a1a1a]/15 bg-white overflow-hidden"
           >
             <button
-              class="rounded-full px-4 py-2 hover:bg-black hover:text-white transition"
+              class="w-11 h-11 flex items-center justify-center text-xl hover:bg-[#1a1a1a] hover:text-white transition-all duration-150"
               (click)="dec()"
               type="button"
+              aria-label="Decrease quantity"
             >
               −
             </button>
-
-            <div class="px-5 py-2 min-w-[48px] text-center">
-              {{ qty() }}
-            </div>
-
+            <span class="min-w-[48px] text-center font-medium tabular-nums">{{ qty() }}</span>
             <button
-              class="rounded-fullpx-4 py-2 hover:bg-black hover:text-white transition"
+              class="w-11 h-11 flex items-center justify-center text-xl hover:bg-[#1a1a1a] hover:text-white transition-all duration-150"
               (click)="inc()"
               type="button"
+              aria-label="Increase quantity"
             >
               +
             </button>
           </div>
         </div>
 
+        <!-- Divider -->
+        <div class="border-t border-[#1a1a1a]/8"></div>
+
         <!-- Actions -->
-        <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button
-            class="rounded-full px-6 py-4 rounded-full bg-black text-white hover:bg-black/90 transition disabled:opacity-40"
+            class="flex items-center justify-center gap-2 rounded-full px-6 py-4 bg-[#1a1a1a] text-white font-medium text-sm tracking-wide hover:bg-[#1a1a1a]/85 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
             [disabled]="!canBuy()"
             (click)="buyWithShop()"
             type="button"
           >
+            <!-- Shop Pay logo icon -->
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-.5 14.5v-5h-2l3.5-7v5h2l-3.5 7z"
+              />
+            </svg>
             Buy with Shop
           </button>
 
           <button
-            class="rounded-full px-6 py-4 rounded-full border border-black/20 hover:bg-black hover:text-white transition disabled:opacity-40"
+            class="flex items-center justify-center gap-2 rounded-full px-6 py-4 border border-[#1a1a1a]/20 font-medium text-sm tracking-wide hover:bg-[#1a1a1a] hover:text-white transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
             [disabled]="!canAdd()"
             (click)="addToCart()"
             type="button"
           >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
             Add to Cart
           </button>
         </div>
