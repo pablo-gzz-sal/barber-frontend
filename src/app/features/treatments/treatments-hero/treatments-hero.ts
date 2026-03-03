@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UI_TEXT } from '../../../core/constants/app-text';
 
-type TabId = 'extensions' | 'treatments' | 'color';
+type TabId = 'extensions' | 'treatments' | 'color' | 'styling';
 
 type OptionItem = {
   id: string;
   number: string;
   title: string;
   subtitle?: string;
-  image: string;       // default
-  hoverImage: string;  // on hover
-    position: {
+  image: string; // default
+  hoverImage: string; // on hover
+  position: {
     top?: string;
     left?: string;
     right?: string;
@@ -37,23 +37,25 @@ export class TreatmentsHero {
       { id: 'extensions' as TabId, number: '01', label: 'EXTENSIONS' },
       { id: 'treatments' as TabId, number: '02', label: 'TREATMENTS' },
       { id: 'color' as TabId, number: '03', label: 'COLOR' },
+      { id: 'styling' as TabId, number: '04', label: 'STYLING' },
     ],
   };
 
   // default hero image per tab
   private tabHeroImage: Record<TabId, string> = {
-    extensions: 'assets/images/extensionsHero.png',
-    treatments: 'assets/images/treatmentsHero.png',
-    color: 'assets/images/colorHero.png',
+    extensions: 'assets/images/Extensions.jpg',
+    treatments: 'assets/images/Treatments.jpg',
+    color: 'assets/images/Color.jpg',
+    styling: 'assets/images/Styling.jpg',
   };
 
   // options shown inside each tab
-tabOptions: Record<TabId, OptionItem[]> = {
+  tabOptions: Record<TabId, OptionItem[]> = {
     treatments: [
       {
         id: 'gloss',
-        number: '03',
-        title: 'GLOSS',
+        number: '01',
+        title: 'Botanical Smoother',
         image: 'assets/images/tr_gloss.png',
         hoverImage: 'assets/images/tr_gloss_hover.png',
         position: { top: '25%', left: '10%', align: 'start' },
@@ -61,24 +63,84 @@ tabOptions: Record<TabId, OptionItem[]> = {
       {
         id: 'repairative',
         number: '02',
-        title: 'REPAIRATIVE',
+        title: 'Keratin',
         image: 'assets/images/tr_repair.png',
         hoverImage: 'assets/images/tr_repair_hover.png',
         position: { top: '20%', right: '12%', align: 'end' },
       },
+    ],
+
+    // you can add these later with their own positions
+    extensions: [
       {
-        id: 'shine',
-        number: '02',
-        title: 'SHINE',
+        id: 'sewIn',
+        number: '01',
+        title: 'Sew In',
         image: 'assets/images/tr_shine.png',
         hoverImage: 'assets/images/tr_shine_hover.png',
         position: { bottom: '25%', left: '50%', transform: 'translateX(-50%)', align: 'center' },
       },
     ],
-
-    // you can add these later with their own positions
-    extensions: [],
-    color: [],
+    color: [
+      {
+        id: 'highlight',
+        number: '01',
+        title: 'Highlight',
+        image: 'assets/images/tr_gloss.png',
+        hoverImage: 'assets/images/tr_gloss_hover.png',
+        position: { top: '25%', left: '10%', align: 'start' },
+      },
+      {
+        id: 'balayage',
+        number: '02',
+        title: 'Balayage',
+        image: 'assets/images/tr_repair.png',
+        hoverImage: 'assets/images/tr_repair_hover.png',
+        position: { top: '20%', right: '12%', align: 'end' },
+      },
+      {
+        id: 'gloss',
+        number: '03',
+        title: 'Gloss',
+        image: 'assets/images/tr_shine.png',
+        hoverImage: 'assets/images/tr_shine_hover.png',
+        position: { bottom: '25%', left: '50%', transform: 'translateX(-50%)', align: 'center' },
+      },
+    ],
+    styling: [
+      {
+        id: 'blowout',
+        number: '01',
+        title: 'Blowout',
+        image: 'assets/images/tr_gloss.png',
+        hoverImage: 'assets/images/tr_gloss_hover.png',
+        position: { top: '25%', left: '10%', align: 'start' },
+      },
+      {
+        id: 'braids',
+        number: '02',
+        title: 'Braids',
+        image: 'assets/images/tr_repair.png',
+        hoverImage: 'assets/images/tr_repair_hover.png',
+        position: { top: '20%', right: '12%', align: 'end' },
+      },
+      {
+        id: 'silkPress',
+        number: '03',
+        title: 'Silk Press',
+        image: 'assets/images/tr_shine.png',
+        hoverImage: 'assets/images/tr_shine_hover.png',
+        position: { bottom: '25%',left: '10%', align: 'start' },
+      },
+            {
+        id: 'updo',
+        number: '04',
+        title: 'Updo',
+        image: 'assets/images/tr_shine.png',
+        hoverImage: 'assets/images/tr_shine_hover.png',
+        position: { bottom: '25%', right: '12%', align: 'end' },
+      },
+    ],
   };
 
   hoveredOptionId: string | null = null;
@@ -105,7 +167,7 @@ tabOptions: Record<TabId, OptionItem[]> = {
     const base = this.tabHeroImage[this.content.activeTab];
     if (!this.hoveredOptionId) return base;
 
-    const opt = this.activeOptions.find(o => o.id === this.hoveredOptionId);
+    const opt = this.activeOptions.find((o) => o.id === this.hoveredOptionId);
     return opt?.hoverImage ?? base;
   }
 }

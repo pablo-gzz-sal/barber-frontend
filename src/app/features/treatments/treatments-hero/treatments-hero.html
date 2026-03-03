@@ -4,7 +4,7 @@
     class="absolute top-0 left-0 w-full z-30 bg-black/80 backdrop-blur-sm border-b border-white/10"
   >
     <div class="max-w-7xl mx-auto px-6 py-4 md:py-6">
-      <div class="flex items-center justify-between md:justify-end gap-6 md:gap-12">
+      <div class="flex items-center flex-wrap lg:flex-wrap justify-between md:justify-end gap-6 md:gap-12">
         @for (tab of content.tabs; track tab.id) {
           <button
             class="group transition-all duration-300"
@@ -23,7 +23,7 @@
               {{ tab.number }}
             </span>
             <span
-              class="text-sm md:text-base tracking-[0.15em] font-light"
+              class="text-sm md:text-base tracking-[0.15em] font-light uppercase "
               [class]="
                 tab.id === content.activeTab
                   ? 'text-white font-normal'
@@ -57,7 +57,6 @@
         <button
           type="button"
           class="absolute animate-fade-in group"
-          (mouseenter)="onHoverOption(opt.id)"
           [ngStyle]="{
             top: opt.position.top,
             left: opt.position.left,
@@ -81,7 +80,7 @@
             </span>
 
             <span
-              class="text-lg md:text-xl tracking-[0.15em] font-light transition-all duration-300"
+              class="text-lg md:text-xl tracking-[0.15em] font-light transition-all duration-300 uppercase"
               [class.text-white]="hoveredOptionId === opt.id"
               [class.text-white/85]="hoveredOptionId !== opt.id"
               [class.opacity-100]="hoveredOptionId === opt.id"
