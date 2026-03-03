@@ -235,6 +235,16 @@
                   >
                     Team Member
                   </p>
+                  @if (i === activeIndex && member.showCta && member.ctaUrl) {
+                    <button
+                      type="button"
+                      class="cursor-pointer mt-6 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-all"
+                      style="background: white; color: #111"
+                      (click)="openExternal(content.team.members[activeIndex].ctaUrl)"
+                    >
+                      {{ content.team.members[activeIndex].ctaLabel || 'Learn more' }}
+                    </button>
+                  }
                 </div>
               </button>
             </ng-container>

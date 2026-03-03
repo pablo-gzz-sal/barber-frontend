@@ -7,6 +7,8 @@ import { Shopify } from '../../core/services/shopify';
 import { CommonModule } from '@angular/common';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
+import { ShopBestSellers } from '../shop/shop-best-sellers/shop-best-sellers';
+import { ShopSale } from '../shop/shop-sale/shop-sale';
 
 type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
 type BrandPageMode = 'single' | 'group';
@@ -30,7 +32,7 @@ interface ProductCardVM {
 @Component({
   selector: 'app-brand-page',
   standalone: true,
-  imports: [CommonModule, Header, Footer, RouterLink],
+  imports: [CommonModule, Header, Footer, RouterLink, ShopBestSellers, ShopSale],
   templateUrl: './brand-page.html',
   styleUrl: './brand-page.css',
 })

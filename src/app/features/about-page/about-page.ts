@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'app-about-page',
@@ -10,8 +17,8 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild }
   templateUrl: './about-page.html',
   styleUrl: './about-page.css',
 })
-export class AboutPage implements AfterViewInit, OnInit{
-   @ViewChild('viewport', { static: true }) viewport!: ElementRef<HTMLElement>;
+export class AboutPage implements AfterViewInit, OnInit {
+  @ViewChild('viewport', { static: true }) viewport!: ElementRef<HTMLElement>;
   // protected readonly content = UI_TEXT.ABOUT;
   // Tune these to match your design
   slideWidth = 360; // width of each "slot" on the rail (NOT the image size)
@@ -61,6 +68,29 @@ export class AboutPage implements AfterViewInit, OnInit{
           name: 'June Lastname',
           image: 'assets/images/juneAbout.png',
           bio: 'Master colorist with expertise in balayage and dimensional color techniques.',
+        },
+        {
+          name: 'Nebiya Copeland',
+          image: 'assets/images/NebiyaCopeland.jpg',
+          bio: '',
+        },
+        {
+          name: 'Sydney Smith',
+          image: 'assets/images/SydneySmith.jpg',
+          bio: '',
+        },
+        {
+          name: 'Kelly Brandt',
+          image: 'assets/images/KellyBrandt.jpeg',
+          bio: '',
+          ctaLabel: 'Book with Kelly',
+          ctaUrl: 'https://go.booker.com/location/KellyBrandtStyling',
+          showCta: true,
+        },
+          {
+          name: 'Raquel Campbell',
+          image: 'assets/images/raquellCampbell.jpeg',
+          bio: '',
         },
       ],
     },
@@ -134,5 +164,18 @@ export class AboutPage implements AfterViewInit, OnInit{
     const x = viewportCenter - activeCenter;
 
     this.railTransform = `translateX(${x}px)`;
+  }
+
+  get activeMember(): any {
+    return this.content.team.members[this.activeIndex];
+  }
+
+  get showKellyCta(): boolean {
+    return !!this.activeMember?.showCta && !!this.activeMember?.ctaUrl;
+  }
+
+  openExternal(url?: string) {
+    if (!url) return;
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 }
