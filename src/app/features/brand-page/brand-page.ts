@@ -211,7 +211,8 @@ export class BrandPage implements OnInit {
                   const imageNameSource = parentGroup?.brandTitle ?? collection.title;
                   this.brandHeroUrl = this.buildBrandCoverUpperImage(imageNameSource);
                   this.brandAboutImageUrl = this.buildBrandBottomImage(imageNameSource);
-
+                  console.log(this.shopifyService.getCollectionProducts(collection.id));
+                  
                   return this.shopifyService.getCollectionProducts(collection.id).pipe(
                     map((r: any) => ({
                       mode: 'single' as const,
@@ -249,6 +250,8 @@ export class BrandPage implements OnInit {
             title: titles[i] ?? h,
             imageUrl: images[i] ?? '',
           }));
+          console.log(this.brandGroup);
+          
         } else {
           this.collectionEntries = [];
         }
