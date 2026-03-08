@@ -1,10 +1,10 @@
 <section class="bg-white text-black overflow-hidden">
   <!-- Top black quote bar -->
   <div class="bg-black text-white py-10 md:py-14">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-      <div class="text-4xl md:text-5xl font-serif italic mb-4">allure</div>
+    <div class="max-w-7xl mx-auto px-6 flex flex-col justify-center items-center text-center">
+      <img class="w-40 h-24 py-4" src="assets/svg/allure-logo.svg" alt="">
       <p
-        class="text-sm md:text-base font-light text-white/80 max-w-3xl mx-auto tracking-[0.2em] uppercase"
+        class="text-sm md:text-base font-light text-white/80 max-w-3xl mx-auto tracking-[0.2em]"
       >
         {{ content.quote }}
       </p>
@@ -12,44 +12,45 @@
   </div>
 
   <!-- Main two-column block -->
-  <div class="max-w-7xl mx-auto px-6 py-14 md:py-20">
-    <div class="grid grid-cols-1 lg:grid-cols-12">
-      <!-- Left: image -->
-      <div class="lg:col-span-7 relative overflow-hidden min-h-[320px] md:min-h-[520px]">
-        <img
-          [src]="content.images[0]"
-          alt="Salon Interior Main"
-          class="absolute inset-0 w-full h-full object-cover"
-        />
-      </div>
+<div class="w-full">
+  <div class="flex flex-col lg:flex-row min-h-[400px] lg:min-h-[572px]">
 
-      <!-- Right: white content panel -->
-      <div class="lg:col-span-5 bg-white">
-        <div class="h-full flex flex-col justify-center p-10 md:p-14 lg:p-16">
-          <h2 class="text-4xl md:text-5xl font-light leading-tight tracking-wide">
-            {{ content.title }}
-          </h2>
+    <!-- Left: image — exactly half -->
+    <div class="w-full lg:w-1/2 relative overflow-hidden h-[300px] sm:h-[420px] lg:h-auto">
+      <img
+        [src]="content.images[0]"
+        alt="Salon Interior Main"
+        class="w-full h-full object-cover object-center"
+      />
+    </div>
 
-          <p class="mt-6 text-sm md:text-base font-light leading-relaxed text-black/60 max-w-md">
-            {{ content.description }}
-          </p>
+    <!-- Right: content — exactly half -->
+    <div class="w-full lg:w-1/2 flex items-center justify-start px-8 py-12 sm:px-12 md:px-16 lg:px-20 xl:px-24">
+      <div class="w-full max-w-lg flex flex-col items-start gap-6 md:gap-8">
+        <h2
+          class="text-stone-950 text-[2rem] leading-[1.15] tracking-[0.04em] font-extralight sm:text-[2.5rem] lg:text-[3.25rem] lg:leading-[1.2] xl:text-[3.75rem]"
+        >
+          {{ content.title }}
+        </h2>
 
-          <div class="mt-10">
-            <button
-            (click)="onAbout()"
-              class="cursor-pointer group relative overflow-hidden rounded-full bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
-            >
-              <span class="relative z-10">{{ content.btnText }}</span>
+        <p
+          class="text-stone-600 font-light tracking-[0.04em] text-sm leading-7 sm:text-base sm:leading-7 lg:text-lg lg:leading-8"
+        >
+          {{ content.description }}
+        </p>
 
-              <!-- subtle glow -->
-              <span
-                class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-              >
-              </span>
-            </button>
-          </div>
-        </div>
+        <button
+          (click)="onAbout()"
+          class="cursor-pointer group relative overflow-hidden rounded-full bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
+        >
+          <span class="relative z-10">{{ content.btnText }}</span>
+          <span
+            class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          ></span>
+        </button>
       </div>
     </div>
+
   </div>
+</div>
 </section>
