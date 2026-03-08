@@ -4,36 +4,44 @@
     class="absolute top-0 left-0 w-full z-30 bg-black/80 backdrop-blur-sm border-b border-white/10"
   >
     <div class="max-w-7xl mx-auto px-6 py-4 md:py-6">
-      <div class="flex items-center flex-wrap lg:flex-wrap justify-between md:justify-end gap-6 md:gap-12">
+      <div class="flex items-end justify-between">
+        <!-- Active tab: left side -->
         @for (tab of content.tabs; track tab.id) {
-          <button
-            class="group transition-all duration-300"
-            [class.active]="tab.id === content.activeTab"
-            (click)="setTab(tab.id)"
-
-          >
-            <span
-              class="text-[10px] md:text-xs tracking-[0.2em] font-light block mb-1"
-              [class]="
-                tab.id === content.activeTab
-                  ? 'text-white/50'
-                  : 'text-white/30 group-hover:text-white/50'
-              "
-            >
-              {{ tab.number }}
-            </span>
-            <span
-              class="text-sm md:text-base tracking-[0.15em] font-light uppercase "
-              [class]="
-                tab.id === content.activeTab
-                  ? 'text-white font-normal'
-                  : 'text-white/40 group-hover:text-white/60'
-              "
-            >
-              {{ tab.label }}
-            </span>
-          </button>
+          @if (tab.id === content.activeTab) {
+            <button class=" group transition-all duration-300 text-left " (click)="setTab(tab.id)">
+              <span
+                class="text-[10px] md:text-2xl tracking-[0.2em] font-light block mb-1 text-white/50"
+              >
+                {{ tab.number }}
+              </span>
+              <span
+                class="text-sm md:text-4xl  tracking-[0.15em] font-light uppercase text-white font-normal"
+              >
+                {{ tab.label }}
+              </span>
+            </button>
+          }
         }
+
+        <!-- Inactive tabs: right side -->
+        <div class="flex flex-col items-start gap-2 md:gap-3">
+          @for (tab of content.tabs; track tab.id) {
+            @if (tab.id !== content.activeTab) {
+              <button class="cursor-pointer group transition-all duration-300 text-left" (click)="setTab(tab.id)">
+                <span
+                  class="text-[10px] md:text-xs tracking-[0.2em] font-light block mb-0.5 text-white/30 group-hover:text-white/50"
+                >
+                  {{ tab.number }}
+                </span>
+                <span
+                  class="text-sm md:text-base tracking-[0.15em] font-light uppercase text-white/40 group-hover:text-white/60"
+                >
+                  {{ tab.label }}
+                </span>
+              </button>
+            }
+          }
+        </div>
       </div>
     </div>
   </div>
