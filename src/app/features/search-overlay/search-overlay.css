@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.search-overlay-backdrop {
+  animation: overlayFade 180ms ease;
+}
+
+@keyframes overlayFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

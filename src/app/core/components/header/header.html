@@ -80,6 +80,10 @@
 
     <!-- Right: Actions -->
     <div class="flex items-center gap-2 md:gap-3">
+      <app-search-overlay
+        [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
+        [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
+      ></app-search-overlay>
       <!-- Book Appointment Button (Desktop) -->
       <button
         class="cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs tracking-wide hover:bg-white hover:text-black transition-all duration-300"
@@ -230,8 +234,7 @@
           >
             <span>{{ item.label }}</span>
             <span
-              class="cursor-pointer hover:text-white
-              text-2xl text-white/50 transition-all duration-300"
+              class="cursor-pointer hover:text-white text-2xl text-white/50 transition-all duration-300"
               [class.opacity-100]="i === activePreviewIndex"
               [class.opacity-0]="i !== activePreviewIndex"
             >
@@ -282,21 +285,21 @@
           </button>
         </ng-container>
       </div>
-
       <!-- Mobile Action Buttons -->
-      <div class="mt-8 space-y-3 animate-button-fade">
+      <!-- Mobile Action Buttons -->
+      <div class="mt-10 space-y-4 animate-button-fade">
         <button
           (click)="onBook()"
-          class="w-full border border-white/30 px-6 py-3 rounded-full text-sm tracking-wide hover:bg-white hover:text-black transition-all duration-300"
+          class="uppercase w-full text-left text-lg font-light tracking-wide text-white/80 border border-white/20 rounded-full px-6 py-4 transition-all duration-300 hover:text-black hover:bg-white hover:border-white"
         >
           {{ content.header.btnBook }}
         </button>
 
         <button
-          class="w-full border border-white/30 px-6 py-3 rounded-full text-sm tracking-wide hover:bg-white hover:text-black transition-all duration-300"
           (click)="loginWithShopify(); toggleMenu()"
+          class="uppercase w-full text-left text-lg font-light tracking-wide text-white/80 border border-white/20 rounded-full px-6 py-4 transition-all duration-300 hover:text-black hover:bg-white hover:border-white"
         >
-          Sign in / Account
+          Shop Account
         </button>
       </div>
     </nav>

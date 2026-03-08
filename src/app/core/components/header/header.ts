@@ -6,10 +6,11 @@ import { environment } from '../../../../environments/environment';
 import { CustomerService } from '../../services/customer-service';
 import { Router } from '@angular/router';
 import { Cart } from '../../services/cart';
+import { SearchOverlay } from '../../../features/search-overlay/search-overlay';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SearchOverlay],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -39,10 +40,10 @@ export class Header {
   menuItems = [
     { label: 'HOME', route: '/', preview: 'assets/images/josephHero.png' },
     { label: 'SHOP', route: '/shop', preview: 'assets/images/candleHero.png' },
-    { label: 'MILBON', route: '/milbon', preview: 'assets/images/josephHero.png' },
-    { label: 'SERVICES', route: '/services', preview: 'assets/images/josephHero.png' },
-    { label: 'ABOUT US', route: '/about', preview: 'assets/images/josephHero.png' },
-    { label: 'CONTACT', route: '/contact', preview: 'assets/images/josephHero.png' },
+    { label: 'MILBON', route: '/milbon', preview: 'assets/images/milbonHero.jpg' },
+    { label: 'SERVICES', route: '/services', preview: 'assets/images/stylingService.png' },
+    { label: 'ABOUT US', route: '/about', preview: 'assets/images/josephAbout.jpg' },
+    { label: 'CONTACT', route: '/contact', preview: 'assets/images/salonHero.jpg' },
   ];
 
   toggleMenu() {
