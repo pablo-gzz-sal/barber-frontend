@@ -396,6 +396,16 @@ export class Shopify {
       );
   }
 
+  getSaleProducts(limit = 4, minDiscount = 0, brand?: string) {
+    let params: any = { limit, minDiscount };
+
+    if (brand) {
+      params.brand = String(brand).trim().toLowerCase();
+    }
+
+    return this.http.get<any>(`${this.baseUrl}/sale`, { params });
+  }
+
   private toProductCard(p: any): ProductCard {
     const prices = (p?.variants ?? [])
       .map((v: any) => Number(v?.price))

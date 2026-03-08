@@ -67,15 +67,15 @@
       </div>
     </div>
 
-    <!-- BESTSELLERS (your reusable component) -->
-    <div class="mx-auto w-full max-w-[1440px] sm:py-16">
-      <app-shop-best-sellers [brand]="brand?.name"></app-shop-best-sellers>
-    </div>
+    <app-shop-best-sellers
+      class="mx-auto w-full max-w-[1440px] sm:py-16"
+      [brand]="brand?.name"
+    ></app-shop-best-sellers>
 
-    <!-- SHOP SALE (your reusable component) -->
-    <div class="mx-auto w-full max-w-[1440px] pb-14 sm:pb-16">
-      <app-shop-sale [milbonBanner]="false"></app-shop-sale>
-    </div>
+    <app-actual-sale
+      class="mx-auto w-full max-w-[1440px] pb-14 sm:pb-16"
+      [brand]="brand?.name"
+    ></app-actual-sale>
 
     <!-- COLLECTIONS -->
     <div class="mx-auto w-full max-w-[1440px] pb-20">
@@ -228,7 +228,6 @@
         </div>
       </div>
     </div>
-
   } @else if (notFound) {
     <!-- ── NOT FOUND STATE (no hero, no filters, nothing else) ─────── -->
 
