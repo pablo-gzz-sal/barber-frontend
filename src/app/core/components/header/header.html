@@ -12,6 +12,11 @@
         <img src="assets/svg/scissors.svg" class="h-6 w-auto" alt="Logo" />
       </div>
 
+      <app-search-overlay
+        [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
+        [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
+      ></app-search-overlay>
+
       <!-- Time + Open -->
       <div class="flex flex-col text-[11px] font-light tracking-wide leading-tight">
         <div class="flex items-center gap-2 text-white/80">
@@ -80,10 +85,6 @@
 
     <!-- Right: Actions -->
     <div class="flex items-center gap-2 md:gap-3">
-      <app-search-overlay
-        [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
-        [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
-      ></app-search-overlay>
       <!-- Book Appointment Button (Desktop) -->
       <button
         class="cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs tracking-wide hover:bg-white hover:text-black transition-all duration-300"
@@ -92,65 +93,44 @@
         (click)="onBook()"
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
+          width="17"
+          height="13"
+          viewBox="0 0 26 23"
           fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
+          <path
+            d="M19.7167 0V1.94451H23.0998C24.6924 1.94451 26 3.23027 26 4.79728V7.30535H1.90735e-06V4.79728C1.90735e-06 3.2313 1.31086 1.94451 2.90351 1.94451H6.28218V0H7.98769V1.94451H18.01V0H19.7167ZM26 8.98356V20.1472C26 21.7132 24.6924 23 23.0998 23H2.90461C1.31199 23 0.00110245 21.7142 0.00110245 20.1472V8.98356H26ZM14.612 10.7726H11.3891V13.9288H14.612V10.7726ZM8.16628 10.7726H4.94343V13.9288H8.16628V10.7726ZM21.0577 16.1471H17.8348V19.3023H21.0577V16.1471ZM14.612 16.1471H11.3891V19.3023H14.612V16.1471ZM8.16628 16.1471H4.94343V19.3023H8.16628V16.1471Z"
+            fill="#CCCCCC"
+          />
         </svg>
+
         <span>{{ content.header.btnBook }}</span>
       </button>
 
-      <!-- Desktop: Menu Dropdown Button + Panel -->
-      <div class="relative hidden lg:block">
-        <button
-          type="button"
-          class="cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
-          (click)="toggleDesktopDropdown()"
-          aria-haspopup="menu"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-          >
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-          </svg>
-          <span>Menu</span>
-        </button>
-      </div>
-
       <!-- Cart Icon -->
       <button
-        class="cursor-pointer hidden lg:flex p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300 relative"
+        class="cursor-pointer hidden lg:inline-flex items-center justify-center relative h-10 min-w-[44px] rounded-full border border-white/30 text-white transition-all duration-300 ease-out hover:bg-white hover:text-black hover:border-white"
         aria-label="Cart"
         [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
         [class.pointer-events-none]="isDesktopDropdownOpen || isMenuOpen"
         (click)="onCart()"
       >
+        <!-- subtle inner glow -->
+        <span
+          class="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-white/10 via-white/[0.03] to-transparent"
+        ></span>
+
         <!-- icon -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="19"
+          height="19"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           stroke-width="1.5"
+          class="relative z-10 transition-transform duration-300 group-hover:scale-105"
         >
           <circle cx="9" cy="21" r="1" />
           <circle cx="20" cy="21" r="1" />
@@ -159,16 +139,28 @@
 
         <!-- badge -->
         <span
-          class="absolute -top-0.5 -right-0.5 w-4 h-4 text-[9px] bg-white text-black rounded-full flex items-center justify-center font-medium"
           *ngIf="cartCount() > 0"
+          class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-white text-black text-[10px] leading-none font-medium flex items-center justify-center shadow-[0_4px_14px_rgba(0,0,0,0.18)]"
         >
           {{ cartCount() }}
         </span>
       </button>
 
+      <!-- Desktop: Menu Dropdown Button + Panel -->
+      <div class="relative hidden lg:block">
+        <button
+          type="button"
+          class="cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-2 md:px-2.5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
+          (click)="toggleDesktopDropdown()"
+          aria-haspopup="menu"
+        >
+          <img src="assets/svg/menu.svg" class="text-white w-4 h-4" alt="" />
+        </button>
+      </div>
+
       <!-- Account Icon -->
       <button
-        class="cursor-pointer hidden lg:flex p-2 md:p-2.5 hover:bg-white/5 rounded-full transition-all duration-300"
+        class="h-10 cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-2 md:px-2.5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
         (click)="loginWithShopify()"
         aria-label="Account"
         [class.opacity-0]="isDesktopDropdownOpen || isMenuOpen"
@@ -190,24 +182,12 @@
 
       <!-- Mobile Right: Grid/Hamburger Icon -->
       <button
-        class="lg:hidden p-2 hover:bg-white/5 rounded-full transition-colors"
+        type="button"
+        class="cursor-pointer lg:hidden items-center gap-2 px-2 md:px-2.5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
         (click)="toggleMenu()"
         aria-label="Open menu"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-        >
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
+        <img src="assets/svg/menu.svg" class="text-white w-4 h-4" alt="" />
       </button>
     </div>
   </div>
