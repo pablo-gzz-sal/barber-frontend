@@ -53,7 +53,7 @@ export class ShopBy {
     {
       key: 'shampoo',
       label: 'SHAMPOO',
-      image: 'assets/images/shampoo.jpg',
+      image: 'assets/images/productsBrand.jpg',
       link: '/products?type=shampoo'
     },
     {
@@ -65,13 +65,13 @@ export class ShopBy {
     {
       key: 'styling',
       label: 'STYLING',
-      image: 'assets/images/styling.jpg',
+      image: 'assets/images/Styling.jpg',
       link: '/products?type=styling'
     },
     {
       key: 'treatments',
       label: 'TREATMENTS',
-      image: 'assets/images/treatments.jpg',
+      image: 'assets/images/treatmentsHero.png',
       link: '/products?type=treatments'
     }
   ];
