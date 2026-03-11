@@ -19,6 +19,16 @@ export class ContactPage {
 
   constructor(private contactApi: ContactApiService) {}
 
+    weeklyHours = [
+    { day: 'Sunday', hours: 'Closed' },
+    { day: 'Monday', hours: 'Closed' },
+    { day: 'Tuesday', hours: '10 AM–4 PM' },
+    { day: 'Wednesday', hours: '9 AM–9 PM' },
+    { day: 'Thursday', hours: '9 AM–9 PM' },
+    { day: 'Friday', hours: '9 AM–7 PM' },
+    { day: 'Saturday', hours: '9 AM–5 PM' },
+  ];
+
   formData = {
     name: '',
     email: '',

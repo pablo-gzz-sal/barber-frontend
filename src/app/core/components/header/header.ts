@@ -1,12 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UI_TEXT } from '../../constants/app-text';
-import { UiButton } from '../../../shared/components/ui-button/ui-button';
-import { environment } from '../../../../environments/environment';
 import { CustomerService } from '../../services/customer-service';
 import { Router } from '@angular/router';
 import { Cart } from '../../services/cart';
 import { SearchOverlay } from '../../../features/search-overlay/search-overlay';
+
+type DayKey = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
+
+interface DayHours {
+  open: string | null; // "09:00"
+  close: string | null; // "21:00"
+}
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -14,7 +19,7 @@ import { SearchOverlay } from '../../../features/search-overlay/search-overlay';
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header {
+export class Header implements OnInit {
   protected readonly text = UI_TEXT;
   private router = inject(Router);
   private customer = inject(CustomerService);
@@ -22,19 +27,29 @@ export class Header {
 
   isMenuOpen = false;
 
-   cartCount = this.cart.count;
+  cartCount = this.cart.count;
 
   // NEW: desktop dropdown state
   isDesktopDropdownOpen = false;
   activePreviewIndex = 0;
 
-    content = {
-      header: {
-        hours: 'Time: 9am to 9pm',
-        openStatus: 'Open Now',
-        btnBook: 'Book Appointment',
-      },
-    };
+  content = {
+    header: {
+      hours: '',
+      openStatus: '',
+      btnBook: 'Book Appointment',
+    },
+  };
+
+  private businessHours: Record<DayKey, DayHours> = {
+    sunday: { open: null, close: null },
+    monday: { open: null, close: null },
+    tuesday: { open: '10:00', close: '16:00' },
+    wednesday: { open: '09:00', close: '21:00' },
+    thursday: { open: '09:00', close: '21:00' },
+    friday: { open: '09:00', close: '19:00' },
+    saturday: { open: '09:00', close: '17:00' },
+  };
 
   // NEW: menu items with preview images
   menuItems = [
@@ -45,6 +60,63 @@ export class Header {
     { label: 'ABOUT US', route: '/about', preview: 'assets/images/josephAbout.jpg' },
     { label: 'CONTACT', route: '/contact', preview: 'assets/images/salonHero.jpg' },
   ];
+
+  ngOnInit() {
+    this.updateHeaderHours();
+    setInterval(() => this.updateHeaderHours(), 60_000);
+  }
+  private updateHeaderHours(): void {
+    const now = new Date();
+    const dayKey = this.getDayKey(now);
+    const todayHours = this.businessHours[dayKey];
+
+    if (!todayHours.open || !todayHours.close) {
+      this.content.header.hours = 'Time: Closed today';
+      this.content.header.openStatus = 'Closed';
+      return;
+    }
+
+    this.content.header.hours = `Time: ${this.formatTime(todayHours.open)} to ${this.formatTime(todayHours.close)}`;
+    this.content.header.openStatus = this.isOpenNow(now, todayHours.open, todayHours.close)
+      ? 'Open Now'
+      : 'Closed';
+  }
+
+  private getDayKey(date: Date): DayKey {
+    const days: DayKey[] = [
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+    ];
+    return days[date.getDay()];
+  }
+
+  private isOpenNow(now: Date, open: string, close: string): boolean {
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const openMinutes = this.toMinutes(open);
+    const closeMinutes = this.toMinutes(close);
+
+    return currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+  }
+
+  private toMinutes(time: string): number {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+
+  private formatTime(time: string): string {
+    const [hours, minutes] = time.split(':').map(Number);
+    const suffix = hours >= 12 ? 'pm' : 'am';
+    const hour12 = hours % 12 || 12;
+
+    return minutes === 0
+      ? `${hour12}${suffix}`
+      : `${hour12}:${String(minutes).padStart(2, '0')}${suffix}`;
+  }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -75,13 +147,11 @@ export class Header {
     window.location.href = `https://shopify.com/57366020281/account`;
   }
 
-  
-
   onAccountClick() {
     this.router.navigateByUrl('/account');
   }
 
-  onCart(){
+  onCart() {
     this.router.navigateByUrl('/checkout');
   }
 
