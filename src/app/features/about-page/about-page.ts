@@ -48,7 +48,7 @@ export class AboutPage implements AfterViewInit, OnInit {
       tvFeature: {
         title: 'TV Feature',
         description:
-          "Joseph's expertise was showcased on national television, bringing his signature precision and artistry to the FX series. His work continues to be recognized across both the beauty and entertainment industries.",
+          "Joseph's Expertise was showcased on national television, bringing his artistry to the FX series American Sports Story: Aaron Hernandez on Hulu. His work continues to be recognized across both beauty and entertainment industries.",
       },
     },
     team: {
@@ -119,11 +119,23 @@ export class AboutPage implements AfterViewInit, OnInit {
   activeIndex = 1; // center Nicole by default
   railTransform = 'translateX(0px)';
 
+  playing = false;
+
   trackByIdx = (i: number) => i;
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
   }
+
+  toggleVideo(video: HTMLVideoElement) {
+  if (video.paused) {
+    video.play();
+    this.playing = true
+  } else {
+    video.pause();
+    this.playing = false
+  }
+}
 
   ngAfterViewInit(): void {
     this.updateRail();
