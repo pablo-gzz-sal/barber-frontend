@@ -35,10 +35,9 @@ export class ShopSale implements OnInit {
     // Pick from these collections (change handles to yours)
     const handles = ['davines-more-inside-1', 'olaplex', 'nutrafol-1'];
 
- this.products$ = this.shop.getRandomFeaturedProducts(handles, 4).pipe(
-  map((products) => products.map((p) => this.toSaleCard(p))),
-);
-
+    this.products$ = this.shop
+      .getRandomFeaturedProducts(handles, 4)
+      .pipe(map((products) => products.map((p) => this.toSaleCard(p))));
   }
 
   private estimateOriginalPrice(priceLabel: string): string {
@@ -77,5 +76,11 @@ export class ShopSale implements OnInit {
           ? `$${minCompare.toFixed(2)}`
           : '',
     };
+  }
+
+  onMilbon() {
+    const url =
+      'https://shop.saloninteractive.com/store/josephbattistillc?utm_source=SalonInteractive&utm_medium=web&utm_campaign=ShareMyStore';
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 }

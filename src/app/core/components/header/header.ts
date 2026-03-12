@@ -55,7 +55,7 @@ export class Header implements OnInit {
   menuItems = [
     { label: 'HOME', route: '/', preview: 'assets/images/josephHero.png' },
     { label: 'SHOP', route: '/shop', preview: 'assets/images/candleHero.png' },
-    { label: 'MILBON', route: '/milbon', preview: 'assets/images/milbonHero.jpg' },
+    { label: 'MILBON', route: '/milton', preview: 'assets/images/milbonHero.jpg' },
     { label: 'SERVICES', route: '/services', preview: 'assets/images/stylingService.png' },
     { label: 'ABOUT US', route: '/about', preview: 'assets/images/josephAbout.jpg' },
     { label: 'CONTACT', route: '/contact', preview: 'assets/images/salonHero.jpg' },
@@ -138,6 +138,10 @@ export class Header implements OnInit {
   }
 
   navigateTo(route: string) {
+    if (route === '/milton') {
+      const url = 'https://shop.saloninteractive.com/store/josephbattistillc?utm_source=SalonInteractive&utm_medium=web&utm_campaign=ShareMyStore'
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
     this.router.navigateByUrl(route);
     this.isMenuOpen = false;
     this.isDesktopDropdownOpen = false;
