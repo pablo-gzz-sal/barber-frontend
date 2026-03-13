@@ -856,10 +856,9 @@ export class BrandPage implements OnInit {
   private getMetafieldValue(source: any, key: string): any {
     if (!source) return '';
 
-    if (source?.[key]) return source[key];
+    if (key in source) return source[key];
 
     const metafields = source?.metafields;
-
     if (!metafields) return '';
 
     if (Array.isArray(metafields)) {
