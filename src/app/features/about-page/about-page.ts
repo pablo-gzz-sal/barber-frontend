@@ -56,32 +56,32 @@ export class AboutPage implements AfterViewInit, OnInit {
       members: [
         {
           name: 'Megan Richardson',
-          image: 'assets/images/meganHero.png',
+          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/meganHero.png?v=1773360103',
           bio: 'Senior stylist specializing in precision cuts and color correction with 10+ years of experience.',
         },
         {
           name: 'Nicole Chan',
-          image: 'assets/images/nicoleAbout.jpg',
+          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/nicoleAbout.jpg?v=1773360104',
           bio: 'Nicole was born and raised in Los Angeles and has trained at a string of prestigious salons including Toni and Guy, Vidal Sassoon, Sebastian, Bumble and Bumble, Frederic Fekkai, and Paul LaBrecque Salon. True to her West Coast roots, Nicole has a flair for creating authentic bohemian looks and flirtatious beach waves with natural-looking, sun-kissed blonde highlights. Expertly skilled at balayage, razor cuts, and working with naturally curly and wavy hair, Nicole produces looks that are low maintenance and naturally sexy. She is personable and approachable and has an intuitive sense of style that ensures your new look will perfectly suit you.',
         },
         {
           name: 'June Lastname',
-          image: 'assets/images/juneAbout.png',
+          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/juneAbout.png?v=1773360103',
           bio: 'Master colorist with expertise in balayage and dimensional color techniques.',
         },
         {
           name: 'Nebiya Copeland',
-          image: 'assets/images/NebiyaCopeland.jpg',
+          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/NebiyaCopeland.jpg?v=1773360152',
           bio: '',
         },
         {
           name: 'Sydney Smith',
-          image: 'assets/images/SydneySmith.jpg',
+          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/SydneySmith.jpg?v=1773360133',
           bio: '',
         },
         {
           name: 'Kelly Brandt',
-          image: 'assets/images/KellyBrandt.jpeg',
+          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/KellyBrandt.jpg?v=1773360105',
           bio: '',
           ctaLabel: 'Book with Kelly',
           ctaUrl: 'https://go.booker.com/location/KellyBrandtStyling',
@@ -89,7 +89,7 @@ export class AboutPage implements AfterViewInit, OnInit {
         },
           {
           name: 'Raquel Campbell',
-          image: 'assets/images/raquellCampbell.jpeg',
+          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/raquellCampbell.jpg?v=1773360105',
           bio: '',
         },
       ],

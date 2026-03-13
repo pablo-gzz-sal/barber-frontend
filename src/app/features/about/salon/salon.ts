@@ -21,7 +21,7 @@ export class Salon implements OnInit {
     description: 'Come visit us at our New York City salon, or catch Joseph regularly in Rochester, NY or Los Angeles, CA.',
     btnText: 'Learn More',
     images: [
-      'assets/images/salonHero.jpg',
+      'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/salonHero.jpg?v=1773360111g',
       'assets/images/salon-interior-2.jpg',
       'assets/images/salon-products.jpg'
     ]

@@ -53,12 +53,12 @@ export class Header implements OnInit {
 
   // NEW: menu items with preview images
   menuItems = [
-    { label: 'HOME', route: '/', preview: 'assets/images/josephHero.png' },
-    { label: 'SHOP', route: '/shop', preview: 'assets/images/candleHero.png' },
-    { label: 'MILBON', route: '/milton', preview: 'assets/images/milbonHero.jpg' },
-    { label: 'SERVICES', route: '/services', preview: 'assets/images/stylingService.png' },
-    { label: 'ABOUT US', route: '/about', preview: 'assets/images/josephAbout.jpg' },
-    { label: 'CONTACT', route: '/contact', preview: 'assets/images/salonHero.jpg' },
+    { label: 'HOME', route: '/', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHero.png?v=1773360134' },
+    { label: 'SHOP', route: '/shop', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/candleHero.png?v=1773360109g' },
+    { label: 'MILBON', route: '/milton', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/milbonHero.jpg?v=1773360125' },
+    { label: 'SERVICES', route: '/services', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/stylingService.png?v=1773360105' },
+    { label: 'ABOUT US', route: '/about', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephAbout.jpg?v=1773360103' },
+    { label: 'CONTACT', route: '/contact', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/salonHero.jpg?v=1773360111' },
   ];
 
   ngOnInit() {
