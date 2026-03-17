@@ -253,30 +253,24 @@
         <div class="grid lg:grid-cols-2 gap-16 p-12 md:p-16 items-center">
           <!-- Left: Text -->
           <div class="animate-fade-in-left">
-            <h2 class="text-3xl md:text-4xl font-light tracking-wide text-black mb-8">
+            <h2 class="text-3xl md:text-4xl font-light tracking-wide leading-8 text-black mb-8">
               {{ content.booking.title }}
             </h2>
 
-            <div class="space-y-8 text-base text-black/70 leading-relaxed max-w-xl">
+            <div class="space-y-8 text-base text-black/70 leading-8 max-w-xl">
               <p>
-                You can book your appointment
+                You can
                 <a
-                  href="#"
-                  class="text-black underline underline-offset-4 hover:no-underline font-medium"
+                  (click)="onBook()"
+                  class="cursor-pointer underline underline-offset-4 hover:no-underline"
                 >
-                  online </a
+                  book your appointment online</a
                 >, or feel free to give us a call or send us an email to set it up.
               </p>
 
               <p>
                 Currently, only Tuesday and Wednesday appointments are available online. For any
-                other service inquiries, plans or general questions, please feel free to
-                <a
-                  href="#"
-                  class="text-black underline underline-offset-4 hover:no-underline font-medium"
-                >
-                  send us a message </a
-                >, or reach out via email or phone.
+                other service inquiries, plans or general questions, please feel free to send us a message or reach out via email or phone.
               </p>
             </div>
           </div>

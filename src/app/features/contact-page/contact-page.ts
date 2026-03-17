@@ -19,7 +19,7 @@ export class ContactPage {
 
   constructor(private contactApi: ContactApiService) {}
 
-    weeklyHours = [
+  weeklyHours = [
     { day: 'Sunday', hours: 'Closed' },
     { day: 'Monday', hours: 'Closed' },
     { day: 'Tuesday', hours: '10 AM–4 PM' },
@@ -126,5 +126,19 @@ export class ContactPage {
       message: '',
       agreedToTerms: false,
     };
+  }
+
+  onBook() {
+    if (typeof window === 'undefined') return;
+
+    const a = document.createElement('a');
+    a.href = 'https://booking.mangomint.com/307273';
+
+    // optional: avoid navigation if their script fails to load
+    a.style.display = 'none';
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   }
 }

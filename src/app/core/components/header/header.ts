@@ -53,21 +53,49 @@ export class Header implements OnInit {
 
   // NEW: menu items with preview images
   menuItems = [
-    { label: 'HOME', route: '/', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHero.png?v=1773360134' },
-    { label: 'SHOP', route: '/shop', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/candleHero.png?v=1773360109g' },
-    { label: 'MILBON', route: '/milton', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/milbonHero.jpg?v=1773360125' },
-    { label: 'SERVICES', route: '/services', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/stylingService.png?v=1773360105' },
-    { label: 'ABOUT US', route: '/about', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephAbout.jpg?v=1773360103' },
-    { label: 'CONTACT', route: '/contact', preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/salonHero.jpg?v=1773360111' },
+    {
+      label: 'HOME',
+      route: '/',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHero.png?v=1773360134',
+    },
+    {
+      label: 'SHOP',
+      route: '/shop',
+      preview:
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/candleHero.png?v=1773360109g',
+    },
+    {
+      label: 'MILBON',
+      route: '/milton',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/milbonHero.jpg?v=1773360125',
+    },
+    {
+      label: 'SERVICES',
+      route: '/services',
+      preview:
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/stylingService.png?v=1773360105',
+    },
+    {
+      label: 'ABOUT US',
+      route: '/about',
+      preview:
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephAbout.jpg?v=1773360103',
+    },
+    {
+      label: 'CONTACT',
+      route: '/contact',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/salonHero.jpg?v=1773360111',
+    },
   ];
 
   ngOnInit() {
     this.updateHeaderHours();
     setInterval(() => this.updateHeaderHours(), 60_000);
   }
+
   private updateHeaderHours(): void {
-    const now = new Date();
-    const dayKey = this.getDayKey(now);
+    const nowNY = this.getDateInTimeZone('America/New_York');
+    const dayKey = this.getDayKey(nowNY);
     const todayHours = this.businessHours[dayKey];
 
     if (!todayHours.open || !todayHours.close) {
@@ -77,7 +105,7 @@ export class Header implements OnInit {
     }
 
     this.content.header.hours = `Time: ${this.formatTime(todayHours.open)} to ${this.formatTime(todayHours.close)}`;
-    this.content.header.openStatus = this.isOpenNow(now, todayHours.open, todayHours.close)
+    this.content.header.openStatus = this.isOpenNow(nowNY, todayHours.open, todayHours.close)
       ? 'Open Now'
       : 'Closed';
   }
@@ -93,6 +121,37 @@ export class Header implements OnInit {
       'saturday',
     ];
     return days[date.getDay()];
+  }
+
+  private getDateInTimeZone(timeZone: string): Date {
+    const now = new Date();
+
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }).formatToParts(now);
+
+    const map: Record<string, string> = {};
+    for (const part of parts) {
+      if (part.type !== 'literal') {
+        map[part.type] = part.value;
+      }
+    }
+
+    return new Date(
+      Number(map['year']),
+      Number(map['month']) - 1,
+      Number(map['day']),
+      Number(map['hour']),
+      Number(map['minute']),
+      Number(map['second']),
+    );
   }
 
   private isOpenNow(now: Date, open: string, close: string): boolean {
@@ -139,7 +198,8 @@ export class Header implements OnInit {
 
   navigateTo(route: string) {
     if (route === '/milton') {
-      const url = 'https://shop.saloninteractive.com/store/josephbattistillc?utm_source=SalonInteractive&utm_medium=web&utm_campaign=ShareMyStore'
+      const url =
+        'https://shop.saloninteractive.com/store/josephbattistillc?utm_source=SalonInteractive&utm_medium=web&utm_campaign=ShareMyStore';
       window.open(url, '_blank', 'noopener,noreferrer');
     }
     this.router.navigateByUrl(route);
