@@ -79,7 +79,7 @@
     <!-- Center: Logo -->
     <div class="cursor-pointer absolute left-1/2 -translate-x-1/2">
       <a href="/" class="flex flex-col items-center group cursor-pointer">
-        <img src="assets/svg/whiteLogo.svg" class="h-10 my-2" alt="" />
+        <img src="assets/svg/whiteLogo.svg" class="h-14 my-2" alt="" />
       </a>
     </div>
 
@@ -101,11 +101,11 @@
         >
           <path
             d="M19.7167 0V1.94451H23.0998C24.6924 1.94451 26 3.23027 26 4.79728V7.30535H1.90735e-06V4.79728C1.90735e-06 3.2313 1.31086 1.94451 2.90351 1.94451H6.28218V0H7.98769V1.94451H18.01V0H19.7167ZM26 8.98356V20.1472C26 21.7132 24.6924 23 23.0998 23H2.90461C1.31199 23 0.00110245 21.7142 0.00110245 20.1472V8.98356H26ZM14.612 10.7726H11.3891V13.9288H14.612V10.7726ZM8.16628 10.7726H4.94343V13.9288H8.16628V10.7726ZM21.0577 16.1471H17.8348V19.3023H21.0577V16.1471ZM14.612 16.1471H11.3891V19.3023H14.612V16.1471ZM8.16628 16.1471H4.94343V19.3023H8.16628V16.1471Z"
-            fill="#CCCCCC"
+            fill="currentColor"
           />
         </svg>
 
-        <span>{{ content.header.btnBook }}</span>
+        <span class="font-semibold hover:font-semibold">{{ content.header.btnBook }}</span>
       </button>
 
       <!-- Cart Icon -->
@@ -150,11 +150,27 @@
       <div class="relative hidden lg:block">
         <button
           type="button"
-          class="cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-2 md:px-2.5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
+          class="cursor-pointer hidden lg:flex hover:text-black items-center gap-2 border border-white/30 px-2 md:px-2.5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
           (click)="toggleDesktopDropdown()"
           aria-haspopup="menu"
         >
-          <img src="assets/svg/menu.svg" class="text-white w-4 h-4" alt="" />
+          <svg
+            width="22"
+            height="21"
+            viewBox="0 0 28 27"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="6.5" height="6.5" rx="1" fill="currentColor" />
+            <rect x="10.5" width="6.5" height="6.5" rx="1" fill="currentColor" />
+            <rect x="21" width="6.5" height="6.5" rx="1" fill="currentColor" />
+            <rect y="10.1665" width="6.5" height="6.5" rx="1" fill="currentColor" />
+            <rect x="10.5" y="10.1665" width="6.5" height="6.5" rx="1" fill="currentColor" />
+            <rect x="21" y="10.1665" width="6.5" height="6.5" rx="1" fill="currentColor" />
+            <rect y="20.3335" width="6.5" height="6.5" rx="1" fill="currentColor" />
+            <rect x="10.5" y="20.3335" width="6.5" height="6.5" rx="1" fill="currentColor" />
+            <rect x="21" y="20.3335" width="6.5" height="6.5" rx="1" fill="currentColor" />
+          </svg>
         </button>
       </div>
 
@@ -187,7 +203,23 @@
         (click)="toggleMenu()"
         aria-label="Open menu"
       >
-        <img src="assets/svg/menu.svg" class="text-white w-4 h-4" alt="" />
+        <svg
+          width="22"
+            height="21"
+          viewBox="0 0 28 27"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="6.5" height="6.5" rx="1" fill="currentColor" />
+          <rect x="10.5" width="6.5" height="6.5" rx="1" fill="currentColor" />
+          <rect x="21" width="6.5" height="6.5" rx="1" fill="currentColor" />
+          <rect y="10.1665" width="6.5" height="6.5" rx="1" fill="currentColor" />
+          <rect x="10.5" y="10.1665" width="6.5" height="6.5" rx="1" fill="currentColor" />
+          <rect x="21" y="10.1665" width="6.5" height="6.5" rx="1" fill="currentColor" />
+          <rect y="20.3335" width="6.5" height="6.5" rx="1" fill="currentColor" />
+          <rect x="10.5" y="20.3335" width="6.5" height="6.5" rx="1" fill="currentColor" />
+          <rect x="21" y="20.3335" width="6.5" height="6.5" rx="1" fill="currentColor" />
+        </svg>
       </button>
     </div>
   </div>

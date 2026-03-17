@@ -32,13 +32,13 @@
           </div>
 
           <div
-            class="rounded-2xl border border-black/5 overflow-hidden bg-white shadow-[0_18px_55px_rgba(0,0,0,0.06)]"
+            class="rounded-2xl border border-black/6 overflow-hidden bg-white shadow-[0_6px_20px_rgba(0,0,0,0.035)] transition-shadow duration-300 hover:shadow-[0_10px_28px_rgba(0,0,0,0.025)]"
           >
             @for (service of content.extensions.services; track service.name; let i = $index) {
               <button
                 type="button"
                 (click)="openBooking(service.bookingUrl)"
-                class="group w-full text-left px-5 sm:px-7 py-4 flex items-center justify-between gap-6 transition-all duration-300 ease-out hover:bg-black/[0.03] active:bg-black/[0.05]"
+                class="group w-full text-left px-5 sm:px-7 py-4 flex items-center justify-between gap-6 transition-all duration-250 ease-out hover:bg-black/[0.02] active:bg-black/[0.04] hover:translate-x-[1px]"
               >
                 <div class="min-w-0">
                   <p class="text-base text-black/85 services-page-font truncate">
@@ -50,11 +50,13 @@
                 </div>
 
                 <div class="flex items-center gap-3 shrink-0">
-                  <span class="text-base text-black/60 font-light">
+                  <span
+                    class="text-base text-black/58 font-light transition-colors duration-300 group-hover:text-black/78"
+                  >
                     {{ service.price }}
                   </span>
                   <span
-                    class="text-black/35 transition-transform duration-300 group-hover:translate-x-1"
+                    class="text-black/28 transition-all duration-300 group-hover:translate-x-1 group-hover:text-black/50"
                     aria-hidden="true"
                   >
                     →
@@ -279,7 +281,7 @@
 
         <button
           (click)="onBook()"
-          class="rounded-full group relative bg-black text-white px-9 md:px-11 py-3.5 text-xs md:text-sm font-light tracking-[0.22em] uppercase overflow-hidden transition-all duration-300 ease-out hover:bg-gray-900 hover:-translate-y-0.5 hover:shadow-[0_12px_35px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2"
+          class=" group relative bg-black text-white px-9 md:px-11 py-3.5 text-xs md:text-sm font-light tracking-[0.22em] uppercase overflow-hidden transition-all duration-300 ease-out hover:bg-gray-900 hover:-translate-y-0.5 hover:shadow-[0_12px_35px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2"
         >
           <span class="relative z-10">{{ content.cta.buttonText }}</span>
           <span
