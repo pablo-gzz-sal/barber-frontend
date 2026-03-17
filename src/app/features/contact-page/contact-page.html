@@ -2,33 +2,32 @@
 <div class="contact-page bg-white">
   <!-- Hero Section with Products -->
 
-  <section class="relative overflow-hidden bg-[#f3efe7] min-h-[720px] lg:min-h-[820px]">
+  <section class="relative overflow-hidden min-h-[600px] lg:min-h-[820px]">
     <div class="container mx-auto px-6 lg:px-16 relative z-10 pt-20 lg:pt-28">
       <!-- Text only -->
       <div class="max-w-3xl">
-        <h1 class="text-[64px] lg:text-[84px] font-light leading-[1.05] mb-10 text-black">
+        <h1
+          class="text-4xl lg:text-[84px] font-normal leading-[1.05] mb-10 text-black leading-[50px] lg:leading-[100px] tracking-[2.89px]"
+        >
           Happy to Answer<br />
           Your Questions
         </h1>
 
-        <p class="text-lg text-gray-600 leading-relaxed max-w-xl">
+        <p
+          class="text-lg text-gray-600 leading-relaxed max-w-xl text-neutral-600 leading-9 tracking-[2.89px]"
+        >
           Our clients are our top priority. Call or email us with any questions about our products
           or services.
         </p>
       </div>
-
-      <!-- Spacer so text never collides with the bottom image -->
-      <div class="h-64 lg:h-80"></div>
     </div>
 
-    <!-- Bottom Image (anchored + pushed down) -->
-    <div
-      class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1400px] max-w-none pointer-events-none"
-    >
+    <!-- Right-anchored image -->
+    <div class="absolute bottom-0 right-0 lg:w-[55%] lg:w-[50%] pointer-events-none">
       <img
-        src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/answerQs.png?v=1773360132"
+        src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/answerQsCut.png?v=1773779583"
         alt="Salon Tools"
-        class="w-full object-contain translate-y-12 lg:translate-y-20"
+        class="w-full object-contain object-right-bottom"
       />
     </div>
   </section>
@@ -40,7 +39,9 @@
         <!-- Left - CTA Text -->
         <div class="animate-fade-in-up">
           <h2 class="text-4xl lg:text-5xl font-light mb-6 leading-tight">
-            {{ content.form.title }}
+            ARE YOU READY FOR
+            <br />
+            RADIANT STYLE EXPERIENCE?
           </h2>
           <p class="text-gray-400 leading-relaxed">
             {{ content.form.description }}
@@ -146,58 +147,63 @@
     </div>
   </section>
 
-  <!-- Locations Section -->
-  <section class="bg-[#F4F1EA] py-20 lg:py-24">
-    <div class="max-w-[1440px] mx-auto px-6 lg:px-16">
+  <section class="pb-20 lg:pb-24">
+    <div class="w-full mx-auto">
       <!-- Featured Location -->
       <div class="animate-fade-in-up">
-        <div class="grid lg:grid-cols-2 items-stretch">
+        <div class="grid lg:grid-cols-2 w-full items-stretch">
           <!-- Image (left) -->
-          <div class="relative overflow-hidden bg-black/5">
+          <div class="relative h-[320px] lg:h-[568px]">
             <img
               src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/salonHero.jpg?v=1773360111"
               alt="Manhattan Location"
-              class="w-full h-full object-cover"
+              class="absolute inset-0 w-full h-full object-cover"
             />
           </div>
 
           <!-- Info (right) -->
-          <div class="bg-[#F4F1EA] flex items-center">
-            <div class="px-10 lg:px-16 py-14 lg:py-16 max-w-xl">
-              <p class="text-sm tracking-[0.25em] uppercase text-black/70 mb-8">
+          <div class="flex items-center">
+            <div class="px-10 lg:px-16 pt-14 lg:py-16 max-w-xl">
+              <p class="text-black text-sm lg:text-xl font-semibold tracking-[0.2em] mb-8">
                 {{ content.locations.title }}
               </p>
 
-              <div class="flex items-start gap-4">
-                <!-- Outline pin -->
-                <svg
-                  class="w-7 h-7 mt-1 text-black"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
+              <div class="flex flex-col gap-6 items-start justify-center">
+                <div class="flex flex-row gap-6 items-start justify-center">
+                  <!-- Pin -->
+                  <svg
+                    width="28"
+                    height="40"
+                    viewBox="0 0 45 65"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M44.8953 21.1143C43.9725 9.09348 34.6451 0 22.5004 0C10.3557 0 1.02824 9.09348 0.105504 21.1143C-0.41223 27.9289 0.983437 33.0788 4.11793 39.0935C8.6284 47.7478 16.1611 57.2891 21.2113 64.3352C21.5067 64.7521 21.9878 65 22.5 65C23.0121 65 23.4933 64.7521 23.7887 64.3352C28.831 57.2951 36.3721 47.7478 40.8821 39.0935C44.0166 33.0789 45.4123 27.9317 44.8945 21.1143H44.8953ZM22.5004 30.3686C18.7328 30.3686 15.3366 28.0952 13.8961 24.6103C12.4555 21.1283 13.2518 17.1164 15.9136 14.4487C18.5783 11.7809 22.5851 10.9836 26.0659 12.4288C29.5465 13.8712 31.8145 17.2715 31.8145 21.0434C31.8145 26.1932 27.6442 30.3686 22.5004 30.3686Z"
+                      fill="black"
+                    />
+                  </svg>
 
-                <div>
-                  <h3 class="text-3xl lg:text-4xl font-light tracking-wide mb-6">
+                  <h3 class="text-3xl lg:text-5xl font-light tracking-[0.08em] leading-tight">
                     {{ content.locations.featured.name }}
                   </h3>
-
-                  <address class="not-italic text-black/60 leading-relaxed space-y-1">
-                    <div>{{ content.locations.featured.address.line1 }}</div>
-                    <div>{{ content.locations.featured.address.line2 }}</div>
-                  </address>
-
-                  <a
-                    [href]="'tel:' + content.locations.featured.phone"
-                    class="mt-6 inline-block text-black tracking-wide text-sm hover:underline"
-                  >
-                    {{ content.locations.featured.phone }}
-                  </a>
                 </div>
+
+                <address
+                  class="not-italic text-black lg:text-xl leading-relaxed space-y-1 leading-9 tracking-[2.89px]"
+                >
+                  <div>{{ content.locations.featured.address.line1 }}</div>
+                  <div>{{ content.locations.featured.address.line2 }}</div>
+                </address>
+
+                <a
+                  [href]="'tel:' + content.locations.featured.phone"
+                  class="mt-4 inline-block text-black font-semibold font-['Inter'] leading-8 tracking-[2.89px]"
+                >
+                  {{ content.locations.featured.phone }}
+                </a>
               </div>
             </div>
           </div>
@@ -205,11 +211,13 @@
       </div>
 
       <!-- Other Locations -->
-      <div class="mt-20 lg:mt-24 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+      <div
+        class="mt-20 max-w-7xl mx-auto lg:mt-24 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16"
+      >
         @for (location of content.locations.others; track location.name) {
           <div class="text-center animate-fade-in-up" [style.animation-delay]="$index * 150 + 'ms'">
             <!-- pin -->
-            <div class="mb-6 flex justify-center">
+            <div class="mb-6 flex justify-left">
               <svg
                 class="w-7 h-7 text-black"
                 fill="none"
@@ -222,23 +230,23 @@
               </svg>
             </div>
 
-            <h3 class="text-lg font-light tracking-wide text-black mb-4">
+            <h3 class="text-lg text-left mb-4 leading-8 tracking-[2.89px]">
               {{ location.name }}
             </h3>
 
             <address
-              class="not-italic text-sm tracking-wide text-black/55 leading-relaxed space-y-1 mb-5"
+              class="not-italic text-left text-sm tracking-wide space-y-1 mb-5 leading-8 tracking-[2.89px]"
             >
               <div>{{ location.address.line1 }}</div>
               <div>{{ location.address.line2 }}</div>
-            </address>
 
-            <a
-              [href]="'tel:' + location.phone"
-              class="text-sm tracking-wide text-black hover:underline"
-            >
-              {{ location.phone }}
-            </a>
+              <a
+                [href]="'tel:' + location.phone"
+                class="text-sm mt-4 block text-left tracking-wide text-black hover:underline leading-8 tracking-[2.89px]"
+              >
+                {{ location.phone }}
+              </a>
+            </address>
           </div>
         }
       </div>
@@ -270,7 +278,8 @@
 
               <p>
                 Currently, only Tuesday and Wednesday appointments are available online. For any
-                other service inquiries, plans or general questions, please feel free to send us a message or reach out via email or phone.
+                other service inquiries, plans or general questions, please feel free to send us a
+                message or reach out via email or phone.
               </p>
             </div>
           </div>
@@ -288,32 +297,28 @@
     </div>
   </section>
 
-<section class="py-20 bg-white">
-  <div class="max-w-4xl mx-auto px-6 lg:px-16">
-    <p class="text-xs tracking-[0.22em] uppercase text-black/50 mb-6">
-      Business Hours
-    </p>
+  <section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-6 lg:px-16">
+      <p class="text-xs tracking-[0.22em] uppercase text-black/50 mb-6">Business Hours</p>
 
-    <div class="space-y-3"> <!-- reduced spacing -->
-      <div
-        *ngFor="let item of weeklyHours"
-        class="flex items-center gap-4"
-      >
-        <!-- Day -->
-        <span class="text-[clamp(1.1rem,2vw,1.6rem)] font-normal whitespace-nowrap">
-          {{ item.day }}
-        </span>
+      <div class="space-y-3">
+        <!-- reduced spacing -->
+        <div *ngFor="let item of weeklyHours" class="flex items-center gap-4">
+          <!-- Day -->
+          <span class="text-[clamp(1.1rem,2vw,1.6rem)] font-normal whitespace-nowrap">
+            {{ item.day }}
+          </span>
 
-        <!-- Line -->
-        <div class="flex-1 h-px bg-black/10"></div>
+          <!-- Line -->
+          <div class="flex-1 h-px bg-black/10"></div>
 
-        <!-- Hours -->
-        <span class="text-[clamp(1.1rem,2vw,1.6rem)] font-normal text-right whitespace-nowrap">
-          {{ item.hours }}
-        </span>
+          <!-- Hours -->
+          <span class="text-[clamp(1.1rem,2vw,1.6rem)] font-normal text-right whitespace-nowrap">
+            {{ item.hours }}
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </div>
 <app-footer></app-footer>
