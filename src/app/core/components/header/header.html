@@ -288,14 +288,14 @@
         <ng-container *ngFor="let item of menuItems; let i = index">
           <button
             type="button"
-            class="cursor-pointer menu-stagger-item w-full text-left flex items-center justify-between py-2 text-6xl font-light tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover leading-[60px] tracking-[2.89px]"
+            class="cursor-pointer menu-stagger-item w-full text-left flex items-center justify-between py-2 text-7xl tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover leading-[60px] tracking-[2.89px]"
             [class.text-white]="isRouteActive(item.route) || i === activePreviewIndex"
             [class.menu-item-active]="isRouteActive(item.route)"
             (mouseenter)="setPreview(i)"
             (focus)="setPreview(i)"
             (click)="navigateTo(item.route)"
           >
-            <span>{{ item.label }}</span>
+            <span class="font-thin">{{ item.label }}</span>
           </button>
         </ng-container>
       </div>
