@@ -16,7 +16,9 @@
         <h1 class="text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-6">
           {{ content.hero.title }}
         </h1>
-        <p class="text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-700 leading-[60px] tracking-[2.89px]">
+        <p
+          class="text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-700 leading-[60px] tracking-[2.89px]"
+        >
           {{ content.hero.subtitle }}
         </p>
       </div>
@@ -30,14 +32,12 @@
         <!-- Left Column -->
         <div class="space-y-8 animate-fade-in-left">
           <div>
-            <p class="text-[11px] uppercase tracking-[0.32em] text-black/45 mb-4">Hair Kinetics</p>
-            <h2 class="text-4xl lg:text-5xl font-light tracking-tight">
+            <h2 class="text-2xl lg:text-3xl font-bold leading-8 tracking-[2.89px]">
               {{ content.kinetics.title }}
             </h2>
-            <div class="mt-6 h-px w-14 bg-black/15"></div>
           </div>
 
-          <div class="space-y-6 text-black/70 leading-relaxed">
+          <div class="space-y-6 text-black font-light text-sm leading-8 tracking-[2.89px]">
             <p>{{ content.kinetics.description1 }}</p>
             <p>{{ content.kinetics.description2 }}</p>
           </div>
@@ -82,11 +82,13 @@
 
         <!-- Bio -->
         <div class="lg:col-span-7" style="font-family: Inter, sans-serif">
-          <h2 class="text-5xl lg:text-6xl font-light text-black">
+          <h2 class="text-5xl lg:text-6xl text-black leading-[130px] tracking-[2.89px]">
             {{ content.artist.name }}
           </h2>
 
-          <div class="mt-8 space-y-6 text-gray-700 leading-relaxed max-w-2xl">
+          <div
+            class="mt-4 space-y-6 text-stone-800 font-light leading-relaxed max-w-2xl leading-8 tracking-[2.89px]"
+          >
             <p>{{ content.artist.bio1 }}</p>
             <p>{{ content.artist.bio2 }}</p>
             <p>{{ content.artist.bio3 }}</p>
@@ -95,14 +97,21 @@
       </div>
 
       <!-- ROW 2: TV Feature (text left, video right) -->
-      <div class="mt-20 lg:mt-24 grid lg:grid-cols-12 gap-12 lg:gap-20 items-start" style="font-family: Inter, sans-serif">
+      <div
+        class="mt-20 lg:mt-24 grid lg:grid-cols-12 gap-12 lg:gap-20 items-start"
+        style="font-family: Inter, sans-serif"
+      >
         <!-- TV Feature text -->
         <div class="lg:col-span-5">
-          <h4 class="text-sm tracking-[0.25em] uppercase font-bold text-black/70 mb-4">
+          <h4
+            class="text-lg tracking-[0.25em] uppercase font-bold text-black mb-4 leading-8 tracking-[2.89px]"
+          >
             {{ content.artist.tvFeature.title }}
           </h4>
 
-          <p class="text-gray-700 text-sm leading-relaxed max-w-md">
+          <p
+            class="text-stone-800 text-base font-light leading-relaxed max-w-md leading-8 tracking-[2.89px]"
+          >
             {{ content.artist.tvFeature.description }}
           </p>
         </div>
@@ -112,7 +121,10 @@
           <div
             class="overflow-hidden bg-black/90 border border-white/10 shadow-[0_22px_70px_rgba(0,0,0,0.35)]"
           >
-            <div class="relative aspect-[16/9] group cursor-pointer" (click)="toggleVideo(videoPlayer)">
+            <div
+              class="relative aspect-[16/9] group cursor-pointer"
+              (click)="toggleVideo(videoPlayer)"
+            >
               <video
                 #videoPlayer
                 poster="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/467490c70fd2bba12fe538efbfb83e843206b72d_c698d8f0-ea10-4962-a14d-9b640ff62bd5.png?v=1773351181"
@@ -156,7 +168,7 @@
   <section class="py-20 lg:py-32 bg-[#292524] text-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-16">
       <div class="flex items-end justify-between gap-6 mb-12">
-        <h2 class="text-4xl lg:text-5xl font-light tracking-wide">
+        <h2 class="text-4xl lg:text-5xl tracking-wide">
           {{ content.team.title }}
         </h2>
 
@@ -188,7 +200,7 @@
         <!-- Rail -->
         <div class="overflow-hidden">
           <div
-            class="flex items-center gap-8 will-change-transform transition-transform duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
+            class="flex items-start gap-8 will-change-transform transition-transform duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
             [style.transform]="railTransform"
           >
             <ng-container
@@ -196,27 +208,35 @@
             >
               <button
                 type="button"
-                class="group relative shrink-0 text-left"
+                class="group relative shrink-0 text-left flex flex-col"
                 (click)="setActive(i)"
                 [style.width.px]="slideWidth"
               >
-                <!-- Card -->
+                <!-- Name ABOVE the card, left-aligned -->
+                <h3
+                  class="font-light tracking-wide transition-all duration-500 mb-3"
+                  [class.text-3xl]="i === activeIndex"
+                  [class.text-white]="i === activeIndex"
+                  [class.text-lg]="i !== activeIndex"
+                  [class.text-white/40]="i !== activeIndex"
+                >
+                  {{ member.name }}
+                </h3>
+
+                <!-- Card — active is taller -->
                 <div
-                  class="relative mx-auto overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
-                  [class.scale-100]="i === activeIndex"
-                  [class.scale-[0.82]]="i !== activeIndex"
+                  class="rounded-[10px] relative overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(.2,.8,.2,1)] w-full"
+                  [class.h-[480px]]="i === activeIndex"
+                  [class.h-[320px]]="i !== activeIndex"
                   [class.opacity-100]="i === activeIndex"
                   [class.opacity-45]="i !== activeIndex"
-                  [class.w-[320px]]="true"
-                  [class.h-[440px]]="true"
                 >
                   <img
                     [src]="member.image"
                     [alt]="member.name"
-                    class="w-full h-full object-cover transition duration-700 grayscale group-hover:grayscale-0"
+                    class="w-full h-full object-cover object-top transition duration-700 grayscale group-hover:grayscale-0"
                   />
 
-                  <!-- modern glow for active -->
                   <div
                     class="absolute inset-0 opacity-0 transition duration-700"
                     [class.opacity-100]="i === activeIndex"
@@ -228,33 +248,17 @@
                   ></div>
                 </div>
 
-                <!-- Name -->
-                <div class="mt-6 text-center">
-                  <h3
-                    class="font-light tracking-wide transition-all duration-500"
-                    [class.text-3xl]="i === activeIndex"
-                    [class.text-lg]="i !== activeIndex"
+                <!-- CTA below active card -->
+                @if (i === activeIndex && member.showCta && member.ctaUrl) {
+                  <button
+                    type="button"
+                    class="cursor-pointer mt-4 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-all"
+                    style="background: white; color: #111"
+                    (click)="openExternal(content.team.members[activeIndex].ctaUrl)"
                   >
-                    {{ member.name }}
-                  </h3>
-                  <p
-                    class="mt-1 text-xs text-white/60 tracking-widest uppercase transition-opacity duration-500"
-                    [class.opacity-100]="i === activeIndex"
-                    [class.opacity-0]="i !== activeIndex"
-                  >
-                    Team Member
-                  </p>
-                  @if (i === activeIndex && member.showCta && member.ctaUrl) {
-                    <button
-                      type="button"
-                      class="cursor-pointer mt-6 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-all"
-                      style="background: white; color: #111"
-                      (click)="openExternal(content.team.members[activeIndex].ctaUrl)"
-                    >
-                      {{ content.team.members[activeIndex].ctaLabel || 'Learn more' }}
-                    </button>
-                  }
-                </div>
+                    {{ content.team.members[activeIndex].ctaLabel || 'Learn more' }}
+                  </button>
+                }
               </button>
             </ng-container>
           </div>
@@ -288,34 +292,35 @@
   </section>
 
   <!-- Hours & Contact Section -->
+  `
   <section class="bg-white py-20 lg:py-32">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16">
+    <div class="max-w-4xl mx-auto px-6 lg:px-16">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
         <!-- LEFT: HOURS -->
         <div class="animate-fade-in-up">
-          <div class="flex items-center gap-4">
-            <svg
-              class="w-6 h-6 text-black/80"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              viewBox="0 0 24 24"
-            >
-              <rect x="3" y="4" width="18" height="18" rx="2" />
-              <line x1="16" y1="2" x2="16" y2="6" />
-              <line x1="8" y1="2" x2="8" y2="6" />
-              <line x1="3" y1="10" x2="21" y2="10" />
-            </svg>
+          `
+          <svg
+            width="56"
+            height="48"
+            viewBox="0 0 72 64"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M54.6002 0V5.4108H63.9687C68.379 5.4108 72 8.98858 72 13.3489V20.3279H0V13.3489C0 8.99144 3.63007 5.4108 8.04049 5.4108H17.3968V0H22.1198V5.4108H49.8738V0H54.6002ZM72 24.9977V56.0619C72 60.4194 68.3788 64 63.9687 64H8.04354C3.6332 64 0.00304413 60.4222 0.00304413 56.0619V24.9977H72ZM40.4639 29.976H31.5391V38.7585H40.4639V29.976ZM22.6143 29.976H13.6895V38.7585H22.6143V29.976ZM58.3136 44.9311H49.3887V53.7106H58.3136V44.9311ZM40.4639 44.9311H31.5391V53.7106H40.4639V44.9311ZM22.6143 44.9311H13.6895V53.7106H22.6143V44.9311Z"
+              fill="black"
+            />
+          </svg>
 
-            <h3 class="text-2xl md:text-3xl font-light tracking-wide">
-              {{ content.contact.hoursTitle }}
-            </h3>
-          </div>
+          <h3 class="text-2xl md:text-3xl tracking-wide mb-8 mt-4">
+            {{ content.contact.hoursTitle }}
+          </h3>
 
-          <div class="mt-8 space-y-2 text-[15px] tracking-wide text-black/70 max-w-sm">
+          <div class="space-y-3 text-[15px] tracking-widest text-black/70">
             @for (day of content.contact.hours; track day) {
-              <div class="flex justify-between">
+              <div class="flex gap-3">
                 <span>{{ day.day }}</span>
+                <span>-</span>
                 <span class="text-black/50">{{ day.time }}</span>
               </div>
             }
@@ -323,12 +328,12 @@
         </div>
 
         <!-- RIGHT: CONTACT INFO -->
-        <div class="space-y-14 animate-fade-in-up" style="animation-delay: 150ms">
+        <div class="space-y-10 animate-fade-in-up lg:pl-30" style="animation-delay: 150ms">
           <!-- EMAIL -->
           <div>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 mb-2">
               <svg
-                class="w-6 h-6 text-black/80"
+                class="w-5 h-5 text-black"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.5"
@@ -339,15 +344,13 @@
                 />
                 <polyline points="22,6 12,13 2,6" />
               </svg>
-
-              <h3 class="text-xl md:text-2xl font-light tracking-wide">
+              <h3 class="text-xl md:text-2xl tracking-wide">
                 {{ content.contact.emailTitle }}
               </h3>
             </div>
-
             <a
               [href]="'mailto:' + content.contact.email"
-              class="mt-5 block text-[15px] tracking-wide text-black/60 hover:text-black transition"
+              class="text-[15px] tracking-widest text-black/50 hover:text-black transition"
             >
               {{ content.contact.email }}
             </a>
@@ -355,9 +358,9 @@
 
           <!-- CALL -->
           <div>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 mb-2">
               <svg
-                class="w-6 h-6 text-black/80"
+                class="w-5 h-5 text-black"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.5"
@@ -367,15 +370,13 @@
                   d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
                 />
               </svg>
-
-              <h3 class="text-xl md:text-2xl font-light tracking-wide">
+              <h3 class="text-xl md:text-2xl tracking-wide">
                 {{ content.contact.callTitle }}
               </h3>
             </div>
-
             <a
               [href]="'tel:' + content.contact.phone"
-              class="mt-5 block text-[15px] tracking-wide text-black/60 hover:text-black transition"
+              class="text-[15px] tracking-widest text-black/50 hover:text-black transition"
             >
               {{ content.contact.phone }}
             </a>
@@ -383,9 +384,9 @@
 
           <!-- LOCATION -->
           <div>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3 mb-2">
               <svg
-                class="w-6 h-6 text-black/80"
+                class="w-5 h-5 text-black"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.5"
@@ -394,15 +395,11 @@
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-
-              <h3 class="text-xl md:text-2xl font-light tracking-wide">
+              <h3 class="text-xl md:text-2xl tracking-wide">
                 {{ content.contact.locationTitle }}
               </h3>
             </div>
-
-            <address
-              class="mt-5 not-italic text-[15px] tracking-wide text-black/60 leading-relaxed"
-            >
+            <address class="not-italic text-[15px] tracking-widest text-black/50 leading-relaxed">
               {{ content.contact.address.line1 }}<br />
               {{ content.contact.address.line2 }}
             </address>

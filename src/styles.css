@@ -493,4 +493,9 @@ html {
   border-left: 4px solid #3b82f6;
 }
 
+::selection {
+  background: rgba(150, 150, 150, 0.4);
+  color: inherit;
+}
+
 

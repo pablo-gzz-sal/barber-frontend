@@ -104,7 +104,7 @@ export class AboutPage implements AfterViewInit, OnInit {
         { day: 'Sunday', time: 'Closed' },
         { day: 'Monday', time: 'Closed' },
       ],
-      emailTitle: 'Email us',
+      emailTitle: 'Email Us',
       email: 'info@JosephBattisti.com',
       callTitle: 'Call Us',
       phone: '212.628.5639',
