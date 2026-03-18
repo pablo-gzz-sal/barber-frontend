@@ -28,7 +28,7 @@ html {
   /* Custom Color Palette */
 
     /* Define the 'Inter' font family */
-  --font-sans: "Inter", "sans-serif";
+    --font-sans: "Inter", "sans-serif";
 
       --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 

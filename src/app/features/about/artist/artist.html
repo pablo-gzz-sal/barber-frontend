@@ -1,5 +1,5 @@
 <section class="w-full bg-black text-white overflow-hidden">
-  <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[420px]">
+  <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[483px]">
     <!-- Left: Image -->
     <div class="relative min-h-[260px] lg:min-h-full">
       <img
@@ -20,27 +20,29 @@
 
       <div class="relative z-10 w-full px-8 md:px-14 lg:px-16 py-14">
         <!-- Title -->
-        <h2 class="text-4xl md:text-5xl font-light leading-tight">
+        <h2 class="text-4xl md:text-5xl font-light leading-tight leading-[60px] tracking-[2.89px]">
           Discover<br />
           <span class="font-normal">BU LOVE Candle</span>
         </h2>
 
         <!-- Description -->
-        <p class="mt-6 max-w-md text-sm md:text-base font-light leading-relaxed text-white/80">
+        <p
+          class="mt-6 max-w-md lg:pr-10 text-sm md:text-base font-light leading-relaxed text-white leading-8 tracking-[2.89px]"
+        >
           Our signature candle born in a time of stillness, made to awaken connection.
         </p>
 
         <!-- CTA -->
         <div class="mt-10">
           <button
-          (click)="onShop()"
-            class="cursor-pointer group relative overflow-hidden  bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
+            (click)="onShop()"
+            class="cursor-pointer group relative overflow-hidden bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out rounded-lg"
           >
             <span class="relative z-10">Shop Now</span>
 
             <!-- subtle glow -->
             <span
-              class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              class="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
             >
             </span>
           </button>
@@ -52,60 +54,47 @@
 
 <section class="relative w-full min-h-[70vh] lg:min-h-[80vh] overflow-hidden bg-black text-white">
   <!-- Background image -->
-  <div class="absolute inset-0">
+  <div class="absolute inset-0 left-[-296px] top-[-16px] absolute">
     <img
-      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHero.png?v=1773360134"
+      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
       alt="Joseph Battisti"
       class="w-full h-full object-cover object-left grayscale"
     />
-
-    <!-- Fade so text reads well on the right -->
-    <div class="absolute inset-0 bg-gradient-to-r from-black/20 via-black/30 to-black/75"></div>
-
-    <!-- Optional subtle overall darkening -->
-    <div class="absolute inset-0 bg-black/10"></div>
   </div>
 
   <!-- Content -->
-  <div class="relative z-10 max-w-7xl mx-auto px-6 py-20 md:py-28 lg:py-32">
+  <div class="relative z-10 w-full px-6 py-20 md:py-28 lg:py-32 lg:pl-[60%]">
     <div class="flex items-center min-h-[60vh] lg:min-h-[70vh]">
-      <!-- Right aligned content block -->
-      <div class="ml-auto w-full max-w-xl text-right">
-        <!-- Label -->
-        <div class="flex items-center justify-end gap-3 mb-8">
-          <div class="w-14 h-[1px] bg-white/30"></div>
-          <span class="text-[10px] md:text-xs tracking-[0.3em] text-white/60 uppercase font-light">
-            {{ content.label }}
-          </span>
+      <div class="w-full max-w-lg">
+        <!-- Title -->
+        <div class="font-extralight font-['Inter'] text-black">
+          <h2
+            class="text-5xl sm:text-6xl lg:text-8xl font-extralight leading-[60px] tracking-[2.89px]"
+          >
+            MEET
+          </h2>
+          <h2
+            class="text-5xl sm:text-6xl lg:text-8xl font-extralight leading-[60px] tracking-[2.89px] mt-3 lg:mt-12"
+          >
+            JOSEPH
+          </h2>
+          <h2
+            class="text-5xl sm:text-6xl lg:text-8xl font-extralight leading-[60px] tracking-[2.89px] mt-3 lg:mt-12"
+          >
+            BATTISTI
+          </h2>
         </div>
 
-        <!-- Title -->
-        <h2 class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05]">
-          MEET
-        </h2>
-        <h2
-          class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05] mt-3"
-        >
-          JOSEPH
-        </h2>
-        <h2
-          class="text-5xl sm:text-6xl lg:text-7xl font-light tracking-[0.12em] leading-[1.05] mt-3"
-        >
-          BATTISTI
-        </h2>
-
         <!-- Bio -->
-        <p
-          class="mt-8 text-sm md:text-base font-light leading-relaxed text-white/70 max-w-md ml-auto"
-        >
+        <p class="mt-8 text-sm md:text-base font-light leading-relaxed text-black max-w-md">
           {{ content.bio }}
         </p>
 
         <!-- Button -->
-        <div class="mt-10 flex justify-end">
+        <div class="mt-10 flex">
           <button
-          (click)="onAbout()"
-            class="cursor-pointer group relative overflow-hidden  bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
+            (click)="onAbout()"
+            class="cursor-pointer group relative overflow-hidden bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out rounded-lg"
           >
             {{ content.btnText }}
           </button>

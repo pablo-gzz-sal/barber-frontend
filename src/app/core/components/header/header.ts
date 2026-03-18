@@ -56,7 +56,7 @@ export class Header implements OnInit {
     {
       label: 'HOME',
       route: '/',
-      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHero.png?v=1773360134',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
     },
     {
       label: 'SHOP',

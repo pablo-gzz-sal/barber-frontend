@@ -1,14 +1,14 @@
 @if (milbonBanner) {
   <section class="bg-[#d9dedd] text-black overflow-hidden">
     <div class="max-w-[1600px] mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[520px] lg:min-h-[620px]">
+      <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[520px] lg:min-h-[564px]">
         <!-- Left: Content (matches reference) -->
-        <div class="flex flex-col justify-center px-8 md:px-14 lg:px-20 py-16 order-1">
+        <div class="flex flex-col justify-center px-8 md:px-14 lg:w-10/12 lg:px-20 py-16 order-1">
           <h2 class="text-4xl md:text-4xl lg:text-5xl font-semibold leading-tight">
             Discover Milbon
           </h2>
 
-          <p class="mt-3 text-sm md:text-base italic text-black/60">
+          <p class="mt-1 text-sm md:text-base italic text-black/60">
             Salon-exclusive formulas built on innovation and precision
           </p>
 
@@ -20,13 +20,14 @@
           <div class="mt-10">
             <button
               (click)="onMilbon()"
-              class="cursor-pointer group relative overflow-hidden bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
+              class="cursor-pointer group relative overflow-hidden bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out rounded-lg
+              "
             >
               <span class="relative z-10">Shop Milbon</span>
 
               <!-- subtle glow -->
               <span
-                class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                class="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
               >
               </span>
             </button>
