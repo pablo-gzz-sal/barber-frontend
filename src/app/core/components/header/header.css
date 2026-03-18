@@ -1,21 +1,31 @@
 @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in-down {
-      animation: fadeInDown 0.3s ease-out forwards;
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-down {
+  animation: fadeInDown 0.3s ease-out forwards;
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    .animate-fade-in {
-      animation: fadeIn 0.3s ease-out;
-    }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
-    /* ============================================
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ============================================
    MENU ANIMATIONS - Add to your global styles
    ============================================ */
 
@@ -68,12 +78,24 @@
 }
 
 /* Delay classes for staggered effect */
-.menu-stagger-item:nth-child(1) { animation-delay: 0.05s; }
-.menu-stagger-item:nth-child(2) { animation-delay: 0.10s; }
-.menu-stagger-item:nth-child(3) { animation-delay: 0.15s; }
-.menu-stagger-item:nth-child(4) { animation-delay: 0.20s; }
-.menu-stagger-item:nth-child(5) { animation-delay: 0.25s; }
-.menu-stagger-item:nth-child(6) { animation-delay: 0.30s; }
+.menu-stagger-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.menu-stagger-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.menu-stagger-item:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.menu-stagger-item:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.menu-stagger-item:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.menu-stagger-item:nth-child(6) {
+  animation-delay: 0.3s;
+}
 
 /* Image Slide In from Right */
 @keyframes image-slide-in {
@@ -104,7 +126,8 @@
 
 /* Arrow bounce animation */
 @keyframes arrow-bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0);
   }
   50% {
@@ -159,7 +182,9 @@
 
 /* Header elements fade out */
 .header-fade-out {
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.3s ease-out;
 }
 
 .header-fade-out.hidden {
@@ -188,7 +213,7 @@
 .animate-label {
   animation: label-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
   opacity: 0;
-}/* ============================================
+} /* ============================================
    MENU ANIMATIONS - Add to your global styles
    ============================================ */
 
@@ -289,20 +314,44 @@
 }
 
 /* Delay classes for staggered effect - Opening */
-.menu-stagger-item:nth-child(1) { animation-delay: 0.05s; }
-.menu-stagger-item:nth-child(2) { animation-delay: 0.10s; }
-.menu-stagger-item:nth-child(3) { animation-delay: 0.15s; }
-.menu-stagger-item:nth-child(4) { animation-delay: 0.20s; }
-.menu-stagger-item:nth-child(5) { animation-delay: 0.25s; }
-.menu-stagger-item:nth-child(6) { animation-delay: 0.30s; }
+.menu-stagger-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.menu-stagger-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.menu-stagger-item:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.menu-stagger-item:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.menu-stagger-item:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.menu-stagger-item:nth-child(6) {
+  animation-delay: 0.3s;
+}
 
 /* Reverse delay for closing */
-.menu-stagger-item-out:nth-child(1) { animation-delay: 0s; }
-.menu-stagger-item-out:nth-child(2) { animation-delay: 0s; }
-.menu-stagger-item-out:nth-child(3) { animation-delay: 0s; }
-.menu-stagger-item-out:nth-child(4) { animation-delay: 0s; }
-.menu-stagger-item-out:nth-child(5) { animation-delay: 0s; }
-.menu-stagger-item-out:nth-child(6) { animation-delay: 0s; }
+.menu-stagger-item-out:nth-child(1) {
+  animation-delay: 0s;
+}
+.menu-stagger-item-out:nth-child(2) {
+  animation-delay: 0s;
+}
+.menu-stagger-item-out:nth-child(3) {
+  animation-delay: 0s;
+}
+.menu-stagger-item-out:nth-child(4) {
+  animation-delay: 0s;
+}
+.menu-stagger-item-out:nth-child(5) {
+  animation-delay: 0s;
+}
+.menu-stagger-item-out:nth-child(6) {
+  animation-delay: 0s;
+}
 
 /* Image Slide In from Right - Opening */
 @keyframes image-slide-in {
@@ -348,7 +397,8 @@
 
 /* Arrow bounce animation */
 @keyframes arrow-bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0);
   }
   50% {
@@ -435,7 +485,9 @@
 
 /* Header elements fade out */
 .header-fade-out {
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  transition:
+    opacity 0.3s ease-out,
+    transform 0.3s ease-out;
 }
 
 .header-fade-out.hidden {
@@ -485,4 +537,206 @@
 
 .animate-label-out {
   animation: label-fade-out 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.menu-btn {
+  position: relative;
+}
+
+.icon-wrap {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-icon {
+  position: absolute;
+  inset: 0;
+  width: 22px;
+  height: 22px;
+  transition:
+    opacity 0.28s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(1) rotate(0deg);
+  transform-origin: center;
+}
+
+.x-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.x-line {
+  position: absolute;
+  width: 18px;
+  height: 1.8px;
+  background: currentColor;
+  border-radius: 999px;
+  opacity: 0;
+  transform-origin: center;
+  transition:
+    opacity 0.22s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.x-line-1 {
+  transform: rotate(0deg) scaleX(0.4);
+}
+
+.x-line-2 {
+  transform: rotate(0deg) scaleX(0.4);
+}
+
+.menu-btn.open .grid-icon {
+  opacity: 0;
+  transform: scale(0.7) rotate(90deg);
+}
+
+.menu-btn.open .x-line {
+  opacity: 1;
+}
+
+.menu-btn.open .x-line-1 {
+  transform: rotate(45deg) scaleX(1);
+}
+
+.menu-btn.open .x-line-2 {
+  transform: rotate(-45deg) scaleX(1);
+}
+
+/* DESKTOP OVERLAY: LEFT TO RIGHT */
+@keyframes overlay-reveal-horizontal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes nav-content-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes preview-content-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.desktop-menu-overlay {
+  background: #000;
+  overflow: hidden;
+  animation: overlay-reveal-horizontal 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: left center;
+}
+
+.desktop-menu-panel {
+  background: #000;
+}
+
+.desktop-menu-nav {
+  animation: nav-content-slide-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.desktop-menu-preview {
+  animation: preview-content-slide-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+}
+
+.menu-item-active {
+  color: #fff !important;
+}
+
+.menu-item-active span {
+  position: relative;
+}
+
+.menu-item-active span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* OPEN */
+@keyframes overlay-reveal-horizontal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* CLOSE (reverse direction → RIGHT TO LEFT) */
+@keyframes overlay-hide-horizontal {
+  from {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  to {
+    opacity: 0;
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+.desktop-menu-overlay {
+  background: #000;
+  overflow: hidden;
+  animation: overlay-reveal-horizontal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.desktop-menu-overlay.closing {
+  animation: overlay-hide-horizontal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.desktop-menu-overlay.closing .desktop-menu-nav {
+  animation: nav-out 0.4s ease forwards;
+}
+
+.desktop-menu-overlay.closing .desktop-menu-preview {
+  animation: preview-out 0.4s ease forwards;
+}
+
+@keyframes nav-out {
+  to {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes preview-out {
+  to {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+.menu-item-active span::after {
+  display: none;
 }

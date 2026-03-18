@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UI_TEXT } from '../../constants/app-text';
 import { CustomerService } from '../../services/customer-service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Cart } from '../../services/cart';
 import { SearchOverlay } from '../../../features/search-overlay/search-overlay';
 import { Search } from '../../services/search';
+import { filter } from 'rxjs';
 
 type DayKey = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
 
@@ -25,11 +26,14 @@ export class Header implements OnInit {
   private router = inject(Router);
   private customer = inject(CustomerService);
   private cart = inject(Cart);
-  public search = inject(Search)
+  public search = inject(Search);
 
   isMenuOpen = false;
-
+  isOpen = false;
   cartCount = this.cart.count;
+  isClosing = false;
+
+  currentRoute = '';
 
   // NEW: desktop dropdown state
   isDesktopDropdownOpen = false;
@@ -58,41 +62,54 @@ export class Header implements OnInit {
     {
       label: 'HOME',
       route: '/',
-      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
+      preview:
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
     },
     {
       label: 'SHOP',
       route: '/shop',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/candleHero.png?v=1773360109g',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
     },
     {
       label: 'MILBON',
       route: '/milton',
-      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/milbonHero.jpg?v=1773360125',
+      preview:
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
     },
     {
       label: 'SERVICES',
       route: '/services',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/stylingService.png?v=1773360105',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
     },
     {
       label: 'ABOUT US',
       route: '/about',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephAbout.jpg?v=1773360103',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
     },
     {
       label: 'CONTACT',
       route: '/contact',
-      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/salonHero.jpg?v=1773360111',
+      preview:
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
     },
   ];
 
   ngOnInit() {
     this.updateHeaderHours();
     setInterval(() => this.updateHeaderHours(), 60_000);
+
+    this.currentRoute = this.router.url;
+    this.syncPreviewWithRoute(this.currentRoute);
+
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.currentRoute = event.urlAfterRedirects;
+        this.syncPreviewWithRoute(this.currentRoute);
+      });
   }
 
   private updateHeaderHours(): void {
@@ -191,7 +208,21 @@ export class Header implements OnInit {
     this.isDesktopDropdownOpen = false;
   }
   toggleDesktopDropdown() {
-    this.isDesktopDropdownOpen = !this.isDesktopDropdownOpen;
+    if (this.isDesktopDropdownOpen) {
+      this.closeMenu();
+    } else {
+      this.isDesktopDropdownOpen = true;
+      this.isOpen = true;
+    }
+  }
+
+  closeMenu() {
+    this.isClosing = true;
+
+    setTimeout(() => {
+      this.isDesktopDropdownOpen = false;
+      this.isClosing = false;
+    }, 600);
   }
 
   setPreview(i: number) {
@@ -203,7 +234,11 @@ export class Header implements OnInit {
       const url =
         'https://shop.saloninteractive.com/store/josephbattistillc?utm_source=SalonInteractive&utm_medium=web&utm_campaign=ShareMyStore';
       window.open(url, '_blank', 'noopener,noreferrer');
+      this.isMenuOpen = false;
+      this.isDesktopDropdownOpen = false;
+      return;
     }
+
     this.router.navigateByUrl(route);
     this.isMenuOpen = false;
     this.isDesktopDropdownOpen = false;
@@ -233,5 +268,18 @@ export class Header implements OnInit {
     document.body.appendChild(a);
     a.click();
     a.remove();
+  }
+
+  private syncPreviewWithRoute(url: string): void {
+    const index = this.menuItems.findIndex((item) => this.isRouteActive(item.route, url));
+    this.activePreviewIndex = index >= 0 ? index : 0;
+  }
+
+  isRouteActive(route: string, url: string = this.currentRoute): boolean {
+    if (route === '/') {
+      return url === '/';
+    }
+
+    return url === route || url.startsWith(route + '/');
   }
 }
