@@ -37,19 +37,22 @@
     <div class="container mx-auto px-6 lg:px-16">
       <div class="grid lg:grid-cols-2 gap-16">
         <!-- Left - CTA Text -->
-        <div class="animate-fade-in-up">
-          <h2 class="text-4xl lg:text-5xl font-light mb-6 leading-tight">
+        <div class="animate-fade-in-up px-10">
+          <h2 class="text-4xl lg:text-6xl font-light mb-6 leading-tight">
             ARE YOU READY FOR
             <br />
             RADIANT STYLE EXPERIENCE?
           </h2>
-          <p class="text-gray-400 leading-relaxed">
+          <p class="text-white leading-relaxed">
             {{ content.form.description }}
           </p>
         </div>
 
         <!-- Right - Form -->
         <div class="animate-fade-in-up" style="animation-delay: 200ms">
+          <h2 class="text-3xl lg:text-4xl font-light mb-6 leading-tight">
+            LET'S COMMUNICATE
+          </h2>
           <form (ngSubmit)="onSubmit()" class="space-y-6">
             <!-- Name and Email Row -->
             <div class="grid md:grid-cols-2 gap-6">
@@ -59,7 +62,7 @@
                   [(ngModel)]="formData.name"
                   name="fullName"
                   placeholder="Full Name"
-                  class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300"
+                  class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-white focus:border-white focus:outline-none transition-colors duration-300"
                   required
                 />
               </div>
@@ -69,7 +72,7 @@
                   [(ngModel)]="formData.email"
                   name="email"
                   placeholder="Email Address"
-                  class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300"
+                  class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-white focus:border-white focus:outline-none transition-colors duration-300"
                   required
                 />
               </div>
@@ -83,7 +86,7 @@
                   [(ngModel)]="formData.phone"
                   name="phone"
                   placeholder="Phone"
-                  class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300"
+                  class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-white focus:border-white focus:outline-none transition-colors duration-300"
                 />
               </div>
               <!-- <div>
@@ -92,7 +95,7 @@
                   [(ngModel)]="formData.subject"
                   name="subject"
                   placeholder="Subject"
-                  class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300"
+                  class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-white focus:border-white focus:outline-none transition-colors duration-300"
                 />
               </div> -->
             </div>
@@ -104,14 +107,15 @@
                 name="message"
                 placeholder="Type Your Message"
                 rows="4"
-                class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-gray-500 focus:border-white focus:outline-none transition-colors duration-300 resize-none"
+                class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-white focus:border-white focus:outline-none transition-colors duration-300 resize-none"
                 required
               ></textarea>
             </div>
 
             <!-- Terms Checkbox -->
-            <div class="flex items-start gap-3">
-              <input
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                          <input
                 type="checkbox"
                 [(ngModel)]="formData.agreedToTerms"
                 name="agreedToTerms"
@@ -125,12 +129,11 @@
                 and
                 <a href="#" class="text-white underline hover:no-underline">Terms & Conditions</a>
               </label>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="pt-4">
+              </div>
+    
+                          <div class="pt-4">
               <button
-                class="cursor-pointer group relative overflow-hidden bg-[#2a2a2a] text-white px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
+                class="cursor-pointer group relative overflow-hidden bg-white text-black rounded-lg px-8 py-3 text-xs tracking-[0.25em] uppercase transition-all duration-300 ease-out hover:bg-black hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.35)] active:translate-y-0 active:scale-[0.97] focus:outline-none"
               >
                 <span class="relative z-10"> {{ content.form.buttonText }}</span>
 
@@ -141,6 +144,10 @@
                 </span>
               </button>
             </div>
+            </div>
+
+            <!-- Submit Button -->
+
           </form>
         </div>
       </div>
@@ -211,92 +218,87 @@
       </div>
 
       <!-- Other Locations -->
-      <div
-        class="mt-20 max-w-7xl mx-auto lg:mt-24 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16"
-      >
-        @for (location of content.locations.others; track location.name) {
-          <div class="text-center animate-fade-in-up" [style.animation-delay]="$index * 150 + 'ms'">
-            <!-- pin -->
-            <div class="mb-6 flex justify-left">
-              <svg
-                class="w-7 h-7 text-black"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                viewBox="0 0 24 24"
-              >
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-            </div>
+   <!-- Other Locations -->
+<div
+  class="mt-20 lg:mt-24 flex justify-center px-6 lg:pl-20"
+>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+    @for (location of content.locations.others; track location.name) {
+      <div class="animate-fade-in-up" [style.animation-delay]="$index * 150 + 'ms'">
+        <!-- pin -->
+        <div class="mb-6">
+          <svg class="w-7 h-7 text-black" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+        </div>
 
-            <h3 class="text-lg text-left mb-4 leading-8 tracking-[2.89px]">
-              {{ location.name }}
-            </h3>
+        <h3 class="text-lg mb-4 leading-8 tracking-[2.89px]">
+          {{ location.name }}
+        </h3>
 
-            <address
-              class="not-italic text-left text-sm tracking-wide space-y-1 mb-5 leading-8 tracking-[2.89px]"
-            >
-              <div>{{ location.address.line1 }}</div>
-              <div>{{ location.address.line2 }}</div>
-
-              <a
-                [href]="'tel:' + location.phone"
-                class="text-sm mt-4 block text-left tracking-wide text-black hover:underline leading-8 tracking-[2.89px]"
-              >
-                {{ location.phone }}
-              </a>
-            </address>
-          </div>
-        }
+        <address class="not-italic text-sm space-y-1 mb-5 leading-8 tracking-[2.89px]">
+          <div>{{ location.address.line1 }}</div>
+          <div>{{ location.address.line2 }}</div>
+          <a
+            [href]="'tel:' + location.phone"
+            class="text-sm mt-4 block tracking-wide text-black hover:underline leading-8 tracking-[2.89px]"
+          >
+            {{ location.phone }}
+          </a>
+        </address>
       </div>
+    }
+  </div>
+</div>
     </div>
   </section>
 
   <!-- Booking Info Section -->
-  <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-16">
-      <!-- Card -->
-      <div class="bg-[#F3F3F3] rounded-3xl">
-        <div class="grid lg:grid-cols-2 gap-16 p-12 md:p-16 items-center">
-          <!-- Left: Text -->
-          <div class="animate-fade-in-left">
-            <h2 class="text-3xl md:text-4xl font-light tracking-wide leading-8 text-black mb-8">
-              {{ content.booking.title }}
-            </h2>
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-16">
+    <div class="relative bg-[#F3F3F3] rounded-[20px] overflow-hidden">
 
-            <div class="space-y-8 text-base text-black/70 leading-8 max-w-xl">
-              <p>
-                You can
-                <a
-                  (click)="onBook()"
-                  class="cursor-pointer underline underline-offset-4 hover:no-underline"
-                >
-                  book your appointment online</a
-                >, or feel free to give us a call or send us an email to set it up.
-              </p>
-
-              <p>
-                Currently, only Tuesday and Wednesday appointments are available online. For any
-                other service inquiries, plans or general questions, please feel free to send us a
-                message or reach out via email or phone.
-              </p>
-            </div>
-          </div>
-
-          <!-- Right: Image (CENTERED) -->
-          <div class="animate-fade-in-right flex justify-center items-center">
-            <img
-              src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/appoitnmentsProducts.png?v=1773360103"
-              alt="Salon Products"
-              class="w-full max-w-[420px] md:max-w-[480px] h-auto"
-            />
-          </div>
+      <!-- Mobile/tablet: normal flow layout -->
+      <div class="lg:hidden p-8 md:p-12">
+        <h2 class="text-2xl md:text-3xl font-normal text-stone-800 tracking-[2.89px] leading-tight mb-6">
+          {{ content.booking.title }}
+        </h2>
+        <div class="text-stone-800 text-base leading-8 tracking-[2.89px] mb-8">
+          <p>You can <a (click)="onBook()" class="cursor-pointer underline underline-offset-4 hover:no-underline">book your appointment online</a>, or feel free to give us a call or send us an email to set it up.</p>
+          <br />
+          <p>Currently, only Tuesday and Wednesday appointments are available online. For other service inquiries, press or general questions, please feel free to send us a message, or reach out via email or phone.</p>
         </div>
+        <img
+          src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/appoitnmentsProducts.png?v=1773360103"
+          alt="Salon Products"
+          class="w-full max-w-sm mx-auto h-auto"
+        />
       </div>
-    </div>
-  </section>
 
+      <!-- Desktop: absolute layout matching Figma -->
+      <div class="hidden lg:block min-h-[560px] xl:min-h-[639px]">
+        <h2 class="absolute top-[99px] left-[70px] text-stone-800 text-3xl font-normal tracking-[2.89px] leading-[100px] max-w-[50%]">
+          {{ content.booking.title }}
+        </h2>
+
+        <div class="absolute top-[221px] left-[70px] max-w-[45%] text-stone-800 text-xl font-normal leading-8 tracking-[2.89px]">
+          <p>You can <a (click)="onBook()" class="cursor-pointer underline underline-offset-4 hover:no-underline">book your appointment online</a>, or feel free to give us a call or send us an email to set it up.</p>
+          <br />
+          <p>Currently, only Tuesday and Wednesday appointments are available online. For other service inquiries, press or general questions, please feel free to send us a message, or reach out via email or phone.</p>
+        </div>
+
+        <img
+          src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/appoitnmentsProducts.png?v=1773360103"
+          alt="Salon Products"
+          class="absolute right-0 w-[52%] max-w-[753px] h-auto"
+          style="top: -56px;"
+        />
+      </div>
+
+    </div>
+  </div>
+</section>
   <section class="py-20 bg-white">
     <div class="max-w-4xl mx-auto px-6 lg:px-16">
       <p class="text-xs tracking-[0.22em] uppercase text-black/50 mb-6">Business Hours</p>
