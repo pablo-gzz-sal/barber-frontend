@@ -13,6 +13,7 @@ import {
 } from 'rxjs';
 
 import { Shopify } from '../../core/services/shopify';
+import { Search } from '../../core/services/search';
 
 interface SearchProductVm {
   id: string;
@@ -33,6 +34,7 @@ interface SearchProductVm {
 export class SearchOverlay {
   private shopify = inject(Shopify);
   private router = inject(Router);
+  public search = inject(Search)
 
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
 
@@ -103,7 +105,7 @@ export class SearchOverlay {
   }
 
   open(): void {
-    this.isOpen = true;
+     this.search.open();
     document.body.style.overflow = 'hidden';
 
     setTimeout(() => {
@@ -112,7 +114,7 @@ export class SearchOverlay {
   }
 
   close(): void {
-    this.isOpen = false;
+    this.search.close();
     this.results = [];
     this.searchControl.setValue('', { emitEvent: false });
     document.body.style.overflow = '';

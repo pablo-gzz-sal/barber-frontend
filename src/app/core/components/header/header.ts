@@ -5,6 +5,7 @@ import { CustomerService } from '../../services/customer-service';
 import { Router } from '@angular/router';
 import { Cart } from '../../services/cart';
 import { SearchOverlay } from '../../../features/search-overlay/search-overlay';
+import { Search } from '../../services/search';
 
 type DayKey = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
 
@@ -24,6 +25,7 @@ export class Header implements OnInit {
   private router = inject(Router);
   private customer = inject(CustomerService);
   private cart = inject(Cart);
+  public search = inject(Search)
 
   isMenuOpen = false;
 
