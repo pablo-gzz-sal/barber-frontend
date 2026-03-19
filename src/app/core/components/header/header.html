@@ -3,7 +3,6 @@
 >
   <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
     <!-- Left: Hours/Status (Desktop only) -->
-    <!-- Left: Hours/Status (Desktop only) -->
     <div class="hidden lg:flex items-center gap-4 transition-all duration-300">
       <!-- Icon -->
       <div class="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center">
@@ -59,28 +58,11 @@
     </div>
 
     <!-- Mobile Left: Menu Icon (scissors) -->
-    <div>
-      <button
-        type="button"
-        aria-label="Open search"
-        class="inline-flex lg:hidden items-center justify-center w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white hover:text-black transition-all duration-300"
-        (click)="search.open()"
-      >
-        <svg
-          class="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m21 21-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-          />
-        </svg>
-      </button>
-      <button
+     <div
+     [class.opacity-0]=" !isMenuOpen"
+     [class.pointer-events-none]="!isMenuOpen"
+     >
+            <button
         class="cursor-pointer lg:hidden p-2 md:p-2.5 hover:bg-white/5 transition-all duration-300 relative"
         aria-label="Cart"
         (click)="onCart()"
@@ -107,6 +89,26 @@
         >
           {{ cartCount() }}
         </span>
+      </button>
+      <button
+        type="button"
+        aria-label="Open search"
+        class="inline-flex lg:hidden items-center justify-center w-11 h-11 ml-2 rounded-full border border-white/15 text-white hover:bg-white hover:text-black transition-all duration-300"
+        (click)="search.open()"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+          />
+        </svg>
       </button>
     </div>
 
@@ -279,7 +281,7 @@
 <div
   *ngIf="isDesktopDropdownOpen || isClosing"
   class="desktop-menu-overlay fixed inset-0 z-[100]"
-   [class.closing]="isClosing"
+  [class.closing]="isClosing"
   style="margin-top: 0 !important"
 >
   <div class="desktop-menu-panel h-screen grid grid-cols-12 pt-20">
@@ -319,45 +321,91 @@
 </div>
 
 <!-- Mobile Menu Overlay - FULLSCREEN -->
-<div
-  *ngIf="isMenuOpen"
-  class="lg:hidden fixed left-0 right-0 top-0 bottom-0 bg-black z-[100] overflow-hidden animate-mobile-menu"
-  style="margin-top: 0 !important"
->
-  <div class="h-[100vh] grid grid-rows-[auto_1fr] pt-16 md:pt-20">
-    <!-- Mobile Navigation -->
-    <nav class="px-6 py-8 flex flex-col justify-center overflow-y-auto">
-      <div class="space-y-4">
-        <ng-container *ngFor="let item of menuItems; let i = index">
-          <button
-            type="button"
-            class="menu-stagger-item text-left text-4xl font-light tracking-wide transition-all duration-300 text-white/30 hover:text-white block w-full menu-item-hover"
-            [class.text-white]="isRouteActive(item.route) || i === activePreviewIndex"
-            [class.menu-item-active]="isRouteActive(item.route)"
-            (mouseenter)="setPreview(i)"
-            (click)="setPreview(i); navigateTo(item.route)"
-          >
-            {{ item.label }}
-          </button>
-        </ng-container>
-      </div>
-      <!-- Mobile Action Buttons -->
-      <!-- Mobile Action Buttons -->
-      <div class="mt-10 space-y-4 animate-button-fade">
-        <button
-          (click)="onBook()"
-          class="uppercase w-full text-left text-lg font-light tracking-wide text-white/80 border border-white/20 rounded-full px-6 py-4 transition-all duration-300 hover:text-black hover:bg-white hover:border-white"
-        >
-          {{ content.header.btnBook }}
-        </button>
+<div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[100]">
+  <!-- overlay -->
+  <div class="absolute inset-0 bg-black/88 backdrop-blur-[6px]" (click)="toggleMenu()"></div>
 
-        <button
-          (click)="loginWithShopify(); toggleMenu()"
-          class="uppercase w-full text-left text-lg font-light tracking-wide text-white/80 border border-white/20 rounded-full px-6 py-4 transition-all duration-300 hover:text-black hover:bg-white hover:border-white"
+  <!-- panel -->
+  <div class="relative h-dvh flex flex-col pt-16 md:pt-20 px-6 pb-8 text-white animate-mobile-menu">
+    <!-- top utility row -->
+    <!-- <div class="flex items-center justify-end mt-8">
+      <button
+        class="relative inline-flex items-center justify-center w-11 h-11 rounded-full border border-white/15 text-white/90 hover:bg-white hover:text-black transition-all duration-300"
+        aria-label="Cart"
+        (click)="onCart()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
         >
-          Shop Account
-        </button>
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+
+        <span
+          *ngIf="cartCount() > 0"
+          class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 text-[10px] bg-white text-black rounded-full flex items-center justify-center font-medium"
+        >
+          {{ cartCount() }}
+        </span>
+      </button>
+    </div> -->
+
+    <!-- nav -->
+    <div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[100]">
+      <!-- overlay -->
+      <div class="absolute inset-0 bg-black/88 backdrop-blur-[6px]" (click)="toggleMenu()"></div>
+
+      <!-- panel -->
+      <div
+        class="relative h-dvh flex flex-col pt-24 md:pt-20 px-6 pb-8 text-white animate-mobile-menu"
+      >
+        <!-- nav -->
+        <nav class="flex-1 flex flex-col justify-between min-h-0 overflow-hidden">
+          <div class="overflow-y-auto">
+            <div class="space-y-3 overflow-hidden">
+              <ng-container *ngFor="let item of menuItems; let i = index">
+                <button
+                  type="button"
+                  class="menu-stagger-item mobile-menu-link leading-9 tracking-widest text-5xl"
+                  [class.mobile-menu-link-active]="
+                    isRouteActive(item.route) || i === activePreviewIndex
+                  "
+                  (mouseenter)="setPreview(i)"
+                  (click)="setPreview(i); navigateTo(item.route)"
+                >
+                  {{ item.label }}
+                </button>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- action items -->
+          <div
+            class="mt-8 pt-6 border-t border-white/10 space-y-3 animate-button-fade flex justify-between"
+          >
+            <div class="">
+              <button type="button" (click)="onBook()" class="mobile-menu-link mobile-menu-action">
+                {{ content.header.btnBook }}
+              </button>
+
+              <button
+                type="button"
+                (click)="loginWithShopify(); toggleMenu()"
+                class="mobile-menu-link mobile-menu-action"
+              >
+                Shop Account
+              </button>
+            </div>
+          </div>
+        </nav>
       </div>
-    </nav>
+    </div>
   </div>
 </div>

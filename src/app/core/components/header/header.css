@@ -740,3 +740,38 @@
 .menu-item-active span::after {
   display: none;
 }
+
+.mobile-menu-link {
+  width: 100%;
+  display: block;
+  text-align: left;
+  line-height: 1;
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  color: rgb(255 255 255 / 0.34);
+  padding: 0.35rem 0;
+  transition:
+    color 300ms ease,
+    transform 300ms ease,
+    opacity 300ms ease;
+}
+
+.mobile-menu-link:hover {
+  color: rgb(255 255 255 / 1);
+  transform: translateX(8px);
+}
+
+.mobile-menu-link-active {
+  color: rgb(255 255 255 / 1);
+}
+
+.mobile-menu-action {
+  font-size: clamp(1.05rem, 3vw, 1.3rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.78);
+}
+
+.mobile-menu-action:hover {
+  color: rgb(255 255 255 / 1);
+}
