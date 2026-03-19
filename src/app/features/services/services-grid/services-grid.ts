@@ -22,7 +22,7 @@ export class ServicesGrid {
       cards: [
         {
           title: 'Hair Extensions',
-          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/servicesHairHero.jpg?v=1773360116',
+          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/hairExtension.jpg?v=1773881386',
           bookingUrl: 'https://booking.mangomint.com/307273?showOnlyScId=6',
         },
         {
