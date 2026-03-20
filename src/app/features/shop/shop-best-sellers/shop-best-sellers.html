@@ -15,15 +15,15 @@
           <a
             class="group block cursor-pointer animate-fade-in-up transition-transform duration-300 ease-out hover:-translate-y-1 bg-transparent"
             [style.animation-delay]="i * 80 + 'ms'"
-            [routerLink]="['/product', product.id]"
+            [routerLink]="['/product', product.id.split('/').pop()]"
           >
             <div
-              class="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl bg-transparentx border border-black/5 transition-all duration-300 ease-out group-hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)] group-hover:border-black/10"
+              class="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl bg-transparentx border border-black/5 transition-all duration-300 ease-out group-hover:shadow-[0_24px_60px_rgba(0,0,0,0.18)] group-hover:border-black/10"
             >
               <img
                 [src]="product.img"
                 [alt]="product.name"
-                class="w-full h-full object-contain object-center p-4 md:p-5 transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                class="w-full h-full object-contain object-center p-4 md:p-5 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                 loading="lazy"
               />
 

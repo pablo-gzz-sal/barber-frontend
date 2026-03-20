@@ -53,3 +53,12 @@
     .animate-bounce-slow {
       animation: bounceSlow 2s ease-in-out infinite;
     }
+
+    @media (max-width: 767px) {
+  .hero-line:first-child {
+    font-size: clamp(3.5rem, 16vw, 6rem) !important;
+  }
+  .hero-line:last-child {
+    font-size: clamp(3rem, 13vw, 5rem) !important;
+  }
+}

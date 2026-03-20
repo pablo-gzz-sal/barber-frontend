@@ -20,12 +20,6 @@ export interface BrandItem {
 export class ShopBrands {
   brands: BrandItem[] = [
     {
-      name: 'Allure',
-      logo: 'assets/svg/allure-logo.svg',
-      link: 'allure',
-      dark: true,
-    },
-    {
       name: 'Alterna',
       logo: 'assets/svg/alterna.svg',
       link: 'alterna',

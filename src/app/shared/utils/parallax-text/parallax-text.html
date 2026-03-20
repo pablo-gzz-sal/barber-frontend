@@ -1,0 +1,14 @@
+    <ng-container *ngFor="let unit of units; let i = index">
+      <!-- Block line -->
+      <span
+        *ngIf="mode === 'lines'"
+        class="prt-unit prt-unit--block"
+        aria-hidden="true"
+      >{{ unit }}</span>
+
+      <!-- Inline word or char -->
+      <ng-container *ngIf="mode !== 'lines'">
+        <span class="prt-unit" aria-hidden="true">{{ unit }}</span
+        ><span *ngIf="mode === 'words' && i < units.length - 1" class="prt-space"> </span>
+      </ng-container>
+    </ng-container>

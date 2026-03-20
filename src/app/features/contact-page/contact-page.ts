@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { ContactApiService } from '../../core/services/contact-api-service';
   templateUrl: './contact-page.html',
   styleUrl: './contact-page.css',
 })
-export class ContactPage {
+export class ContactPage implements OnInit {
   loading = false;
   sent = false;
   errorMsg = '';
@@ -90,6 +90,10 @@ export class ContactPage {
       title: 'Book your appointment online!',
     },
   };
+
+  ngOnInit() {
+    window.scroll(0, 0);
+  }
 
   onSubmit() {
     this.errorMsg = '';

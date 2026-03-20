@@ -1,0 +1,26 @@
+ :host {
+      display: block;
+      /* Override these two vars on the host element to customise colours */
+      --prt-dim: rgba(255, 255, 255, 0.15);
+      --prt-lit: #ffffff;
+    }
+
+    .prt-unit {
+      display: inline;
+      will-change: transform, color;
+      /* GSAP sets color; this is just the initial render before JS */
+      color: var(--prt-dim);
+    }
+
+    .prt-unit--block {
+      display: block;
+    }
+
+    /* Keep spaces the correct width but never affect colour transitions */
+    .prt-space {
+      display: inline;
+      color: inherit;
+      opacity: 0;
+      /* still takes up space, invisible */
+      pointer-events: none;
+    }

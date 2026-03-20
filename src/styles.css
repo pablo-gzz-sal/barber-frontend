@@ -498,4 +498,16 @@ html {
   color: inherit;
 }
 
+app-parallax-reveal-text {
+  --prt-dim: rgba(128, 128, 128, 0.38);
+  --prt-lit: currentColor;
+}
+
+.section-dark app-parallax-reveal-text {
+  --prt-dim: rgba(255, 255, 255, 0.35);
+}
+
+.section-light app-parallax-reveal-text {
+  --prt-dim: rgba(0, 0, 0, 0.35);
+}
 

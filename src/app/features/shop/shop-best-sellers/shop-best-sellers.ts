@@ -64,8 +64,6 @@ export class ShopBestSellers implements OnInit, OnChanges {
     } 
 
     if (this.generalBestSeller) {
-      console.log('here');
-      
       return this.shopifyService.getProductsByTag('generalBestSeller').pipe(
         map((res: any) => this.asArray(res.products)),
         map((arr: any[]) => arr.slice(0, 4)),

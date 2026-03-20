@@ -1,18 +1,24 @@
 <section class="py-16 md:py-24 lg:py-32 bg-white text-black overflow-hidden">
   <div class="max-w-7xl mx-auto px-6">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-      <!-- Left Column -->
       <div class="lg:col-span-5 flex flex-col justify-between">
-        <!-- Title & Tag -->
         <div class="mb-10 md:mb-12 animate-fade-in-up">
           <h2 class="text-stone-950 text-5xl md:text-6xl lg:text-8xl font-extralight mb-8">
             @for (word of content.title; track word) {
-              <span class="block leading-[60px] tracking-[2.89px] my-10">{{ word }}</span>
+              <span class="block leading-[60px] tracking-[2.89px] my-10">
+                <app-parallax-text
+                  [text]="word"
+                  mode="chars"
+                  parallaxStrength="medium"
+                  [scrub]="3"
+                  startTrigger="top 95%"
+                  endTrigger="top -20%"
+                  style="--prt-dim: rgba(120, 120, 120, 0.25); --prt-lit: currentColor"
+                />
+              </span>
             }
           </h2>
         </div>
-
-        <!-- Small Image -->
         <div
           class="group w-full lg:w-4/5 aspect-[3/4] animate-fade-in-left"
           style="animation-delay: 300ms"
@@ -50,12 +56,14 @@
 
             <!-- tiny corner label (optional, premium detail) -->
           </div>
-                  <div class="max-w-lg">
-          <div class="h-px w-14 bg-black/15 mb-4"></div>
-          <p class="self-stretch justify-start text-stone-950 text-xl font-light font-['Inter'] leading-8 tracking-[2.89px]">
-            {{ content.caption }}
-          </p>
-        </div>
+          <div class="max-w-lg">
+            <div class="h-px w-14 bg-black/15 mb-4"></div>
+            <p
+              class="self-stretch justify-start text-stone-950 text-xl font-light font-['Inter'] leading-8 tracking-[2.89px]"
+            >
+              {{ content.caption }}
+            </p>
+          </div>
         </div>
 
         <!-- Caption -->

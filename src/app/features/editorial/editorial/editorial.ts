@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { CommonModule } from '@angular/common';
+import { ParallaxText } from '../../../shared/utils/parallax-text/parallax-text';
 
 @Component({
   selector: 'app-editorial',
-  imports: [CommonModule],
+  imports: [CommonModule, ParallaxText],
   standalone: true,
   templateUrl: './editorial.html',
   styleUrl: './editorial.css',
