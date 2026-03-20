@@ -6,47 +6,26 @@
         <!-- Logo -->
         <div class="mb-6 flex flex-col items-start">
           <div class="flex flex-col items-center">
-            <img src="assets/svg/whiteLogo.svg" class="h-10 my-2" alt="" />
+            <img src="assets/svg/whiteLogo.svg" class="h-14 md:h-16 my-2" alt="Brand Logo" />
           </div>
         </div>
 
         <!-- Brand Description -->
         <p class="text-sm font-light text-white/60 leading-relaxed max-w-md mb-8">
           {{ content.brand.description }}
-        </p>  
+        </p>
       </div>
 
       <!-- Customer Service Column -->
+      <!-- Navigation Column -->
       <div class="animate-fade-in" style="animation-delay: 100ms">
-        <h4 class="text-xs tracking-[0.25em] font-bold uppercase mb-6 text-white/90">
-          {{ content.customerService.title }}
-        </h4>
-        <nav class="space-y-4">
-          @for (link of content.customerService.links; track link) {
-          <a
-            href="#"
-            class="block text-sm font-light text-white/70 hover:text-white transition-colors"
-          >
-            {{ link }}
-          </a>
-          }
-        </nav>
-      </div>
+        <h4 class="text-xs tracking-[0.25em] font-bold uppercase mb-6 text-white/90">Navigation</h4>
 
-      <!-- Company Column -->
-      <div class="animate-fade-in" style="animation-delay: 200ms">
-        <h4 class="text-xs tracking-[0.25em] font-bold uppercase mb-6 text-white/90">
-          {{ content.company.title }}
-        </h4>
-        <nav class="space-y-4">
-          @for (link of content.company.links; track link) {
-          <a
-            href="#"
-            class="block text-sm font-light text-white/70 hover:text-white transition-colors"
-          >
-            {{ link }}
-          </a>
-          }
+        <nav class="space-y-4 flex flex-col">
+          <a (click)="onBook()" class="text-sm font-light text-white/70 hover:text-white transition-all duration-300 tracking-wide">Book Appointment</a>
+          <a routerLink="/services" class="text-sm font-light text-white/70 hover:text-white transition-all duration-300 tracking-wide">Services</a>
+          <a routerLink="/shop" class="text-sm font-light text-white/70 hover:text-white transition-all duration-300 tracking-wide">Shop</a>
+          <a routerLink="/contact" class="text-sm font-light text-white/70 hover:text-white transition-all duration-300 tracking-wide">Contact</a>
         </nav>
       </div>
     </div>

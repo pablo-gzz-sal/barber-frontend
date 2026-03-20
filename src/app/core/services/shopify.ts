@@ -407,20 +407,37 @@ export class Shopify {
   }
 
   private toProductCard(p: any): ProductCard {
-    const prices = (p?.variants ?? [])
+    const variants = Array.isArray(p?.variants) ? p.variants : [];
+
+    const prices = variants
       .map((v: any) => Number(v?.price))
-      .filter((n: unknown) => Number.isFinite(n));
+      .filter((n: number) => Number.isFinite(n) && n > 0);
+
+    const comparePrices = variants
+      .map((v: any) => Number(v?.compare_at_price))
+      .filter((n: number) => Number.isFinite(n) && n > 0);
 
     const minPrice = prices.length ? Math.min(...prices) : null;
+    const minCompare = comparePrices.length ? Math.min(...comparePrices) : null;
+    const isOnSale = minPrice !== null && minCompare !== null && minCompare > minPrice;
+
+    const fallbackRawPrice = p?.price ?? p?.variants?.[0]?.price ?? '';
+    const fallbackPrice =
+      fallbackRawPrice !== '' ? `$${String(fallbackRawPrice).replace(/^\$/, '')}` : '';
+
+    const finalPrice = minPrice !== null ? `$${minPrice.toFixed(2)}` : fallbackPrice;
 
     return {
       id: String(p?.id ?? ''),
       name: String(p?.title ?? ''),
       brand: String(p?.vendor ?? ''),
-      price: minPrice !== null ? `from $${minPrice.toFixed(2)}` : '',
+      price: finalPrice,
       img: p?.image?.src || p?.images?.[0]?.src || 'assets/images/placeholder-product.png',
       handle: String(p?.handle ?? ''),
-    };
+      salePrice: finalPrice,
+      originalPrice: isOnSale && minCompare !== null ? `$${minCompare.toFixed(2)}` : '',
+      isOnSale,
+    } as any;
   }
 
   getProductVariants(productId: string): Observable<ProductVariantsResponse> {

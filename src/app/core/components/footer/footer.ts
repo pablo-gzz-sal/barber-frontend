@@ -14,21 +14,35 @@ export class Footer {
   content = {
     brand: {
       title: 'JOSEPH BATTISTI',
-      description: 'Hair in motion. Beauty in balance.'
+      description: 'Hair in motion. Beauty in balance.',
     },
     newsletter: {
       title: 'SUBSCRIBE',
       description: 'Join our list for early access to collections and appointments.',
-      placeholder: 'Enter your email'
+      placeholder: 'Enter your email',
     },
     customerService: {
       title: 'CUSTOMER SERVICE',
-      links: ['Contact Us', 'Locations']
+      links: ['Contact Us', 'Locations'],
     },
     company: {
       title: 'COMPANY',
-      links: ['About']
+      links: ['About'],
     },
-    copyright: '© 2026 JOSEPH BATTISTI studio.'
+    copyright: '© 2026 JOSEPH BATTISTI studio.',
   };
+
+  onBook() {
+    if (typeof window === 'undefined') return;
+
+    const a = document.createElement('a');
+    a.href = 'https://booking.mangomint.com/307273';
+
+    // optional: avoid navigation if their script fails to load
+    a.style.display = 'none';
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
 }
