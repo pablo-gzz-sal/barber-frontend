@@ -5,6 +5,7 @@ import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 import { Shopify } from '../../core/services/shopify';
 import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
+import { ToastService } from '../../core/services/toast-service';
 
 type HydratedCartItem = CartItem & {
   title?: string;
@@ -34,6 +35,7 @@ export class Checkout implements OnInit {
   constructor(
     private cart: Cart,
     private shopify: Shopify,
+    private toast: ToastService,
   ) {
     this.items.set(this.cart.getItems());
   }
@@ -187,6 +189,7 @@ export class Checkout implements OnInit {
     this.items.update((list) => list.filter((x) => String(x.variantId) !== String(item.variantId)));
 
     this.refresh();
+    this.toast.success('Item removed frpm cart');
   }
 
   goPay() {
@@ -198,6 +201,8 @@ export class Checkout implements OnInit {
   }
 
   goCheckout() {
+    sessionStorage.setItem('pending_shopify_checkout', 'true');
+    sessionStorage.setItem('pending_shopify_checkout_at', String(Date.now()));
     this.cart.checkout('josephbattisti-com.myshopify.com');
   }
 }

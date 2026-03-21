@@ -469,28 +469,70 @@ html {
   }
 }
 
-.p-toast .p-toast-message {
-  backdrop-filter: blur(12px);
-  background: rgba(20, 20, 20, 0.95);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: white;
-  border-radius: 16px;
+/* Container spacing */
+.p-toast {
+  margin-top: 80px; /* avoid header overlap */
 }
 
+/* Base toast */
+.p-toast .p-toast-message {
+  backdrop-filter: blur(14px);
+  background: rgba(10, 10, 10, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+
+  /* 👇 make it feel premium */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+/* Hover (like your buttons) */
+.p-toast .p-toast-message:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Title */
+.p-toast-message .p-toast-summary {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Message text */
+.p-toast-message .p-toast-detail {
+  font-size: 0.95rem;
+  margin-top: 4px;
+  color: white;
+}
+
+/* Remove default icon background */
+.p-toast-message .p-toast-icon-close {
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s;
+}
+.p-toast-message .p-toast-icon-close:hover {
+  color: white;
+}
+
+/* LEFT ACCENT BAR (more subtle + aligned with your design) */
 .p-toast-message-success {
-  border-left: 4px solid #22c55e;
+  border-left: 2px solid white;
 }
 
 .p-toast-message-error {
-  border-left: 4px solid #ef4444;
+  border-left: 2px solid #ef4444;
 }
 
 .p-toast-message-warn {
-  border-left: 4px solid #facc15;
+  border-left: 2px solid #facc15;
 }
 
 .p-toast-message-info {
-  border-left: 4px solid #3b82f6;
+  border-left: 2px solid #3b82f6;
 }
 
 ::selection {
