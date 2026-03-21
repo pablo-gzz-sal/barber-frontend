@@ -96,6 +96,7 @@ export class ProductAction {
     this.shopify.getProductById(id).subscribe({
       next: (p: ShopifyProduct) => {
         this.product.set(p);
+        console.log(p)
 
         // 2) Fetch variants list (lite) — new endpoint
         this.shopify.getProductVariants(id).subscribe({
@@ -116,6 +117,17 @@ export class ProductAction {
       },
     });
   }
+
+  getTitleBrand(title?: string | null): string {
+  if (!title) return '';
+  return title.trim().split(/\s+/)[0] ?? '';
+}
+
+getTitleRest(title?: string | null): string {
+  if (!title) return '';
+  const parts = title.trim().split(/\s+/);
+  return parts.slice(1).join(' ');
+}
 
   buyWithShop() {
     const url = this.shopUrl();
