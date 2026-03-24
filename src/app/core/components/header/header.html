@@ -1,13 +1,28 @@
 <header
   class="fixed py-2 lg:py-0 top-0 left-0 w-full z-[110] bg-black/95 backdrop-blur-md text-white"
 >
-  <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+  <div class="max-w-9xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
     <!-- Left: Hours/Status (Desktop only) -->
     <div class="hidden lg:flex items-center gap-4 transition-all duration-300">
       <!-- Icon -->
-      <div class="w-11 h-11 rounded-full border border-white/15 flex items-center justify-center">
-        <img src="assets/svg/scissors.svg" class="h-6 w-auto" alt="Logo" />
-      </div>
+      <button
+        class="inline-flex items-center justify-center w-11 h-11 rounded-full border border-white/15 text-white hover:bg-white hover:text-black transition-all duration-300"
+        (click)="loginWithShopify()"
+        aria-label="Account"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M20 21a8 8 0 0 0-16 0" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      </button>
 
       <button
         type="button"
@@ -58,11 +73,8 @@
     </div>
 
     <!-- Mobile Left: Menu Icon (scissors) -->
-     <div
-     [class.opacity-0]=" !isMenuOpen"
-     [class.pointer-events-none]="!isMenuOpen"
-     >
-            <button
+    <div>
+      <button
         class="cursor-pointer lg:hidden p-2 md:p-2.5 hover:bg-white/5 transition-all duration-300 relative"
         aria-label="Cart"
         (click)="onCart()"
@@ -91,6 +103,8 @@
         </span>
       </button>
       <button
+        [class.opacity-0]="!isMenuOpen"
+        [class.pointer-events-none]="!isMenuOpen"
         type="button"
         aria-label="Open search"
         class="inline-flex lg:hidden items-center justify-center w-11 h-11 ml-2 rounded-full border border-white/15 text-white hover:bg-white hover:text-black transition-all duration-300"
@@ -218,24 +232,6 @@
       </div>
 
       <!-- Account Icon -->
-      <button
-        class="h-10 cursor-pointer hidden lg:flex items-center gap-2 border border-white/30 px-2 md:px-2.5 py-2 md:py-2.5 rounded-full text-xs tracking-[0.18em] uppercase hover:bg-white hover:text-black transition-all duration-300"
-        (click)="loginWithShopify()"
-        aria-label="Account"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-        >
-          <path d="M20 21a8 8 0 0 0-16 0" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
-      </button>
 
       <!-- Mobile Right: Grid/Hamburger Icon -->
       <button
@@ -290,7 +286,7 @@
         <ng-container *ngFor="let item of menuItems; let i = index">
           <button
             type="button"
-            class="cursor-pointer menu-stagger-item w-full text-left flex items-center justify-between py-2 text-7xl tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover leading-[60px] tracking-[2.89px]"
+            class="my-3 cursor-pointer menu-stagger-item w-full text-left flex items-center justify-between py-2 text-6xl tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover leading-[60px] tracking-[2.89px]"
             [class.text-white]="isRouteActive(item.route) || i === activePreviewIndex"
             [class.menu-item-active]="isRouteActive(item.route)"
             (mouseenter)="setPreview(i)"
