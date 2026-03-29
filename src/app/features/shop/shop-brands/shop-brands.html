@@ -22,9 +22,8 @@
             [src]="brand.logo"
             (error)="brand.logo = 'assets/svg/placeholder.svg'"
             [alt]="brand.name"
-            class="max-w-full max-h-full object-contain"
+            class="max-w-[60%] max-h-[40%] sm:max-w-[70%] sm:max-h-[50%] lg:max-w-full lg:max-h-full object-contain"
           />
-
           <!-- inner highlight for dark cards -->
           <div
             *ngIf="brand.dark"
