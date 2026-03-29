@@ -20,6 +20,7 @@ import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 import { ShopBestSellers } from '../shop/shop-best-sellers/shop-best-sellers';
 import { ActualSale } from '../shop/actual-sale/actual-sale';
+import { BRAND_BANNERS } from '../../shared/utils/brandBannerImages';
 
 type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
 type BrandPageMode = 'single' | 'group';
@@ -68,8 +69,8 @@ export class BrandPage implements OnInit {
   brandGroup: any | null = null;
 
   brandHeroUrl = 'assets/images/brand-hero-placeholder.jpg';
-  singleCollectionHeroUrl = ''
-  singleCollectionFooterUrl = ''
+  singleCollectionHeroUrl = '';
+  singleCollectionFooterUrl = '';
   brandAboutImageUrl = 'assets/images/brand-about-placeholder.jpg';
   signatureUrl = 'assets/svg/blackLogo.svg';
 
@@ -133,8 +134,7 @@ export class BrandPage implements OnInit {
             brandGroups.find((g: any) => g.brandKey === param) ??
             brandGroups.find(
               (g: any) =>
-                (g.collectionHandles ?? []).includes(param) &&
-                (g.collectionIds ?? []).length === 1,
+                (g.collectionHandles ?? []).includes(param) && (g.collectionIds ?? []).length === 1,
             ) ??
             null;
 
@@ -166,7 +166,7 @@ export class BrandPage implements OnInit {
         this.products = this.mapProducts(res?.products ?? []);
         this.collectionEntries = res?.collectionEntries ?? [];
         console.log(this.collectionEntries);
-        
+
         this.brandHeroUrl = res?.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
         this.brandAboutImageUrl =
           res?.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
@@ -174,63 +174,67 @@ export class BrandPage implements OnInit {
   }
 
   private loadGroupedOrSingleBrandFromGroup(group: any) {
-  this.brandGroup = group;
+    this.brandGroup = group;
 
-  const ids: string[] = group.collectionIds ?? [];
-  const handles: string[] = group.collectionHandles ?? [];
-  const titles: string[] = group.collectionTitles ?? [];
+    const ids: string[] = group.collectionIds ?? [];
+    const handles: string[] = group.collectionHandles ?? [];
+    const titles: string[] = group.collectionTitles ?? [];
 
-  const isGrouped = ids.length > 1;
+    const isGrouped = ids.length > 1;
 
-  this.isGroupedBrand = isGrouped;
-  this.mode = isGrouped ? 'group' : 'single';
+    this.isGroupedBrand = isGrouped;
+    this.mode = isGrouped ? 'group' : 'single';
 
-  // ✅ Use hero data from getCollections — no extra API calls needed
-  const hero = group?.hero ?? {};
+    // ✅ Use hero data from getCollections — no extra API calls needed
+    const hero = group?.hero ?? {};
 
-  const brand: BrandVM = {
-    name: group.brandTitle ?? hero.title ?? 'Brand',
-    description: this.stripHtml(hero.body_html ?? hero.description ?? ''),
-    logoUrl: hero?.image?.src ?? hero?.image?.url ?? '',
-  };
+    const brand: BrandVM = {
+      name: group.brandTitle ?? hero.title ?? 'Brand',
+      description: this.stripHtml(hero.body_html ?? hero.description ?? ''),
+      logoUrl: hero?.image?.src ?? hero?.image?.url ?? '',
+    };
 
-  const brandHeroUrl =
-    this.getImageMetafieldUrl(hero, 'bannerImage') ||
-    'assets/images/brand-hero-placeholder.jpg';
+    const brandHeroUrl =
+      BRAND_BANNERS[group.brandKey?.toLowerCase()] ||
+      BRAND_BANNERS[group.brandTitle?.toLowerCase()] ||
+      this.getImageMetafieldUrl(hero, 'bannerImage') ||
+      'assets/images/brand-hero-placeholder.jpg';
 
-  const brandAboutImageUrl =
-    this.getImageMetafieldUrl(hero, 'footerBrand') ||
-    'assets/images/brand-about-placeholder.jpg';
+    // const brandHeroUrl =
+    //   this.getImageMetafieldUrl(hero, 'bannerImage') || 'assets/images/brand-hero-placeholder.jpg';
 
-  const collectionEntries: CollectionEntryVM[] = isGrouped
-    ? handles.map((handle, index) => ({
-        handle,
-        title: titles[index] ?? handle,
-        imageUrl: group?.collectionImages?.[index] || '',
-      }))
-    : [];
+    const brandAboutImageUrl =
+      this.getImageMetafieldUrl(hero, 'footerBrand') || 'assets/images/brand-about-placeholder.jpg';
 
-  // Only API call needed: fetch products
-  const products$ = isGrouped
-    ? this.loadProductsForGroupedCollections(ids)
-    : ids[0]
-      ? this.shopifyService.getCollectionProducts(ids[0]).pipe(
-          map((r: any) => r?.products ?? []),
-          catchError(() => of([])),
-        )
-      : of([]);
+    const collectionEntries: CollectionEntryVM[] = isGrouped
+      ? handles.map((handle, index) => ({
+          handle,
+          title: titles[index] ?? handle,
+          imageUrl: group?.collectionImages?.[index] || '',
+        }))
+      : [];
 
-  return products$.pipe(
-    map((products) => ({
-      mode: isGrouped ? 'group' : ('single' as BrandPageMode),
-      brand,
-      products,
-      collectionEntries,
-      brandHeroUrl,
-      brandAboutImageUrl,
-    })),
-  );
-}
+    // Only API call needed: fetch products
+    const products$ = isGrouped
+      ? this.loadProductsForGroupedCollections(ids)
+      : ids[0]
+        ? this.shopifyService.getCollectionProducts(ids[0]).pipe(
+            map((r: any) => r?.products ?? []),
+            catchError(() => of([])),
+          )
+        : of([]);
+
+    return products$.pipe(
+      map((products) => ({
+        mode: isGrouped ? 'group' : ('single' as BrandPageMode),
+        brand,
+        products,
+        collectionEntries,
+        brandHeroUrl,
+        brandAboutImageUrl,
+      })),
+    );
+  }
 
   private loadSingleCollection(handle: string) {
     this.brandGroup = null;
@@ -246,7 +250,7 @@ export class BrandPage implements OnInit {
         }
 
         console.log(collection);
-        
+
         const img = collection?.image?.src ?? collection?.image?.url ?? '';
 
         this.brand = {
@@ -256,15 +260,12 @@ export class BrandPage implements OnInit {
         };
 
         console.log(collection.bannerImage);
-        
 
         this.singleCollectionHeroUrl =
-         collection.bannerImage ||
-          'assets/images/brand-hero-placeholder.jpg';
+          collection.bannerImage || 'assets/images/brand-hero-placeholder.jpg';
 
         this.singleCollectionFooterUrl =
-          collection.footerBrand ||
-          'assets/images/brand-about-placeholder.jpg';
+          collection.footerBrand || 'assets/images/brand-about-placeholder.jpg';
 
         return this.shopifyService.getCollectionProducts(String(collection.id)).pipe(
           map((r: any) => ({
@@ -473,53 +474,51 @@ export class BrandPage implements OnInit {
     return '';
   }
 
-private getMetafieldValue(source: any, key: string): any {
-  if (!source) return '';
+  private getMetafieldValue(source: any, key: string): any {
+    if (!source) return '';
 
-  // Direct property — try exact match first, then case-insensitive
-  if (key in source) return source[key];
-  const lowerKey = key.toLowerCase();
-  const directMatch = Object.keys(source).find(k => k.toLowerCase() === lowerKey);
-  if (directMatch) return source[directMatch];
+    // Direct property — try exact match first, then case-insensitive
+    if (key in source) return source[key];
+    const lowerKey = key.toLowerCase();
+    const directMatch = Object.keys(source).find((k) => k.toLowerCase() === lowerKey);
+    if (directMatch) return source[directMatch];
 
-  const metafields = source?.metafields;
-  if (!metafields) return '';
+    const metafields = source?.metafields;
+    if (!metafields) return '';
 
-  if (Array.isArray(metafields)) {
-    const found = metafields.find(
-      (m: any) => m?.key?.toLowerCase() === lowerKey,
-    );
-    return found?.value ?? '';
+    if (Array.isArray(metafields)) {
+      const found = metafields.find((m: any) => m?.key?.toLowerCase() === lowerKey);
+      return found?.value ?? '';
+    }
+
+    if (Array.isArray(metafields?.edges)) {
+      const found = metafields.edges.find(
+        (e: any) => e?.node?.key?.toLowerCase() === lowerKey,
+      )?.node;
+      return found?.value ?? '';
+    }
+
+    if (metafields?.[key]) {
+      return metafields[key]?.value ?? metafields[key];
+    }
+
+    // Case-insensitive fallback on metafields object keys
+    const metaMatch = Object.keys(metafields).find((k) => k.toLowerCase() === lowerKey);
+    if (metaMatch) {
+      return metafields[metaMatch]?.value ?? metafields[metaMatch];
+    }
+
+    if (metafields?.custom?.[key]) {
+      return metafields.custom[key]?.value ?? metafields.custom[key];
+    }
+
+    const customMatch = metafields?.custom
+      ? Object.keys(metafields.custom).find((k) => k.toLowerCase() === lowerKey)
+      : null;
+    if (customMatch) {
+      return metafields.custom[customMatch]?.value ?? metafields.custom[customMatch];
+    }
+
+    return '';
   }
-
-  if (Array.isArray(metafields?.edges)) {
-    const found = metafields.edges.find(
-      (e: any) => e?.node?.key?.toLowerCase() === lowerKey,
-    )?.node;
-    return found?.value ?? '';
-  }
-
-  if (metafields?.[key]) {
-    return metafields[key]?.value ?? metafields[key];
-  }
-
-  // Case-insensitive fallback on metafields object keys
-  const metaMatch = Object.keys(metafields).find(k => k.toLowerCase() === lowerKey);
-  if (metaMatch) {
-    return metafields[metaMatch]?.value ?? metafields[metaMatch];
-  }
-
-  if (metafields?.custom?.[key]) {
-    return metafields.custom[key]?.value ?? metafields.custom[key];
-  }
-
-  const customMatch = metafields?.custom
-    ? Object.keys(metafields.custom).find(k => k.toLowerCase() === lowerKey)
-    : null;
-  if (customMatch) {
-    return metafields.custom[customMatch]?.value ?? metafields.custom[customMatch];
-  }
-
-  return '';
-}
 }

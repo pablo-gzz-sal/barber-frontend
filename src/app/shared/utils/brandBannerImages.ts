@@ -1,0 +1,22 @@
+/** Brand-level banners for grouped collections */
+export const BRAND_BANNERS: Record<string, string> = {
+  goldwell: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Goldwell-BrandBanner.png?v=1774466084',
+  highland: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Highland-BrandBanner.png?v=1774466087',
+  iles: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Iles-BrandBanner.png?v=1774466088',
+  'jon renau': 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JonRenau-BrandBanner.png?v=1774466087',
+  k18: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/K18-BrandBanner.png?v=1774466088',
+  keracolor: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Keracolor-BrandBanner.png?v=1774466087',
+  keratherapy: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Keratherapy-BrandBanner.png?v=1774466087',
+  magicmove: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MagicMove-BrandBanner.png?v=1774466088',
+  nutrafol: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Nutrafol-BrandBanner.png?v=1774466089',
+  olaplex: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Olaplex-BrandBanner.png?v=1774466084',
+  styleedit: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/StyleEdit-BrandBanner.png?v=1774466086',
+  visercal: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Visercal-BrandBanner.png?v=1774466086',
+  alterna: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Alterna-BrandBanner.png?v=1774466537',
+  'joseph battisti': 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBattisti-BrandPage.png?v=1774467551',
+  loma: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Loma-BrandBanner.png?v=1774466087',
+  milbon: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MilbonBrandPage.png?v=1774467610',
+  toppik: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/ToppikBrand.png?v=1774473033',
+  davines: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/davines-brand.png?v=1774275314',
+  phyto: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/PhytoBrandBanner.png?v=1774473125',
+};
