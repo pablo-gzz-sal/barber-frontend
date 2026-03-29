@@ -63,37 +63,37 @@ export class Header implements OnInit {
       label: 'HOME',
       route: '/',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'SHOP',
       route: '/shop',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'MILBON',
       route: '/milton',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'SERVICES',
       route: '/services',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'ABOUT US',
       route: '/about',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'CONTACT',
       route: '/contact',
       preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821',
+        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
   ];
 
