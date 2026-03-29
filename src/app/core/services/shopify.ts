@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, shareReplay, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ProductCard } from '../../shared/models/Product-Card.model';
 
@@ -91,14 +91,62 @@ export type ProductVariantsResponse = {
   count: number;
   variants: ProductVariantLite[];
 };
+
+interface CachedStream<T> {
+  obs$: Observable<T>;
+  expiresAt: number;
+}
 @Injectable({
   providedIn: 'root',
 })
 export class Shopify {
   private http = inject(HttpClient);
 
-  /** Change this if your env uses a different key name */
   private baseUrl = `${environment.apiUrl}/shopify`;
+
+  // ── Cache TTLs (ms) ───────────────────────────────────────────────────────
+  private readonly TTL = {
+    collections: 5 * 60_000, // 5 min — rarely changes
+    collectionProducts: 2 * 60_000, // 2 min
+    bestsellers: 5 * 60_000, // 5 min — expensive to compute
+    sale: 3 * 60_000, // 3 min
+  };
+
+  // ── Internal cache map ────────────────────────────────────────────────────
+  private cache = new Map<string, CachedStream<any>>();
+
+  /**
+   * Returns a cached observable for `key`, or creates one via `factory`.
+   * The observable is shared and replayed so all subscribers get the same
+   * response without firing extra HTTP requests.
+   */
+  private cached<T>(key: string, ttlMs: number, factory: () => Observable<T>): Observable<T> {
+    const entry = this.cache.get(key);
+    if (entry && Date.now() < entry.expiresAt) {
+      return entry.obs$ as Observable<T>;
+    }
+
+    const obs$ = factory().pipe(
+      shareReplay(1),
+      catchError((e) => {
+        // Evict on error so the next call retries instead of replaying the error
+        this.cache.delete(key);
+        return this.handleError(e);
+      }),
+    );
+
+    this.cache.set(key, { obs$, expiresAt: Date.now() + ttlMs });
+    return obs$;
+  }
+
+  /** Manually bust one key or the entire cache (call after a write operation). */
+  invalidateCache(key?: string): void {
+    if (key) {
+      this.cache.delete(key);
+    } else {
+      this.cache.clear();
+    }
+  }
 
   // -------------------------
   // Helpers
@@ -110,7 +158,6 @@ export class Shopify {
     Object.entries(obj).forEach(([key, value]) => {
       if (value === undefined || value === null || value === '') return;
 
-      // arrays => repeated query params: ?key=a&key=b
       if (Array.isArray(value)) {
         value.forEach((v) => {
           if (v !== undefined && v !== null) params = params.append(key, String(v));
@@ -125,7 +172,6 @@ export class Shopify {
   }
 
   private handleError(err: HttpErrorResponse) {
-    // You can expand this to map backend error shapes to UI-friendly messages
     return throwError(() => err);
   }
 
@@ -167,7 +213,6 @@ export class Shopify {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
-  // Recommendations
   getProductRecommendations(productId: string, limit = 4): Observable<any> {
     return this.http
       .get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/recommendations`, {
@@ -184,7 +229,6 @@ export class Shopify {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
-  // Metafields
   getProductMetafields(productId: string): Observable<any> {
     return this.http
       .get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/metafields`)
@@ -200,10 +244,19 @@ export class Shopify {
   // =========================
   // COLLECTIONS
   // =========================
+
+  /**
+   * Cached — the most expensive call in the app.
+   * All brand-page navigations within the TTL window share one HTTP request.
+   */
   getCollections(query?: CollectionQuery): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/collections`, { params: this.toHttpParams(query) })
-      .pipe(catchError((e) => this.handleError(e)));
+    // Include query params in the key so different filters don't collide
+    const key = `collections:${JSON.stringify(query ?? {})}`;
+    return this.cached(key, this.TTL.collections, () =>
+      this.http.get(`${this.baseUrl}/collections`, {
+        params: this.toHttpParams(query),
+      }),
+    );
   }
 
   getCollectionById(id: string): Observable<any> {
@@ -212,12 +265,17 @@ export class Shopify {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
+  /**
+   * Cached per collection ID + limit.
+   * Brand pages call this once per collection; subsequent visits replay.
+   */
   getCollectionProducts(id: string, limit = 50): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/collections/${encodeURIComponent(id)}/products`, {
+    const key = `col-products:${id}:${limit}`;
+    return this.cached(key, this.TTL.collectionProducts, () =>
+      this.http.get(`${this.baseUrl}/collections/${encodeURIComponent(id)}/products`, {
         params: this.toHttpParams({ limit }),
-      })
-      .pipe(catchError((e) => this.handleError(e)));
+      }),
+    );
   }
 
   getCollectionByHandle(handle: string): Observable<any> {
@@ -226,7 +284,6 @@ export class Shopify {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
-  /** POST /shopify/featured-products */
   getFeaturedProducts(collections: string[], limitPerCollection = 4): Observable<any> {
     return this.http
       .post(`${this.baseUrl}/featured-products`, { collections, limitPerCollection })
@@ -356,12 +413,34 @@ export class Shopify {
   // =========================
   // BESTSELLERS
   // =========================
+
+  /** Cached — requires fetching 250 orders + N product lookups on the backend. */
   getBestsellers(limit = 10, days = 30): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/bestsellers`, { params: this.toHttpParams({ limit, days }) })
-      .pipe(catchError((e) => this.handleError(e)));
+    const key = `bestsellers:${limit}:${days}`;
+    return this.cached(key, this.TTL.bestsellers, () =>
+      this.http.get(`${this.baseUrl}/bestsellers`, {
+        params: this.toHttpParams({ limit, days }),
+      }),
+    );
   }
 
+  // =========================
+  // SALE
+  // =========================
+
+  /** Cached — requires fetching 250 products on the backend. */
+  getSaleProducts(limit = 4, minDiscount = 0, brand?: string): Observable<any> {
+    const key = `sale:${limit}:${minDiscount}:${brand ?? ''}`;
+    return this.cached(key, this.TTL.sale, () => {
+      const params: any = { limit, minDiscount };
+      if (brand) params.brand = String(brand).trim().toLowerCase();
+      return this.http.get<any>(`${this.baseUrl}/sale`, { params });
+    });
+  }
+
+  // =========================
+  // FEATURED / RANDOM
+  // =========================
   getRandomFeaturedProducts(
     collections: string[],
     pickCount: number = 4,
@@ -373,19 +452,11 @@ export class Shopify {
       })
       .pipe(
         map((res) => {
-          /**
-           * Backend shape:
-           * {
-           *   "joeys-faves": { products: [...] },
-           *   "sale": { products: [...] }
-           * }
-           */
-
           const allProducts = Object.values(res ?? {}).flatMap(
             (section: any) => section?.products ?? [],
           );
 
-          // shuffle (Fisher–Yates)
+          // Fisher–Yates shuffle
           for (let i = allProducts.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [allProducts[i], allProducts[j]] = [allProducts[j], allProducts[i]];
@@ -396,16 +467,36 @@ export class Shopify {
       );
   }
 
-  getSaleProducts(limit = 4, minDiscount = 0, brand?: string) {
-    let params: any = { limit, minDiscount };
-
-    if (brand) {
-      params.brand = String(brand).trim().toLowerCase();
-    }
-
-    return this.http.get<any>(`${this.baseUrl}/sale`, { params });
+  // =========================
+  // VARIANTS
+  // =========================
+  getProductVariants(productId: string): Observable<ProductVariantsResponse> {
+    return this.http
+      .get<ProductVariantsResponse>(
+        `${this.baseUrl}/products/${encodeURIComponent(productId)}/variants`,
+      )
+      .pipe(catchError((e) => this.handleError(e)));
   }
 
+  getVariantById(variantId: string): Observable<any> {
+    return this.http
+      .get(`${this.baseUrl}/variants/${encodeURIComponent(variantId)}`)
+      .pipe(catchError((e) => this.handleError(e)));
+  }
+
+  resolveVariantId(productId: string, params: { option1?: string; title?: string }) {
+    const qs = new URLSearchParams();
+    if (params.option1) qs.set('option1', params.option1);
+    if (params.title) qs.set('title', params.title);
+
+    return this.http
+      .get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/variant-id?${qs.toString()}`)
+      .pipe(catchError((e) => this.handleError(e)));
+  }
+
+  // -------------------------
+  // Private helpers
+  // -------------------------
   private toProductCard(p: any): ProductCard {
     const variants = Array.isArray(p?.variants) ? p.variants : [];
 
@@ -438,29 +529,5 @@ export class Shopify {
       originalPrice: isOnSale && minCompare !== null ? `$${minCompare.toFixed(2)}` : '',
       isOnSale,
     } as any;
-  }
-
-  getProductVariants(productId: string): Observable<ProductVariantsResponse> {
-    return this.http
-      .get<ProductVariantsResponse>(
-        `${this.baseUrl}/products/${encodeURIComponent(productId)}/variants`,
-      )
-      .pipe(catchError((e) => this.handleError(e)));
-  }
-
-  getVariantById(variantId: string): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/variants/${encodeURIComponent(variantId)}`)
-      .pipe(catchError((e) => this.handleError(e)));
-  }
-
-  resolveVariantId(productId: string, params: { option1?: string; title?: string }) {
-    const qs = new URLSearchParams();
-    if (params.option1) qs.set('option1', params.option1);
-    if (params.title) qs.set('title', params.title);
-
-    return this.http
-      .get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/variant-id?${qs.toString()}`)
-      .pipe(catchError((e) => this.handleError(e)));
   }
 }

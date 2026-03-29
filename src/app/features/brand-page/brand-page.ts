@@ -1,7 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Location, CommonModule } from '@angular/common';
-import { catchError, finalize, forkJoin, map, of, switchMap } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  delay,
+  finalize,
+  forkJoin,
+  from,
+  map,
+  of,
+  reduce,
+  switchMap,
+  toArray,
+} from 'rxjs';
 
 import { Shopify } from '../../core/services/shopify';
 import { Header } from '../../core/components/header/header';
@@ -33,6 +45,11 @@ interface CollectionEntryVM {
   title: string;
   imageUrl: string;
 }
+
+/** How many parallel requests to allow at once. Stay at 1-2 to respect the 2 req/s limit. */
+const CHUNK_SIZE = 1;
+/** Delay in ms between sequential chunks — adds breathing room between requests. */
+const CHUNK_DELAY_MS = 600;
 
 @Component({
   selector: 'app-brand-page',
@@ -114,7 +131,8 @@ export class BrandPage implements OnInit {
             brandGroups.find((g: any) => g.brandKey === param) ??
             brandGroups.find(
               (g: any) =>
-                (g.collectionHandles ?? []).includes(param) && (g.collectionIds ?? []).length === 1,
+                (g.collectionHandles ?? []).includes(param) &&
+                (g.collectionIds ?? []).length === 1,
             ) ??
             null;
 
@@ -122,13 +140,7 @@ export class BrandPage implements OnInit {
             return this.loadGroupedOrSingleBrandFromGroup(group);
           }
 
-          const parentGroup =
-            brandGroups.find(
-              (g: any) =>
-                (g.collectionHandles ?? []).includes(param) && (g.collectionIds ?? []).length > 1,
-            ) ?? null;
-
-          return this.loadSingleCollection(param, parentGroup);
+          return this.loadSingleCollection(param);
         }),
         catchError((err) => {
           console.error('Brand page load error:', err);
@@ -151,6 +163,8 @@ export class BrandPage implements OnInit {
         this.brand = res?.brand ?? null;
         this.products = this.mapProducts(res?.products ?? []);
         this.collectionEntries = res?.collectionEntries ?? [];
+        console.log(this.collectionEntries);
+        
         this.brandHeroUrl = res?.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
         this.brandAboutImageUrl =
           res?.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
@@ -169,85 +183,92 @@ export class BrandPage implements OnInit {
     this.isGroupedBrand = isGrouped;
     this.mode = isGrouped ? 'group' : 'single';
 
-    const collectionDetailCalls = handles.map((handle) =>
-      this.shopifyService.getCollectionByHandle(handle).pipe(catchError(() => of(null))),
-    );
+    // ── Step 1: fetch collection details sequentially (one at a time) ──────────
+    const collectionDetails$ = handles.length
+      ? this.sequentialRequests(
+          handles,
+          (handle) =>
+            this.shopifyService.getCollectionByHandle(handle).pipe(catchError(() => of(null))),
+        )
+      : of([] as any[]);
 
-    const collectionDetails$ = handles.length ? forkJoin(collectionDetailCalls) : of([]);
+    return collectionDetails$.pipe(
+      // ── Step 2: after details are done, fetch products sequentially ───────────
+      switchMap((collectionDetails) => {
+        const products$ = isGrouped
+          ? this.loadProductsForGroupedCollections(ids)
+          : ids[0]
+            ? this.shopifyService.getCollectionProducts(ids[0]).pipe(
+                map((r: any) => r?.products ?? []),
+                catchError(() => of([])),
+              )
+            : of([]);
 
-    const products$ = isGrouped
-      ? this.loadProductsForGroupedCollections(ids)
-      : ids[0]
-        ? this.shopifyService.getCollectionProducts(ids[0]).pipe(
-            map((r: any) => r?.products ?? []),
-            catchError(() => of([])),
-          )
-        : of([]);
+        return products$.pipe(
+          map((products) => {
+            const representativeCollection =
+              this.pickRepresentativeCollection(collectionDetails);
+            const hero = group?.hero ?? {};
 
-    return forkJoin({
-      collectionDetails: collectionDetails$,
-      products: products$,
-    }).pipe(
-      map(({ collectionDetails, products }) => {
-        const representativeCollection = this.pickRepresentativeCollection(collectionDetails);
-        const hero = group?.hero ?? {};
-
-        const brand: BrandVM = {
-          name: group.brandTitle ?? hero.title ?? representativeCollection?.title ?? 'Brand',
-          description: this.stripHtml(
-            hero.body_html ??
-              hero.description ??
-              representativeCollection?.body_html ??
-              representativeCollection?.description ??
-              '',
-          ),
-          logoUrl:
-            hero?.image?.src ??
-            hero?.image?.url ??
-            representativeCollection?.image?.src ??
-            representativeCollection?.image?.url ??
-            '',
-        };
-
-        const brandHeroUrl =
-          this.getImageMetafieldUrl(group, 'brandImage') ||
-          this.getImageMetafieldUrl(representativeCollection, 'brandImage') ||
-          'assets/images/brand-hero-placeholder.jpg';
-
-        const brandAboutImageUrl =
-          this.getImageMetafieldUrl(group, 'footerBrand') ||
-          this.getImageMetafieldUrl(representativeCollection, 'footerBrand') ||
-          'assets/images/brand-about-placeholder.jpg';
-
-        const collectionEntries = isGrouped
-          ? handles.map((handle, index) => {
-              const detail = collectionDetails[index];
-              return {
-                handle,
-                title: titles[index] ?? detail?.title ?? handle,
-                imageUrl:
-                  this.getImageMetafieldUrl(detail, 'overviewCollection') ||
-                  group?.collectionImages?.[index] ||
-                  detail?.image?.src ||
-                  detail?.image?.url ||
+            const brand: BrandVM = {
+              name: group.brandTitle ?? hero.title ?? representativeCollection?.title ?? 'Brand',
+              description: this.stripHtml(
+                hero.body_html ??
+                  hero.description ??
+                  representativeCollection?.body_html ??
+                  representativeCollection?.description ??
                   '',
-              };
-            })
-          : [];
+              ),
+              logoUrl:
+                hero?.image?.src ??
+                hero?.image?.url ??
+                representativeCollection?.image?.src ??
+                representativeCollection?.image?.url ??
+                '',
+            };
 
-        return {
-          mode: isGrouped ? 'group' : 'single',
-          brand,
-          products,
-          collectionEntries,
-          brandHeroUrl,
-          brandAboutImageUrl,
-        };
+            const brandHeroUrl =
+              this.getImageMetafieldUrl(group, 'brandImage') ||
+              this.getImageMetafieldUrl(representativeCollection, 'brandImage') ||
+              'assets/images/brand-hero-placeholder.jpg';
+
+            const brandAboutImageUrl =
+              this.getImageMetafieldUrl(group, 'footerBrand') ||
+              this.getImageMetafieldUrl(representativeCollection, 'footerBrand') ||
+              'assets/images/brand-about-placeholder.jpg';
+
+            const collectionEntries = isGrouped
+              ? handles.map((handle, index) => {
+                  const detail = collectionDetails[index];
+                  console.log(detail);
+                  return {
+                    handle,
+                    title: titles[index] ?? detail?.title ?? handle,
+                    imageUrl:
+                      this.getImageMetafieldUrl(detail, 'overviewCollection') ||
+                      group?.collectionImages?.[index] ||
+                      detail?.image?.src ||
+                      detail?.image?.url ||
+                      '',
+                  };
+                })
+              : [];
+
+            return {
+              mode: isGrouped ? 'group' : ('single' as BrandPageMode),
+              brand,
+              products,
+              collectionEntries,
+              brandHeroUrl,
+              brandAboutImageUrl,
+            };
+          }),
+        );
       }),
     );
   }
 
-  private loadSingleCollection(handle: string, parentGroup: any | null) {
+  private loadSingleCollection(handle: string) {
     this.brandGroup = null;
     this.isGroupedBrand = false;
     this.mode = 'single';
@@ -258,12 +279,7 @@ export class BrandPage implements OnInit {
 
         if (!collection?.id) {
           console.warn('Single collection response missing id:', res);
-          return of({
-            mode: 'single' as const,
-            products: [],
-            brand: null,
-            brandGroup: null,
-          });
+          return of({ mode: 'single' as const, products: [], brand: null, brandGroup: null });
         }
 
         const img = collection?.image?.src ?? collection?.image?.url ?? '';
@@ -303,25 +319,44 @@ export class BrandPage implements OnInit {
     );
   }
 
+  /**
+   * Executes requests one at a time (concatMap) with a delay between each.
+   * Replaces forkJoin for cases where parallel calls exceed the API rate limit.
+   *
+   * @param items  Array of inputs to iterate over
+   * @param factory Function that turns one input into an Observable
+   */
+  private sequentialRequests<T, R>(items: T[], factory: (item: T) => import('rxjs').Observable<R>) {
+    return from(items).pipe(
+      concatMap((item, index) => {
+        // Skip the delay for the very first request
+        const delayMs = index === 0 ? 0 : CHUNK_DELAY_MS;
+        return of(item).pipe(
+          delay(delayMs),
+          switchMap((i) => factory(i)),
+        );
+      }),
+      toArray(),
+    );
+  }
+
+  /**
+   * Loads products for multiple collection IDs sequentially to avoid rate limits.
+   * Previously used forkJoin which fired all requests simultaneously.
+   */
   private loadProductsForGroupedCollections(ids: string[]) {
     if (!ids.length) return of([]);
 
-    const calls = ids.map((id) =>
+    return this.sequentialRequests(ids, (id) =>
       this.shopifyService.getCollectionProducts(id).pipe(
         map((r: any) => r?.products ?? []),
         catchError(() => of([])),
       ),
-    );
-
-    return forkJoin(calls).pipe(
+    ).pipe(
       map((lists) => {
-        const flat = lists.flat();
+        const flat = (lists as any[][]).flat();
         const mapById = new Map<string, any>();
-
-        for (const p of flat) {
-          mapById.set(String(p.id), p);
-        }
-
+        for (const p of flat) mapById.set(String(p.id), p);
         return Array.from(mapById.values());
       }),
     );
@@ -439,6 +474,10 @@ export class BrandPage implements OnInit {
   }
 
   private getImageMetafieldUrl(source: any, key: string): string {
+    console.log(source);
+    console.log(key);
+    
+    
     const raw = this.getMetafieldValue(source, key);
     if (!raw) return '';
 
