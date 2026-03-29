@@ -325,7 +325,7 @@
           <div class="w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[360px] skeleton"></div>
         } @else {
           <img
-            [src]="brandHeroUrl"
+            [src]="singleCollectionHeroUrl ? singleCollectionHeroUrl : brandHeroUrl"
             [alt]="brand?.name ?? 'Brand hero'"
             class="w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[360px] object-cover object-center"
             loading="lazy"
