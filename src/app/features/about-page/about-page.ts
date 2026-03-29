@@ -56,41 +56,62 @@ export class AboutPage implements AfterViewInit, OnInit {
       members: [
         {
           name: 'Megan Richardson',
-          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/meganHero.png?v=1773360103',
+          image:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/meganHero.png?v=1773360103',
           bio: 'Senior stylist specializing in precision cuts and color correction with 10+ years of experience.',
+          colorImage:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Megan_Richardson-Color.png?v=1774807088',
         },
         {
           name: 'Nicole Chan',
-          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/nicoleAbout.jpg?v=1773360104',
+          image:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/nicoleAbout.jpg?v=1773360104',
           bio: 'Nicole was born and raised in Los Angeles and has trained at a string of prestigious salons including Toni and Guy, Vidal Sassoon, Sebastian, Bumble and Bumble, Frederic Fekkai, and Paul LaBrecque Salon. True to her West Coast roots, Nicole has a flair for creating authentic bohemian looks and flirtatious beach waves with natural-looking, sun-kissed blonde highlights. Expertly skilled at balayage, razor cuts, and working with naturally curly and wavy hair, Nicole produces looks that are low maintenance and naturally sexy. She is personable and approachable and has an intuitive sense of style that ensures your new look will perfectly suit you.',
+          colorImage:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Nicole_Chan-Color.png?v=1774807089',
         },
         {
-          name: 'June Lastname',
-          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/juneAbout.png?v=1773360103',
+          name: 'June Tsai',
+          image:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/juneAbout.png?v=1773360103',
           bio: 'Master colorist with expertise in balayage and dimensional color techniques.',
+          colorImage:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/June-Tsai-Color.png?v=1774807088',
         },
         {
           name: 'Nebiya Copeland',
-          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/NebiyaCopeland.jpg?v=1773360152',
+          image:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/NebiyaCopeland.jpg?v=1773360152',
           bio: '',
+          colorImage:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Nebiya_Copeland.jpg?v=1774807092',
         },
         {
           name: 'Sydney Smith',
-          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/SydneySmith.jpg?v=1773360133',
+          image:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/SydneySmith.jpg?v=1773360133',
           bio: '',
+          colorImage:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Sydney_smith.jpg?v=1774807091',
         },
         {
           name: 'Kelly Brandt',
-          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/KellyBrandt.jpg?v=1773360105',
+          image:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/KellyBrandt.jpg?v=1773360105',
           bio: '',
           ctaLabel: 'Book with Kelly',
           ctaUrl: 'https://go.booker.com/location/KellyBrandtStyling',
           showCta: true,
+          colorImage:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/WhatsApp_Image_2026-02-13_at_17.18.07.jpg?v=1774807333',
         },
-          {
+        {
           name: 'Raquel Campbell',
-          image: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/raquellCampbell.jpg?v=1773360105',
+          image:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/raquellCampbell.jpg?v=1773360105',
           bio: '',
+          colorImage:
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/WhatsApp_Image_2026-02-13_at_17.18.28.jpg?v=1774807333',
         },
       ],
     },
@@ -128,14 +149,14 @@ export class AboutPage implements AfterViewInit, OnInit {
   }
 
   toggleVideo(video: HTMLVideoElement) {
-  if (video.paused) {
-    video.play();
-    this.playing = true
-  } else {
-    video.pause();
-    this.playing = false
+    if (video.paused) {
+      video.play();
+      this.playing = true;
+    } else {
+      video.pause();
+      this.playing = false;
+    }
   }
-}
 
   ngAfterViewInit(): void {
     this.updateRail();

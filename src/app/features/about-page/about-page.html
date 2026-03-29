@@ -1,29 +1,35 @@
 <app-header></app-header>
 <div class="about-page">
   <!-- Hero Section - Our Story -->
-<section class="hidden md:block hero-section relative h-screen bg-neutral-200 overflow-hidden">
-  <div class="absolute left-[-550px] top-[200px] lg:left-0 lg:top-0 w-full h-[200%] lg:h-auto lg:inset-0">
-    <img
-      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
-      alt="Joseph Battisti"
-      class="w-full h-auto object-left lg:object-center grayscale"
-    />
-  </div>
-
-  <div class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16">
-    <div class="text-left lg:text-right animate-fade-in-up">
-      <h1 class="text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-2 lg:mb-6">
-        {{ content.hero.title }}
-      </h1>
-      <p class="text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-700 leading-[60px] tracking-[2.89px]">
-        {{ content.hero.subtitle }}
-      </p>
+  <section class="hidden md:block hero-section relative h-screen bg-neutral-200 overflow-hidden">
+    <div
+      class="absolute left-[-550px] top-[200px] lg:left-0 lg:top-0 w-full h-[200%] lg:h-auto lg:inset-0"
+    >
+      <img
+        src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
+        alt="Joseph Battisti"
+        class="w-full h-auto object-left lg:object-center grayscale"
+      />
     </div>
-  </div>
-</section>
+
+    <div
+      class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16"
+    >
+      <div class="text-left lg:text-right animate-fade-in-up">
+        <h1 class="text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-2 lg:mb-6">
+          {{ content.hero.title }}
+        </h1>
+        <p
+          class="text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-700 leading-[60px] tracking-[2.89px]"
+        >
+          {{ content.hero.subtitle }}
+        </p>
+      </div>
+    </div>
+  </section>
 
   <section class="md:hidden hero-section relative h-screen bg-neutral-200 overflow-hidden">
-    <div class="absolute inset-0 left-[-550px] top-[200px] lg:left-0 lg:top-0 ">
+    <div class="absolute inset-0 left-[-550px] top-[200px] lg:left-0 lg:top-0">
       <img
         src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
         alt="Joseph Battisti"
@@ -32,7 +38,9 @@
       <!-- <div class="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div> -->
     </div>
 
-    <div class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16">
+    <div
+      class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16"
+    >
       <div class="text-left lg:text-right animate-fade-in-up">
         <h1 class="text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-2 lg:mb-6">
           {{ content.hero.title }}
@@ -57,7 +65,9 @@
             </h2>
           </div>
 
-          <div class="space-y-6 text-black font-light text-base lg:text-sm leading-8 tracking-[2.89px]">
+          <div
+            class="space-y-6 text-black font-light text-base lg:text-sm leading-8 tracking-[2.89px]"
+          >
             <p>{{ content.kinetics.description1 }}</p>
             <p>{{ content.kinetics.description2 }}</p>
           </div>
@@ -68,7 +78,9 @@
           <div
             class="bg-gray-50 rounded-2xl border border-black/5 shadow-[0_18px_55px_rgba(0,0,0,0.08)] p-10 lg:p-12 h-full"
           >
-            <h3 class="text-2xl lg:text-3xl mb-6 tracking-tight font-semibold leading-8 tracking-[2.89px]">
+            <h3
+              class="text-2xl lg:text-3xl mb-6 tracking-tight font-semibold leading-8 tracking-[2.89px]"
+            >
               {{ content.kinetics.commitment.title }}
             </h3>
             <p class="text-black/70 leading-relaxed leading-8 tracking-[2.89px]">
@@ -102,7 +114,9 @@
 
         <!-- Bio -->
         <div class="lg:col-span-7" style="font-family: Inter, sans-serif">
-          <h2 class="text-5xl lg:text-6xl text-black font-semibold leading-[60px] lg:leading-[130px] tracking-[2.89px]">
+          <h2
+            class="text-5xl lg:text-6xl text-black font-semibold leading-[60px] lg:leading-[130px] tracking-[2.89px]"
+          >
             {{ content.artist.name }}
           </h2>
 
@@ -186,14 +200,14 @@
 
   <!-- Meet The Team Section -->
   <section class="py-20 lg:py-32 bg-[#292524] text-white overflow-hidden">
-    <div class="max-w-7xl mx-auto px-10 lg:px-16 ">
+    <div class="max-w-7xl mx-auto px-10 lg:px-16">
       <div class="flex items-end justify-between rounded-[10px] gap-6 mb-12">
         <h2 class="text-4xl lg:text-5xl tracking-wide">
           {{ content.team.title }}
         </h2>
 
         <!-- Dots -->
-        <div class="hidden md:flex items-center gap-2 rounded-[10px] ">
+        <div class="hidden md:flex items-center gap-2 rounded-[10px]">
           <button
             *ngFor="let _ of content.team.members; let i = index"
             (click)="setActive(i)"
@@ -214,7 +228,7 @@
           class="pointer-events-none hidden lg:absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#292524] to-transparent z-10"
         ></div>
         <div
-          class="pointer-events-none hidden lg:absolute  absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#292524] to-transparent z-10"
+          class="pointer-events-none hidden lg:absolute absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#292524] to-transparent z-10"
         ></div>
 
         <!-- Rail -->
@@ -228,7 +242,7 @@
             >
               <button
                 type="button"
-                class="group relative shrink-0 text-left flex flex-col rounded-[10px] "
+                class="group relative shrink-0 text-left flex flex-col rounded-[10px]"
                 (click)="setActive(i)"
                 [style.width.px]="slideWidth"
               >
@@ -244,22 +258,42 @@
                 </h3>
 
                 <!-- Card — active is taller -->
+                <!-- Card — active is taller -->
                 <div
-                  class="rounded-[10px] relative overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(.2,.8,.2,1)] w-full"
+                  class="rounded-[10px] relative overflow-hidden ring-1 ring-white/10 bg-white/5 backdrop-blur-md w-full"
+                  style="
+                    transition:
+                      height 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+                      opacity 0.6s ease;
+                  "
                   [class.h-[480px]]="i === activeIndex"
                   [class.h-[320px]]="i !== activeIndex"
                   [class.opacity-100]="i === activeIndex"
                   [class.opacity-45]="i !== activeIndex"
                 >
+                  <!-- Grayscale base image (always present) -->
                   <img
                     [src]="member.image"
                     [alt]="member.name"
-                    class="w-full h-full rounded-[10px]  object-cover object-top transition duration-700 grayscale group-hover:grayscale-0"
+                    class="absolute inset-0 w-full h-full rounded-[10px] object-cover object-top grayscale transition-transform duration-700 ease-out"
+                    [class.scale-105]="i === activeIndex"
+                    [class.scale-100]="i !== activeIndex"
+                  />
+
+                  <!-- Color image (fades in when active) -->
+                  <img
+                    *ngIf="member.colorImage"
+                    [src]="member.colorImage"
+                    [alt]="member.name"
+                    class="absolute inset-0 w-full h-full rounded-[10px] object-cover object-top transition-opacity duration-700 ease-in-out"
+                    [class.opacity-100]="i === activeIndex"
+                    [class.opacity-0]="i !== activeIndex"
                   />
 
                   <div
-                    class="absolute inset-0 opacity-0 transition duration-700"
+                    class="absolute inset-0 transition-opacity duration-700"
                     [class.opacity-100]="i === activeIndex"
+                    [class.opacity-0]="i !== activeIndex"
                     style="
                       box-shadow:
                         inset 0 0 0 1px rgba(255, 255, 255, 0.1),
@@ -287,7 +321,7 @@
         <!-- Controls -->
         <button
           (click)="prev()"
-          class="absolute  left-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/5 ring-1 ring-white/15 backdrop-blur hover:bg-white/10 transition grid place-items-center"
+          class="absolute left-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 rounded-full bg-white/5 ring-1 ring-white/15 backdrop-blur hover:bg-white/10 transition grid place-items-center"
           aria-label="Previous"
         >
           ‹
@@ -419,7 +453,9 @@
                 {{ content.contact.locationTitle }}
               </h3>
             </div>
-            <address class="not-italic text-[20px] lg:text-[15px] tracking-widest text-black/50 leading-relaxed">
+            <address
+              class="not-italic text-[20px] lg:text-[15px] tracking-widest text-black/50 leading-relaxed"
+            >
               {{ content.contact.address.line1 }}<br />
               {{ content.contact.address.line2 }}
             </address>
