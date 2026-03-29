@@ -1,7 +1,28 @@
 <app-header></app-header>
 <div class="about-page">
   <!-- Hero Section - Our Story -->
-  <section class="hero-section relative h-screen bg-neutral-200 overflow-hidden">
+<section class="hidden md:block hero-section relative h-screen bg-neutral-200 overflow-hidden">
+  <div class="absolute left-[-550px] top-[200px] lg:left-0 lg:top-0 w-full h-[200%] lg:h-auto lg:inset-0">
+    <img
+      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
+      alt="Joseph Battisti"
+      class="w-full h-auto object-left lg:object-center grayscale"
+    />
+  </div>
+
+  <div class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16">
+    <div class="text-left lg:text-right animate-fade-in-up">
+      <h1 class="text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-2 lg:mb-6">
+        {{ content.hero.title }}
+      </h1>
+      <p class="text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-700 leading-[60px] tracking-[2.89px]">
+        {{ content.hero.subtitle }}
+      </p>
+    </div>
+  </div>
+</section>
+
+  <section class="md:hidden hero-section relative h-screen bg-neutral-200 overflow-hidden">
     <div class="absolute inset-0 left-[-550px] top-[200px] lg:left-0 lg:top-0 ">
       <img
         src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
@@ -24,7 +45,6 @@
       </div>
     </div>
   </section>
-
   <!-- Hair Kinetics Section -->
   <section class="py-16 lg:py-32 bg-white">
     <div class="container mx-auto px-6 lg:px-16">

@@ -52,45 +52,38 @@
   </div>
 </section>
 
-<section class="relative w-full min-h-[70vh] lg:min-h-[80vh] overflow-hidden bg-black text-white">
-  <!-- Background image -->
-  <div class="absolute inset-0 left-[-296px] top-[-16px] absolute">
-    <img
-      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
-      alt="Joseph Battisti"
-      class="w-full h-full object-cover object-left grayscale"
-    />
-  </div>
+<section class="relative w-full overflow-hidden bg-black text-white">
 
-  <!-- Content -->
-  <div class="relative z-10 w-full px-6 py-20 md:py-28 lg:py-32 lg:pl-[60%]">
-    <div class="flex items-center min-h-[60vh] lg:min-h-[70vh]">
-      <div class="w-full max-w-lg">
-        <!-- Title -->
-        <div class="font-extralight font-['Inter'] text-black">
-          <h2
-            class="text-5xl sm:text-6xl lg:text-8xl font-extralight leading-[60px] tracking-[2.89px]"
-          >
+  <!-- ===== MOBILE / TABLET (stacked) ===== -->
+  <div class="lg:hidden flex flex-col">
+    <!-- Image -->
+    <div class="w-full">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
+        alt="Joseph Battisti"
+        class="w-full object-contain grayscale"
+      />
+    </div>
+
+    <!-- Content below image -->
+    <div class="px-6 py-12 sm:py-16 bg-white text-black">
+      <div class="max-w-lg mx-auto sm:mx-0">
+        <div class="font-extralight font-['Inter']">
+          <h2 class="text-5xl sm:text-6xl font-extralight leading-tight tracking-[2.89px]">
             MEET
           </h2>
-          <h2
-            class="text-5xl sm:text-6xl lg:text-8xl font-extralight leading-[60px] tracking-[2.89px] mt-3 lg:mt-12"
-          >
+          <h2 class="text-5xl sm:text-6xl font-extralight leading-tight tracking-[2.89px] mt-3">
             JOSEPH
           </h2>
-          <h2
-            class="text-5xl sm:text-6xl lg:text-8xl font-extralight leading-[60px] tracking-[2.89px] mt-3 lg:mt-12"
-          >
+          <h2 class="text-5xl sm:text-6xl font-extralight leading-tight tracking-[2.89px] mt-3">
             BATTISTI
           </h2>
         </div>
 
-        <!-- Bio -->
-        <p class="mt-8 text-sm md:text-base font-light leading-relaxed text-black max-w-md">
+        <p class="mt-8 text-sm sm:text-base font-light leading-relaxed max-w-md">
           {{ content.bio }}
         </p>
 
-        <!-- Button -->
         <div class="mt-10 flex">
           <button
             (click)="onAbout()"
@@ -98,6 +91,58 @@
           >
             {{ content.btnText }}
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DESKTOP (overlay) ===== -->
+  <div class="hidden lg:block">
+    <!-- Background image -->
+    <div class="absolute inset-0">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
+        alt="Joseph Battisti"
+        class="w-full h-full object-contain object-left grayscale"
+      />
+    </div>
+
+    <!-- Invisible image for natural height -->
+    <img
+      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
+      alt=""
+      class="w-full invisible"
+      aria-hidden="true"
+    />
+
+    <!-- Content overlaid on the right -->
+    <div class="absolute inset-0 z-10 w-full px-6 py-32 pl-[70%]">
+      <div class="flex items-center h-full">
+        <div class="w-full max-w-lg">
+          <div class="font-extralight font-['Inter'] text-black">
+            <h2 class="text-8xl font-extralight leading-[60px] tracking-[2.89px]">
+              MEET
+            </h2>
+            <h2 class="text-8xl font-extralight leading-[60px] tracking-[2.89px] mt-12">
+              JOSEPH
+            </h2>
+            <h2 class="text-8xl font-extralight leading-[60px] tracking-[2.89px] mt-12">
+              BATTISTI
+            </h2>
+          </div>
+
+          <p class="mt-8 text-base font-light leading-relaxed text-black max-w-md">
+            {{ content.bio }}
+          </p>
+
+          <div class="mt-10 flex">
+            <button
+              (click)="onAbout()"
+              class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-transparent border border-black hover:text-black rounded-[5px] text-base"
+            >
+              {{ content.btnText }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
