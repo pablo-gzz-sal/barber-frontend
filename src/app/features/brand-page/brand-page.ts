@@ -205,7 +205,7 @@ export class BrandPage implements OnInit {
 
     const brandAboutImageUrl =
       this.getImageMetafieldUrl(hero, 'footerBrand') || 'assets/images/brand-about-placeholder.jpg';
-
+    
     const collectionEntries: CollectionEntryVM[] = isGrouped
       ? handles.map((handle, index) => ({
           handle,
