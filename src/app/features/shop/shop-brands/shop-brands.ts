@@ -25,11 +25,6 @@ export class ShopBrands {
       link: 'alterna',
     },
     {
-      name: 'Baxter of California',
-      logo: 'assets/svg/baxter.svg',
-      link: 'baxter',
-    },
-    {
       name: 'Comfort Zone',
       logo: 'assets/svg/comfortZone.svg',
       link: 'comfort-zone',

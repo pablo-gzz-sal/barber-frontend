@@ -20,7 +20,7 @@ export class Hero implements AfterViewInit {
   }
 
 ngAfterViewInit() {
-  const lines = this.heroText.nativeElement.querySelectorAll('.hero-line');
+  const lines = this.heroText.nativeElement.querySelectorAll('.hero-line:not(.mobile-line)');
 
   lines.forEach((line: Element, lineIndex: number) => {
     const text = line.textContent?.trim() || '';
