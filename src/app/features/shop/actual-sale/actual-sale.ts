@@ -26,7 +26,7 @@ export class ActualSale implements OnChanges {
   protected readonly text = UI_TEXT;
 
   content = {
-    title: 'FEATURED PRODUCTS',
+    title: 'Shop sale',
   };
 
   products$!: Observable<any[]>;
@@ -34,6 +34,7 @@ export class ActualSale implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['brand']) {
       this.loadProducts();
+      
     }
   }
 

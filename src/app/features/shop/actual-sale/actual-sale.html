@@ -33,9 +33,7 @@
             <img
               [src]="product.img"
               [alt]="product.name"
-              class="w-full h-full object-cover
-                     transition-transform duration-700 ease-out
-                     group-hover:scale-[1.06]"
+              class="w-full h-full object-contain object-center p-4 md:p-5 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
               loading="lazy"
             />
 
@@ -59,12 +57,12 @@
             </h3>
 
             <div class="flex items-center gap-2 mt-2">
-              <span class="text-xs md:text-sm font-medium text-black tracking-wide">
+              <span class="text-xs md:text-sm font-medium text-red-400 tracking-wide">
                 {{ product.salePrice }}
               </span>
 
               @if (product.originalPrice) {
-                <span class="text-xs text-gray-400 line-through">
+                <span class="text-xs text-red-400 line-through">
                   {{ product.originalPrice }}
                 </span>
               }

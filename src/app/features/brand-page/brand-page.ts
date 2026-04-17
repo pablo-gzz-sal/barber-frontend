@@ -75,6 +75,7 @@ export class BrandPage implements OnInit {
   signatureUrl = 'assets/svg/blackLogo.svg';
 
   brand: BrandVM | null = null;
+  brandForSale: string | null = null;
 
   whyWeLoveText = 'Comments from Joey\nClient comments\nWhatever to show authority and POV';
 
@@ -118,11 +119,15 @@ export class BrandPage implements OnInit {
     const param =
       this.route.snapshot.paramMap.get('brandKey') || this.route.snapshot.paramMap.get('handle');
 
+
     if (!param) {
       this.resetBrandImages();
       this.loading = false;
       return;
     }
+
+    this.brandForSale = param
+
 
     this.shopifyService
       .getCollections()
