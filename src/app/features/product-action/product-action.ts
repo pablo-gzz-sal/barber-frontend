@@ -165,4 +165,8 @@ getTitleRest(title?: string | null): string {
   onVariantChange(value: string) {
     this.selectedVariantId.set(value);
   }
+
+  onBack() {
+    window.history.back();
+  }
 }

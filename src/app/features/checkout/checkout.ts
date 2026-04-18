@@ -205,4 +205,8 @@ export class Checkout implements OnInit {
     sessionStorage.setItem('pending_shopify_checkout_at', String(Date.now()));
     this.cart.checkout('josephbattisti-com.myshopify.com');
   }
+
+    onBack() {
+    window.history.back();
+  }
 }

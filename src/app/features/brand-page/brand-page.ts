@@ -47,6 +47,14 @@ interface CollectionEntryVM {
   imageUrl: string;
 }
 
+interface SubCollectionSummary {
+  id: string;
+  handle: string;
+  title: string;
+  description?: string;
+  imageUrl: string;
+}
+
 /** How many parallel requests to allow at once. Stay at 1-2 to respect the 2 req/s limit. */
 const CHUNK_SIZE = 1;
 /** Delay in ms between sequential chunks — adds breathing room between requests. */
@@ -106,6 +114,76 @@ export class BrandPage implements OnInit {
     });
   }
 
+  // private loadPage(): void {
+  //   window.scrollTo(0, 0);
+
+  //   this.loading = true;
+  //   this.notFound = false;
+  //   this.collectionEntries = [];
+  //   this.products = [];
+  //   this.page = 1;
+  //   this.selectedCategory = 'all';
+
+  //   const param =
+  //     this.route.snapshot.paramMap.get('brandKey') || this.route.snapshot.paramMap.get('handle');
+
+  //   if (!param) {
+  //     this.resetBrandImages();
+  //     this.loading = false;
+  //     return;
+  //   }
+
+  //   this.brandForSale = param
+
+  //   this.shopifyService
+  //     .getCollections()
+  //     .pipe(
+  //       switchMap((res: any) => {
+  //         const brandGroups = res?.brandGroups ?? [];
+
+  //         const group =
+  //           brandGroups.find((g: any) => g.brandKey === param) ??
+  //           brandGroups.find(
+  //             (g: any) =>
+  //               (g.collectionHandles ?? []).includes(param) && (g.collectionIds ?? []).length === 1,
+  //           ) ??
+  //           null;
+
+  //         if (group) {
+  //           return this.loadGroupedOrSingleBrandFromGroup(group);
+  //         }
+
+  //         return this.loadSingleCollection(param);
+  //       }),
+  //       catchError((err) => {
+  //         console.error('Brand page load error:', err);
+  //         this.notFound = err?.status === 404;
+  //         return of({
+  //           mode: 'single' as const,
+  //           brand: null,
+  //           products: [],
+  //           collectionEntries: [],
+  //           brandHeroUrl: 'assets/images/brand-hero-placeholder.jpg',
+  //           brandAboutImageUrl: 'assets/images/brand-about-placeholder.jpg',
+  //         });
+  //       }),
+  //       finalize(() => {
+  //         this.loading = false;
+  //       }),
+  //     )
+  //     .subscribe((res: any) => {
+  //       this.mode = res?.mode ?? 'single';
+  //       this.brand = res?.brand ?? null;
+  //       this.products = this.mapProducts(res?.products ?? []);
+  //       this.collectionEntries = res?.collectionEntries ?? [];
+  //       console.log(this.collectionEntries);
+
+  //       this.brandHeroUrl = res?.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
+  //       this.brandAboutImageUrl =
+  //         res?.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
+  //     });
+  // }
+
   private loadPage(): void {
     window.scrollTo(0, 0);
 
@@ -116,182 +194,302 @@ export class BrandPage implements OnInit {
     this.page = 1;
     this.selectedCategory = 'all';
 
-    const param =
+    const handle =
       this.route.snapshot.paramMap.get('brandKey') || this.route.snapshot.paramMap.get('handle');
 
-
-    if (!param) {
+    if (!handle) {
       this.resetBrandImages();
       this.loading = false;
       return;
     }
 
-    this.brandForSale = param
+    this.brandForSale = handle;
 
-
+    // SINGLE entry point: fetch the collection by handle
     this.shopifyService
-      .getCollections()
+      .getCollectionByHandle(handle)
       .pipe(
         switchMap((res: any) => {
-          const brandGroups = res?.brandGroups ?? [];
+          const collection = res?.collection ?? res;
 
-          const group =
-            brandGroups.find((g: any) => g.brandKey === param) ??
-            brandGroups.find(
-              (g: any) =>
-                (g.collectionHandles ?? []).includes(param) && (g.collectionIds ?? []).length === 1,
-            ) ??
-            null;
-
-          if (group) {
-            return this.loadGroupedOrSingleBrandFromGroup(group);
+          if (!collection?.id) {
+            this.notFound = true;
+            return of(null);
           }
 
-          return this.loadSingleCollection(param);
+          // Read subCollections metafield — array of collection IDs
+          const subIds = this.parseSubCollectionIds(collection);
+
+          // Decide mode based on subCollections presence
+          if (subIds.length > 0) {
+            return this.loadGroupMode(collection, subIds);
+          }
+          return this.loadSingleMode(collection);
         }),
         catchError((err) => {
           console.error('Brand page load error:', err);
           this.notFound = err?.status === 404;
-          return of({
-            mode: 'single' as const,
-            brand: null,
-            products: [],
-            collectionEntries: [],
-            brandHeroUrl: 'assets/images/brand-hero-placeholder.jpg',
-            brandAboutImageUrl: 'assets/images/brand-about-placeholder.jpg',
-          });
+          return of(null);
         }),
         finalize(() => {
           this.loading = false;
         }),
       )
       .subscribe((res: any) => {
-        this.mode = res?.mode ?? 'single';
-        this.brand = res?.brand ?? null;
-        this.products = this.mapProducts(res?.products ?? []);
-        this.collectionEntries = res?.collectionEntries ?? [];
-        console.log(this.collectionEntries);
+        if (!res) return;
 
-        this.brandHeroUrl = res?.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
+        this.mode = res.mode;
+        this.isGroupedBrand = res.mode === 'group';
+        this.brand = res.brand ?? null;
+        this.products = this.mapProducts(res.products ?? []);
+        this.collectionEntries = res.collectionEntries ?? [];
+
+        this.brandHeroUrl = res.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
         this.brandAboutImageUrl =
-          res?.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
+          res.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
       });
   }
 
-  private loadGroupedOrSingleBrandFromGroup(group: any) {
-    this.brandGroup = group;
-
-    const ids: string[] = group.collectionIds ?? [];
-    const handles: string[] = group.collectionHandles ?? [];
-    const titles: string[] = group.collectionTitles ?? [];
-
-    const isGrouped = ids.length > 1;
-
-    this.isGroupedBrand = isGrouped;
-    this.mode = isGrouped ? 'group' : 'single';
-
-    // ✅ Use hero data from getCollections — no extra API calls needed
-    const hero = group?.hero ?? {};
+  private loadGroupMode(collection: any, subIds: string[]) {
+    this.brandGroup = collection;
 
     const brand: BrandVM = {
-      name: group.brandTitle ?? hero.title ?? 'Brand',
-      description: this.stripHtml(hero.body_html ?? hero.description ?? ''),
-      logoUrl: hero?.image?.src ?? hero?.image?.url ?? '',
+      name: collection.title,
+      description: this.stripHtml(collection.body_html ?? collection.description ?? ''),
+      logoUrl: collection?.image?.src ?? collection?.image?.url ?? '',
     };
 
     const brandHeroUrl =
-      BRAND_BANNERS[group.brandKey?.toLowerCase()] ||
-      BRAND_BANNERS[group.brandTitle?.toLowerCase()] ||
-      this.getImageMetafieldUrl(hero, 'bannerImage') ||
+      BRAND_BANNERS[collection.handle?.toLowerCase()] ||
+      BRAND_BANNERS[collection.title?.toLowerCase()] ||
+      this.getImageMetafieldUrl(collection, 'bannerImage') ||
       'assets/images/brand-hero-placeholder.jpg';
 
-    // const brandHeroUrl =
-    //   this.getImageMetafieldUrl(hero, 'bannerImage') || 'assets/images/brand-hero-placeholder.jpg';
-
     const brandAboutImageUrl =
-      this.getImageMetafieldUrl(hero, 'footerBrand') || 'assets/images/brand-about-placeholder.jpg';
-    
-    const collectionEntries: CollectionEntryVM[] = isGrouped
-      ? handles.map((handle, index) => ({
-          handle,
-          title: titles[index] ?? handle,
-          imageUrl: group?.collectionImages?.[index] || '',
-        }))
-      : [];
+      this.getImageMetafieldUrl(collection, 'footerBrand') ||
+      'assets/images/brand-about-placeholder.jpg';
 
-    // Only API call needed: fetch products
-    const products$ = isGrouped
-      ? this.loadProductsForGroupedCollections(ids)
-      : ids[0]
-        ? this.shopifyService.getCollectionProducts(ids[0]).pipe(
-            map((r: any) => r?.products ?? []),
-            catchError(() => of([])),
-          )
-        : of([]);
-
-    return products$.pipe(
-      map((products) => ({
-        mode: isGrouped ? 'group' : ('single' as BrandPageMode),
+    // Fetch summaries for each subCollection — ideally ONE backend call,
+    // but falls back to individual calls if the helper returns an array.
+    return this.shopifyService.getSubCollectionsSummary(subIds).pipe(
+      map((subs: SubCollectionSummary[]) => ({
+        mode: 'group' as BrandPageMode,
         brand,
-        products,
-        collectionEntries,
+        products: [], // group mode shows no products
+        collectionEntries: subs.map((s) => ({
+          handle: s.handle,
+          title: s.title,
+          imageUrl: s.imageUrl,
+        })) as CollectionEntryVM[],
         brandHeroUrl,
         brandAboutImageUrl,
       })),
+      catchError(() =>
+        of({
+          mode: 'group' as BrandPageMode,
+          brand,
+          products: [],
+          collectionEntries: [],
+          brandHeroUrl,
+          brandAboutImageUrl,
+        }),
+      ),
     );
   }
 
-  private loadSingleCollection(handle: string) {
-    this.brandGroup = null;
-    this.isGroupedBrand = false;
-    this.mode = 'single';
+  // private loadGroupedOrSingleBrandFromGroup(group: any) {
+  //   this.brandGroup = group;
 
-    return this.shopifyService.getCollectionByHandle(handle).pipe(
-      switchMap((res: any) => {
-        const collection = res?.collection ?? res;
-        if (!collection?.id) {
-          console.warn('Single collection response missing id:', res);
-          return of({ mode: 'single' as const, products: [], brand: null, brandGroup: null });
-        }
+  //   const ids: string[] = group.collectionIds ?? [];
+  //   const handles: string[] = group.collectionHandles ?? [];
+  //   const titles: string[] = group.collectionTitles ?? [];
 
-        console.log(collection);
+  //   const isGrouped = ids.length > 1;
 
-        const img = collection?.image?.src ?? collection?.image?.url ?? '';
+  //   this.isGroupedBrand = isGrouped;
+  //   this.mode = isGrouped ? 'group' : 'single';
 
-        this.brand = {
-          name: collection.title,
-          description: this.stripHtml(collection.body_html ?? collection.description ?? ''),
-          logoUrl: img,
-        };
+  //   // ✅ Use hero data from getCollections — no extra API calls needed
+  //   const hero = group?.hero ?? {};
 
-        console.log(collection.bannerImage);
+  //   const brand: BrandVM = {
+  //     name: group.brandTitle ?? hero.title ?? 'Brand',
+  //     description: this.stripHtml(hero.body_html ?? hero.description ?? ''),
+  //     logoUrl: hero?.image?.src ?? hero?.image?.url ?? '',
+  //   };
 
-        this.singleCollectionHeroUrl =
-          collection.bannerImage || 'assets/images/brand-hero-placeholder.jpg';
+  //   const brandHeroUrl =
+  //     BRAND_BANNERS[group.brandKey?.toLowerCase()] ||
+  //     BRAND_BANNERS[group.brandTitle?.toLowerCase()] ||
+  //     this.getImageMetafieldUrl(hero, 'bannerImage') ||
+  //     'assets/images/brand-hero-placeholder.jpg';
 
-        this.singleCollectionFooterUrl =
-          collection.footerBrand || 'assets/images/brand-about-placeholder.jpg';
+  //   // const brandHeroUrl =
+  //   //   this.getImageMetafieldUrl(hero, 'bannerImage') || 'assets/images/brand-hero-placeholder.jpg';
 
-        return this.shopifyService.getCollectionProducts(String(collection.id)).pipe(
-          map((r: any) => ({
-            mode: 'single' as const,
-            products: r?.products ?? [],
-            brand: this.brand,
-            brandGroup: null,
-          })),
-          catchError((error) => {
-            console.error('Failed to load products for collection', collection.id, error);
-            return of({
-              mode: 'single' as const,
-              products: [],
-              brand: this.brand,
-              brandGroup: null,
-            });
-          }),
-        );
+  //   const brandAboutImageUrl =
+  //     this.getImageMetafieldUrl(hero, 'footerBrand') || 'assets/images/brand-about-placeholder.jpg';
+
+  //   const collectionEntries: CollectionEntryVM[] = isGrouped
+  //     ? handles.map((handle, index) => ({
+  //         handle,
+  //         title: titles[index] ?? handle,
+  //         imageUrl: group?.collectionImages?.[index] || '',
+  //       }))
+  //     : [];
+
+  //   // Only API call needed: fetch products
+  //   const products$ = isGrouped
+  //     ? this.loadProductsForGroupedCollections(ids)
+  //     : ids[0]
+  //       ? this.shopifyService.getCollectionProducts(ids[0]).pipe(
+  //           map((r: any) => r?.products ?? []),
+  //           catchError(() => of([])),
+  //         )
+  //       : of([]);
+
+  //   return products$.pipe(
+  //     map((products) => ({
+  //       mode: isGrouped ? 'group' : ('single' as BrandPageMode),
+  //       brand,
+  //       products,
+  //       collectionEntries,
+  //       brandHeroUrl,
+  //       brandAboutImageUrl,
+  //     })),
+  //   );
+  // }
+
+  // private loadSingleCollection(handle: string) {
+  //   this.brandGroup = null;
+  //   this.isGroupedBrand = false;
+  //   this.mode = 'single';
+
+  //   return this.shopifyService.getCollectionByHandle(handle).pipe(
+  //     switchMap((res: any) => {
+  //       const collection = res?.collection ?? res;
+  //       if (!collection?.id) {
+  //         console.warn('Single collection response missing id:', res);
+  //         return of({ mode: 'single' as const, products: [], brand: null, brandGroup: null });
+  //       }
+
+  //       console.log(collection);
+
+  //       const img = collection?.image?.src ?? collection?.image?.url ?? '';
+
+  //       this.brand = {
+  //         name: collection.title,
+  //         description: this.stripHtml(collection.body_html ?? collection.description ?? ''),
+  //         logoUrl: img,
+  //       };
+
+  //       console.log(collection.bannerImage);
+
+  //       this.singleCollectionHeroUrl =
+  //         collection.bannerImage || 'assets/images/brand-hero-placeholder.jpg';
+
+  //       this.singleCollectionFooterUrl =
+  //         collection.footerBrand || 'assets/images/brand-about-placeholder.jpg';
+
+  //       return this.shopifyService.getCollectionProducts(String(collection.id)).pipe(
+  //         map((r: any) => ({
+  //           mode: 'single' as const,
+  //           products: r?.products ?? [],
+  //           brand: this.brand,
+  //           brandGroup: null,
+  //         })),
+  //         catchError((error) => {
+  //           console.error('Failed to load products for collection', collection.id, error);
+  //           return of({
+  //             mode: 'single' as const,
+  //             products: [],
+  //             brand: this.brand,
+  //             brandGroup: null,
+  //           });
+  //         }),
+  //       );
+  //     }),
+  //   );
+  // }
+
+  private parseSubCollectionIds(collection: any): string[] {
+  const raw = this.getMetafieldValue(collection, 'subCollections');
+  if (!raw) return [];
+
+  // Shopify metafield of type list.collection_reference returns either:
+  //  - an array of GIDs: ["gid://shopify/Collection/123", ...]
+  //  - a JSON-stringified array of GIDs
+  //  - already-resolved references (object with .id)
+  let parsed: any = raw;
+  if (typeof raw === 'string') {
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      parsed = [raw];
+    }
+  }
+
+  if (!Array.isArray(parsed)) return [];
+
+  return parsed
+    .map((item: any) => {
+      if (typeof item === 'string') return this.extractNumericId(item);
+      if (item?.id) return this.extractNumericId(String(item.id));
+      return '';
+    })
+    .filter(Boolean);
+}
+
+private extractNumericId(gidOrId: string): string {
+  const match = gidOrId.match(/(\d+)$/);
+  return match ? match[1] : gidOrId;
+}
+
+  private loadSingleMode(collection: any) {
+  this.brandGroup = null;
+  this.isGroupedBrand = false;
+
+  const img = collection?.image?.src ?? collection?.image?.url ?? '';
+
+  const brand: BrandVM = {
+    name: collection.title,
+    description: this.stripHtml(collection.body_html ?? collection.description ?? ''),
+    logoUrl: img,
+  };
+
+  const brandHeroUrl =
+    BRAND_BANNERS[collection.handle?.toLowerCase()] ||
+    this.getImageMetafieldUrl(collection, 'bannerImage') ||
+    'assets/images/brand-hero-placeholder.jpg';
+
+  const brandAboutImageUrl =
+    this.getImageMetafieldUrl(collection, 'footerBrand') ||
+    'assets/images/brand-about-placeholder.jpg';
+
+  this.singleCollectionHeroUrl = brandHeroUrl;
+  this.singleCollectionFooterUrl = brandAboutImageUrl;
+
+  return this.shopifyService.getCollectionProducts(String(collection.id)).pipe(
+    map((r: any) => ({
+      mode: 'single' as BrandPageMode,
+      brand,
+      products: r?.products ?? [],
+      collectionEntries: [],
+      brandHeroUrl,
+      brandAboutImageUrl,
+    })),
+    catchError(() =>
+      of({
+        mode: 'single' as BrandPageMode,
+        brand,
+        products: [],
+        collectionEntries: [],
+        brandHeroUrl,
+        brandAboutImageUrl,
       }),
-    );
-  }
+    ),
+  );
+}
 
   /**
    * Executes requests one at a time (concatMap) with a delay between each.
@@ -318,34 +516,34 @@ export class BrandPage implements OnInit {
    * Loads products for multiple collection IDs sequentially to avoid rate limits.
    * Previously used forkJoin which fired all requests simultaneously.
    */
-  private loadProductsForGroupedCollections(ids: string[]) {
-    if (!ids.length) return of([]);
+  // private loadProductsForGroupedCollections(ids: string[]) {
+  //   if (!ids.length) return of([]);
 
-    return this.sequentialRequests(ids, (id) =>
-      this.shopifyService.getCollectionProducts(id).pipe(
-        map((r: any) => r?.products ?? []),
-        catchError(() => of([])),
-      ),
-    ).pipe(
-      map((lists) => {
-        const flat = (lists as any[][]).flat();
-        const mapById = new Map<string, any>();
-        for (const p of flat) mapById.set(String(p.id), p);
-        return Array.from(mapById.values());
-      }),
-    );
-  }
+  //   return this.sequentialRequests(ids, (id) =>
+  //     this.shopifyService.getCollectionProducts(id).pipe(
+  //       map((r: any) => r?.products ?? []),
+  //       catchError(() => of([])),
+  //     ),
+  //   ).pipe(
+  //     map((lists) => {
+  //       const flat = (lists as any[][]).flat();
+  //       const mapById = new Map<string, any>();
+  //       for (const p of flat) mapById.set(String(p.id), p);
+  //       return Array.from(mapById.values());
+  //     }),
+  //   );
+  // }
 
-  private pickRepresentativeCollection(collections: any[]): any | null {
-    if (!Array.isArray(collections) || !collections.length) return null;
+  // private pickRepresentativeCollection(collections: any[]): any | null {
+  //   if (!Array.isArray(collections) || !collections.length) return null;
 
-    return (
-      collections.find((c) => this.getImageMetafieldUrl(c, 'brandImage')) ||
-      collections.find((c) => this.getImageMetafieldUrl(c, 'footerBrand')) ||
-      collections[0] ||
-      null
-    );
-  }
+  //   return (
+  //     collections.find((c) => this.getImageMetafieldUrl(c, 'brandImage')) ||
+  //     collections.find((c) => this.getImageMetafieldUrl(c, 'footerBrand')) ||
+  //     collections[0] ||
+  //     null
+  //   );
+  // }
 
   private mapProducts(list: any[]): ProductCardVM[] {
     return list.map((p: any) => {

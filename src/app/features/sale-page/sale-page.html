@@ -1,0 +1,195 @@
+<!-- ===== HERO ===== -->
+<app-header></app-header>
+<section class="relative w-full h-[40vh] sm:h-[50vh] lg:h-[60vh] overflow-hidden bg-black font-['Inter']">
+  <img
+    [src]="saleHeroUrl"
+    alt="Sale"
+    class="absolute inset-0 w-full h-full object-cover opacity-80"
+    (error)="saleHeroUrl = 'assets/images/brand-hero-placeholder.jpg'"
+  />
+
+  <!-- gradient for legibility -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60"></div>
+
+  <div
+    class="relative z-10 h-full w-full flex flex-col items-center justify-center text-center px-6"
+  >
+    <span class="uppercase tracking-[0.35em] text-xs sm:text-sm text-white/70 mb-3">
+      Limited time
+    </span>
+    <h1 class="text-white font-['Inter'] text-4xl sm:text-6xl lg:text-7xl leading-tight">On Sale</h1>
+    <p class="mt-4 text-white/80 max-w-xl text-sm sm:text-base">
+      Curated discounts across our favorite brands. While supplies last.
+    </p>
+  </div>
+</section>
+
+<!-- ===== LOADING ===== -->
+@if (loading) {
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+        <div class="animate-pulse">
+          <div class="aspect-[3/4] bg-black/5 rounded-xl"></div>
+          <div class="h-3 bg-black/5 rounded mt-3 w-3/4"></div>
+          <div class="h-3 bg-black/5 rounded mt-2 w-1/2"></div>
+        </div>
+      }
+    </div>
+  </section>
+}
+
+<!-- ===== NOT FOUND / EMPTY ===== -->
+@if (!loading && products.length === 0) {
+  <section class="max-w-3xl mx-auto px-6 py-24 text-center">
+    <h2 class="font-serif text-3xl sm:text-4xl text-black">No sale items right now</h2>
+    <p class="mt-4 text-black/60">Check back soon — our sale selection refreshes regularly.</p>
+    <a
+      routerLink="/shop"
+      class="inline-block mt-8 px-6 py-3 bg-black text-white uppercase tracking-[0.2em] text-xs hover:bg-black/80 transition-colors"
+    >
+      Browse the shop
+    </a>
+  </section>
+}
+
+<!-- ===== CONTENT ===== -->
+@if (!loading && products.length > 0) {
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8">
+      <div class="flex flex-col gap-4">
+        <div>
+          <h2 class=" text-2xl sm:text-3xl text-black">Products on sale</h2>
+          <p class="text-black/50 text-sm mt-1">
+            {{ filteredProducts.length }} of {{ totalOnSale }} items
+          </p>
+        </div>
+
+        @if (loading) {
+          <div class="flex flex-wrap gap-3 sm:gap-4">
+            @for (i of [1, 2, 3, 4]; track i) {
+              <div class="skeleton h-[46px] sm:h-[56px] w-20 sm:w-32 rounded"></div>
+            }
+          </div>
+        } @else {
+          <div class="flex flex-wrap gap-3 sm:gap-4">
+            @for (c of categories; track c.key) {
+              <button
+                type="button"
+                (click)="onSelectCategory(c.key)"
+                class="px-5 py-3 sm:py-4 outline outline-2 outline-offset-[-2px] outline-primary text-xs sm:text-sm md:text-base font-semibold tracking-[0.22em] transition-all duration-300 hover:bg-primary hover:text-white"
+                [class.bg-primary]="selectedCategory === c.key"
+                [class.text-white]="selectedCategory === c.key"
+                [class.bg-transparent]="selectedCategory !== c.key"
+                [class.text-text-primary]="selectedCategory !== c.key"
+              >
+                {{ c.label }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Product grid -->
+    @if (filteredProducts.length === 0) {
+      <div class="text-center py-20 text-black/50">No products in this category.</div>
+    } @else {
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        @for (p of pagedProducts; track trackById($index, p)) {
+          <button
+            type="button"
+            [routerLink]="['/product', p.id.split('/').pop()]"
+            class="group text-left focus:outline-none"
+          >
+            <!-- Image with sale badge -->
+            <div
+              class="relative aspect-[3/4] overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/5"
+            >
+              <img
+                [src]="p.imageUrl"
+                [alt]="p.title"
+                class="w-full h-full object-contain object-center p-4 md:p-5 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                (error)="p.imageUrl = 'assets/images/product-placeholder.png'"
+              />
+
+              @if (p.discountPercent > 0) {
+                <span
+                  class="absolute top-3 left-3 bg-black text-white text-[10px] uppercase tracking-[0.2em] px-2 py-1 rounded-full"
+                >
+                  −{{ p.discountPercent | number: '1.0-0' }}%
+                </span>
+              }
+            </div>
+
+            <!-- Meta -->
+            <div class="mt-3">
+              @if (p.vendor) {
+                <div class="text-[10px] uppercase tracking-[0.2em] text-black/50">
+                  {{ p.vendor }}
+                </div>
+              }
+              <div class="mt-1 text-sm sm:text-base text-black line-clamp-2">
+                {{ p.title }}
+              </div>
+
+              <!-- Price row -->
+              <div class="mt-1.5 flex items-baseline gap-2">
+                @if (p.price !== null) {
+                  <span class="text-sm font-medium text-red-400">
+                    {{ p.price | currency: 'USD' : 'symbol' : '1.2-2' }}
+                  </span>
+                }
+                @if (p.compareAtPrice !== null) {
+                  <span class="text-xs text-red/40 line-through">
+                    {{ p.compareAtPrice | currency: 'USD' : 'symbol' : '1.2-2' }}
+                  </span>
+                }
+              </div>
+            </div>
+          </button>
+        }
+      </div>
+
+      <!-- Pagination -->
+      @if (totalPages > 1) {
+        <div class="mt-12 flex items-center justify-center gap-1 flex-wrap">
+          <button
+            type="button"
+            (click)="onPage(page - 1)"
+            [disabled]="page === 1"
+            class="px-3 py-2 text-xs uppercase tracking-[0.2em] border border-black/10 rounded-full hover:border-black/40 disabled:opacity-40 disabled:hover:border-black/10"
+          >
+            Prev
+          </button>
+
+          @for (n of pageNumbers; track n) {
+            <button
+              type="button"
+              (click)="onPage(n)"
+              class="min-w-[36px] h-9 text-xs border rounded-full transition-colors"
+              [class.bg-black]="page === n"
+              [class.text-white]="page === n"
+              [class.border-black]="page === n"
+              [class.border-black!/10]="page !== n"
+              [class.hover:border-black/40]="page !== n"
+            >
+              {{ n }}
+            </button>
+          }
+
+          <button
+            type="button"
+            (click)="onPage(page + 1)"
+            [disabled]="page === totalPages"
+            class="px-3 py-2 text-xs uppercase tracking-[0.2em] border border-black/10 rounded-full hover:border-black/40 disabled:opacity-40 disabled:hover:border-black/10"
+          >
+            Next
+          </button>
+        </div>
+      }
+    }
+  </section>
+}
+<app-footer></app-footer>

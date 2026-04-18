@@ -9,6 +9,7 @@ import { Account } from './core/constants/account/account';
 import { Checkout } from './features/checkout/checkout';
 import { ProductAction } from './features/product-action/product-action';
 import { BrandPage } from './features/brand-page/brand-page';
+import { SalePage } from './features/sale-page/sale-page';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'checkout', component: Checkout },
   { path: 'product/:id', component: ProductAction },
   {path: 'shop/brand/:handle', component: BrandPage},
+  {path: 'sale', component: SalePage},
   { path: '**', redirectTo: '' },
   // {
   //   path: 'account/authorize',

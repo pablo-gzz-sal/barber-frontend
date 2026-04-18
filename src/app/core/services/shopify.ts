@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, catchError, map, shareReplay, throwError } from 'rxjs';
+import { Observable, catchError, map, of, shareReplay, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ProductCard } from '../../shared/models/Product-Card.model';
 
@@ -282,6 +282,14 @@ export class Shopify {
     return this.http
       .get(`${this.baseUrl}/collections/by-handle/${encodeURIComponent(handle)}`)
       .pipe(catchError((e) => this.handleError(e)));
+  }
+
+  getSubCollectionsSummary(ids: string[]): Observable<any[]> {
+    if (!ids?.length) return of([]);
+    const params = new HttpParams().set('ids', ids.join(','));
+    return this.http
+      .get<{ subCollections: any[] }>(`${this.baseUrl}/collections/sub-collections`, { params })
+      .pipe(map((res) => res?.subCollections ?? []));
   }
 
   getFeaturedProducts(collections: string[], limitPerCollection = 4): Observable<any> {
