@@ -12,6 +12,7 @@ import { Artist } from '../about/artist/artist';
 import { Salon } from '../about/salon/salon';
 import { ShopSale } from '../shop/shop-sale/shop-sale';
 import { Footer } from '../../core/components/footer/footer';
+import { ActualSale } from '../shop/actual-sale/actual-sale';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -25,7 +26,7 @@ import { Footer } from '../../core/components/footer/footer';
     ServicesGrid,
     Artist,
     Salon,
-    ShopSale,
+    ActualSale,
     Footer,
   ],
   templateUrl: './home.html',

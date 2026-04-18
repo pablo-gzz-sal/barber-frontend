@@ -4,7 +4,7 @@ import { UI_TEXT } from '../../../core/constants/app-text';
 import { Observable, catchError, map, of, shareReplay } from 'rxjs';
 import { ProductCard } from '../../../shared/models/Product-Card.model';
 import { Shopify } from '../../../core/services/shopify';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 type SaleCard = ProductCard & {
   salePrice: string;
@@ -18,10 +18,12 @@ type SaleCard = ProductCard & {
   templateUrl: './actual-sale.html',
   styleUrl: './actual-sale.css',
 })
-export class ActualSale implements OnChanges {
+export class ActualSale implements OnInit, OnChanges {
   @Input() brand?: string | null;
 
   private shop = inject(Shopify);
+
+  private router = inject(Router);
 
   protected readonly text = UI_TEXT;
 
@@ -31,26 +33,47 @@ export class ActualSale implements OnChanges {
 
   products$!: Observable<any[]>;
 
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['brand']) {
       this.loadProducts();
-      
     }
   }
 
   private loadProducts(): void {
     const brandKey = this.normalizeBrandKey(this.brand);
+    const hasBrand = !!brandKey;
 
-    this.products$ = this.shop.getSaleProducts(4, 0, brandKey || undefined).pipe(
+    // No brand → pull a larger pool so we have variety to randomize from.
+    // With brand → keep it tight, 4 is enough.
+    const fetchLimit = hasBrand ? 4 : 40;
+
+    this.products$ = this.shop.getSaleProducts(fetchLimit, 0, brandKey || undefined).pipe(
       map((res: any) => this.asArray(res?.sale)),
-      map((products: any[]) => products.slice(0, 4)),
+      map((products: any[]) =>
+        hasBrand ? products.slice(0, 4) : this.pickRandom(products, 4),
+      ),
       map((products: any[]) => products.map((p) => this.toSaleCard(p))),
       catchError((error) => {
         console.error('Failed to load sale products', error);
         return of([]);
       }),
-      shareReplay(1)
+      shareReplay(1),
     );
+  }
+
+  /** Fisher–Yates shuffle, then take the first n items. */
+  private pickRandom<T>(arr: T[], n: number): T[] {
+    if (arr.length <= n) return arr;
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy.slice(0, n);
   }
 
   private normalizeBrandKey(brand?: string | null): string {
@@ -64,7 +87,6 @@ export class ActualSale implements OnChanges {
     if (Array.isArray(res?.data)) return res.data;
     return [];
   }
-
 
   private toSaleCard(p: any) {
     const variants = Array.isArray(p?.variants)
@@ -98,5 +120,9 @@ export class ActualSale implements OnChanges {
           ? `$${minCompare.toFixed(2)}`
           : '',
     };
+  }
+
+  onShopSale(): void {
+    this.router.navigate(['/sale']);
   }
 }

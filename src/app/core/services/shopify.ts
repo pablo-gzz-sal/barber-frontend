@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, catchError, map, of, shareReplay, throwError } from 'rxjs';
+import { Observable, catchError, map, of, shareReplay, tap, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ProductCard } from '../../shared/models/Product-Card.model';
 
@@ -107,9 +107,17 @@ export class Shopify {
   // ── Cache TTLs (ms) ───────────────────────────────────────────────────────
   private readonly TTL = {
     collections: 5 * 60_000, // 5 min — rarely changes
+    collectionByHandle: 5 * 60_000, // 5 min — brand page primary call
+    collectionById: 5 * 60_000, // 5 min
+    subCollections: 5 * 60_000, // 5 min — grouped brand summaries
     collectionProducts: 2 * 60_000, // 2 min
+    productById: 3 * 60_000, // 3 min — for PDP back-nav
+    productsByTag: 3 * 60_000, // 3 min
+    recommendations: 10 * 60_000, // 10 min — rarely change within a session
     bestsellers: 5 * 60_000, // 5 min — expensive to compute
     sale: 3 * 60_000, // 3 min
+    smartCollections: 5 * 60_000, // 5 min
+    giftCards: 5 * 60_000, // 5 min
   };
 
   // ── Internal cache map ────────────────────────────────────────────────────
@@ -118,7 +126,7 @@ export class Shopify {
   /**
    * Returns a cached observable for `key`, or creates one via `factory`.
    * The observable is shared and replayed so all subscribers get the same
-   * response without firing extra HTTP requests.
+   * response without firing extra HTTP requests (even concurrently).
    */
   private cached<T>(key: string, ttlMs: number, factory: () => Observable<T>): Observable<T> {
     const entry = this.cache.get(key);
@@ -139,12 +147,35 @@ export class Shopify {
     return obs$;
   }
 
-  /** Manually bust one key or the entire cache (call after a write operation). */
-  invalidateCache(key?: string): void {
-    if (key) {
-      this.cache.delete(key);
-    } else {
+  /**
+   * Manually bust cache entries.
+   *  - No args: clears everything
+   *  - Exact key: clears that one entry
+   *  - Prefix match with `prefix: true`: clears all keys starting with `key`
+   *    (useful after write ops, e.g. invalidateCache('col-products:123', true))
+   */
+  invalidateCache(key?: string, prefix = false): void {
+    if (!key) {
       this.cache.clear();
+      return;
+    }
+    if (prefix) {
+      for (const k of this.cache.keys()) {
+        if (k.startsWith(key)) this.cache.delete(k);
+      }
+    } else {
+      this.cache.delete(key);
+    }
+  }
+
+  /**
+   * Convenience: bust all cache entries related to a collection handle
+   * (the handle, its products, and any sub-collections it belongs to).
+   * Call after an admin-side collection/product update.
+   */
+  invalidateBrand(handle: string): void {
+    for (const k of this.cache.keys()) {
+      if (k.includes(handle)) this.cache.delete(k);
     }
   }
 
@@ -191,6 +222,7 @@ export class Shopify {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
+  /** Uncached — search queries are too variable to cache usefully. */
   searchProducts(query: string, limit = 20): Observable<any> {
     return this.http
       .get(`${this.baseUrl}/products/search`, {
@@ -199,36 +231,45 @@ export class Shopify {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
+  /** Cached — product detail pages are frequently revisited (back-nav from cart, etc.). */
   getProductById(id: string): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/products/${encodeURIComponent(id)}`)
-      .pipe(catchError((e) => this.handleError(e)));
+    const key = `product:${id}`;
+    return this.cached(key, this.TTL.productById, () =>
+      this.http.get(`${this.baseUrl}/products/${encodeURIComponent(id)}`),
+    );
   }
 
+  /** Cached — tag queries are reused across pages (e.g. "sale", "new-arrivals"). */
   getProductsByTag(tag: string, limit = 50): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/products/by-tag/${encodeURIComponent(tag)}`, {
+    const key = `products-by-tag:${tag}:${limit}`;
+    return this.cached(key, this.TTL.productsByTag, () =>
+      this.http.get(`${this.baseUrl}/products/by-tag/${encodeURIComponent(tag)}`, {
         params: this.toHttpParams({ limit }),
-      })
-      .pipe(catchError((e) => this.handleError(e)));
+      }),
+    );
   }
 
+  /** Cached — recommendations don't change mid-session. */
   getProductRecommendations(productId: string, limit = 4): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/recommendations`, {
+    const key = `recs:${productId}:${limit}`;
+    return this.cached(key, this.TTL.recommendations, () =>
+      this.http.get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/recommendations`, {
         params: this.toHttpParams({ limit }),
-      })
-      .pipe(catchError((e) => this.handleError(e)));
+      }),
+    );
   }
 
+  /** Cached — related products don't change mid-session. */
   getRelatedProducts(productId: string, limit = 4): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/related`, {
+    const key = `related:${productId}:${limit}`;
+    return this.cached(key, this.TTL.recommendations, () =>
+      this.http.get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/related`, {
         params: this.toHttpParams({ limit }),
-      })
-      .pipe(catchError((e) => this.handleError(e)));
+      }),
+    );
   }
 
+  /** Uncached — low-frequency; cache pressure not worth it. */
   getProductMetafields(productId: string): Observable<any> {
     return this.http
       .get(`${this.baseUrl}/products/${encodeURIComponent(productId)}/metafields`)
@@ -250,7 +291,6 @@ export class Shopify {
    * All brand-page navigations within the TTL window share one HTTP request.
    */
   getCollections(query?: CollectionQuery): Observable<any> {
-    // Include query params in the key so different filters don't collide
     const key = `collections:${JSON.stringify(query ?? {})}`;
     return this.cached(key, this.TTL.collections, () =>
       this.http.get(`${this.baseUrl}/collections`, {
@@ -259,10 +299,12 @@ export class Shopify {
     );
   }
 
+  /** Cached — occasional direct lookups by ID. */
   getCollectionById(id: string): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/collections/${encodeURIComponent(id)}`)
-      .pipe(catchError((e) => this.handleError(e)));
+    const key = `collection-by-id:${id}`;
+    return this.cached(key, this.TTL.collectionById, () =>
+      this.http.get(`${this.baseUrl}/collections/${encodeURIComponent(id)}`),
+    );
   }
 
   /**
@@ -278,20 +320,35 @@ export class Shopify {
     );
   }
 
+  /**
+   * Cached — brand page's primary call.
+   * Navigating brand → product → back now replays instantly.
+   */
   getCollectionByHandle(handle: string): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/collections/by-handle/${encodeURIComponent(handle)}`)
-      .pipe(catchError((e) => this.handleError(e)));
+    const key = `collection-by-handle:${handle}`;
+    return this.cached(key, this.TTL.collectionByHandle, () =>
+      this.http.get(`${this.baseUrl}/collections/by-handle/${encodeURIComponent(handle)}`),
+    );
   }
 
+  /**
+   * Cached per unique set of IDs.
+   * Grouped brands call this once per visit; subsequent visits replay.
+   */
   getSubCollectionsSummary(ids: string[]): Observable<any[]> {
     if (!ids?.length) return of([]);
-    const params = new HttpParams().set('ids', ids.join(','));
-    return this.http
-      .get<{ subCollections: any[] }>(`${this.baseUrl}/collections/sub-collections`, { params })
-      .pipe(map((res) => res?.subCollections ?? []));
+
+    // Sort IDs so ['1','2'] and ['2','1'] share the same cache entry
+    const key = `sub-collections:${[...ids].sort().join(',')}`;
+    return this.cached(key, this.TTL.subCollections, () => {
+      const params = new HttpParams().set('ids', ids.join(','));
+      return this.http
+        .get<{ subCollections: any[] }>(`${this.baseUrl}/collections/sub-collections`, { params })
+        .pipe(map((res) => res?.subCollections ?? []));
+    });
   }
 
+  /** Uncached — called from the homepage with varying collection sets. */
   getFeaturedProducts(collections: string[], limitPerCollection = 4): Observable<any> {
     return this.http
       .post(`${this.baseUrl}/featured-products`, { collections, limitPerCollection })
@@ -299,7 +356,7 @@ export class Shopify {
   }
 
   // =========================
-  // CUSTOMERS
+  // CUSTOMERS (user-specific — never cached)
   // =========================
   getCustomers(query?: CustomerQuery): Observable<any> {
     return this.http
@@ -340,12 +397,16 @@ export class Shopify {
   // =========================
   // GIFT CARDS
   // =========================
+
+  /** Cached — catalog listing, changes rarely within a session. */
   getGiftCards(limit = 50): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/gift-cards`, { params: this.toHttpParams({ limit }) })
-      .pipe(catchError((e) => this.handleError(e)));
+    const key = `gift-cards:${limit}`;
+    return this.cached(key, this.TTL.giftCards, () =>
+      this.http.get(`${this.baseUrl}/gift-cards`, { params: this.toHttpParams({ limit }) }),
+    );
   }
 
+  /** Uncached — balance-sensitive, always fetch fresh. */
   getGiftCardById(id: string): Observable<any> {
     return this.http
       .get(`${this.baseUrl}/gift-cards/${encodeURIComponent(id)}`)
@@ -353,19 +414,21 @@ export class Shopify {
   }
 
   createGiftCard(data: CreateGiftCardDto): Observable<any> {
-    return this.http
-      .post(`${this.baseUrl}/gift-cards`, data)
-      .pipe(catchError((e) => this.handleError(e)));
+    return this.http.post(`${this.baseUrl}/gift-cards`, data).pipe(
+      tap(() => this.invalidateCache('gift-cards:', true)),
+      catchError((e) => this.handleError(e)),
+    );
   }
 
   disableGiftCard(id: string): Observable<any> {
-    return this.http
-      .post(`${this.baseUrl}/gift-cards/${encodeURIComponent(id)}/disable`, {})
-      .pipe(catchError((e) => this.handleError(e)));
+    return this.http.post(`${this.baseUrl}/gift-cards/${encodeURIComponent(id)}/disable`, {}).pipe(
+      tap(() => this.invalidateCache('gift-cards:', true)),
+      catchError((e) => this.handleError(e)),
+    );
   }
 
   // =========================
-  // ORDERS
+  // ORDERS (dynamic — never cached)
   // =========================
   createOrder(data: CreateOrderDto): Observable<any> {
     return this.http
@@ -388,12 +451,16 @@ export class Shopify {
   // =========================
   // SMART COLLECTIONS
   // =========================
+
+  /** Cached — rarely changes within a session. */
   getSmartCollections(limit = 50): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/smart-collections`, { params: this.toHttpParams({ limit }) })
-      .pipe(catchError((e) => this.handleError(e)));
+    const key = `smart-collections:${limit}`;
+    return this.cached(key, this.TTL.smartCollections, () =>
+      this.http.get(`${this.baseUrl}/smart-collections`, { params: this.toHttpParams({ limit }) }),
+    );
   }
 
+  /** Uncached — admin-facing, infrequent. */
   getSmartCollectionById(id: string): Observable<any> {
     return this.http
       .get(`${this.baseUrl}/smart-collections/${encodeURIComponent(id)}`)
@@ -401,21 +468,24 @@ export class Shopify {
   }
 
   createSmartCollection(data: CreateSmartCollectionDto): Observable<any> {
-    return this.http
-      .post(`${this.baseUrl}/smart-collections`, data)
-      .pipe(catchError((e) => this.handleError(e)));
+    return this.http.post(`${this.baseUrl}/smart-collections`, data).pipe(
+      tap(() => this.invalidateCache('smart-collections:', true)),
+      catchError((e) => this.handleError(e)),
+    );
   }
 
   updateSmartCollection(id: string, data: Partial<CreateSmartCollectionDto>): Observable<any> {
-    return this.http
-      .put(`${this.baseUrl}/smart-collections/${encodeURIComponent(id)}`, data)
-      .pipe(catchError((e) => this.handleError(e)));
+    return this.http.put(`${this.baseUrl}/smart-collections/${encodeURIComponent(id)}`, data).pipe(
+      tap(() => this.invalidateCache('smart-collections:', true)),
+      catchError((e) => this.handleError(e)),
+    );
   }
 
   deleteSmartCollection(id: string): Observable<any> {
-    return this.http
-      .delete(`${this.baseUrl}/smart-collections/${encodeURIComponent(id)}`)
-      .pipe(catchError((e) => this.handleError(e)));
+    return this.http.delete(`${this.baseUrl}/smart-collections/${encodeURIComponent(id)}`).pipe(
+      tap(() => this.invalidateCache('smart-collections:', true)),
+      catchError((e) => this.handleError(e)),
+    );
   }
 
   // =========================
@@ -438,10 +508,11 @@ export class Shopify {
 
   /** Cached — requires fetching 250 products on the backend. */
   getSaleProducts(limit = 4, minDiscount = 0, brand?: string): Observable<any> {
-    const key = `sale:${limit}:${minDiscount}:${brand ?? ''}`;
+    const normalizedBrand = brand ? String(brand).trim().toLowerCase() : '';
+    const key = `sale:${limit}:${minDiscount}:${normalizedBrand}`;
     return this.cached(key, this.TTL.sale, () => {
       const params: any = { limit, minDiscount };
-      if (brand) params.brand = String(brand).trim().toLowerCase();
+      if (normalizedBrand) params.brand = normalizedBrand;
       return this.http.get<any>(`${this.baseUrl}/sale`, { params });
     });
   }
@@ -449,6 +520,11 @@ export class Shopify {
   // =========================
   // FEATURED / RANDOM
   // =========================
+
+  /**
+   * Uncached — the Fisher–Yates shuffle is the whole point of the method.
+   * Caching would freeze the "random" order across the session.
+   */
   getRandomFeaturedProducts(
     collections: string[],
     pickCount: number = 4,
@@ -478,6 +554,8 @@ export class Shopify {
   // =========================
   // VARIANTS
   // =========================
+
+  /** Uncached — variant inventory/availability should always be fresh. */
   getProductVariants(productId: string): Observable<ProductVariantsResponse> {
     return this.http
       .get<ProductVariantsResponse>(

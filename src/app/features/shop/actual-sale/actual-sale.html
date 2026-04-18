@@ -1,80 +1,80 @@
 @if (products$ | async; as products) {
   @if (products.length > 0) {
+    <section class="bg-white text-black py-20 md:py-24">
+      <div class="max-w-7xl mx-auto px-6">
+        <!-- Section Title -->
+        <div class="text-center mb-12 md:mb-16 animate-fade-in-up">
+          <p class="text-[11px] md:text-lg tracking-[0.32em] uppercase font-medium text-black/70">
+            {{ content.title }}
+          </p>
+        </div>
 
-<section class="bg-white text-black py-20 md:py-24">
-  <div class="max-w-7xl mx-auto px-6">
-
-    <!-- Section Title -->
-    <div class="text-center mb-12 md:mb-16 animate-fade-in-up">
-      <p class="text-[11px] md:text-lg tracking-[0.32em] uppercase font-medium text-black/70">
-        {{ content.title }}
-      </p>
-    </div>
-
-    <!-- Products Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-
-      @for (product of products; track product.id; let i = $index) {
-        <a
-          class="group block cursor-pointer animate-fade-in-up
-                 transition-transform duration-300 ease-out hover:-translate-y-1"
-          [style.animation-delay]="i * 80 + 'ms'"
-          [routerLink]="['/product', product.id]"
-        >
-
-          <!-- Product Image -->
-          <div
-            class="relative aspect-[3/4] bg-gray-50 mb-4 overflow-hidden
-                   rounded-2xl border border-black/5
-                   transition-all duration-300 ease-out
-                   group-hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)]
-                   group-hover:border-black/10"
-          >
-            <img
-              [src]="product.img"
-              [alt]="product.name"
-              class="w-full h-full object-contain object-center p-4 md:p-5 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-              loading="lazy"
-            />
-
-            <div
-              class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300
-                     bg-gradient-to-t from-black/10 via-transparent to-transparent"
-            ></div>
-          </div>
-
-          <!-- Product Info -->
-          <div class="space-y-1">
-            <p class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.22em] font-medium">
-              {{ product.brand }}
-            </p>
-
-            <h3
-              class="text-xs md:text-sm font-light leading-snug text-black
-                     transition-colors duration-300 group-hover:text-black/70"
+        <!-- Products Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          @for (product of products; track product.id; let i = $index) {
+            <a
+              class="group block cursor-pointer animate-fade-in-up transition-transform duration-300 ease-out hover:-translate-y-1"
+              [style.animation-delay]="i * 80 + 'ms'"
+              [routerLink]="['/product', product.id]"
             >
-              {{ product.name }}
-            </h3>
+              <!-- Product Image -->
+              <div
+                class="relative aspect-[3/4] bg-gray-50 mb-4 overflow-hidden rounded-2xl border border-black/5 transition-all duration-300 ease-out group-hover:shadow-[0_18px_50px_rgba(0,0,0,0.12)] group-hover:border-black/10"
+              >
+                <img
+                  [src]="product.img"
+                  [alt]="product.name"
+                  class="w-full h-full object-contain object-center p-4 md:p-5 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                  loading="lazy"
+                />
 
-            <div class="flex items-center gap-2 mt-2">
-              <span class="text-xs md:text-sm font-medium text-red-400 tracking-wide">
-                {{ product.salePrice }}
-              </span>
+                <div
+                  class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/10 via-transparent to-transparent"
+                ></div>
+              </div>
 
-              @if (product.originalPrice) {
-                <span class="text-xs text-red-400 line-through">
-                  {{ product.originalPrice }}
-                </span>
-              }
-            </div>
-          </div>
+              <!-- Product Info -->
+              <div class="space-y-1">
+                <p
+                  class="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.22em] font-medium"
+                >
+                  {{ product.brand }}
+                </p>
 
-        </a>
-      }
+                <h3
+                  class="text-xs md:text-sm font-light leading-snug text-black transition-colors duration-300 group-hover:text-black/70"
+                >
+                  {{ product.name }}
+                </h3>
 
-    </div>
-  </div>
-</section>
+                <div class="flex items-center gap-2 mt-2">
+                  <span class="text-xs md:text-sm font-medium text-red-400 tracking-wide">
+                    {{ product.salePrice }}
+                  </span>
 
+                  @if (product.originalPrice) {
+                    <span class="text-xs text-red-400 line-through">
+                      {{ product.originalPrice }}
+                    </span>
+                  }
+                </div>
+              </div>
+            </a>
+          }
+        </div>
+        <!-- CTA Button -->
+        <div class="flex justify-center animate-fade-in-up pt-5" style="animation-delay: 200ms">
+          <button
+            (click)="onShopSale()"
+            class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-transparent border border-black hover:text-black rounded-[5px] text-base"
+          >
+            <span class="relative z-10">Shop Sale</span>
+            <span
+              class="absolute inset-0 bg-white/10 translate-y-full transition-transform duration-300 ease-out"
+            ></span>
+          </button>
+        </div>
+      </div>
+    </section>
   }
 }
