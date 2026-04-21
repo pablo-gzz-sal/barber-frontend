@@ -336,6 +336,8 @@ export class Shopify {
    * Grouped brands call this once per visit; subsequent visits replay.
    */
   getSubCollectionsSummary(ids: string[]): Observable<any[]> {
+      console.log(ids);
+      
     if (!ids?.length) return of([]);
 
     // Sort IDs so ['1','2'] and ['2','1'] share the same cache entry
