@@ -73,7 +73,7 @@
             }
           </div>
         } @else {
-          <div class="flex flex-wrap gap-3 sm:gap-4">
+          <!-- <div class="flex flex-wrap gap-3 sm:gap-4">
             @for (c of categories; track c.key) {
               <button
                 type="button"
@@ -87,8 +87,10 @@
                 {{ c.label }}
               </button>
             }
-          </div>
+          </div> -->
+          <app-filter [loading]="loading" (categoryChange)="onSelectCategory($event)"></app-filter>
         }
+
       </div>
     </div>
 

@@ -373,7 +373,7 @@
             </div>
           } @else {
             <p
-              class="max-w-3xl text-center text-text-primary/90 text-sm sm:text-base leading-6 tracking-tight px-2 animate-fade-in-up delay-200"
+              class="max-w-3xl text-center text-text-primary/90 text-sm sm:text-base leading-6 tracking-tight px-2 animate-fade-in-up delay-200 mb-12"
             >
               {{ brand?.description }}
             </p>
@@ -383,7 +383,7 @@
 
       <!-- SHOP + FILTERS -->
 
-      <app-filter [loading]="loading" (categoryChange)="onCategoryChange($event)"></app-filter>
+      <app-filter class="" [loading]="loading" (categoryChange)="onCategoryChange($event)"></app-filter>
 
       <!-- PRODUCTS GRID -->
       <div class="pt-10 sm:pt-12 pb-12">

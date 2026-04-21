@@ -5,6 +5,7 @@ import { catchError, finalize, of } from 'rxjs';
 import { Shopify } from '../../core/services/shopify';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
+import { Filter } from '../../shared/components/filter/filter';
 
 type CategoryKey =
   | 'all'
@@ -33,7 +34,7 @@ const SALE_BANNER_URL =
 @Component({
   selector: 'app-sale-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, Header, Footer],
+  imports: [CommonModule, RouterModule, Header, Footer, Filter],
   templateUrl: './sale-page.html',
 })
 export class SalePage implements OnInit, OnDestroy {
