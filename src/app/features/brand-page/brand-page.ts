@@ -21,6 +21,7 @@ import { Footer } from '../../core/components/footer/footer';
 import { ShopBestSellers } from '../shop/shop-best-sellers/shop-best-sellers';
 import { ActualSale } from '../shop/actual-sale/actual-sale';
 import { BRAND_BANNERS } from '../../shared/utils/brandBannerImages';
+import { Filter } from '../../shared/components/filter/filter';
 
 type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
 type BrandPageMode = 'single' | 'single-branded' | 'group';
@@ -63,7 +64,7 @@ const CHUNK_DELAY_MS = 600;
 @Component({
   selector: 'app-brand-page',
   standalone: true,
-  imports: [CommonModule, Header, Footer, RouterLink, ShopBestSellers, ActualSale],
+  imports: [CommonModule, Header, Footer, RouterLink, ShopBestSellers, ActualSale, Filter],
   templateUrl: './brand-page.html',
   styleUrl: './brand-page.css',
 })
@@ -88,13 +89,6 @@ export class BrandPage implements OnInit {
   whyWeLoveText = 'Comments from Joey\nClient comments\nWhatever to show authority and POV';
 
   collectionEntries: CollectionEntryVM[] = [];
-
-  categories: { key: CategoryKey; label: string }[] = [
-    { key: 'all', label: 'ALL' },
-    { key: 'shampoo', label: 'SHAMPOO' },
-    { key: 'conditioner', label: 'CONDITIONER' },
-    { key: 'styling', label: 'STYLING' },
-  ];
   selectedCategory: CategoryKey = 'all';
 
   private pageSize = 12;
@@ -259,8 +253,7 @@ export class BrandPage implements OnInit {
     this.brandGroup = collection;
     console.log(collection);
     console.log(subIds);
-    
-    
+
     const brand: BrandVM = {
       name: collection.title,
       description: this.stripHtml(collection.body_html ?? collection.description ?? ''),
@@ -303,6 +296,11 @@ export class BrandPage implements OnInit {
         }),
       ),
     );
+  }
+
+  onCategoryChange(category: CategoryKey): void {
+    this.selectedCategory = category;
+    // trigger your product filter/fetch logic here
   }
 
   private parseSubCollectionIds(collection: any): string[] {
@@ -469,11 +467,6 @@ export class BrandPage implements OnInit {
 
   goBack(): void {
     this.location.back();
-  }
-
-  selectCategory(key: CategoryKey): void {
-    this.selectedCategory = key;
-    this.page = 1;
   }
 
   get filteredProducts(): ProductCardVM[] {
