@@ -10,6 +10,7 @@ import { Checkout } from './features/checkout/checkout';
 import { ProductAction } from './features/product-action/product-action';
 import { BrandPage } from './features/brand-page/brand-page';
 import { SalePage } from './features/sale-page/sale-page';
+import { Milbon } from './features/milbon/milbon';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'services', component: ServicesPage },
   { path: 'contact', component: ContactPage },
   { path: 'shop', component: ShopPage },
+  { path: 'milbon', component: Milbon },
   { path: 'checkout', component: Checkout },
   { path: 'product/:id', component: ProductAction },
   {path: 'shop/brand/:handle', component: BrandPage},
