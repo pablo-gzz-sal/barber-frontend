@@ -1,14 +1,14 @@
 <app-header></app-header>
 <section class="min-h-screen bg-white text-black">
   <div class="max-w-6xl mx-auto px-6 lg:px-16 py-28">
+
     <!-- Header -->
     <div class="flex items-center justify-between gap-4 mb-14">
       <button
-      (click)="onBack()"
-        class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-white text-black hover:bg-black border border-black hover:text-white rounded-[5px] text-base"
+        (click)="onBack()"
+        class="cursor-pointer px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-white text-black hover:bg-black border border-black hover:text-white rounded-[5px] text-base"
       >
-          Back
-
+        Back
       </button>
     </div>
 
@@ -34,67 +34,119 @@
       *ngIf="!loading() && !error() && product() as p"
       class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start"
     >
-      <!-- Image -->
-      <div class="rounded-3xl overflow-hidden border border-[#1a1a1a]/8 bg-[#efefed] aspect-square">
-        <img
-          *ngIf="selectedImageUrl() as img"
-          [src]="img"
-          [alt]="p.title"
-          class="w-full h-full object-cover transition-opacity duration-300"
-        />
-        <div *ngIf="!selectedImageUrl()" class="w-full h-full flex items-center justify-center">
-          <svg
-            class="w-16 h-16 text-[#1a1a1a]/20"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+
+      <!-- ── Media Gallery ── -->
+      <div class="flex flex-col gap-3">
+
+        <!-- Main viewer -->
+        <div class="w-full aspect-square rounded-2xl overflow-hidden bg-[#efefed] border border-black/8">
+          @if (activeMedia()?.type === 'video') {
+            <video
+              class="w-full h-full object-contain bg-black"
+              [src]="activeMedia()!.src"
+              controls
+              playsinline
+              preload="metadata"
+              [poster]="activeMedia()!.thumb"
+            ></video>
+          } @else if (activeMedia()?.src) {
+            <img
+              class="w-full h-full object-cover transition-opacity duration-300"
+              [src]="activeMedia()!.src"
+              [alt]="p.title"
+              loading="eager"
             />
-          </svg>
+          } @else {
+            <!-- Fallback placeholder -->
+            <div class="w-full h-full flex items-center justify-center">
+              <svg class="w-16 h-16 text-[#1a1a1a]/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+          }
         </div>
+
+        <!-- Thumbnail strip — only when >1 item -->
+        @if (mediaItems().length > 1) {
+          <div
+            class="flex flex-wrap gap-2"
+            role="list"
+            aria-label="Product media thumbnails"
+          >
+            @for (item of mediaItems(); track item.src; let i = $index) {
+              <button
+                type="button"
+                role="listitem"
+                (click)="setActiveMedia(i)"
+                [attr.aria-label]="'View media ' + (i + 1)"
+                [attr.aria-pressed]="isActiveMedia(i)"
+                class="relative w-[72px] h-[72px] rounded-lg overflow-hidden border-2 transition-all duration-200 flex-shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                [ngClass]="isActiveMedia(i)
+                  ? 'border-black opacity-100'
+                  : 'border-transparent opacity-60 hover:opacity-100 hover:border-black/30'"
+              >
+                <img
+                  class="w-full h-full object-cover"
+                  [src]="item.thumb"
+                  [alt]="item.type === 'video' ? 'Video thumbnail ' + (i + 1) : 'Product image ' + (i + 1)"
+                  loading="lazy"
+                />
+                <!-- Play icon overlay for videos -->
+                @if (item.type === 'video') {
+                  <span
+                    class="absolute inset-0 flex items-center justify-center bg-black/35 text-white"
+                    aria-hidden="true"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </span>
+                }
+              </button>
+            }
+          </div>
+        }
+
       </div>
+      <!-- ── End Media Gallery ── -->
 
       <!-- Details -->
       <div class="flex flex-col gap-6">
-        <!-- Title + Price -->
+
+        <!-- Title -->
         <h2 class="leading-tight" style="font-family: Inter, sans-serif">
           <span class="block text-3xl md:text-4xl font-semibold leading-[50px] tracking-[2.89px]">
             {{ getTitleBrand(p.title) }}
           </span>
-
           @if (getTitleRest(p.title)) {
-            <span
-              class="block text-2xl md:text-3xl font-medium leading-[50px] tracking-[2.89px] text-[#1a1a1a]/75 mt-1"
-            >
+            <span class="block text-2xl md:text-3xl font-medium leading-[50px] tracking-[2.89px] text-[#1a1a1a]/75 mt-1">
               {{ getTitleRest(p.title) }}
             </span>
           }
         </h2>
 
+        <!-- Price -->
+        @if (displayPrice()) {
+          <p class="text-2xl font-semibold tracking-wide">{{ displayPrice() }}</p>
+        }
+
         <!-- Description -->
         @if (p.body_html) {
           <div
-            *ngIf="p.body_html"
             class="prose prose-sm max-w-none text-[#1a1a1a]/70 leading-8 tracking-[2.89px]"
             [innerHTML]="p.body_html"
             style="font-family: Inter, sans-serif"
           ></div>
         }
 
-        <!-- Variant selector — only if more than 1 variant (or variant title is not "Default Title") -->
+        <!-- Variant selector -->
         @if (
           variants().length > 1 ||
           (variants().length === 1 && variants()[0].title !== 'Default Title')
         ) {
           <div>
-            <label
-              class="block text-xs font-semibold uppercase tracking-widest text-[#1a1a1a]/40 mb-2"
-            >
+            <label class="block text-xs font-semibold uppercase tracking-widest text-[#1a1a1a]/40 mb-2">
               Variant
             </label>
             <select
@@ -111,31 +163,23 @@
 
         <!-- Quantity -->
         <div>
-          <label
-            class="block text-xs font-semibold uppercase tracking-widest text-[#1a1a1a]/40 mb-2"
-          >
+          <label class="block text-xs font-semibold uppercase tracking-widest text-[#1a1a1a]/40 mb-2">
             Quantity
           </label>
-          <div
-            class="inline-flex items-center rounded-full border border-[#1a1a1a]/15 bg-white overflow-hidden"
-          >
+          <div class="inline-flex items-center rounded-full border border-[#1a1a1a]/15 bg-white overflow-hidden">
             <button
               class="w-11 h-11 flex items-center justify-center text-xl hover:bg-[#1a1a1a] hover:text-white transition-all duration-150"
               (click)="dec()"
               type="button"
               aria-label="Decrease quantity"
-            >
-              −
-            </button>
+            >−</button>
             <span class="min-w-[48px] text-center font-medium tabular-nums">{{ qty() }}</span>
             <button
               class="w-11 h-11 flex items-center justify-center text-xl hover:bg-[#1a1a1a] hover:text-white transition-all duration-150"
               (click)="inc()"
               type="button"
               aria-label="Increase quantity"
-            >
-              +
-            </button>
+            >+</button>
           </div>
         </div>
 
@@ -145,45 +189,33 @@
         <!-- Actions -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button
-            class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-white border border-black hover:text-black rounded-[5px] text-base flex items-center justify-center gap-2"
+            class="cursor-pointer px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-white border border-black hover:text-black rounded-[5px] text-base flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
             [disabled]="!canBuy()"
             (click)="buyWithShop()"
             type="button"
           >
-            <!-- Shop Pay logo icon -->
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-.5 14.5v-5h-2l3.5-7v5h2l-3.5 7z"
-              />
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-.5 14.5v-5h-2l3.5-7v5h2l-3.5 7z"/>
             </svg>
             Buy with Shop
           </button>
 
           <button
-            class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-white text-black hover:bg-black border border-black hover:text-white rounded-[5px] text-base flex items-center justify-center gap-2"
+            class="cursor-pointer px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-white text-black hover:bg-black border border-black hover:text-white rounded-[5px] text-base flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
             [disabled]="!canAdd()"
             (click)="addToCart()"
             type="button"
           >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              />
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
             </svg>
             Add to Cart
           </button>
         </div>
+
       </div>
     </div>
   </div>
 </section>
-
 <app-footer></app-footer>

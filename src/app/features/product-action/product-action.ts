@@ -15,14 +15,40 @@ type ShopifyImage = {
   variant_ids: Array<string | number>;
 };
 
+// Shopify REST /products/:id returns media[] with these fields
+type ShopifyMediaSource = {
+  url: string;
+  mimeType: string; // ← camelCase, matches your API response
+  format: string;
+  height: number;
+  width: number;
+};
+
+type ShopifyMedia = {
+  media_type: 'image' | 'video' | 'external_video' | 'model_3d';
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  sources?: ShopifyMediaSource[];
+  preview_image?: { src: string };
+};
+
 type ShopifyProduct = {
   id: string;
   title: string;
   body_html?: string;
   handle: string;
-
   image?: { src: string };
   images?: ShopifyImage[];
+  media?: ShopifyMedia[];
+};
+
+// Unified type used by the template
+export type MediaItem = {
+  type: 'image' | 'video';
+  src: string; // main display src (image url or video url)
+  thumb: string; // thumbnail shown in the strip
 };
 
 @Component({
@@ -46,6 +72,7 @@ export class ProductAction {
 
   qty = signal(1);
   selectedVariantId = signal<string | null>(null);
+  activeMediaIndex = signal(0);
 
   selectedVariant = computed(() => {
     const id = this.selectedVariantId();
@@ -53,22 +80,67 @@ export class ProductAction {
     return this.variants().find((v) => String(v.id) === String(id)) ?? null;
   });
 
-  // ✅ price based on selected variant
   displayPrice = computed(() => {
     const v = this.selectedVariant();
     return v?.price ? `$${v.price}` : null;
   });
 
-  // ✅ image that matches variant if possible
-  selectedImageUrl = computed(() => {
+  // Build a unified MediaItem[] from product.media (preferred) or product.images fallback
+  mediaItems = computed<MediaItem[]>(() => {
+    const p = this.product();
+    if (!p) return [];
+
+    if (p.media?.length) {
+      return p.media
+        .filter((m) => m.media_type === 'image' || m.media_type === 'video')
+        .map((m): MediaItem => {
+          if (m.media_type === 'video') {
+            const mp4Sources = m.sources?.filter((s) => s.mimeType === 'video/mp4') ?? [];
+            // Pick highest resolution available
+            const best = mp4Sources.sort((a, b) => b.height - a.height)[0];
+            return {
+              type: 'video',
+              src: best?.url ?? m.src ?? '',
+              thumb: m.preview_image?.src ?? '',
+            };
+          }
+          return {
+            type: 'image',
+            src: m.src ?? '',
+            thumb: m.src ?? '',
+          };
+        })
+        .filter((m) => m.src); // drops anything with empty src
+    }
+
+    return (p.images ?? []).map(
+      (img): MediaItem => ({
+        type: 'image',
+        src: img.src,
+        thumb: img.src,
+      }),
+    );
+  });
+
+  // Active media, respects variant-image matching
+  activeMedia = computed<MediaItem | null>(() => {
+    const items = this.mediaItems();
+    if (!items.length) return null;
+
     const p = this.product();
     const vid = this.selectedVariantId();
-    if (!p) return null;
 
-    const imgs = p.images ?? [];
-    const match = imgs.find((img) => (img.variant_ids ?? []).map(String).includes(String(vid)));
+    // If variant has a linked image, snap to it
+    if (p && vid) {
+      const imgs = p.images ?? [];
+      const match = imgs.find((img) => (img.variant_ids ?? []).map(String).includes(String(vid)));
+      if (match) {
+        const idx = items.findIndex((m) => m.src === match.src);
+        if (idx !== -1) return items[idx];
+      }
+    }
 
-    return match?.src ?? p.image?.src ?? imgs[0]?.src ?? null;
+    return items[this.activeMediaIndex()] ?? items[0];
   });
 
   shopUrl = computed(() => {
@@ -92,17 +164,15 @@ export class ProductAction {
     this.loading.set(true);
     this.error.set(null);
 
-    // 1) Fetch product
     this.shopify.getProductById(id).subscribe({
       next: (p: ShopifyProduct) => {
         this.product.set(p);
-        console.log(p)
+        console.log(p);
 
-        // 2) Fetch variants list (lite) — new endpoint
         this.shopify.getProductVariants(id).subscribe({
           next: (res) => {
             this.variants.set(res.variants ?? []);
-            this.selectedVariantId.set(res.variants?.[0]?.id ?? null); // default to first
+            this.selectedVariantId.set(res.variants?.[0]?.id ?? null);
             this.loading.set(false);
           },
           error: (e) => {
@@ -118,16 +188,27 @@ export class ProductAction {
     });
   }
 
-  getTitleBrand(title?: string | null): string {
-  if (!title) return '';
-  return title.trim().split(/\s+/)[0] ?? '';
-}
+  setActiveMedia(index: number): void {
+    this.activeMediaIndex.set(index);
+  }
 
-getTitleRest(title?: string | null): string {
-  if (!title) return '';
-  const parts = title.trim().split(/\s+/);
-  return parts.slice(1).join(' ');
-}
+  isActiveMedia(index: number): boolean {
+    const items = this.mediaItems();
+    const active = this.activeMedia();
+    if (!active) return false;
+    return items[index]?.src === active.src;
+  }
+
+  getTitleBrand(title?: string | null): string {
+    if (!title) return '';
+    return title.trim().split(/\s+/)[0] ?? '';
+  }
+
+  getTitleRest(title?: string | null): string {
+    if (!title) return '';
+    const parts = title.trim().split(/\s+/);
+    return parts.slice(1).join(' ');
+  }
 
   buyWithShop() {
     const url = this.shopUrl();
@@ -143,11 +224,7 @@ getTitleRest(title?: string | null): string {
     }
 
     try {
-      this.cart.add({
-        variantId: String(v.id),
-        qty: this.qty(),
-      });
-
+      this.cart.add({ variantId: String(v.id), qty: this.qty() });
       this.toast.success('Item added to cart');
     } catch (e: any) {
       this.toast.error('Failed to add to cart', e?.message ?? '');
@@ -157,7 +234,6 @@ getTitleRest(title?: string | null): string {
   inc() {
     this.qty.set(Math.min(99, this.qty() + 1));
   }
-
   dec() {
     this.qty.set(Math.max(1, this.qty() - 1));
   }
@@ -165,7 +241,6 @@ getTitleRest(title?: string | null): string {
   onVariantChange(value: string) {
     this.selectedVariantId.set(value);
   }
-
   onBack() {
     window.history.back();
   }
