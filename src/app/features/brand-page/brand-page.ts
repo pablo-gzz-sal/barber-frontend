@@ -246,13 +246,13 @@ export class BrandPage implements OnInit {
         this.brandHeroUrl = res.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
         this.brandAboutImageUrl =
           res.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
+          this.whyWeLoveText = res.metafields["whywelove"].value || this.whyWeLoveText;
       });
   }
 
   private loadGroupMode(collection: any, subIds: string[]) {
     this.brandGroup = collection;
-    console.log(collection);
-    console.log(subIds);
+    this.whyWeLoveText = collection.metafields.find((m: any) => m.key === 'whywelove')?.value || this.whyWeLoveText;
 
     const brand: BrandVM = {
       name: collection.title,
@@ -359,7 +359,7 @@ export class BrandPage implements OnInit {
 
     this.singleCollectionHeroUrl = brandHeroUrl;
     this.singleCollectionFooterUrl = brandAboutImageUrl;
-
+    this.whyWeLoveText = collection.metafields?.find((m: any) => m.key === 'whywelove')?.value || '';
     return this.shopifyService.getCollectionProducts(String(collection.id)).pipe(
       map((r: any) => ({
         mode: (branded ? 'single-branded' : 'single') as BrandPageMode,
