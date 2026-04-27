@@ -1,151 +1,306 @@
 <app-header></app-header>
 
 <section class="bg-background text-text-primary">
-    <!-- ── SINGLE COLLECTION (branded or plain) ───────────────────────────── -->
 
-    <!-- HERO — only when collection has branding metafields -->
-      <div class="mx-auto w-full pt-20">
-        <div class="relative overflow-hidden bg-secondary shadow-soft">
-          @if (loading) {
-            <div class="w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[360px] skeleton"></div>
-          } @else {
-            <img
-              [src]="milbonHero"
-              [alt]="'Milbon hero'"
-              class="w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[360px] object-cover object-center"
-              loading="lazy"
-            />
-          }
+  <!-- HERO -->
+  <div class="mx-auto w-full pt-20">
+    <div class="relative overflow-hidden bg-secondary shadow-soft">
+      @if (loading) {
+        <div class="w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[360px] skeleton"></div>
+      } @else {
+        <img
+          [src]="milbonHero"
+          [alt]="'Milbon hero'"
+          class="w-full h-[180px] sm:h-[240px] md:h-[320px] lg:h-[360px] object-cover object-center"
+          loading="lazy"
+        />
+      }
+    </div>
+  </div>
+
+  <!-- TWO WAYS TO ORDER -->
+  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10 my-10">
+    <div class="w-full bg-secondary rounded-[20px] overflow-hidden px-10 py-20 relative">
+      <p class="text-center text-text-primary text-xl font-semibold uppercase tracking-wide-luxury mb-10">
+        Two Ways to Order
+      </p>
+      <div class="flex items-stretch gap-0">
+        <div class="flex-1 flex flex-col gap-3 pr-10">
+          <p class="text-text-primary text-xl font-bold tracking-[2.89px] leading-8">
+            Place the order over the phone
+          </p>
+          <p class=" text-base tracking-[2.89px] leading-6">
+            Call us at our Upper East Side salon and we can place the order for you.
+          </p>
+          <p class="text-text-primary text-base font-bold tracking-[2.89px] leading-6">
+            Call us at 212.628.5639
+          </p>
+        </div>
+        <div class="w-px bg-border self-stretch mx-4"></div>
+        <div class="flex-1 flex flex-col gap-4 pl-10">
+          <p class="text-text-primary text-xl font-bold tracking-[2.89px] leading-8">Buy Online</p>
+          <a class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+            Shop Milbon
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT THIS BRAND -->
+  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10">
+    <div class="pt-12 sm:pt-14 lg:pt-16 flex flex-col items-center gap-8 sm:gap-10">
+      <p class="text-center text-text-primary text-sm sm:text-base font-semibold uppercase tracking-wide-luxury animate-fade-in-up">
+        About this Brand
+      </p>
+      <div class="w-[240px] sm:w-[280px] h-[110px] sm:h-[130px] lg:w-[320px] lg:h-[150px] flex items-center justify-center animate-scale-in delay-100">
+        @if (loading) {
+          <div class="skeleton w-full h-full rounded-xl"></div>
+        } @else {
+          <img [src]="logoUrl" [alt]="'Milbon logo'" class="max-w-full max-h-full object-contain" loading="lazy" />
+        }
+      </div>
+      @if (loading) {
+        <div class="w-full max-w-2xl flex flex-col items-center gap-2 px-2">
+          <div class="skeleton h-4 w-4/5 rounded"></div>
+          <div class="skeleton h-4 w-3/4 rounded"></div>
+          <div class="skeleton h-4 w-2/3 rounded"></div>
+        </div>
+      } @else {
+        <p class="max-w-3xl text-center text-text-primary/90 text-sm sm:font-['Inter'] text-black leading-6 tracking-tight px-2 animate-fade-in-up delay-200 mb-12">
+          {{ brandDescription }}
+        </p>
+      }
+    </div>
+  </div>
+  <!-- END ABOUT THIS BRAND — container closed -->
+
+  <!-- SHOP COLLECTIONS — full width, no max-w container -->
+  <!-- SHOP COLLECTIONS — full width, no max-w container -->
+  <div class="w-full">
+
+    <div class="pt-10 flex flex-col items-center gap-6 mb-14">
+      <h2
+        class="text-text-primary text-2xl sm:text-3xl font-semibold"
+        style="font-family: 'Fira Sans', ui-sans-serif, system-ui"
+      >
+        Shop Collections
+      </h2>
+    </div>
+
+    <!-- ROW 1: Signature + Gold -->
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <!-- Signature: image + text -->
+      <div class="flex flex-col">
+        <a [routerLink]="['/shop/brand', 'milbon-signature-haircare']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+          <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
+            <img [src]="signatureMilbon" alt="Signature Haircare" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
+            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
+          </div>
+        </a>
+        <div class="flex flex-col gap-10 px-4 sm:px-6 lg:px-10 py-10">
+          <h3 class="text-text-primary text-3xl font-semibold leading-5" style="font-family: 'Fira Sans', ui-sans-serif, system-ui">Signature Haircare</h3>
+          <p class=" font-['Inter'] text-black leading-6 tracking-tight">
+            <span class="font-semibold">Milbon's 360° Beautiful Hair</span> concept is a comprehensive hair care approach
+            designed to improve the hair's condition from every angle. This system targets structural damage at a microscopic
+            level, specifically addressing "SSVs" (stick-shaped voids) that form within the hair and lead to dryness,
+            breakage, and loss of shine.
+            <br /><br />
+            Using Milbon's patented SSVR-Silk™ technology, the system works to fill these internal gaps, restoring strength,
+            smoothness, and overall hair integrity. The result is hair that is more resilient, balanced, and naturally
+            healthy-looking over time.
+            <br /><br />
+            This collection is designed to support both in-salon treatments and at-home maintenance, creating a continuous
+            care cycle that maintains results between visits.
+          </p>
+          <a [routerLink]="['/shop/brand', 'milbon-signature-haircare']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+            Buy Now
+          </a>
         </div>
       </div>
 
-    <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10">
-      <!-- ABOUT THIS BRAND (top) — only when collection has branding metafields -->
-
-        <div class="pt-12 sm:pt-14 lg:pt-16 flex flex-col items-center gap-8 sm:gap-10">
-          <p
-            class="text-center text-text-primary text-sm sm:text-base font-semibold uppercase tracking-wide-luxury animate-fade-in-up"
-          >
-            About this Brand
+      <!-- Gold: image + text -->
+      <div class="flex flex-col">
+        <a [routerLink]="['/shop/brand', 'milbon-gold-haircare']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+          <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
+            <img [src]="goldMilbon" alt="Gold Haircare" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
+            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
+          </div>
+        </a>
+        <div class="flex flex-col gap-10 px-4 sm:px-6 lg:px-10 py-10">
+          <h3 class="text-text-primary text-3xl font-semibold leading-5" style="font-family: 'Fira Sans', ui-sans-serif, system-ui">Gold Haircare</h3>
+          <p class=" font-['Inter'] text-black leading-6 tracking-tight">
+            <span class="font-semibold">Milbon's Luxury Line</span> represents the highest level of Japanese haircare,
+            combining over 60 years of research with advanced formulation technology. Designed for clients seeking elevated
+            results, this collection focuses on restoring hair at both a structural and surface level using proprietary
+            repair systems and high-performance ingredients.
+            <br /><br />
+            Formulated with SSVR-Silk™ and SSVR-Collagen, the system targets early-stage damage within the hair fiber,
+            helping to reinforce strength, improve elasticity, and enhance overall hair integrity. The result is hair that
+            feels smoother, stronger, and visibly more refined over time.
+            <br /><br />
+            The Luxury Line is divided into targeted solutions: Indulging Hydration, Illuminating Glow, Vitalizing
+            Dimension, and Enhancing Vivacity, each designed to address specific needs such as hydration, shine, density,
+            and scalp health, while maintaining a consistent, high-end sensory experience.
           </p>
+          <a [routerLink]="['/shop/brand', 'milbon-gold-haircare']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+            Buy Now
+          </a>
+        </div>
+      </div>
+    </div>
 
-          <div
-            class="w-[240px] sm:w-[280px] h-[110px] sm:h-[130px] lg:w-[320px] lg:h-[150px] flex items-center justify-center animate-scale-in delay-100"
-          >
+    <!-- ROW 2: Monochromatic + Pro Products -->
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <!-- Monochromatic: image + text -->
+      <div class="flex flex-col">
+        <a [routerLink]="['/shop/brand', 'milbon-monochromatic']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+          <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
+            <img [src]="monochromaticMilbon" alt="Monochromatic" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
+            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
+          </div>
+        </a>
+        <div class="flex flex-col gap-10 px-4 sm:px-6 lg:px-10 py-10">
+          <h3 class="text-text-primary text-3xl font-semibold leading-5" style="font-family: 'Fira Sans', ui-sans-serif, system-ui">Monochromatic</h3>
+          <p class=" font-['Inter'] text-black leading-6 tracking-tight">
+            Milbon's Monochromatic collection is a modern styling system designed for versatility, buildability, and ease
+            of use. Developed in collaboration with a global creative director, this line focuses on simplifying the styling
+            process while delivering consistent, salon-level results.
+            <br /><br />
+            The collection is built around lightweight, multi-functional formulas that can be layered to create volume,
+            texture, definition, or movement without weighing the hair down. Each product is designed to work individually
+            or together, allowing for a customizable approach to styling based on the desired finish.
+            <br /><br />
+            Monochromatic supports effortless styling by enhancing the hair's natural behavior, providing heat protection,
+            frizz control, and flexible hold — while maintaining a soft, natural look. The result is controlled, dynamic
+            hair that moves in harmony with the individual's lifestyle.
+          </p>
+          <a [routerLink]="['/shop/brand', 'milbon-monochromatic']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+            Buy Now
+          </a>
+        </div>
+      </div>
+
+      <!-- Pro Products: image + text -->
+      <div class="flex flex-col">
+        <a [routerLink]="['/shop/brand', 'milbon-pro-products']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+          <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
+            <img [src]="proMilbon" alt="Pro Products" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
+            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
+          </div>
+        </a>
+        <div class="flex flex-col gap-10 px-4 sm:px-6 lg:px-10 py-10">
+          <h3 class="text-text-primary text-3xl font-semibold leading-5" style="font-family: 'Fira Sans', ui-sans-serif, system-ui">Pro Products</h3>
+          <p class=" font-['Inter'] text-black leading-6 tracking-tight">
+            Milbon's Pro Products collection is designed to support in-salon technical services with a complete system of
+            professional-use formulas. This category includes color, developers, treatments, and supporting products
+            engineered for precision, consistency, and controlled performance during application.
+            <br /><br />
+            Each product is developed to integrate seamlessly into professional workflows, allowing stylists to execute
+            services such as coloring, straightening, perming, and repair treatments with accuracy and reliability. The
+            formulations prioritize both technical results and hair integrity, ensuring performance without compromising
+            long-term condition.
+            <br /><br />
+            The Pro Products system reflects Milbon's commitment to combining advanced research with practical salon use,
+            providing stylists with the tools needed to deliver consistent, high-level results across all services.
+          </p>
+          <a [routerLink]="['/shop/brand', 'milbon-pro-products']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+            Buy Now
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3: Gifts & Sets -->
+    <div class="grid grid-cols-1 md:grid-cols-2">
+      <a [routerLink]="['/shop/brand', 'milbon-gifts-sets']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+        <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
+          <img [src]="giftsMilbon" alt="Gifts & Sets" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
+          <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
+        </div>
+      </a>
+      <div class="flex flex-col gap-10 justify-center px-4 sm:px-6 lg:px-10 py-10">
+        <h3 class="text-text-primary text-3xl font-semibold leading-5" style="font-family: 'Fira Sans', ui-sans-serif, system-ui">Gifts &amp; Sets</h3>
+        <p class=" font-['Inter'] text-black leading-6 tracking-tight">
+          Curated combinations of essential haircare products, designed to deliver complete, results-driven routines in a
+          single package. Each set is thoughtfully assembled to target specific needs such as hydration, repair, or shine,
+          making it easy to maintain professional-level care at home.
+          <br /><br />
+          Ideal for both personal use and gifting.
+        </p>
+        <a [routerLink]="['/shop/brand', 'milbon-gifts-sets']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+          Buy Now
+        </a>
+      </div>
+    </div>
+
+  </div>
+  <!-- END SHOP COLLECTIONS -->
+  <!-- END SHOP COLLECTIONS -->
+
+  <!-- WHY WE LOVE — back inside max-w container -->
+  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10">
+    <div class="border-t border-border"></div>
+
+    <div class="py-14 sm:py-16 lg:py-20">
+      <p class="text-center text-text-primary text-sm sm:text-base font-semibold uppercase tracking-wide-luxury mb-8 sm:mb-10 animate-fade-in-up">
+        About this Brand
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div class="lg:col-span-7 animate-fade-in-left">
+          <div class="overflow-hidden rounded-2xl bg-secondary shadow-soft">
             @if (loading) {
-              <div class="skeleton w-full h-full rounded-xl"></div>
+              <div class="skeleton w-full h-[320px] sm:h-[420px] lg:h-[560px]"></div>
             } @else {
-              <img
-                [src]="logoUrl"
-                [alt]="'Milbon logo'"
-                class="max-w-full max-h-full object-contain"
-                loading="lazy"
-              />
+              <img [src]="brandAboutImageUrl" [alt]="'Milbon image'" class="w-full h-[320px] sm:h-[420px] lg:h-[560px] object-cover object-center" loading="lazy" />
             }
           </div>
-
-          @if (loading) {
-            <div class="w-full max-w-2xl flex flex-col items-center gap-2 px-2">
-              <div class="skeleton h-4 w-4/5 rounded"></div>
-              <div class="skeleton h-4 w-3/4 rounded"></div>
-              <div class="skeleton h-4 w-2/3 rounded"></div>
-            </div>
-          } @else {
-            <p
-              class="max-w-3xl text-center text-text-primary/90 text-sm sm:text-base leading-6 tracking-tight px-2 animate-fade-in-up delay-200 mb-12"
-            >
-              {{ brandDescription }}
-            </p>
-          }
         </div>
 
+        <div class="lg:col-span-5 animate-fade-in-right">
+          <div class="bg-secondary rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-luxury transition-shadow duration-300">
+            <h3
+              class="text-text-primary text-2xl sm:text-3xl font-normal tracking-wider leading-10"
+              style="font-family: 'Playfair Display', ui-serif, Georgia, serif"
+            >
+              Why We Love
+            </h3>
 
-      <!-- DIVIDER + WHY WE LOVE — only when collection has branding metafields -->
-        <!-- DIVIDER -->
-        <div class="border-t border-border"></div>
-
-        <!-- ABOUT THIS BRAND (bottom) + WHY WE LOVE -->
-        <div class="py-14 sm:py-16 lg:py-20">
-          <p
-            class="text-center text-text-primary text-sm sm:text-base font-semibold uppercase tracking-wide-luxury mb-8 sm:mb-10 animate-fade-in-up"
-          >
-            About this Brand
-          </p>
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-            <div class="lg:col-span-7 animate-fade-in-left">
-              <div class="overflow-hidden rounded-2xl bg-secondary shadow-soft">
-                @if (loading) {
-                  <div class="skeleton w-full h-[320px] sm:h-[420px] lg:h-[560px]"></div>
-                } @else {
-                  <img
-                    [src]="brandAboutImageUrl"
-                    [alt]=" 'Milbon image'"
-                    class="w-full h-[320px] sm:h-[420px] lg:h-[560px] object-cover object-center"
-                    loading="lazy"
-                  />
-                }
-              </div>
+            <div class="mt-8 w-[220px] sm:w-[260px] h-[90px] sm:h-[120px] flex items-center justify-start">
+              @if (loading) {
+                <div class="skeleton w-full h-full rounded-xl"></div>
+              } @else {
+                <img [src]="logoUrl" [alt]="'Milbon logo'" class="max-w-full max-h-full object-contain" loading="lazy" />
+              }
             </div>
 
-            <div class="lg:col-span-5 animate-fade-in-right">
-              <div
-                class="bg-secondary rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-luxury transition-shadow duration-300"
-              >
-                <h3
-                  class="text-text-primary text-2xl sm:text-3xl font-normal tracking-wider leading-10"
-                  style="font-family: 'Playfair Display', ui-serif, Georgia, serif"
-                >
-                  Why We Love
-                </h3>
-
-                <div
-                  class="mt-8 w-[220px] sm:w-[260px] h-[90px] sm:h-[120px] flex items-center justify-start"
-                >
-                  @if (loading) {
-                    <div class="skeleton w-full h-full rounded-xl"></div>
-                  } @else {
-                    <img
-                      [src]="logoUrl"
-                      [alt]="'Milbon logo'"
-                      class="max-w-full max-h-full object-contain"
-                      loading="lazy"
-                    />
-                  }
-                </div>
-
-                @if (loading) {
-                  <div class="mt-8 flex flex-col gap-2">
-                    <div class="skeleton h-4 w-full rounded"></div>
-                    <div class="skeleton h-4 w-5/6 rounded"></div>
-                    <div class="skeleton h-4 w-4/6 rounded"></div>
-                    <div class="skeleton h-4 w-3/4 rounded mt-2"></div>
-                    <div class="skeleton h-4 w-2/3 rounded"></div>
-                  </div>
-                } @else {
-                  <p
-                    class="mt-8 text-text-secondary text-sm sm:text-base leading-6 tracking-tight whitespace-pre-line"
-                  >
-                    {{ whyWeLoveText }}
-                  </p>
-                }
-
-                <div class="mt-10">
-                  @if (loading) {
-                    <div class="skeleton h-8 w-28 rounded"></div>
-                  } @else if (signatureUrl) {
-                    <img
-                      [src]="signatureUrl"
-                      alt="Signature"
-                      class="w-28 sm:w-32 h-auto object-contain"
-                      loading="lazy"
-                    />
-                  }
-                </div>
+            @if (loading) {
+              <div class="mt-8 flex flex-col gap-2">
+                <div class="skeleton h-4 w-full rounded"></div>
+                <div class="skeleton h-4 w-5/6 rounded"></div>
+                <div class="skeleton h-4 w-4/6 rounded"></div>
+                <div class="skeleton h-4 w-3/4 rounded mt-2"></div>
+                <div class="skeleton h-4 w-2/3 rounded"></div>
               </div>
+            } @else {
+              <p class="mt-8  text-sm sm:font-['Inter'] text-black leading-6 tracking-tight whitespace-pre-line">
+                {{ whyWeLoveText }}
+              </p>
+            }
+
+            <div class="mt-10">
+              @if (loading) {
+                <div class="skeleton h-8 w-28 rounded"></div>
+              } @else if (signatureUrl) {
+                <img [src]="signatureUrl" alt="Signature" class="w-28 sm:w-32 h-auto object-contain" loading="lazy" />
+              }
             </div>
           </div>
         </div>
+      </div>
     </div>
+  </div>
+
 </section>
 <app-footer></app-footer>
