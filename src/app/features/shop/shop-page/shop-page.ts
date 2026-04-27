@@ -3,11 +3,11 @@ import { Header } from '../../../core/components/header/header';
 import { Footer } from '../../../core/components/footer/footer';
 import { ShopBestSellers } from '../shop-best-sellers/shop-best-sellers';
 import { ShopBrands } from '../shop-brands/shop-brands';
-import { ShopSale } from '../shop-sale/shop-sale';
+import { ActualSale } from '../actual-sale/actual-sale';
 
 @Component({
   selector: 'app-shop-page',
-  imports: [Header, Footer, ShopBestSellers, ShopBrands, ShopSale],
+  imports: [Header, Footer, ShopBestSellers, ShopBrands, ActualSale],
   standalone: true,
   templateUrl: './shop-page.html',
   styleUrl: './shop-page.css',

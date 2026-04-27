@@ -47,8 +47,8 @@ export class ServicesGrid {
       btnAll: 'See All Brands',
       logos: [
         { name: 'Davines', img: 'assets/svg/davines.svg', dark: false, link: 'davines' },
-        { name: 'AZ', img: 'assets/svg/craftLuxuryHaircare.svg', dark: true, link: 'craftLuxuryHaircare' },
-        { name: 'Nutrafol', img: 'assets/svg/nutrafol.svg', dark: false, link: 'nutrafol' },
+        { name: 'AZ', img: 'assets/svg/craftLuxuryHaircare.svg', dark: true, link: 'buy-az' },
+        { name: 'Nutrafol', img: 'assets/svg/nutrafol.svg', dark: false, link: 'nutrafol-1' },
         { name: "L'ANZA", img: 'assets/svg/lanza.svg', dark: false, link: 'lanza' },
       ],
     },

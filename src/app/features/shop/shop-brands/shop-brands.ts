@@ -27,12 +27,12 @@ export class ShopBrands {
     {
       name: 'Comfort Zone',
       logo: 'assets/svg/comfortZone.svg',
-      link: 'comfort-zone',
+      link: 'comfortzone',
     },
     {
       name: 'Craft Luxury',
       logo: 'assets/svg/craftLuxuryHaircare.svg',
-      link: 'craft-luxury',
+      link: 'buy-az',
       dark: true,
     },
     {
@@ -43,12 +43,12 @@ export class ShopBrands {
     {
       name: 'Deer',
       logo: 'assets/svg/deer.svg',
-      link: 'deer',
+      link: 'highland-1',
     },
     {
       name: 'Goldwell',
       logo: 'assets/svg/goldwell.svg',
-      link: 'goldwell',
+      link: 'goldwell-dualsenses',
     },
     {
       name: 'Iles Formula',
@@ -68,12 +68,12 @@ export class ShopBrands {
     {
       name: 'KeraColor',
       logo: 'assets/svg/keraColor.svg',
-      link: 'kera-color',
+      link: 'keracolor-clenditioner',
     },
     {
       name: 'KeraTherapy',
       logo: 'assets/svg/keraTeraphy.svg',
-      link: 'kera-therapy',
+      link: 'keratherapy',
     },
     {
       name: 'Lanza',
@@ -88,7 +88,7 @@ export class ShopBrands {
     {
       name: 'Nutrafol',
       logo: 'assets/svg/nutrafol.svg',
-      link: 'nutrafol',
+      link: 'nutrafol-1',
     },
     {
       name: 'Olaplex',
