@@ -271,8 +271,6 @@ export class BrandPage implements OnInit {
   private loadSingleMode(collection: any, branded = false) {
     this.brandGroup = null;
     this.isGroupedBrand = false;
-    console.log(collection);
-
     const img = collection?.image?.src ?? collection?.image?.url ?? '';
     const rawFilter = collection.metafields.find((m: any) => m.key === 'needsfilter')?.value;
     this.needsFilter = rawFilter === 'true';
