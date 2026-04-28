@@ -380,12 +380,13 @@
       }
 
       <!-- SHOP + FILTERS -->
-
-      <app-filter
-        class=""
-        [loading]="loading"
-        (categoryChange)="onCategoryChange($event)"
-      ></app-filter>
+      @if (needsFilter) {
+        <app-filter
+          class=""
+          [loading]="loading"
+          (categoryChange)="onCategoryChange($event)"
+        ></app-filter>
+      }
 
       <!-- PRODUCTS GRID -->
       <div class="pt-10 sm:pt-12 pb-12">

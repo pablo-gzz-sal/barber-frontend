@@ -85,7 +85,7 @@ export class BrandPage implements OnInit {
 
   brand: BrandVM | null = null;
   brandForSale: string | null = null;
-
+  needsFilter = false;
   whyWeLoveText = 'Comments from Joey\nClient comments\nWhatever to show authority and POV';
 
   collectionEntries: CollectionEntryVM[] = [];
@@ -176,20 +176,21 @@ export class BrandPage implements OnInit {
         this.brandHeroUrl = res.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
         this.brandAboutImageUrl =
           res.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
-          this.whyWeLoveText = res.metafields["whywelove"].value || this.whyWeLoveText;
+        this.whyWeLoveText = res.metafields['whywelove'].value || this.whyWeLoveText;
       });
   }
 
   private loadGroupMode(collection: any, subIds: string[]) {
     this.brandGroup = collection;
-    this.whyWeLoveText = collection.metafields.find((m: any) => m.key === 'whywelove')?.value || this.whyWeLoveText;
-
+    this.whyWeLoveText =
+      collection.metafields.find((m: any) => m.key === 'whywelove')?.value || this.whyWeLoveText;
+    this.needsFilter =
+      collection.metafields.find((m: any) => m.key === 'needsfilter')?.value || this.needsFilter;
     const brand: BrandVM = {
       name: collection.title,
       description: collection.body_html ?? collection.description ?? '',
       logoUrl: collection?.image?.src ?? collection?.image?.url ?? '',
     };
-
 
     const brandHeroUrl =
       BRAND_BANNERS[collection.handle?.toLowerCase()] ||
@@ -270,17 +271,16 @@ export class BrandPage implements OnInit {
   private loadSingleMode(collection: any, branded = false) {
     this.brandGroup = null;
     this.isGroupedBrand = false;
+    console.log(collection);
 
     const img = collection?.image?.src ?? collection?.image?.url ?? '';
-
+    const rawFilter = collection.metafields.find((m: any) => m.key === 'needsfilter')?.value;
+    this.needsFilter = rawFilter === 'true';
     const brand: BrandVM = {
       name: collection.title,
       description: collection.body_html ?? collection.description ?? '',
       logoUrl: img,
     };
-
-    console.log(brand);
-    
 
     const brandHeroUrl =
       BRAND_BANNERS[collection.handle?.toLowerCase()] ||
@@ -293,7 +293,8 @@ export class BrandPage implements OnInit {
 
     this.singleCollectionHeroUrl = brandHeroUrl;
     this.singleCollectionFooterUrl = brandAboutImageUrl;
-    this.whyWeLoveText = collection.metafields?.find((m: any) => m.key === 'whywelove')?.value || '';
+    this.whyWeLoveText =
+      collection.metafields?.find((m: any) => m.key === 'whywelove')?.value || '';
     return this.shopifyService.getCollectionProducts(String(collection.id)).pipe(
       map((r: any) => ({
         mode: (branded ? 'single-branded' : 'single') as BrandPageMode,
