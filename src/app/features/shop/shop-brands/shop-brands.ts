@@ -116,6 +116,16 @@ export class ShopBrands {
       logo: 'assets/svg/viviscal.svg',
       link: 'viviscal',
     },
+    {
+      name: 'Toppik',
+      logo: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/ToppikLogo.png?v=1774467160',
+      link: 'toppik-pro-hair-fibers',
+    },
+    {
+      name: 'Milbon',
+      logo: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MilbonLogo.png?v=1774467160',
+      link: 'milbon',
+    },
     // {
     //   name: 'White Logo',
     //   logo: 'assets/svg/whiteLogo.svg',
@@ -125,7 +135,11 @@ export class ShopBrands {
   ];
 
   onBrand(link: string) {
-    this.router.navigate([`/shop/brand/${link}`]);
+    if (link === 'milbon') {
+      this.router.navigate(['/milbon']);
+    } else {
+      this.router.navigate([`/shop/brand/${link}`]);
+    }
   }
 
   // brands: any[] = [];

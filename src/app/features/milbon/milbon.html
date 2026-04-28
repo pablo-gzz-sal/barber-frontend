@@ -18,6 +18,33 @@
     </div>
   </div>
 
+    <!-- ABOUT THIS BRAND -->
+  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10">
+    <div class="pt-12 sm:pt-14 lg:pt-16 flex flex-col items-center gap-8 sm:gap-10">
+      <p class="text-center text-text-primary text-sm sm:text-base font-semibold uppercase tracking-wide-luxury animate-fade-in-up">
+        About this Brand
+      </p>
+      <div class="w-[240px] sm:w-[280px] h-[110px] sm:h-[130px] lg:w-[320px] lg:h-[150px] flex items-center justify-center animate-scale-in delay-100">
+        @if (loading) {
+          <div class="skeleton w-full h-full rounded-xl"></div>
+        } @else {
+          <img [src]="logoUrl" [alt]="'Milbon logo'" class="max-w-full max-h-full object-contain" loading="lazy" />
+        }
+      </div>
+      @if (loading) {
+        <div class="w-full max-w-2xl flex flex-col items-center gap-2 px-2">
+          <div class="skeleton h-4 w-4/5 rounded"></div>
+          <div class="skeleton h-4 w-3/4 rounded"></div>
+          <div class="skeleton h-4 w-2/3 rounded"></div>
+        </div>
+      } @else {
+        <p class="max-w-3xl text-center text-text-primary/90 text-sm sm:font-['Inter'] text-black leading-6 tracking-tight px-2 animate-fade-in-up delay-200 mb-12">
+          {{ brandDescription }}
+        </p>
+      }
+    </div>
+  </div>
+
   <!-- TWO WAYS TO ORDER -->
   <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10 my-10">
     <div class="w-full bg-secondary rounded-[20px] overflow-hidden px-10 py-20 relative">
@@ -47,32 +74,6 @@
     </div>
   </div>
 
-  <!-- ABOUT THIS BRAND -->
-  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10">
-    <div class="pt-12 sm:pt-14 lg:pt-16 flex flex-col items-center gap-8 sm:gap-10">
-      <p class="text-center text-text-primary text-sm sm:text-base font-semibold uppercase tracking-wide-luxury animate-fade-in-up">
-        About this Brand
-      </p>
-      <div class="w-[240px] sm:w-[280px] h-[110px] sm:h-[130px] lg:w-[320px] lg:h-[150px] flex items-center justify-center animate-scale-in delay-100">
-        @if (loading) {
-          <div class="skeleton w-full h-full rounded-xl"></div>
-        } @else {
-          <img [src]="logoUrl" [alt]="'Milbon logo'" class="max-w-full max-h-full object-contain" loading="lazy" />
-        }
-      </div>
-      @if (loading) {
-        <div class="w-full max-w-2xl flex flex-col items-center gap-2 px-2">
-          <div class="skeleton h-4 w-4/5 rounded"></div>
-          <div class="skeleton h-4 w-3/4 rounded"></div>
-          <div class="skeleton h-4 w-2/3 rounded"></div>
-        </div>
-      } @else {
-        <p class="max-w-3xl text-center text-text-primary/90 text-sm sm:font-['Inter'] text-black leading-6 tracking-tight px-2 animate-fade-in-up delay-200 mb-12">
-          {{ brandDescription }}
-        </p>
-      }
-    </div>
-  </div>
   <!-- END ABOUT THIS BRAND — container closed -->
 
   <!-- SHOP COLLECTIONS — full width, no max-w container -->
@@ -92,7 +93,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2">
       <!-- Signature: image + text -->
       <div class="flex flex-col">
-        <a [routerLink]="['/shop/brand', 'milbon-signature-haircare']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+        <a (click)="onMilbon()" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
           <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
             <img [src]="signatureMilbon" alt="Signature Haircare" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
             <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
@@ -113,7 +114,7 @@
             This collection is designed to support both in-salon treatments and at-home maintenance, creating a continuous
             care cycle that maintains results between visits.
           </p>
-          <a [routerLink]="['/shop/brand', 'milbon-signature-haircare']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+          <a (click)="onMilbon()" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
             Buy Now
           </a>
         </div>
@@ -121,7 +122,7 @@
 
       <!-- Gold: image + text -->
       <div class="flex flex-col">
-        <a [routerLink]="['/shop/brand', 'milbon-gold-haircare']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+        <a (click)="onMilbon()" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
           <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
             <img [src]="goldMilbon" alt="Gold Haircare" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
             <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
@@ -143,7 +144,7 @@
             Dimension, and Enhancing Vivacity, each designed to address specific needs such as hydration, shine, density,
             and scalp health, while maintaining a consistent, high-end sensory experience.
           </p>
-          <a [routerLink]="['/shop/brand', 'milbon-gold-haircare']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+          <a (click)="onMilbon()" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
             Buy Now
           </a>
         </div>
@@ -154,7 +155,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2">
       <!-- Monochromatic: image + text -->
       <div class="flex flex-col">
-        <a [routerLink]="['/shop/brand', 'milbon-monochromatic']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+        <a (click)="onMilbon()" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
           <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
             <img [src]="monochromaticMilbon" alt="Monochromatic" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
             <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
@@ -175,7 +176,7 @@
             frizz control, and flexible hold — while maintaining a soft, natural look. The result is controlled, dynamic
             hair that moves in harmony with the individual's lifestyle.
           </p>
-          <a [routerLink]="['/shop/brand', 'milbon-monochromatic']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+          <a (click)="onMilbon()" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
             Buy Now
           </a>
         </div>
@@ -183,7 +184,7 @@
 
       <!-- Pro Products: image + text -->
       <div class="flex flex-col">
-        <a [routerLink]="['/shop/brand', 'milbon-pro-products']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+        <a (click)="onMilbon()" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
           <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
             <img [src]="proMilbon" alt="Pro Products" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
             <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
@@ -204,7 +205,7 @@
             The Pro Products system reflects Milbon's commitment to combining advanced research with practical salon use,
             providing stylists with the tools needed to deliver consistent, high-level results across all services.
           </p>
-          <a [routerLink]="['/shop/brand', 'milbon-pro-products']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+          <a (click)="onMilbon()" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
             Buy Now
           </a>
         </div>
@@ -213,7 +214,7 @@
 
     <!-- ROW 3: Gifts & Sets -->
     <div class="grid grid-cols-1 md:grid-cols-2">
-      <a [routerLink]="['/shop/brand', 'milbon-gifts-sets']" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
+      <a (click)="onMilbon()" class="group relative block overflow-hidden bg-secondary shadow-soft hover:shadow-luxury transition-all duration-300">
         <div class="relative w-full aspect-[700/491] bg-background overflow-hidden">
           <img [src]="giftsMilbon" alt="Gifts & Sets" class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]" loading="lazy" />
           <div class="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
@@ -228,7 +229,7 @@
           <br /><br />
           Ideal for both personal use and gifting.
         </p>
-        <a [routerLink]="['/shop/brand', 'milbon-gifts-sets']" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
+        <a (click)="onMilbon()" class="inline-flex items-center justify-center w-32 h-9 rounded-xl outline outline-1 outline-primary text-text-primary text-base font-medium hover:bg-primary hover:text-white transition-colors duration-300">
           Buy Now
         </a>
       </div>

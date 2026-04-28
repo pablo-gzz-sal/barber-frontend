@@ -36,5 +36,12 @@ export class Milbon implements OnInit {
 
   ngOnInit() {
     this.loading = false;
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }
+
+    onMilbon() {
+    const url =
+      'https://shop.saloninteractive.com/store/josephbattistillc?utm_source=SalonInteractive&utm_medium=web&utm_campaign=ShareMyStore';
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 }
