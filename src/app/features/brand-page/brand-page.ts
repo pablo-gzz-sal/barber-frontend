@@ -108,76 +108,6 @@ export class BrandPage implements OnInit {
     });
   }
 
-  // private loadPage(): void {
-  //   window.scrollTo(0, 0);
-
-  //   this.loading = true;
-  //   this.notFound = false;
-  //   this.collectionEntries = [];
-  //   this.products = [];
-  //   this.page = 1;
-  //   this.selectedCategory = 'all';
-
-  //   const param =
-  //     this.route.snapshot.paramMap.get('brandKey') || this.route.snapshot.paramMap.get('handle');
-
-  //   if (!param) {
-  //     this.resetBrandImages();
-  //     this.loading = false;
-  //     return;
-  //   }
-
-  //   this.brandForSale = param
-
-  //   this.shopifyService
-  //     .getCollections()
-  //     .pipe(
-  //       switchMap((res: any) => {
-  //         const brandGroups = res?.brandGroups ?? [];
-
-  //         const group =
-  //           brandGroups.find((g: any) => g.brandKey === param) ??
-  //           brandGroups.find(
-  //             (g: any) =>
-  //               (g.collectionHandles ?? []).includes(param) && (g.collectionIds ?? []).length === 1,
-  //           ) ??
-  //           null;
-
-  //         if (group) {
-  //           return this.loadGroupedOrSingleBrandFromGroup(group);
-  //         }
-
-  //         return this.loadSingleCollection(param);
-  //       }),
-  //       catchError((err) => {
-  //         console.error('Brand page load error:', err);
-  //         this.notFound = err?.status === 404;
-  //         return of({
-  //           mode: 'single' as const,
-  //           brand: null,
-  //           products: [],
-  //           collectionEntries: [],
-  //           brandHeroUrl: 'assets/images/brand-hero-placeholder.jpg',
-  //           brandAboutImageUrl: 'assets/images/brand-about-placeholder.jpg',
-  //         });
-  //       }),
-  //       finalize(() => {
-  //         this.loading = false;
-  //       }),
-  //     )
-  //     .subscribe((res: any) => {
-  //       this.mode = res?.mode ?? 'single';
-  //       this.brand = res?.brand ?? null;
-  //       this.products = this.mapProducts(res?.products ?? []);
-  //       this.collectionEntries = res?.collectionEntries ?? [];
-  //       console.log(this.collectionEntries);
-
-  //       this.brandHeroUrl = res?.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
-  //       this.brandAboutImageUrl =
-  //         res?.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
-  //     });
-  // }
-
   private loadPage(): void {
     window.scrollTo(0, 0);
 
@@ -256,9 +186,10 @@ export class BrandPage implements OnInit {
 
     const brand: BrandVM = {
       name: collection.title,
-      description: this.stripHtml(collection.body_html ?? collection.description ?? ''),
+      description: collection.body_html ?? collection.description ?? '',
       logoUrl: collection?.image?.src ?? collection?.image?.url ?? '',
     };
+
 
     const brandHeroUrl =
       BRAND_BANNERS[collection.handle?.toLowerCase()] ||
@@ -344,9 +275,12 @@ export class BrandPage implements OnInit {
 
     const brand: BrandVM = {
       name: collection.title,
-      description: this.stripHtml(collection.body_html ?? collection.description ?? ''),
+      description: collection.body_html ?? collection.description ?? '',
       logoUrl: img,
     };
+
+    console.log(brand);
+    
 
     const brandHeroUrl =
       BRAND_BANNERS[collection.handle?.toLowerCase()] ||

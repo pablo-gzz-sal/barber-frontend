@@ -57,11 +57,10 @@
               <div class="skeleton h-4 w-2/3 rounded"></div>
             </div>
           } @else {
-            <p
-              class="max-w-3xl text-center text-text-primary/90 text-sm sm:text-base leading-6 tracking-tight px-2 animate-fade-in-up delay-200"
-            >
-              {{ brand?.description }}
-            </p>
+            <div
+              class="max-w-3xl text-center text-text-primary/90 text-sm sm:text-base leading-6 tracking-tight px-2 animate-fade-in-up delay-200 mb-12 brand-description"
+              [innerHTML]="brand?.description"
+            ></div>
           }
         </div>
       </div>
@@ -339,7 +338,7 @@
     <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10">
       <!-- ABOUT THIS BRAND (top) — only when collection has branding metafields -->
       @if (mode === 'single-branded') {
-        <div class="pt-12 sm:pt-14 lg:pt-16 flex flex-col items-center gap-8 sm:gap-10">
+        <div class="pt-12 sm:pt-14 lg:pt-16 flex flex-col items-center gap-8 sm:gap-4">
           <p
             class="text-center text-text-primary text-sm sm:text-base font-semibold uppercase tracking-wide-luxury animate-fade-in-up"
           >
@@ -372,18 +371,21 @@
               <div class="skeleton h-4 w-2/3 rounded"></div>
             </div>
           } @else {
-            <p
-              class="max-w-3xl text-center text-text-primary/90 text-sm sm:text-base leading-6 tracking-tight px-2 animate-fade-in-up delay-200 mb-12"
-            >
-              {{ brand?.description }}
-            </p>
+            <div
+              class="max-w-3xl text-center text-text-primary/90 text-sm sm:text-base leading-6 tracking-tight px-2 animate-fade-in-up delay-200 mb-12 brand-description"
+              [innerHTML]="brand?.description"
+            ></div>
           }
         </div>
       }
 
       <!-- SHOP + FILTERS -->
 
-      <app-filter class="" [loading]="loading" (categoryChange)="onCategoryChange($event)"></app-filter>
+      <app-filter
+        class=""
+        [loading]="loading"
+        (categoryChange)="onCategoryChange($event)"
+      ></app-filter>
 
       <!-- PRODUCTS GRID -->
       <div class="pt-10 sm:pt-12 pb-12">
