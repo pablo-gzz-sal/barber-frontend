@@ -32,7 +32,7 @@ export class Salon implements OnInit {
   }
 
   onAbout() {
-    this.router.navigate(['/about']);
+    this.router.navigate(['/contact']);
   }
 
 }
