@@ -132,7 +132,7 @@ export class ShopBrands {
     //   link: 'white-logo',
     //   dark: true,
     // },
-  ];
+  ].sort((a, b) => a.name.localeCompare(b.name));
 
   onBrand(link: string) {
     if (link === 'milbon') {
