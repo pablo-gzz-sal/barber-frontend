@@ -318,90 +318,44 @@
 
 <!-- Mobile Menu Overlay - FULLSCREEN -->
 <div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[100]">
-  <!-- overlay -->
-  <div class="absolute inset-0 bg-black/88 backdrop-blur-[6px]" (click)="toggleMenu()"></div>
+  <div class="absolute inset-0 bg-black" (click)="toggleMenu()"></div>
 
-  <!-- panel -->
-  <div class="relative h-dvh flex flex-col pt-16 md:pt-20 px-6 pb-8 text-white animate-mobile-menu">
-    <!-- top utility row -->
-    <!-- <div class="flex items-center justify-end mt-8">
-      <button
-        class="relative inline-flex items-center justify-center w-11 h-11 rounded-full border border-white/15 text-white/90 hover:bg-white hover:text-black transition-all duration-300"
-        aria-label="Cart"
-        (click)="onCart()"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-        >
-          <circle cx="9" cy="21" r="1" />
-          <circle cx="20" cy="21" r="1" />
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-        </svg>
-
-        <span
-          *ngIf="cartCount() > 0"
-          class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 text-[10px] bg-white text-black rounded-full flex items-center justify-center font-medium"
-        >
-          {{ cartCount() }}
-        </span>
-      </button>
-    </div> -->
-
-    <!-- nav -->
-    <div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[100]">
-      <!-- overlay -->
-      <div class="absolute inset-0 bg-black/88 backdrop-blur-[6px]" (click)="toggleMenu()"></div>
-
-      <!-- panel -->
-      <div
-        class="relative h-dvh flex flex-col pt-24 md:pt-20 px-6 pb-8 text-white animate-mobile-menu"
-      >
-        <!-- nav -->
-        <nav class="flex-1 flex flex-col justify-between min-h-0 overflow-hidden">
-          <div class="overflow-y-auto">
-            <div class="space-y-3 overflow-hidden">
-              <ng-container *ngFor="let item of menuItems; let i = index">
-                <button
-                  type="button"
-                  class="menu-stagger-item mobile-menu-link leading-9 tracking-widest text-5xl"
-                  [class.mobile-menu-link-active]="
-                    isRouteActive(item.route) || i === activePreviewIndex
-                  "
-                  (mouseenter)="setPreview(i)"
-                  (click)="setPreview(i); navigateTo(item.route)"
-                >
-                  {{ item.label }}
-                </button>
-              </ng-container>
-            </div>
-          </div>
-
-          <!-- action items -->
-          <div
-            class="mt-8 pt-6 border-t border-white/10 space-y-3 animate-button-fade flex justify-between"
+  <div class="relative h-dvh flex flex-col pt-20 px-6 pb-8 text-white animate-mobile-menu">
+    <nav class="flex-1 flex flex-col justify-between min-h-0">
+      <div class="flex flex-col gap-6 mt-10">
+        <ng-container *ngFor="let item of menuItems; let i = index">
+          <button
+            type="button"
+            class="menu-stagger-item mobile-menu-link block leading-tight tracking-widest text-5xl"
+            [class.mobile-menu-link-active]="isRouteActive(item.route) || i === activePreviewIndex"
+            (mouseenter)="setPreview(i)"
+            (click)="setPreview(i); navigateTo(item.route)"
           >
-            <div class="">
-              <button type="button" (click)="onBook()" class="mobile-menu-link mobile-menu-action">
-                {{ content.header.btnBook }}
-              </button>
-
-              <button
-                type="button"
-                (click)="loginWithShopify(); toggleMenu()"
-                class="mobile-menu-link mobile-menu-action"
-              >
-                Shop Account
-              </button>
-            </div>
-          </div>
-        </nav>
+            {{ item.label }}
+          </button>
+        </ng-container>
       </div>
-    </div>
+
+      <div class="pt-6 border-t border-white/10 flex flex-col gap-3 animate-button-fade">
+        <button
+          type="button"
+          (click)="onBook()"
+          class="w-full flex items-center justify-center gap-2 rounded-full border border-white/20 py-3 px-6 text-sm tracking-wider text-white"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          {{ content.header.btnBook }}
+        </button>
+
+        <button
+          type="button"
+          (click)="loginWithShopify(); toggleMenu()"
+          class="w-full flex items-center justify-center rounded-full border border-white/20 py-3 px-6 text-sm tracking-wider text-white/70"
+        >
+          Log in
+        </button>
+      </div>
+    </nav>
   </div>
 </div>
