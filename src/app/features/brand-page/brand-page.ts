@@ -23,7 +23,7 @@ import { ActualSale } from '../shop/actual-sale/actual-sale';
 import { BRAND_BANNERS } from '../../shared/utils/brandBannerImages';
 import { Filter } from '../../shared/components/filter/filter';
 
-type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
+// type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
 type BrandPageMode = 'single' | 'single-branded' | 'group';
 
 interface BrandVM {
@@ -39,7 +39,8 @@ interface ProductCardVM {
   title: string;
   imageUrl: string;
   price: string;
-  category: CategoryKey;
+  // category: CategoryKey;
+  filterTag: string | null;
 }
 
 interface CollectionEntryVM {
@@ -89,7 +90,9 @@ export class BrandPage implements OnInit {
   whyWeLoveText = 'Comments from Joey\nClient comments\nWhatever to show authority and POV';
 
   collectionEntries: CollectionEntryVM[] = [];
-  selectedCategory: CategoryKey = 'all';
+  selectedCategory: string = 'all';
+
+  filters: string[] = [];
 
   private pageSize = 12;
   private page = 1;
@@ -135,7 +138,7 @@ export class BrandPage implements OnInit {
       .pipe(
         switchMap((res: any) => {
           const collection = res?.collection ?? res;
-
+          this.filters = res.filters ?? [];
           if (!collection?.id) {
             this.notFound = true;
             return of(null);
@@ -230,9 +233,8 @@ export class BrandPage implements OnInit {
     );
   }
 
-  onCategoryChange(category: CategoryKey): void {
+  onCategoryChange(category: string): void {
     this.selectedCategory = category;
-    // trigger your product filter/fetch logic here
   }
 
   private parseSubCollectionIds(collection: any): string[] {
@@ -301,6 +303,7 @@ export class BrandPage implements OnInit {
         collectionEntries: [],
         brandHeroUrl,
         brandAboutImageUrl,
+        filters: this.parseFilters(collection),
       })),
       catchError(() =>
         of({
@@ -369,6 +372,35 @@ export class BrandPage implements OnInit {
   //   );
   // }
 
+  // private mapProducts(list: any[]): ProductCardVM[] {
+  //   return list.map((p: any) => {
+  //     const imageUrl =
+  //       p.image?.src ??
+  //       p.image?.url ??
+  //       p.images?.[0]?.src ??
+  //       p.images?.[0]?.url ??
+  //       'assets/images/product-placeholder.jpg';
+
+  //     const priceRaw = p.price ?? p?.variants?.[0]?.price ?? '';
+  //     const price =
+  //       typeof priceRaw === 'string' && priceRaw
+  //         ? `$${priceRaw}`.replace('$$', '$')
+  //         : priceRaw
+  //           ? String(priceRaw)
+  //           : '';
+
+  //     return {
+  //       id: String(p.id),
+  //       handle: p.handle,
+  //       vendor: p.vendor,
+  //       title: p.title,
+  //       imageUrl,
+  //       price,
+  //       category: this.deriveCategoryFromProduct(p),
+  //     };
+  //   });
+  // }
+
   private mapProducts(list: any[]): ProductCardVM[] {
     return list.map((p: any) => {
       const imageUrl =
@@ -393,7 +425,7 @@ export class BrandPage implements OnInit {
         title: p.title,
         imageUrl,
         price,
-        category: this.deriveCategoryFromProduct(p),
+        filterTag: p.filterTag ?? null, // ← direct from metafield
       };
     });
   }
@@ -404,9 +436,10 @@ export class BrandPage implements OnInit {
 
   get filteredProducts(): ProductCardVM[] {
     if (this.selectedCategory === 'all') return this.products;
-    return this.products.filter((p) => p.category === this.selectedCategory);
+    return this.products.filter(
+      (p) => p.filterTag?.toLowerCase() === this.selectedCategory.toLowerCase(),
+    );
   }
-
   get visibleProducts(): ProductCardVM[] {
     return this.filteredProducts.slice(0, this.pageSize * this.page);
   }
@@ -429,29 +462,29 @@ export class BrandPage implements OnInit {
       .filter(Boolean);
   }
 
-  private deriveCategoryFromProduct(p: any): CategoryKey {
-    const tags = this.normalizeTags(p.tags);
-    const title = String(p.title ?? '').toLowerCase();
-    const haystack = [...tags, title].join(' ');
+  // private deriveCategoryFromProduct(p: any): CategoryKey {
+  //   const tags = this.normalizeTags(p.tags);
+  //   const title = String(p.title ?? '').toLowerCase();
+  //   const haystack = [...tags, title].join(' ');
 
-    if (haystack.includes('shampoo')) return 'shampoo';
-    if (haystack.includes('conditioner')) return 'conditioner';
-    if (
-      haystack.includes('styling') ||
-      haystack.includes('style') ||
-      haystack.includes('mousse') ||
-      haystack.includes('spray') ||
-      haystack.includes('gel') ||
-      haystack.includes('cream') ||
-      haystack.includes('paste') ||
-      haystack.includes('wax') ||
-      haystack.includes('dry shampoo')
-    ) {
-      return 'styling';
-    }
+  //   if (haystack.includes('shampoo')) return 'shampoo';
+  //   if (haystack.includes('conditioner')) return 'conditioner';
+  //   if (
+  //     haystack.includes('styling') ||
+  //     haystack.includes('style') ||
+  //     haystack.includes('mousse') ||
+  //     haystack.includes('spray') ||
+  //     haystack.includes('gel') ||
+  //     haystack.includes('cream') ||
+  //     haystack.includes('paste') ||
+  //     haystack.includes('wax') ||
+  //     haystack.includes('dry shampoo')
+  //   ) {
+  //     return 'styling';
+  //   }
 
-    return 'all';
-  }
+  //   return 'all';
+  // }
 
   private stripHtml(input: string): string {
     return String(input)
@@ -542,5 +575,16 @@ export class BrandPage implements OnInit {
     }
 
     return '';
+  }
+
+  private parseFilters(collection: any): string[] {
+    const raw = collection.metafields?.find((m: any) => m.key?.toLowerCase() === 'filters')?.value;
+    if (!raw) return [];
+    try {
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.map((f: any) => String(f)) : [];
+    } catch {
+      return [];
+    }
   }
 }

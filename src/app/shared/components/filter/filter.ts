@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
-type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
+interface FilterCategory {
+  key: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-filter',
@@ -9,22 +12,30 @@ type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
   templateUrl: './filter.html',
   styleUrl: './filter.css',
 })
-export class Filter {
+export class Filter implements OnChanges {
   @Input() loading = false;
   @Input() page = 1;
-  @Output() categoryChange = new EventEmitter<CategoryKey>();
+  @Input() filters: string[] = [];
+  @Input() selected = 'all';
+  @Output() categoryChange = new EventEmitter<string>();
 
-  categories: { key: CategoryKey; label: string }[] = [
-    { key: 'all', label: 'ALL' },
-    { key: 'shampoo', label: 'SHAMPOO' },
-    { key: 'conditioner', label: 'CONDITIONER' },
-    { key: 'styling', label: 'STYLING' },
-  ];
+  categories: FilterCategory[] = [];
+  selectedCategory = 'all';
 
-  selectedCategory: CategoryKey = 'all';
+  ngOnChanges(): void {
+    this.categories = [
+      { key: 'all', label: 'ALL' },
+      ...this.filters.map((f) => ({ key: f, label: f.toUpperCase() })),
+    ];
+  }
 
-  selectCategory(key: CategoryKey): void {
-    this.selectedCategory = key;
+  // selectCategory(key: string): void {
+  //   this.selectedCategory = key;
+  //   this.page = 1;
+  //   this.categoryChange.emit(key);
+  // }
+
+  selectCategory(key: string): void {
     this.page = 1;
     this.categoryChange.emit(key);
   }

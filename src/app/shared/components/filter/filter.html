@@ -1,28 +1,27 @@
-    <div class="animate-fade-in-up delay-300">
-        <div class="flex flex-col gap-4">
-
-          @if (loading) {
-            <div class="flex flex-wrap gap-3 sm:gap-4">
-              @for (i of [1, 2, 3, 4]; track i) {
-                <div class="skeleton h-[46px] sm:h-[56px] w-20 sm:w-32 rounded"></div>
-              }
-            </div>
-          } @else {
-            <div class="flex flex-wrap gap-3 sm:gap-4">
-              @for (c of categories; track c.key) {
-                <button
-                  type="button"
-                  (click)="selectCategory(c.key)"
-                  class="overflow-hidden px-3 py-2 leading-4 lowercase transition-all duration-300 outline-offset-[-2px] outline-primary text-xs sm:text-sm md:text-base font-semibold tracking-[0.22em] transition-all duration-300 hover:bg-primary hover:text-white border border-black rounded-[5px] text-base"
-                  [class.bg-primary]="selectedCategory === c.key"
-                  [class.text-white]="selectedCategory === c.key"
-                  [class.bg-transparent]="selectedCategory !== c.key"
-                  [class.text-text-primary]="selectedCategory !== c.key"
-                >
-                  {{ c.label }}
-                </button>
-              }
-            </div>
-          }
-        </div>
+<div class="animate-fade-in-up delay-300">
+  <div class="flex flex-col gap-4">
+    @if (loading) {
+      <div class="flex flex-wrap gap-3 sm:gap-4">
+        @for (i of [1, 2, 3, 4]; track i) {
+          <div class="skeleton h-[46px] sm:h-[56px] w-20 sm:w-32 rounded"></div>
+        }
       </div>
+    } @else {
+      <div class="flex flex-wrap gap-3 sm:gap-4">
+        @for (c of categories; track c.key) {
+          <button
+            type="button"
+            (click)="selectCategory(c.key)"
+            class="overflow-hidden px-3 py-2 leading-4 lowercase transition-all duration-300 outline-offset-[-2px] outline-primary text-xs sm:text-sm md:text-base font-semibold tracking-[0.22em] transition-all duration-300 hover:bg-primary hover:text-white border border-black rounded-[5px] text-base"
+            [class.bg-primary]="selected === c.key"
+            [class.text-white]="selected === c.key"
+            [class.bg-transparent]="selected !== c.key"
+            [class.text-text-primary]="selected !== c.key"
+          >
+            {{ c.label }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+</div>

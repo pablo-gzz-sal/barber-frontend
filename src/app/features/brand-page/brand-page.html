@@ -382,10 +382,11 @@
       <!-- SHOP + FILTERS -->
       @if (needsFilter) {
         <app-filter
-          class=""
-          [loading]="loading"
+          *ngIf="needsFilter"
+          [filters]="filters"
+          [selected]="selectedCategory"
           (categoryChange)="onCategoryChange($event)"
-        ></app-filter>
+        />
       }
 
       <!-- PRODUCTS GRID -->
