@@ -290,15 +290,15 @@ export class Shopify {
    * Cached — the most expensive call in the app.
    * All brand-page navigations within the TTL window share one HTTP request.
    */
-getCollections(query?: CollectionQuery): Observable<any> {
-  const params = { ...query, limit: 250 };
-  const key = `collections:${JSON.stringify(params)}`;
-  return this.cached(key, this.TTL.collections, () =>
-    this.http.get(`${this.baseUrl}/collections`, {
-      params: this.toHttpParams(params),
-    }),
-  );
-}
+  getCollections(query?: CollectionQuery): Observable<any> {
+    const params = { ...query, limit: 250 };
+    const key = `collections:${JSON.stringify(params)}`;
+    return this.cached(key, this.TTL.collections, () =>
+      this.http.get(`${this.baseUrl}/collections`, {
+        params: this.toHttpParams(params),
+      }),
+    );
+  }
 
   /** Cached — occasional direct lookups by ID. */
   getCollectionById(id: string): Observable<any> {
@@ -337,8 +337,6 @@ getCollections(query?: CollectionQuery): Observable<any> {
    * Grouped brands call this once per visit; subsequent visits replay.
    */
   getSubCollectionsSummary(ids: string[]): Observable<any[]> {
-      console.log(ids);
-      
     if (!ids?.length) return of([]);
 
     // Sort IDs so ['1','2'] and ['2','1'] share the same cache entry
@@ -621,10 +619,10 @@ getCollections(query?: CollectionQuery): Observable<any> {
   }
 
   searchCollections(query: string, limit = 5): Observable<any> {
-  return this.http.get(`${this.baseUrl}/custom_collections.json`, {
-    params: { title: query, limit: String(limit) },
-  }).pipe(
-    map((res: any) => ({ collections: res.custom_collections ?? [] }))
-  );
-}
+    return this.http
+      .get(`${this.baseUrl}/custom_collections.json`, {
+        params: { title: query, limit: String(limit) },
+      })
+      .pipe(map((res: any) => ({ collections: res.custom_collections ?? [] })));
+  }
 }
