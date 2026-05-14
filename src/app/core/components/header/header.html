@@ -241,14 +241,15 @@
       >
         <span class="icon-wrap">
           <!-- grid -->
-          <svg
-            class="grid-icon"
-            width="22"
-            height="21"
-            viewBox="0 0 28 27"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+<svg
+  class="grid-icon"
+  width="16"
+  height="15"
+  viewBox="0 0 28 27"
+  style="transform: scale(0.75);"
+  fill="currentColor"
+  xmlns="http://www.w3.org/2000/svg"
+>
             <rect width="6.5" height="6.5" rx="1" />
             <rect x="10.5" width="6.5" height="6.5" rx="1" />
             <rect x="21" width="6.5" height="6.5" rx="1" />
@@ -340,8 +341,19 @@
           (click)="onBook()"
           class="w-full flex items-center justify-center gap-2 rounded-full border border-white/20 py-3 px-6 text-sm tracking-wider text-white"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
           </svg>
           {{ content.header.btnBook }}
         </button>

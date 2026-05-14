@@ -551,12 +551,12 @@
   align-items: center;
   justify-content: center;
 }
-
 .grid-icon {
   position: absolute;
   inset: 0;
-  width: 22px;
-  height: 22px;
+  width: 17px;
+  height: 17px;
+  margin: auto;
   transition:
     opacity 0.28s ease,
     transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
