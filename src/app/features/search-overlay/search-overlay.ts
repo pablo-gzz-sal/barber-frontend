@@ -10,6 +10,8 @@ import {
   startWith,
   switchMap,
   catchError,
+  forkJoin,
+  map,
 } from 'rxjs';
 
 import { Shopify } from '../../core/services/shopify';
@@ -24,6 +26,14 @@ interface SearchProductVm {
   handle?: string;
 }
 
+interface SearchCollectionVm {
+  id: string;
+  title: string;
+  handle: string;
+  imageUrl: string;
+  description?: string;
+}
+
 @Component({
   selector: 'app-search-overlay',
   standalone: true,
@@ -34,15 +44,15 @@ interface SearchProductVm {
 export class SearchOverlay {
   private shopify = inject(Shopify);
   private router = inject(Router);
-  public search = inject(Search)
+  public search = inject(Search);
 
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
 
-  isOpen = false;
   isLoading = false;
 
   searchControl = new FormControl('', { nonNullable: true });
   results: SearchProductVm[] = [];
+  collectionResults: SearchCollectionVm[] = [];
 
   constructor() {
     this.searchControl.valueChanges
@@ -55,18 +65,34 @@ export class SearchOverlay {
 
           if (value.length < 2) {
             this.results = [];
+            this.collectionResults = [];
             this.isLoading = false;
             return of(null);
           }
 
           this.isLoading = true;
 
-          return this.shopify.searchProducts(value, 12).pipe(
-            catchError((err) => {
-              console.error('Search failed', err);
-              this.results = [];
-              return of({ products: [] });
-            }),
+          return forkJoin({
+            products: this.shopify.searchProducts(value, 12).pipe(
+              catchError((err) => {
+                console.error('Product search failed', err);
+                return of({ products: [] });
+              }),
+            ),
+            collections: this.shopify.getCollections().pipe(
+              map((res) =>
+      
+                (res?.collections ?? []).filter((c: any) => {
+                  const term = value.toLowerCase();
+                  return c.handle
+                    .toLowerCase()
+                    .split(/\s+/)
+                    .some((word: string) => word.startsWith(term));
+                }),
+              ),
+              catchError(() => of([])),
+            ),
+          }).pipe(
             finalize(() => {
               this.isLoading = false;
             }),
@@ -76,7 +102,8 @@ export class SearchOverlay {
       .subscribe((res: any) => {
         if (!res) return;
 
-        const products = res?.products ?? [];
+        // Map products
+        const products = res?.products?.products ?? res?.products ?? [];
         this.results = products.map((p: any) => {
           const imageUrl =
             p?.image?.src ??
@@ -101,21 +128,30 @@ export class SearchOverlay {
             handle: p.handle ?? '',
           };
         });
+
+        // Map collections (already filtered, comes back as flat array)
+        const collections = res?.collections ?? [];
+        
+        this.collectionResults = collections.map((c: any) => ({
+          id: String(c.id),
+          title: c.title ?? 'Untitled collection',
+          handle: c.handle ?? '',
+          imageUrl: c?.image?.src ?? 'assets/images/collection-placeholder.jpg',
+          description: '',
+        }));
       });
   }
 
   open(): void {
-     this.search.open();
+    this.search.open();
     document.body.style.overflow = 'hidden';
-
-    setTimeout(() => {
-      this.searchInput?.nativeElement?.focus();
-    }, 0);
+    setTimeout(() => this.searchInput?.nativeElement?.focus(), 0);
   }
 
   close(): void {
     this.search.close();
     this.results = [];
+    this.collectionResults = [];
     this.searchControl.setValue('', { emitEvent: false });
     document.body.style.overflow = '';
   }
@@ -123,12 +159,18 @@ export class SearchOverlay {
   clear(): void {
     this.searchControl.setValue('');
     this.results = [];
+    this.collectionResults = [];
     this.searchInput?.nativeElement?.focus();
   }
 
   goToProduct(productId: string): void {
     this.close();
     this.router.navigate(['/product', productId]);
+  }
+
+  goToCollection(handle: string): void {
+    this.close();
+    this.router.navigate(['/shop/brand/', handle]);
   }
 
   onBackdropClick(event: MouseEvent): void {
@@ -140,6 +182,10 @@ export class SearchOverlay {
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
-    if (this.isOpen) this.close();
+    if (this.search.isOpen()) this.close();
+  }
+
+  get totalResults(): number {
+    return this.results.length + this.collectionResults.length;
   }
 }

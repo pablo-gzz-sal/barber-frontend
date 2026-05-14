@@ -65,19 +65,89 @@
           <ng-container *ngIf="searchControl.value.trim().length < 2">
             Type at least 2 characters to search
           </ng-container>
-
-          <ng-container *ngIf="isLoading">
-            Searching...
-          </ng-container>
-
+          <ng-container *ngIf="isLoading"> Searching... </ng-container>
           <ng-container *ngIf="!isLoading && searchControl.value.trim().length >= 2">
-            {{ results.length }} result{{ results.length === 1 ? '' : 's' }}
+            {{ totalResults }} result{{ totalResults === 1 ? '' : 's' }}
           </ng-container>
         </div>
 
         <!-- Results -->
         <div class="px-4 sm:px-6 py-5 max-h-[70vh] overflow-y-auto bg-white">
-          <ng-container *ngIf="!isLoading && results.length > 0; else emptyState">
+          <!-- Collections section -->
+          <ng-container *ngIf="!isLoading && collectionResults.length > 0">
+            <p class="text-xs font-semibold uppercase tracking-widest text-black/40 mb-3">
+              Brand Pages
+            </p>
+            <div class="divide-y divide-black/10 mb-6">
+              @for (col of collectionResults; track col.id) {
+                <button
+                  type="button"
+                  class="group w-full text-left bg-white transition-colors duration-300 py-4 sm:py-5 hover:bg-black/[0.02]"
+                  (click)="goToCollection(col.handle)"
+                >
+                  <div class="flex items-center gap-4">
+                    <div
+                      class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-[#f8f8f8] overflow-hidden shrink-0 border border-black/5 flex items-center justify-center"
+                    >
+                      <img
+                        *ngIf="col.imageUrl; else collectionIcon"
+                        [src]="col.imageUrl"
+                        [alt]="col.title"
+                        class="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-[1.03]"
+                        loading="lazy"
+                      />
+                      <ng-template #collectionIcon>
+                        <svg
+                          class="w-8 h-8 text-black/20"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+                          />
+                        </svg>
+                      </ng-template>
+                    </div>
+
+                    <div class="min-w-0 flex-1">
+                      <p class="text-black/45 text-xs sm:text-sm">Brand Page</p>
+                      <p class="text-black text-sm sm:text-base leading-6 truncate">
+                        {{ col.title }}
+                      </p>
+                      <p *ngIf="col.description" class="text-black/50 text-xs mt-1 line-clamp-1">
+                        {{ col.description }}
+                      </p>
+                    </div>
+
+                    <div class="shrink-0 text-black/35 group-hover:text-black transition-colors">
+                      <svg
+                        class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </button>
+              }
+            </div>
+          </ng-container>
+
+          <!-- Products section -->
+          <ng-container *ngIf="!isLoading && results.length > 0">
+            <p
+              *ngIf="collectionResults.length > 0"
+              class="text-xs font-semibold uppercase tracking-widest text-black/40 mb-3"
+            >
+              Products
+            </p>
             <div class="divide-y divide-black/10">
               @for (product of results; track product.id) {
                 <button
@@ -86,7 +156,9 @@
                   (click)="goToProduct(product.id)"
                 >
                   <div class="flex items-center gap-4">
-                    <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-[#f8f8f8] overflow-hidden shrink-0 border border-black/5">
+                    <div
+                      class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-[#f8f8f8] overflow-hidden shrink-0 border border-black/5"
+                    >
                       <img
                         [src]="product.imageUrl"
                         [alt]="product.title"
@@ -99,11 +171,9 @@
                       <p class="text-black/45 text-xs sm:text-sm">
                         {{ product.vendor || 'Product' }}
                       </p>
-
                       <p class="text-black text-sm sm:text-base leading-6 truncate">
                         {{ product.title }}
                       </p>
-
                       <p class="text-black text-sm sm:text-base font-semibold mt-1">
                         {{ product.price }}
                       </p>
@@ -126,15 +196,14 @@
             </div>
           </ng-container>
 
+          <!-- Empty state -->
           <ng-template #emptyState>
             <div
-              *ngIf="!isLoading && searchControl.value.trim().length >= 2"
+              *ngIf="!isLoading && searchControl.value.trim().length >= 2 && totalResults === 0"
               class="py-12 text-center"
             >
-              <p class="text-black text-base">No products found</p>
-              <p class="text-black/50 text-sm mt-2">
-                Try another keyword
-              </p>
+              <p class="text-black text-base">No results found</p>
+              <p class="text-black/50 text-sm mt-2">Try another keyword</p>
             </div>
           </ng-template>
         </div>

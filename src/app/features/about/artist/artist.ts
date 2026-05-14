@@ -28,6 +28,6 @@ export class Artist implements OnInit {
   }
 
   onShop() {
-    this.router.navigate(['/shop']);
+    this.router.navigate(['/product/7328094027961']);
   }
 }
