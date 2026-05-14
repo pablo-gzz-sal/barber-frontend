@@ -318,9 +318,9 @@
 <div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[100]">
   <div class="absolute inset-0 bg-black" (click)="toggleMenu()"></div>
 
-  <div class="relative h-dvh flex flex-col pt-20 px-6 pb-8 text-white animate-mobile-menu">
-    <nav class="flex-1 flex flex-col justify-between min-h-0">
-      <div class="flex flex-col gap-6 mt-10">
+  <div class="relative h-dvh flex flex-col pt-20 px-6 pb-6 text-white animate-mobile-menu">
+    <nav class="flex-1 flex flex-col min-h-0 overflow-hidden">
+      <div class="flex flex-col gap-4 mt-8">
         <ng-container *ngFor="let item of menuItems; let i = index">
           <button
             type="button"
@@ -334,7 +334,7 @@
         </ng-container>
       </div>
 
-      <div class="pt-6 border-t border-white/10 flex flex-col gap-3 animate-button-fade">
+      <div class="mt-auto pt-4 border-t border-white/10 flex flex-col gap-3 animate-button-fade">
         <button
           type="button"
           (click)="onBook()"
