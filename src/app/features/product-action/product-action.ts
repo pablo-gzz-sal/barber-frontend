@@ -73,7 +73,7 @@ export class ProductAction {
   qty = signal(1);
   selectedVariantId = signal<string | null>(null);
   activeMediaIndex = signal(0);
-
+  id!: any;
   selectedVariant = computed(() => {
     const id = this.selectedVariantId();
     if (!id) return null;
@@ -154,8 +154,8 @@ export class ProductAction {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (!this.id) {
       this.error.set('Missing product id');
       this.loading.set(false);
       return;
@@ -164,12 +164,12 @@ export class ProductAction {
     this.loading.set(true);
     this.error.set(null);
 
-    this.shopify.getProductById(id).subscribe({
+    this.shopify.getProductById(this.id).subscribe({
       next: (p: ShopifyProduct) => {
         this.product.set(p);
         console.log(p);
 
-        this.shopify.getProductVariants(id).subscribe({
+        this.shopify.getProductVariants(this.id).subscribe({
           next: (res) => {
             this.variants.set(res.variants ?? []);
             this.selectedVariantId.set(res.variants?.[0]?.id ?? null);

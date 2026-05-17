@@ -126,6 +126,11 @@ export class ShopBrands {
       logo: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MilbonLogo.png?v=1774467160',
       link: 'milbon',
     },
+    {
+      name: 'Joseph Battisti',
+      logo: 'assets/svg/josephCollectionLogo.svg',
+      link: 'buy-joseph-battisti-products',
+    },
     // {
     //   name: 'White Logo',
     //   logo: 'assets/svg/whiteLogo.svg',
