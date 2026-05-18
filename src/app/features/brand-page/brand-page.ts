@@ -138,7 +138,8 @@ export class BrandPage implements OnInit {
       .pipe(
         switchMap((res: any) => {
           const collection = res?.collection ?? res;
-          this.filters = res.filters ?? [];
+          const filtersMeta = res.metafields.find((m: { key: string; }) => m.key === 'filters');
+          this.filters = filtersMeta ? JSON.parse(filtersMeta.value) : [];
           if (!collection?.id) {
             this.notFound = true;
             return of(null);
