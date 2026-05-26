@@ -3,13 +3,13 @@
   <!-- Header -->
 
   <!-- Services List -->
-  <section class="mt-10 lg:mt-0 pb-20">
+  <section class="mt-8 lg:mt-0 pb-14">
     <div class="container mx-auto px-6 lg:px-16 max-w-4xl">
-      <section class="pt-16 lg:pt-24 pb-8 lg:pb-16">
+      <section class="pt-14 lg:pt-20 pb-6 lg:pb-10">
         <div class="container mx-auto">
           <div class="animate-fade-in-up">
             <h1
-              class="text-4xl lg:text-5xl text-neutral-950 font-normal leading-6 tracking-[2.89px] mt-6 services-page-font"
+              class="text-3xl lg:text-4xl text-neutral-950 font-normal leading-tight tracking-[0.04em] mt-6 services-page-font"
             >
               {{ content.title }}
             </h1>
@@ -17,12 +17,12 @@
         </div>
       </section>
       <!-- Helpers: consistent card container -->
-      <div class="space-y-12">
+      <div class="space-y-9">
         <!-- EXTENSIONS -->
         <div class="service-category animate-fade-in-up" style="animation-delay: 100ms">
           <div class="flex items-end justify-between gap-6 mb-6">
             <h2
-              class="text-3xl text-neutral-950 font-normal leading-6 tracking-[2.89px] mt-6 services-page-font"
+              class="text-2xl text-neutral-950 font-normal leading-tight tracking-[0.04em] mt-6 services-page-font"
             >
               {{ content.extensions.title }}
             </h2>
@@ -39,25 +39,24 @@
                 class="group w-full text-left px-5 sm:px-7 py-4 flex items-center justify-between gap-6 transition-all duration-250 ease-out hover:bg-black/[0.02] active:bg-black/[0.04] hover:translate-x-[1px]"
               >
                 <div class="min-w-0">
-                  <p class="text-base text-black/85 services-page-font truncate">
+                  <p class="text-sm md:text-base text-black/85 services-page-font truncate">
                     {{ service.name }}
-                  </p>
-                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
-                    Tap to book
                   </p>
                 </div>
 
                 <div class="flex items-center gap-3 shrink-0">
                   <span
-                    class="text-base text-black/58 font-light transition-colors duration-300 group-hover:text-black/78"
+                    class="text-sm text-black/58 font-light transition-colors duration-300 group-hover:text-black/78"
                   >
                     Free Consultation
                   </span>
                   <span
-                    class="text-black/28 transition-all duration-300 group-hover:translate-x-1 group-hover:text-black/50"
+                    class="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-black text-black transition-all duration-300 group-hover:translate-x-1 group-hover:bg-black group-hover:text-white"
                     aria-hidden="true"
                   >
-                    →
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                   </span>
                 </div>
               </button>
@@ -73,7 +72,7 @@
         <!-- <div class="service-category animate-fade-in-up" style="animation-delay: 200ms">
           <div class="flex items-end justify-between gap-6 mb-6">
             <h2
-              class="text-3xl text-neutral-950 font-normal leading-6 tracking-[2.89px] mt-6 services-page-font"
+              class="text-2xl text-neutral-950 font-normal leading-tight tracking-[0.04em] mt-6 services-page-font"
             >
               {{ content.chemicalTreatments.title }}
             </h2>
@@ -94,23 +93,22 @@
                 class="group w-full text-left px-5 sm:px-7 py-4 flex items-center justify-between gap-6 transition-all duration-300 ease-out hover:bg-black/[0.03] active:bg-black/[0.05]"
               >
                 <div class="min-w-0">
-                  <p class="text-base text-black/85 services-page-font truncate">
+                  <p class="text-sm md:text-base text-black/85 services-page-font truncate">
                     {{ service.name }}
-                  </p>
-                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
-                    Tap to book
                   </p>
                 </div>
 
                 <div class="flex items-center gap-3 shrink-0">
-                  <span class="text-base text-black/60 font-light">
+                  <span class="text-sm text-black/60 font-light">
                   From  {{ service.price }}
                   </span>
                   <span
-                    class="text-black/35 transition-all duration-300 group-hover:translate-x-1 group-hover:text-black/55"
+                    class="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-black text-black transition-all duration-300 group-hover:translate-x-1 group-hover:bg-black group-hover:text-white"
                     aria-hidden="true"
                   >
-                    →
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                   </span>
                 </div>
               </button>
@@ -126,7 +124,7 @@
         <div class="service-category animate-fade-in-up" style="animation-delay: 300ms">
           <div class="flex items-end justify-between gap-6 mb-6">
             <h2
-              class="text-3xl text-neutral-950 font-normal leading-6 tracking-[2.89px] mt-6 services-page-font"
+              class="text-2xl text-neutral-950 font-normal leading-tight tracking-[0.04em] mt-6 services-page-font"
             >
               {{ content.color.title }}
             </h2>
@@ -143,23 +141,22 @@
                 class="group w-full text-left px-5 sm:px-7 py-4 flex items-center justify-between gap-6 transition-all duration-300 ease-out hover:bg-black/[0.03] active:bg-black/[0.05]"
               >
                 <div class="min-w-0">
-                  <p class="text-base text-black/85 services-page-font truncate">
+                  <p class="text-sm md:text-base text-black/85 services-page-font truncate">
                     {{ service.name }}
-                  </p>
-                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
-                    Tap to book
                   </p>
                 </div>
 
                 <div class="flex items-center gap-3 shrink-0">
-                  <span class="text-base text-black/60 font-light">
+                  <span class="text-sm text-black/60 font-light">
                    From {{ service.price }}
                   </span>
                   <span
-                    class="text-black/35 transition-transform duration-300 group-hover:translate-x-1"
+                    class="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-black text-black transition-all duration-300 group-hover:translate-x-1 group-hover:bg-black group-hover:text-white"
                     aria-hidden="true"
                   >
-                    →
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                   </span>
                 </div>
               </button>
@@ -175,7 +172,7 @@
         <div class="service-category animate-fade-in-up" style="animation-delay: 400ms">
           <div class="flex items-end justify-between gap-6 mb-6">
             <h2
-              class="text-3xl text-neutral-950 font-normal leading-6 tracking-[2.89px] mt-6 services-page-font"
+              class="text-2xl text-neutral-950 font-normal leading-tight tracking-[0.04em] mt-6 services-page-font"
             >
               {{ content.styling.title }}
             </h2>
@@ -192,23 +189,22 @@
                 class="group w-full text-left px-5 sm:px-7 py-4 flex items-center justify-between gap-6 transition-all duration-300 ease-out hover:bg-black/[0.03] active:bg-black/[0.05]"
               >
                 <div class="min-w-0">
-                  <p class="text-base text-black/85 services-page-font truncate">
+                  <p class="text-sm md:text-base text-black/85 services-page-font truncate">
                     {{ service.name }}
-                  </p>
-                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
-                    Tap to book
                   </p>
                 </div>
 
                 <div class="flex items-center gap-3 shrink-0">
-                  <span class="text-base text-black/60 font-light">
+                  <span class="text-sm text-black/60 font-light">
                   From  {{ service.price }}
                   </span>
                   <span
-                    class="text-black/35 transition-transform duration-300 group-hover:translate-x-1"
+                    class="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-black text-black transition-all duration-300 group-hover:translate-x-1 group-hover:bg-black group-hover:text-white"
                     aria-hidden="true"
                   >
-                    →
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                   </span>
                 </div>
               </button>
@@ -224,7 +220,7 @@
         <div class="service-category animate-fade-in-up" style="animation-delay: 500ms">
           <div class="flex items-end justify-between gap-6 mb-6">
             <h2
-              class="text-3xl text-neutral-950 font-normal leading-6 tracking-[2.89px] mt-6 services-page-font"
+              class="text-2xl text-neutral-950 font-normal leading-tight tracking-[0.04em] mt-6 services-page-font"
             >
               {{ content.haircuts.title }}
             </h2>
@@ -241,23 +237,22 @@
                 class="group w-full text-left px-5 sm:px-7 py-4 flex items-center justify-between gap-6 transition-all duration-300 ease-out hover:bg-black/[0.03] active:bg-black/[0.05]"
               >
                 <div class="min-w-0">
-                  <p class="text-base text-black/85 services-page-font truncate">
+                  <p class="text-sm md:text-base text-black/85 services-page-font truncate">
                     {{ service.name }}
-                  </p>
-                  <p class="text-[10px] uppercase tracking-[0.22em] text-black/40 mt-1">
-                    Tap to book
                   </p>
                 </div>
 
                 <div class="flex items-center gap-3 shrink-0">
-                  <span class="text-base text-black/60 font-light">
+                  <span class="text-sm text-black/60 font-light">
                   From  {{ service.price }}
                   </span>
                   <span
-                    class="text-black/35 transition-transform duration-300 group-hover:translate-x-1"
+                    class="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-black text-black transition-all duration-300 group-hover:translate-x-1 group-hover:bg-black group-hover:text-white"
                     aria-hidden="true"
                   >
-                    →
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
                   </span>
                 </div>
               </button>
@@ -270,15 +265,15 @@
         </div>
       </div>
     </div>
-    <section class="py-20 animate-fade-in-up" style="animation-delay: 600ms">
+    <section class="py-12 animate-fade-in-up" style="animation-delay: 600ms">
       <div class="container mx-auto px-6 text-center">
         <div
           class="max-w-xl mx-auto rounded-2xl border border-black/5 bg-white shadow-[0_18px_55px_rgba(0,0,0,0.04)] p-10 md:p-12"
         >
-          <h3 class="text-2xl md:text-3xl font-base tracking-tight mb-3 leading-6 tracking-widest">
+          <h3 class="text-xl md:text-2xl font-base tracking-[0.08em] mb-3 leading-tight">
             {{ content.cta.title }}
           </h3>
-          <p class="text-black/70 mb-8 leading-relaxed leading-6">
+          <p class="text-black/70 text-sm mb-7 leading-6">
             {{ content.cta.description }}
           </p>
 
@@ -288,7 +283,7 @@
           >
             <span class="relative z-10">{{ content.cta.buttonText }}</span>
             <span
-              class="absolute inset-0 bg-white/10 translate-y-fulltransition-transform duration-300 ease-out"
+              class="absolute inset-0 bg-white/10 translate-y-full transition-transform duration-300 ease-out"
             ></span>
           </button>
         </div>

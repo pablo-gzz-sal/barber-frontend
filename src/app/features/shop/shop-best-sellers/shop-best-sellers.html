@@ -1,8 +1,8 @@
-<section class="py-16 md:py-24 bg-white text-black">
+<section class="pt-8 md:pt-10 pb-8 md:pb-10 bg-white text-black">
   <div class="max-w-7xl mx-auto px-6">
     <!-- Section Title -->
-    <div class="text-center mb-12 md:mb-16 animate-fade-in-up">
-      <p class="text-[11px] md:text-lg tracking-[0.32em] uppercase font-medium text-black/70">
+    <div class="text-center mb-9 md:mb-11 animate-fade-in-up">
+      <p class="text-[11px] md:text-sm tracking-[0.28em] uppercase font-medium text-black/70">
         {{ content.title }}
       </p>
     </div>
@@ -17,7 +17,7 @@
             [routerLink]="['/product', product.id.split('/').pop()]"
           >
             <div
-              class="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl bg-transparentx border border-black/5 transition-all duration-300 ease-out group-hover:shadow-[0_24px_60px_rgba(0,0,0,0.18)] group-hover:border-black/10"
+                class="relative aspect-[3/4] mb-4 overflow-hidden rounded-2xl bg-transparent border border-black/5 transition-all duration-300 ease-out group-hover:shadow-[0_24px_60px_rgba(0,0,0,0.18)] group-hover:border-black/10"
             >
               <img
                 [src]="product.img"

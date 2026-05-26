@@ -661,6 +661,7 @@
 }
 
 .desktop-menu-preview {
+  background: #000;
   animation: preview-content-slide-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
 }
 

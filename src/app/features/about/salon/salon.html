@@ -1,11 +1,11 @@
 <section class="bg-white text-black overflow-hidden">
   <!-- Top black quote bar -->
-  <div class="bg-black text-white py-10 md:py-14">
+  <div class="bg-black text-white py-8 md:py-10">
     <div class="max-w-7xl mx-auto px-6 flex flex-col justify-center items-center text-center">
       <img class="w-40 h-24 py-4" src="assets/svg/allure-logo.svg" alt="">
       <p
       style="font-family: Inter, sans-serif"
-        class="text-sm  md:text-lg font-medium text-white/80 max-w-3xl mx-auto  tracking-[2.89px]"
+        class="text-xs md:text-sm font-medium text-white/80 max-w-3xl mx-auto tracking-[0.18em] leading-7"
       >
         {{ content.quote }}
       </p>
@@ -14,10 +14,10 @@
 
   <!-- Main two-column block -->
 <div class="w-full">
-  <div class="flex flex-col lg:flex-row min-h-[400px] lg:min-h-[572px]">
+  <div class="flex flex-col lg:flex-row min-h-[360px] lg:min-h-[500px]">
 
     <!-- Left: image — exactly half -->
-    <div class="w-full lg:w-1/2 relative overflow-hidden h-[300px] sm:h-[420px] lg:h-auto">
+    <div class="w-full lg:w-1/2 relative overflow-hidden h-[260px] sm:h-[360px] lg:h-auto">
       <img
         [src]="content.images[0]"
         alt="Salon Interior Main"
@@ -27,15 +27,15 @@
 
     <!-- Right: content — exactly half -->
     <div class="w-full lg:w-1/2 flex items-center justify-start px-8 py-12 sm:px-12 md:px-16 lg:px-20 xl:px-24">
-      <div class="w-full max-w-md flex flex-col lg:px-10 items-start gap-6 md:gap-8">
+      <div class="w-full max-w-md flex flex-col lg:px-8 items-start gap-5 md:gap-6">
         <h2
-          class="self-stretch justify-start text-stone-950 text-3xl lg:text-6xl font-extralight font-['Inter'] lg:leading-[80px] tracking-[2.89px]"
+          class="self-stretch justify-start text-stone-950 text-3xl lg:text-5xl font-extralight font-['Inter'] lg:leading-[64px] tracking-[0.06em]"
         >
           {{ content.title }}
         </h2>
 
         <p
-          class="text-stone-600 font-light tracking-[0.04em] text-sm leading-7 sm:text-base sm:leading-7 lg:text-lg lg:leading-8 tracking-[2.89px]"
+          class="text-stone-700 font-light tracking-[0.04em] text-sm leading-7"
         >
           {{ content.description }}
         </p>

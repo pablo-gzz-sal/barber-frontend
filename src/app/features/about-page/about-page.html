@@ -2,25 +2,23 @@
 <div class="about-page">
   <!-- Hero Section - Our Story -->
   <section class="hidden md:block hero-section relative h-screen bg-neutral-200 overflow-hidden">
-    <div
-      class="absolute left-[-550px] top-[200px] lg:left-0 lg:top-0 w-full h-[200%] lg:h-auto lg:inset-0"
-    >
+    <div class="absolute left-[-520px] top-[140px] lg:left-0 lg:top-0 w-full h-[185%] lg:h-full lg:inset-0">
       <img
         src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
         alt="Joseph Battisti"
-        class="w-full h-auto object-left lg:object-center grayscale"
+        class="w-full h-full object-cover object-[38%_0%] grayscale"
       />
     </div>
 
     <div
       class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16"
     >
-      <div class="text-left lg:text-right animate-fade-in-up">
-        <h1 class="text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-2 lg:mb-6">
+      <div class="text-left lg:text-right animate-fade-in-up max-w-3xl">
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.01em] mb-3 lg:mb-5">
           {{ content.hero.title }}
         </h1>
         <p
-          class="text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-700 leading-[60px] tracking-[2.89px]"
+          class="text-sm md:text-lg lg:text-xl font-light uppercase text-gray-700 leading-8 tracking-[0.22em]"
         >
           {{ content.hero.subtitle }}
         </p>
@@ -33,7 +31,7 @@
       <img
         src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
         alt="Joseph Battisti"
-        class="w-full h-full object-cover object-left lg:object-center grayscale"
+        class="w-full h-full object-cover object-[38%_0%] grayscale"
       />
       <!-- <div class="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div> -->
     </div>
@@ -42,11 +40,11 @@
       class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16"
     >
       <div class="text-left lg:text-right animate-fade-in-up">
-        <h1 class="text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-2 lg:mb-6">
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.01em] mb-3 lg:mb-5">
           {{ content.hero.title }}
         </h1>
         <p
-          class="text-xl md:text-2xl lg:text-3xl font-light tracking-wide text-gray-700 leading-[60px] tracking-[2.89px]"
+          class="text-sm md:text-lg lg:text-xl font-light uppercase text-gray-700 leading-8 tracking-[0.22em]"
         >
           {{ content.hero.subtitle }}
         </p>
@@ -54,19 +52,19 @@
     </div>
   </section>
   <!-- Hair Kinetics Section -->
-  <section class="py-16 lg:py-32 bg-white">
+  <section class="py-14 lg:py-20 bg-white">
     <div class="container mx-auto px-6 lg:px-16">
-      <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
         <!-- Left Column -->
         <div class="space-y-8 animate-fade-in-left">
           <div>
-            <h2 class="text-3xl lg:text-3xl font-bold leading-8 tracking-[2.89px]">
-              {{ content.kinetics.title }}
+            <h2 class="text-sm lg:text-base font-medium uppercase leading-7 tracking-[0.26em] text-black/80">
+              {{ content.kinetics.title | uppercase }}
             </h2>
           </div>
 
           <div
-            class="space-y-6 text-black font-light text-base lg:text-sm leading-8 tracking-[2.89px]"
+            class="space-y-5 text-stone-800 font-light text-sm leading-7 tracking-[0.04em]"
           >
             <p>{{ content.kinetics.description1 }}</p>
             <p>{{ content.kinetics.description2 }}</p>
@@ -76,14 +74,14 @@
         <!-- Right Column -->
         <div class="animate-fade-in-right">
           <div
-            class="bg-gray-50 rounded-2xl border border-black/5 shadow-[0_18px_55px_rgba(0,0,0,0.08)] p-10 lg:p-12 h-full"
+            class="bg-gray-50 rounded-xl border border-black/5 shadow-[0_16px_45px_rgba(0,0,0,0.06)] p-8 lg:p-10 h-full"
           >
             <h3
-              class="text-2xl lg:text-3xl mb-6 tracking-tight font-semibold leading-8 tracking-[2.89px]"
+              class="text-lg lg:text-xl mb-5 uppercase font-medium leading-7 tracking-[0.22em]"
             >
               {{ content.kinetics.commitment.title }}
             </h3>
-            <p class="text-black/70 leading-relaxed leading-8 tracking-[2.89px]">
+            <p class="text-stone-700 text-sm leading-7 tracking-[0.04em]">
               {{ content.kinetics.commitment.description }}
             </p>
           </div>
@@ -93,7 +91,7 @@
   </section>
 
   <!-- Joseph Battisti Bio Section -->
-  <section class="py-20 lg:py-32 bg-gray-50">
+  <section class="py-16 lg:py-24 bg-gray-50">
     <div class="max-w-7xl mx-auto px-6 lg:px-16">
       <!-- ROW 1: Portrait + Bio -->
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
@@ -121,7 +119,7 @@
           </h2>
 
           <div
-            class="mt-4 space-y-6 text-stone-800 font-light leading-relaxed max-w-2xl leading-8 tracking-[2.89px]"
+            class="mt-4 space-y-5 text-stone-800 font-light max-w-2xl text-sm leading-7 tracking-[0.04em]"
           >
             <p>{{ content.artist.bio1 }}</p>
             <p>{{ content.artist.bio2 }}</p>
@@ -132,19 +130,19 @@
 
       <!-- ROW 2: TV Feature (text left, video right) -->
       <div
-        class="mt-20 lg:mt-24 grid lg:grid-cols-12 gap-12 lg:gap-20 items-start"
+        class="mt-14 lg:mt-20 grid lg:grid-cols-12 gap-10 lg:gap-16 items-start"
         style="font-family: Inter, sans-serif"
       >
         <!-- TV Feature text -->
         <div class="lg:col-span-5">
           <h4
-            class="text-lg tracking-[0.25em] uppercase font-bold text-black mb-4 leading-8 tracking-[2.89px]"
+            class="text-sm tracking-[0.24em] uppercase font-medium text-black mb-4 leading-7"
           >
             {{ content.artist.tvFeature.title }}
           </h4>
 
           <p
-            class="text-stone-800 text-base font-light leading-relaxed max-w-md leading-8 tracking-[2.89px]"
+            class="text-stone-800 text-sm font-light leading-7 max-w-md tracking-[0.04em]"
           >
             {{ content.artist.tvFeature.description }}
           </p>
@@ -199,7 +197,7 @@
   </section>
 
   <!-- Meet The Team Section -->
-  <section class="py-20 lg:py-32 bg-[#292524] text-white overflow-hidden">
+  <section class="py-16 lg:py-24 bg-[#292524] text-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-10 lg:px-16">
       <div class="flex items-end justify-between rounded-[10px] gap-6 mb-12">
         <h2 class="text-4xl lg:text-5xl tracking-wide">
@@ -337,8 +335,8 @@
       </div>
 
       <!-- Bio -->
-      <div class="mt-14 max-w-3xl mx-auto text-center">
-        <p class="text-white text-sm leading-relaxed leading-10 text-left tracking-[2.89px]">
+      <div class="mt-10 max-w-3xl mx-auto text-center">
+        <p class="text-white/88 text-sm leading-8 text-left tracking-[0.06em]">
           {{ content.team.members[activeIndex].bio }}
         </p>
       </div>
@@ -346,13 +344,11 @@
   </section>
 
   <!-- Hours & Contact Section -->
-  `
-  <section class="bg-white py-16">
-    <div class="max-w-4xl mx-auto px-6 lg:px-16">
-      <div class="flex items-end grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
+  <section class="bg-white py-14">
+    <div class="max-w-5xl mx-auto px-6 lg:px-16">
+      <div class="grid grid-cols-1 md:grid-cols-[0.9fr_1px_1.1fr] gap-10 lg:gap-14 items-start">
         <!-- LEFT: HOURS -->
         <div class="animate-fade-in-up">
-          `
           <svg
             width="56"
             height="48"
@@ -366,11 +362,11 @@
             />
           </svg>
 
-          <h3 class="text-6xl md:text-3xl tracking-wide mb-8 mt-4">
+          <h3 class="text-3xl md:text-2xl tracking-[0.08em] mb-7 mt-4">
             {{ content.contact.hoursTitle }}
           </h3>
 
-          <div class="space-y-3 text-[20px] lg:text-[15px] tracking-widest text-black/70">
+          <div class="space-y-3 text-base lg:text-sm tracking-[0.12em] text-black/72">
             @for (day of content.contact.hours; track day) {
               <div class="flex gap-3">
                 <span>{{ day.day }}</span>
@@ -381,13 +377,15 @@
           </div>
         </div>
 
+        <div class="hidden md:block w-px self-stretch bg-black/10"></div>
+
         <!-- RIGHT: CONTACT INFO -->
-        <div class="space-y-10 animate-fade-in-up lg:pl-30" style="animation-delay: 150ms">
+        <div class="space-y-8 animate-fade-in-up" style="animation-delay: 150ms">
           <!-- EMAIL -->
           <div>
             <div class="flex items-center gap-3 mb-2">
               <svg
-                class="w-8 h-8 lg:w-5 lg:h-5text-black"
+                class="w-6 h-6 lg:w-5 lg:h-5 text-black"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.5"
@@ -398,13 +396,13 @@
                 />
                 <polyline points="22,6 12,13 2,6" />
               </svg>
-              <h3 class="text-3xl md:text-2xl tracking-wide">
+              <h3 class="text-2xl md:text-xl tracking-[0.08em]">
                 {{ content.contact.emailTitle }}
               </h3>
             </div>
             <a
               [href]="'mailto:' + content.contact.email"
-              class="text-[20px] lg:text-[15px] tracking-widest text-black/50 hover:text-black transition"
+              class="text-base lg:text-sm tracking-[0.12em] text-black/55 hover:text-black transition"
             >
               {{ content.contact.email }}
             </a>
@@ -414,7 +412,7 @@
           <div>
             <div class="flex items-center gap-3 mb-2">
               <svg
-                class="w-8 h-8 lg:w-5 lg:h-5 text-black"
+                class="w-6 h-6 lg:w-5 lg:h-5 text-black"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.5"
@@ -424,13 +422,13 @@
                   d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
                 />
               </svg>
-              <h3 class="text-3xl md:text-2xl tracking-wide">
+              <h3 class="text-2xl md:text-xl tracking-[0.08em]">
                 {{ content.contact.callTitle }}
               </h3>
             </div>
             <a
               [href]="'tel:' + content.contact.phone"
-              class="text-[20px] lg:text-[15px] tracking-widest text-black/50 hover:text-black transition"
+              class="text-base lg:text-sm tracking-[0.12em] text-black/55 hover:text-black transition"
             >
               {{ content.contact.phone }}
             </a>
@@ -440,7 +438,7 @@
           <div>
             <div class="flex items-center gap-3 mb-2">
               <svg
-                class="w-8 h-8 lg:w-5 lg:h-5 text-black"
+                class="w-6 h-6 lg:w-5 lg:h-5 text-black"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.5"
@@ -449,12 +447,12 @@
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              <h3 class="text-3xl md:text-2xl tracking-wide">
+              <h3 class="text-2xl md:text-xl tracking-[0.08em]">
                 {{ content.contact.locationTitle }}
               </h3>
             </div>
             <address
-              class="not-italic text-[20px] lg:text-[15px] tracking-widest text-black/50 leading-relaxed"
+              class="not-italic text-base lg:text-sm tracking-[0.12em] text-black/55 leading-relaxed"
             >
               {{ content.contact.address.line1 }}<br />
               {{ content.contact.address.line2 }}
