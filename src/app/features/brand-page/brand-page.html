@@ -378,6 +378,12 @@
           }
         </div>
       }
+      @if (brand?.name === 'Az Collection') {
+        <app-shop-best-sellers
+          class="mx-auto w-full max-w-[1440px] sm:py-16"
+          [brand]="brand?.name"
+        ></app-shop-best-sellers>
+      }
 
       <!-- SHOP + FILTERS -->
       @if (needsFilter) {
