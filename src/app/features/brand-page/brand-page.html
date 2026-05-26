@@ -455,7 +455,7 @@
       </div>
 
       <!-- DIVIDER + WHY WE LOVE — only when collection has branding metafields -->
-      @if (mode === 'single-branded') {
+      @if (mode === 'single-branded' && brand?.name !== 'Joseph Battisti Collection') {
         <!-- DIVIDER -->
         <div class="border-t border-border"></div>
 
