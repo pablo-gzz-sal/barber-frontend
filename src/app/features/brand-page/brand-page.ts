@@ -94,6 +94,8 @@ export class BrandPage implements OnInit {
 
   filters: string[] = [];
 
+  bestSellersDisabled = false;
+
   private pageSize = 12;
   private page = 1;
 
@@ -196,6 +198,9 @@ export class BrandPage implements OnInit {
       logoUrl: collection?.image?.src ?? collection?.image?.url ?? '',
     };
 
+        const noBestSellers = collection.metafields.find((m: any) => m.key === 'nobestsellers')?.value === 'true';
+    this.bestSellersDisabled = noBestSellers;
+
     const brandHeroUrl =
       BRAND_BANNERS[collection.handle?.toLowerCase()] ||
       BRAND_BANNERS[collection.title?.toLowerCase()] ||
@@ -277,6 +282,8 @@ export class BrandPage implements OnInit {
     const img = collection?.image?.src ?? collection?.image?.url ?? '';
     const rawFilter = collection.metafields.find((m: any) => m.key === 'needsfilter')?.value;
     this.needsFilter = rawFilter === 'true';
+    const noBestSellers = collection.metafields.find((m: any) => m.key === 'nobestsellers')?.value === 'true';
+    this.bestSellersDisabled = noBestSellers;
     const brand: BrandVM = {
       name: collection.title,
       description: collection.body_html ?? collection.description ?? '',

@@ -66,10 +66,12 @@
       </div>
     </div>
 
-    <app-shop-best-sellers
-      class="mx-auto w-full max-w-[1440px] sm:py-16"
-      [brand]="brand?.name"
-    ></app-shop-best-sellers>
+    @if (!bestSellersDisabled) {
+      <app-shop-best-sellers
+        class="mx-auto w-full max-w-[1440px] sm:py-16"
+        [brand]="brand?.name"
+      ></app-shop-best-sellers>
+    }
 
     <app-actual-sale
       class="mx-auto w-full max-w-[1440px] pb-14 sm:pb-16"
@@ -378,7 +380,7 @@
           }
         </div>
       }
-      @if (brand?.name === 'Az Collection') {
+      @if (brand?.name === 'Az Collection' && !bestSellersDisabled ) {
         <app-shop-best-sellers
           class="mx-auto w-full max-w-[1440px] sm:py-16"
           [brand]="brand?.name"
