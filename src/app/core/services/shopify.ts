@@ -80,6 +80,7 @@ export type ProductVariantLite = {
   id: string;
   title: string;
   price: string;
+  compare_at_price?: string | number | null;
   option1?: string;
   option2?: string;
   option3?: string;

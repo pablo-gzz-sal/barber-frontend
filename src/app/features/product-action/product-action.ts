@@ -42,6 +42,7 @@ type ShopifyProduct = {
   image?: { src: string };
   images?: ShopifyImage[];
   media?: ShopifyMedia[];
+  variants?: ProductVariantLite[];
 };
 
 // Unified type used by the template
@@ -82,7 +83,24 @@ export class ProductAction {
 
   displayPrice = computed(() => {
     const v = this.selectedVariant();
-    return v?.price ? `$${v.price}` : null;
+    return v?.price ? this.formatPrice(v.price) : null;
+  });
+
+  displayCompareAtPrice = computed(() => {
+    const v = this.selectedVariant();
+    if (!v?.compare_at_price) return null;
+
+    return this.isSelectedVariantOnSale() ? this.formatPrice(v.compare_at_price) : null;
+  });
+
+  isSelectedVariantOnSale = computed(() => {
+    const v = this.selectedVariant();
+    if (!v) return false;
+
+    const price = this.toPriceNumber(v.price);
+    const compareAtPrice = this.toPriceNumber(v.compare_at_price);
+
+    return compareAtPrice !== null && price !== null && compareAtPrice > price;
   });
 
   // Build a unified MediaItem[] from product.media (preferred) or product.images fallback
@@ -171,8 +189,10 @@ export class ProductAction {
 
         this.shopify.getProductVariants(this.id).subscribe({
           next: (res) => {
-            this.variants.set(res.variants ?? []);
-            this.selectedVariantId.set(res.variants?.[0]?.id ?? null);
+            const variants = this.withProductVariantSaleData(res.variants ?? [], p.variants ?? []);
+
+            this.variants.set(variants);
+            this.selectedVariantId.set(variants[0]?.id ?? null);
             this.loading.set(false);
           },
           error: (e) => {
@@ -208,6 +228,38 @@ export class ProductAction {
     if (!title) return '';
     const parts = title.trim().split(/\s+/);
     return parts.slice(1).join(' ');
+  }
+
+  private formatPrice(price: string | number): string {
+    const n = this.toPriceNumber(price);
+    if (n === null) return `$${String(price).replace(/^\$/, '')}`;
+
+    return `$${n.toFixed(2)}`;
+  }
+
+  private toPriceNumber(price: string | number | null | undefined): number | null {
+    if (price === null || price === undefined || price === '') return null;
+
+    const n = Number(String(price).replace(/[^\d.]/g, ''));
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+
+  private withProductVariantSaleData(
+    variants: ProductVariantLite[],
+    productVariants: ProductVariantLite[],
+  ): ProductVariantLite[] {
+    const productVariantById = new Map(productVariants.map((v) => [String(v.id), v]));
+    const sourceVariants = variants.length ? variants : productVariants;
+
+    return sourceVariants.map((variant) => {
+      const productVariant = productVariantById.get(String(variant.id));
+
+      return {
+        ...productVariant,
+        ...variant,
+        compare_at_price: variant.compare_at_price ?? productVariant?.compare_at_price ?? null,
+      };
+    });
   }
 
   buyWithShop() {
