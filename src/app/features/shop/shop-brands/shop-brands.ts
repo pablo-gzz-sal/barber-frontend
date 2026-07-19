@@ -25,15 +25,15 @@ export class ShopBrands {
       link: 'alterna',
     },
     {
-      name: 'Comfort Zone',
-      logo: 'assets/svg/comfortZone.svg',
-      link: 'comfortzone',
-    },
-    {
-      name: 'Craft Luxury',
+      name: 'AZ',
       logo: 'assets/svg/craftLuxuryHaircare.svg',
       link: 'buy-az',
       dark: true,
+    },
+    {
+      name: 'Comfort Zone',
+      logo: 'assets/svg/comfortZone.svg',
+      link: 'comfortzone',
     },
     {
       name: 'Davines',
