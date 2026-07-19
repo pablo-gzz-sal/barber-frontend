@@ -41,6 +41,7 @@ interface ProductCardVM {
   price: string;
   // category: CategoryKey;
   filterTag: string | null;
+  inStock: boolean;
 }
 
 interface CollectionEntryVM {
@@ -105,7 +106,7 @@ export class BrandPage implements OnInit {
     private route: ActivatedRoute,
     private shopifyService: Shopify,
     private location: Location,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -198,7 +199,7 @@ export class BrandPage implements OnInit {
       logoUrl: collection?.image?.src ?? collection?.image?.url ?? '',
     };
 
-        const noBestSellers = collection.metafields.find((m: any) => m.key === 'nobestsellers')?.value === 'true';
+    const noBestSellers = collection.metafields.find((m: any) => m.key === 'nobestsellers')?.value === 'true';
     this.bestSellersDisabled = noBestSellers;
 
     const brandHeroUrl =
@@ -426,6 +427,11 @@ export class BrandPage implements OnInit {
             ? String(priceRaw)
             : '';
 
+      const variants = Array.isArray(p?.variants) ? p.variants : [];
+      const inStock =
+        p?.in_stock ?? (variants.length ? variants.some((v: any) => v?.available !== false) : true);
+
+
       return {
         id: String(p.id),
         handle: p.handle,
@@ -434,6 +440,7 @@ export class BrandPage implements OnInit {
         imageUrl,
         price,
         filterTag: p.filterTag ?? null, // ← direct from metafield
+        inStock,
       };
     });
   }

@@ -85,6 +85,8 @@ export type ProductVariantLite = {
   option2?: string;
   option3?: string;
   image_id?: string | number | null;
+  available?: boolean;
+  inventory_quantity?: number | null;
 };
 
 export type ProductVariantsResponse = {
@@ -588,11 +590,18 @@ export class Shopify {
   private toProductCard(p: any): ProductCard {
     const variants = Array.isArray(p?.variants) ? p.variants : [];
 
-    const prices = variants
+    const inStock =
+      p?.in_stock ?? variants.some((v: any) => v?.available !== false);
+
+
+    const pricingVariants = variants.filter((v: any) => v?.available !== false);
+    const priceSource = pricingVariants.length ? pricingVariants : variants;
+
+    const prices = priceSource
       .map((v: any) => Number(v?.price))
       .filter((n: number) => Number.isFinite(n) && n > 0);
 
-    const comparePrices = variants
+    const comparePrices = priceSource
       .map((v: any) => Number(v?.compare_at_price))
       .filter((n: number) => Number.isFinite(n) && n > 0);
 
@@ -616,6 +625,8 @@ export class Shopify {
       salePrice: finalPrice,
       originalPrice: isOnSale && minCompare !== null ? `$${minCompare.toFixed(2)}` : '',
       isOnSale,
+      inStock,
+      totalInventory: p?.total_inventory ?? null,
     } as any;
   }
 

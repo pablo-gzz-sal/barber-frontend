@@ -14,6 +14,8 @@ type ProductCard = {
   price: string;
   img: string;
   handle: string;
+  inStock?: boolean;
+  totalInventory?: number | null;
 };
 
 @Component({

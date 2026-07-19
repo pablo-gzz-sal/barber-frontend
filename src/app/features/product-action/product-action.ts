@@ -43,6 +43,8 @@ type ShopifyProduct = {
   images?: ShopifyImage[];
   media?: ShopifyMedia[];
   variants?: ProductVariantLite[];
+  in_stock?: boolean;
+  total_inventory?: number | null;
 };
 
 // Unified type used by the template
@@ -167,8 +169,29 @@ export class ProductAction {
     return `${environment.shopifyStorefrontUrl}/products/${p.handle}`;
   });
 
-  canBuy = computed(() => !!this.shopUrl());
-  canAdd = computed(() => !!this.selectedVariantId());
+  /** Is the currently selected variant purchasable? */
+  selectedVariantAvailable = computed(() => {
+    const v = this.selectedVariant();
+    if (!v) return false;
+    return v.available !== false;
+  });
+
+  /** Does the product have at least one purchasable variant? */
+  anyVariantAvailable = computed(() => {
+    const vs = this.variants();
+    if (!vs.length) return this.product()?.in_stock !== false;
+    return vs.some((v) => v.available !== false);
+  });
+
+  /** Remaining units for the selected variant, when Shopify tracks it. */
+  selectedVariantStock = computed(() => {
+    const v = this.selectedVariant();
+    const qty = v?.inventory_quantity;
+    return typeof qty === 'number' ? qty : null;
+  });
+
+  canBuy = computed(() => !!this.shopUrl() && this.selectedVariantAvailable());
+  canAdd = computed(() => !!this.selectedVariantId() && this.selectedVariantAvailable());
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -192,7 +215,8 @@ export class ProductAction {
             const variants = this.withProductVariantSaleData(res.variants ?? [], p.variants ?? []);
 
             this.variants.set(variants);
-            this.selectedVariantId.set(variants[0]?.id ?? null);
+            const firstAvailable = variants.find((v) => v.available !== false);
+            this.selectedVariantId.set(firstAvailable?.id ?? variants[0]?.id ?? null);
             this.loading.set(false);
           },
           error: (e) => {
@@ -220,74 +244,74 @@ export class ProductAction {
   }
 
   private getMetafieldValueInsensitive(metafields: any, key: string): string | null {
-  if (!Array.isArray(metafields)) return null;
-  const target = key.toLowerCase();
-  const mf = metafields.find((m: any) => String(m?.key ?? '').toLowerCase() === target);
-  const value = mf?.value;
-  return typeof value === 'string' && value.trim() ? value.trim() : null;
-}
-
-/** Same normalization you use for brand keys elsewhere. */
-private normalizeKey(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9]/g, '');
-}
-
-private titleParts = new Map<string, { brand: string; rest: string }>();
-
-private splitTitle(p: any): { brand: string; rest: string } {
-  const cacheKey = String(p?.id ?? p?.handle ?? p?.title ?? '');
-  const cached = this.titleParts.get(cacheKey);
-  if (cached) return cached;
-
-  const title = (p?.title ?? '').trim();
-  if (!title) return { brand: '', rest: '' };
-
-  const words = title.split(/\s+/);
-
-  // Priority: metafield override -> vendor
-  const override = this.getMetafieldValueInsensitive(p?.metafields, 'displayBrand');
-  const candidates = [override, p?.vendor].filter(Boolean) as string[];
-
-  let result: { brand: string; rest: string } | null = null;
-
-  for (const candidate of candidates) {
-    const target = this.normalizeKey(candidate);
-    if (!target) continue;
-
-    // Consume words until the normalized accumulation equals the brand.
-    let acc = '';
-    for (let i = 0; i < words.length; i++) {
-      acc += this.normalizeKey(words[i]);
-      if (acc === target) {
-        result = {
-          brand: words.slice(0, i + 1).join(' '),
-          rest: words.slice(i + 1).join(' '),
-        };
-        break;
-      }
-      if (!target.startsWith(acc)) break; // diverged, this candidate isn't a prefix
-    }
-    if (result) break;
-
-    // Brand exists but isn't in the title: show it on the brand line, keep title intact.
-    result = { brand: candidate.trim(), rest: title };
-    break;
+    if (!Array.isArray(metafields)) return null;
+    const target = key.toLowerCase();
+    const mf = metafields.find((m: any) => String(m?.key ?? '').toLowerCase() === target);
+    const value = mf?.value;
+    return typeof value === 'string' && value.trim() ? value.trim() : null;
   }
 
-  // No vendor, no override: fall back to old single-word behaviour.
-  result ??= { brand: words[0] ?? '', rest: words.slice(1).join(' ') };
+  /** Same normalization you use for brand keys elsewhere. */
+  private normalizeKey(s: string): string {
+    return s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
 
-  this.titleParts.set(cacheKey, result);
-  return result;
-}
+  private titleParts = new Map<string, { brand: string; rest: string }>();
 
-getTitleBrand(p: any): string {
-  return this.splitTitle(p).brand;
-}
+  private splitTitle(p: any): { brand: string; rest: string } {
+    const cacheKey = String(p?.id ?? p?.handle ?? p?.title ?? '');
+    const cached = this.titleParts.get(cacheKey);
+    if (cached) return cached;
 
-getTitleRest(p: any): string {
-  return this.splitTitle(p).rest;
-}
+    const title = (p?.title ?? '').trim();
+    if (!title) return { brand: '', rest: '' };
+
+    const words = title.split(/\s+/);
+
+    // Priority: metafield override -> vendor
+    const override = this.getMetafieldValueInsensitive(p?.metafields, 'displayBrand');
+    const candidates = [override, p?.vendor].filter(Boolean) as string[];
+
+    let result: { brand: string; rest: string } | null = null;
+
+    for (const candidate of candidates) {
+      const target = this.normalizeKey(candidate);
+      if (!target) continue;
+
+      // Consume words until the normalized accumulation equals the brand.
+      let acc = '';
+      for (let i = 0; i < words.length; i++) {
+        acc += this.normalizeKey(words[i]);
+        if (acc === target) {
+          result = {
+            brand: words.slice(0, i + 1).join(' '),
+            rest: words.slice(i + 1).join(' '),
+          };
+          break;
+        }
+        if (!target.startsWith(acc)) break; // diverged, this candidate isn't a prefix
+      }
+      if (result) break;
+
+      // Brand exists but isn't in the title: show it on the brand line, keep title intact.
+      result = { brand: candidate.trim(), rest: title };
+      break;
+    }
+
+    // No vendor, no override: fall back to old single-word behaviour.
+    result ??= { brand: words[0] ?? '', rest: words.slice(1).join(' ') };
+
+    this.titleParts.set(cacheKey, result);
+    return result;
+  }
+
+  getTitleBrand(p: any): string {
+    return this.splitTitle(p).brand;
+  }
+
+  getTitleRest(p: any): string {
+    return this.splitTitle(p).rest;
+  }
 
   private formatPrice(price: string | number): string {
     const n = this.toPriceNumber(price);
@@ -317,6 +341,9 @@ getTitleRest(p: any): string {
         ...productVariant,
         ...variant,
         compare_at_price: variant.compare_at_price ?? productVariant?.compare_at_price ?? null,
+        available: variant.available ?? productVariant?.available ?? true,
+        inventory_quantity:
+          variant.inventory_quantity ?? productVariant?.inventory_quantity ?? null,
       };
     });
   }
@@ -334,6 +361,11 @@ getTitleRest(p: any): string {
       return;
     }
 
+    if (v.available === false) {
+      this.toast.error('This item is out of stock');
+      return;
+    }
+
     try {
       this.cart.add({ variantId: String(v.id), qty: this.qty() });
       this.toast.success('Item added to cart');
@@ -343,7 +375,9 @@ getTitleRest(p: any): string {
   }
 
   inc() {
-    this.qty.set(Math.min(99, this.qty() + 1));
+    const stock = this.selectedVariantStock();
+    const ceiling = stock !== null && stock > 0 ? Math.min(99, stock) : 99;
+    this.qty.set(Math.min(ceiling, this.qty() + 1));
   }
   dec() {
     this.qty.set(Math.max(1, this.qty() - 1));
