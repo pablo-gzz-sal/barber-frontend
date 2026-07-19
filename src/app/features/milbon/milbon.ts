@@ -18,7 +18,7 @@ export class Milbon implements OnInit {
     'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/milbonLogo_36c7d424-2c86-4b76-bccc-dd699f8505a0.png?v=1776904029';
 
   milbonHero = 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/milbonHero.png?v=1776905587';
-  whyWeLoveText = '';
+  whyWeLoveText = 'Milbon blends decades of Japanese hair science with luxurious formulations that deliver visible, lasting results. Every collection is thoughtfully designed to address your hair’s unique needs—helping restore strength, shine, and manageability without compromising the hair’s natural beauty.';
   signatureUrl =
     'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Salon_Logo.png?v=1622039261';
 
