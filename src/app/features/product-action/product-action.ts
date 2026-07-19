@@ -219,16 +219,75 @@ export class ProductAction {
     return items[index]?.src === active.src;
   }
 
-  getTitleBrand(title?: string | null): string {
-    if (!title) return '';
-    return title.trim().split(/\s+/)[0] ?? '';
+  private getMetafieldValueInsensitive(metafields: any, key: string): string | null {
+  if (!Array.isArray(metafields)) return null;
+  const target = key.toLowerCase();
+  const mf = metafields.find((m: any) => String(m?.key ?? '').toLowerCase() === target);
+  const value = mf?.value;
+  return typeof value === 'string' && value.trim() ? value.trim() : null;
+}
+
+/** Same normalization you use for brand keys elsewhere. */
+private normalizeKey(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+private titleParts = new Map<string, { brand: string; rest: string }>();
+
+private splitTitle(p: any): { brand: string; rest: string } {
+  const cacheKey = String(p?.id ?? p?.handle ?? p?.title ?? '');
+  const cached = this.titleParts.get(cacheKey);
+  if (cached) return cached;
+
+  const title = (p?.title ?? '').trim();
+  if (!title) return { brand: '', rest: '' };
+
+  const words = title.split(/\s+/);
+
+  // Priority: metafield override -> vendor
+  const override = this.getMetafieldValueInsensitive(p?.metafields, 'displayBrand');
+  const candidates = [override, p?.vendor].filter(Boolean) as string[];
+
+  let result: { brand: string; rest: string } | null = null;
+
+  for (const candidate of candidates) {
+    const target = this.normalizeKey(candidate);
+    if (!target) continue;
+
+    // Consume words until the normalized accumulation equals the brand.
+    let acc = '';
+    for (let i = 0; i < words.length; i++) {
+      acc += this.normalizeKey(words[i]);
+      if (acc === target) {
+        result = {
+          brand: words.slice(0, i + 1).join(' '),
+          rest: words.slice(i + 1).join(' '),
+        };
+        break;
+      }
+      if (!target.startsWith(acc)) break; // diverged, this candidate isn't a prefix
+    }
+    if (result) break;
+
+    // Brand exists but isn't in the title: show it on the brand line, keep title intact.
+    result = { brand: candidate.trim(), rest: title };
+    break;
   }
 
-  getTitleRest(title?: string | null): string {
-    if (!title) return '';
-    const parts = title.trim().split(/\s+/);
-    return parts.slice(1).join(' ');
-  }
+  // No vendor, no override: fall back to old single-word behaviour.
+  result ??= { brand: words[0] ?? '', rest: words.slice(1).join(' ') };
+
+  this.titleParts.set(cacheKey, result);
+  return result;
+}
+
+getTitleBrand(p: any): string {
+  return this.splitTitle(p).brand;
+}
+
+getTitleRest(p: any): string {
+  return this.splitTitle(p).rest;
+}
 
   private formatPrice(price: string | number): string {
     const n = this.toPriceNumber(price);
