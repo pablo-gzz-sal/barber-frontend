@@ -1,56 +1,57 @@
 <app-header></app-header>
 <div class="about-page">
   <!-- Hero Section - Our Story -->
-  <section class="hidden md:block hero-section relative h-screen bg-neutral-200 overflow-hidden">
-    <div class="absolute left-[-520px] top-[140px] lg:left-0 lg:top-0 w-full h-[185%] lg:h-full lg:inset-0">
-      <img
-        src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
-        alt="Joseph Battisti"
-        class="w-full h-full object-cover object-[38%_0%] grayscale"
-      />
-    </div>
+<!-- TABLET + DESKTOP -->
+<section class="hidden md:block hero-section relative h-screen bg-neutral-200 overflow-hidden">
+  <div class="absolute inset-x-0 top-[12%] h-[88%] lg:top-[8%] lg:h-[92%]">
+    <img
+      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
+      alt="Joseph Battisti"
+      class="w-full h-full object-cover object-[38%_top] grayscale"
+    />
+  </div>
 
-    <div
-      class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16"
-    >
-      <div class="text-left lg:text-right animate-fade-in-up max-w-3xl">
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.01em] mb-3 lg:mb-5">
-          {{ content.hero.title }}
-        </h1>
-        <p
-          class="text-sm md:text-lg lg:text-xl font-light uppercase text-gray-700 leading-8 tracking-[0.22em]"
-        >
-          {{ content.hero.subtitle }}
-        </p>
-      </div>
+  <div
+    class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16"
+  >
+    <div class="text-left lg:text-right animate-fade-in-up max-w-3xl">
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.01em] mb-3 lg:mb-5">
+        {{ content.hero.title }}
+      </h1>
+      <p
+        class="text-sm md:text-lg lg:text-xl font-light uppercase text-gray-700 leading-8 tracking-[0.22em]"
+      >
+        {{ content.hero.subtitle }}
+      </p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="md:hidden hero-section relative h-screen bg-neutral-200 overflow-hidden">
-    <div class="absolute inset-0 left-[-550px] top-[200px] lg:left-0 lg:top-0">
-      <img
-        src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
-        alt="Joseph Battisti"
-        class="w-full h-full object-cover object-[38%_0%] grayscale"
-      />
-      <!-- <div class="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div> -->
-    </div>
+<!-- MOBILE -->
+<section class="md:hidden hero-section relative h-screen bg-neutral-200 overflow-hidden">
+  <div class="absolute inset-x-0 top-[18%] bottom-0">
+    <img
+      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
+      alt="Joseph Battisti"
+      class="w-full h-full object-cover object-[38%_top] grayscale"
+    />
+  </div>
 
-    <div
-      class="relative h-full flex items-start mt-24 lg:mt-0 lg:items-center justify-start lg:justify-end container mx-auto px-6 lg:px-16"
-    >
-      <div class="text-left lg:text-right animate-fade-in-up">
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.01em] mb-3 lg:mb-5">
-          {{ content.hero.title }}
-        </h1>
-        <p
-          class="text-sm md:text-lg lg:text-xl font-light uppercase text-gray-700 leading-8 tracking-[0.22em]"
-        >
-          {{ content.hero.subtitle }}
-        </p>
-      </div>
+  <div
+    class="relative h-full flex items-start pt-24 justify-start container mx-auto px-6"
+  >
+    <div class="text-left animate-fade-in-up">
+      <h1 class="text-5xl font-light tracking-[0.01em] mb-3">
+        {{ content.hero.title }}
+      </h1>
+      <p
+        class="text-sm font-light uppercase text-gray-700 leading-8 tracking-[0.22em]"
+      >
+        {{ content.hero.subtitle }}
+      </p>
     </div>
-  </section>
+  </div>
+</section>
   <!-- Hair Kinetics Section -->
   <section class="py-14 lg:py-20 bg-white">
     <div class="container mx-auto px-6 lg:px-16">
