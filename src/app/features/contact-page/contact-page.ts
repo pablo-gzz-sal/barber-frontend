@@ -33,6 +33,7 @@ export class ContactPage implements OnInit {
     name: '',
     email: '',
     phone: '',
+    subject: '',
     message: '',
     agreedToTerms: false,
   };
@@ -46,7 +47,7 @@ export class ContactPage implements OnInit {
     form: {
       title: 'ARE YOU READY FOR A RADIANT STYLE EXPERIENCE?',
       description:
-        "We'd love to hear from you! Whether you have questions, need support, or just want to discuss your next project, feel free to reach out.",
+        "We'd love to hear from you. Whether you're ready to book an appointment, have a question about our services, or need personalized recommendations, we're here to help.",
       buttonText: 'Submit',
     },
     locations: {
@@ -61,26 +62,30 @@ export class ContactPage implements OnInit {
       },
       others: [
         {
-          name: 'Joseph Battisti Salon 8FE U. SPACE',
+          name: 'Joseph Battisti Salon @B.U. SPACE',
           address: {
-            line1: '2156 S Clinton Avenue',
+            line1: '2119 S Clinton Avenue',
             line2: 'Rochester, NY 14618',
+            line3: '',
           },
-          phone: '585.697.1477',
+          phone: '585.667.1477',
         },
         {
-          name: 'Joseph Battisti #COCOSHIRE',
+          name: "Joseph Battisti @COCO'S'HE",
           address: {
-            line1: '500 NE Spanish River Blvd',
-            line2: 'Boca Raton, FL 33431',
+            line1: '500 NE Spanish Blvd',
+            line2: 'Suite 103',
+            line3: 'Boca Raton, FL 33431',
           },
+          // Confirmed in the Option 1 design: the Boca Raton location books through the NYC number.
           phone: '212.628.5639',
         },
         {
           name: "Battisti's",
           address: {
-            line1: '5825 Chevy Avenue',
-            line2: 'Tampa, FL 33624',
+            line1: '2575 Chili Avenue',
+            line2: 'Rochester, NY 14624',
+            line3: '',
           },
           phone: '585.426.3030',
         },
@@ -93,7 +98,7 @@ export class ContactPage implements OnInit {
       linkText: 'book your appointment online',
       bodyAfter: ', or feel free to give us a call or send us an email to set it up.',
       bodySecondary:
-        'For other service inquiries, press, or general questions, please feel free to send us a message, or reach out via email or phone.',
+        'For other service inquiries, press or general questions, please feel free to send us a message, or reach out via email or phone.',
     },
   };
 
@@ -106,11 +111,19 @@ export class ContactPage implements OnInit {
     this.sent = false;
     this.loading = true;
 
+    // The API's ContactDto has no `subject` field and the backend runs
+    // ValidationPipe({ forbidNonWhitelisted: true }), so sending one would 422 the whole
+    // submission. Prepend it to the message instead so the salon still receives it.
+    const subject = this.formData.subject.trim();
+    const message = subject
+      ? `Subject: ${subject}\n\n${this.formData.message}`
+      : this.formData.message;
+
     const payload = {
       name: this.formData.name,
       email: this.formData.email,
       phone: this.formData.phone,
-      message: this.formData.message,
+      message,
     };
 
     this.contactApi.send(payload).subscribe({
@@ -133,6 +146,7 @@ export class ContactPage implements OnInit {
       name: '',
       email: '',
       phone: '',
+      subject: '',
       message: '',
       agreedToTerms: false,
     };

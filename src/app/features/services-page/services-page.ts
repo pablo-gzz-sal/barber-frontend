@@ -20,11 +20,11 @@ export class ServicesPage implements OnInit {
           name: 'Extension Consultation',
           // TODO: swap in the real price and ?serviceId= once MangoMint provides them.
           // Until then this opens the salon's generic booking page rather than a broken service link.
-          price: 'Inquire',
+          price: '$50.00',
           description:
             'Temporary + Semi-Permanent Options Available: Clip-Ins, Tape-Ins, Keratin Tips (Hot + Cold Fusion), Microlinks',
           note: 'Consultation fee goes toward the cost of extensions.',
-          bookingUrl: 'https://booking.mangomint.com/307273',
+          bookingUrl: 'https://booking.mangomint.com/josephbattistisalon?serviceId=31',
         },
         {
           name: 'Sew-In Extension Consultation',

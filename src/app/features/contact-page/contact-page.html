@@ -87,7 +87,7 @@
                   class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-white focus:border-white focus:outline-none transition-colors duration-300"
                 />
               </div>
-              <!-- <div>
+              <div>
                 <input
                   type="text"
                   [(ngModel)]="formData.subject"
@@ -95,7 +95,7 @@
                   placeholder="Subject"
                   class="w-full bg-transparent border-b border-gray-600 py-3 text-white placeholder-white focus:border-white focus:outline-none transition-colors duration-300"
                 />
-              </div> -->
+              </div>
             </div>
 
             <!-- Message -->
@@ -241,6 +241,9 @@
               <address class="not-italic text-sm space-y-1 mb-5 leading-7 tracking-[0.05em]">
                 <div>{{ location.address.line1 }}</div>
                 <div>{{ location.address.line2 }}</div>
+                @if (location.address.line3) {
+                  <div>{{ location.address.line3 }}</div>
+                }
                 <a
                   [href]="'tel:' + location.phone"
                   class="text-sm mt-4 block tracking-wide text-black hover:underline leading-7"
@@ -258,15 +261,19 @@
   <!-- Booking Info Section -->
   <section class="py-8 bg-white">
     <div class="max-w-7xl mx-auto px-6 lg:px-16">
-      <div class="relative bg-[#F3F3F3] rounded-[20px] overflow-hidden">
-        <!-- Mobile/tablet: normal flow layout -->
-        <div class="lg:hidden p-8 md:p-12">
+      <!-- Single grid for all breakpoints: copy left, photo panel right (stacks on mobile).
+           Replaces the previous duplicated mobile/desktop blocks and their hardcoded offsets,
+           so longer copy now pushes the card taller instead of overlapping the image. -->
+      <div
+        class="grid lg:grid-cols-[1.6fr_1fr] items-stretch bg-[#F3F3F3] rounded-[20px] overflow-hidden"
+      >
+        <div class="p-8 md:p-12 lg:py-14 lg:pl-[70px] lg:pr-12 lg:min-h-[500px] flex flex-col justify-center">
           <h2
             class="text-xl md:text-2xl font-normal text-stone-800 tracking-[0.08em] leading-tight mb-6"
           >
             {{ content.booking.title }}
           </h2>
-          <div class="text-stone-800 text-sm leading-7 tracking-[0.04em] mb-8">
+          <div class="text-stone-800 text-sm lg:text-base leading-7 tracking-[0.04em] space-y-6">
             <p>
               {{ content.booking.bodyBefore }}<a
                 (click)="onBook()"
@@ -274,43 +281,17 @@
                 >{{ content.booking.linkText }}</a
               >{{ content.booking.bodyAfter }}
             </p>
-            <br />
             <p>{{ content.booking.bodySecondary }}</p>
           </div>
-          <img
-            src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/appoitnmentsProducts.png?v=1773360103"
-            alt="Salon Products"
-            class="w-full max-w-sm mx-auto h-auto"
-          />
         </div>
 
-        <!-- Desktop: absolute layout matching Figma -->
-        <div class="hidden lg:block min-h-[500px]">
-          <h2
-            class="absolute top-[24px] left-[70px] text-stone-800 text-2xl font-normal tracking-[0.08em] leading-[70px] max-w-[50%]"
-          >
-            {{ content.booking.title }}
-          </h2>
-
-          <div
-            class="absolute top-[120px] left-[70px] max-w-[45%] text-stone-800 text-base font-normal leading-7 tracking-[0.04em]"
-          >
-            <p>
-              {{ content.booking.bodyBefore }}<a
-                (click)="onBook()"
-                class="cursor-pointer underline underline-offset-4 hover:no-underline"
-                >{{ content.booking.linkText }}</a
-              >{{ content.booking.bodyAfter }}
-            </p>
-            <br />
-            <p>{{ content.booking.bodySecondary }}</p>
-          </div>
-
+        <!-- Wrapper + absolutely-filled img so the copy column's min-height drives the card
+             height; a plain h-full img would instead stretch the row to its intrinsic aspect. -->
+        <div class="relative h-64 sm:h-80 lg:h-auto">
           <img
-            src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/appoitnmentsProducts.png?v=1773360103"
-            alt="Salon Products"
-            class="absolute right-0 w-[52%] max-w-[753px] h-auto"
-            style="top: -106px"
+            src="assets/images/salonHairPanel.jpg"
+            alt="Long blonde hair styled at the salon"
+            class="absolute inset-0 w-full h-full object-cover object-top"
           />
         </div>
       </div>
