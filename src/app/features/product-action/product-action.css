@@ -79,3 +79,33 @@ video.product-gallery__main-media {
   background: rgba(0, 0, 0, 0.35);
   color: #fff;
 }
+
+/* Shopify body_html is injected with [innerHTML], so those nodes never get the _ngcontent
+   attribute — ::ng-deep is the only way to reach them (same approach as brand-page.css).
+   Tailwind Preflight zeroes margins and list-style, so without this the description renders
+   as one block of text with no paragraph breaks and no bullets. */
+:host ::ng-deep .product-description p {
+  margin-bottom: 0.75rem;
+}
+
+:host ::ng-deep .product-description p:last-child {
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .product-description ul,
+:host ::ng-deep .product-description ol {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+:host ::ng-deep .product-description ul {
+  list-style: disc outside;
+}
+
+:host ::ng-deep .product-description ol {
+  list-style: decimal outside;
+}
+
+:host ::ng-deep .product-description strong {
+  font-weight: 600;
+}

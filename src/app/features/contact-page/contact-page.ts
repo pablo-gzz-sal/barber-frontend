@@ -44,9 +44,9 @@ export class ContactPage implements OnInit {
         'Our clients are our top priority. Call or email us with any questions about our products or services.',
     },
     form: {
-      title: 'ARE YOU READY FOR RADIANT STYLE EXPERIENCE?',
+      title: 'ARE YOU READY FOR A RADIANT STYLE EXPERIENCE?',
       description:
-        'Want love to hear from you! Whether you have questions, need support, or just want to discuss your next project, feel free to reach out.',
+        "We'd love to hear from you! Whether you have questions, need support, or just want to discuss your next project, feel free to reach out.",
       buttonText: 'Submit',
     },
     locations: {
@@ -88,6 +88,12 @@ export class ContactPage implements OnInit {
     },
     booking: {
       title: 'Book your appointment online!',
+      // Rendered in both the mobile and desktop booking blocks — edit once, here.
+      bodyBefore: 'You can ',
+      linkText: 'book your appointment online',
+      bodyAfter: ', or feel free to give us a call or send us an email to set it up.',
+      bodySecondary:
+        'For other service inquiries, press, or general questions, please feel free to send us a message, or reach out via email or phone.',
     },
   };
 

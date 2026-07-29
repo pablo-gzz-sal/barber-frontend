@@ -76,6 +76,7 @@ export class ProductAction {
   qty = signal(1);
   selectedVariantId = signal<string | null>(null);
   activeMediaIndex = signal(0);
+  descriptionOpen = signal(false);
   id!: any;
   selectedVariant = computed(() => {
     const id = this.selectedVariantId();
@@ -241,6 +242,10 @@ export class ProductAction {
     const active = this.activeMedia();
     if (!active) return false;
     return items[index]?.src === active.src;
+  }
+
+  toggleDescription(): void {
+    this.descriptionOpen.update((open) => !open);
   }
 
   private getMetafieldValueInsensitive(metafields: any, key: string): string | null {
