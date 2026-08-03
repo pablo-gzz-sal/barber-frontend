@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 import { FormsModule } from '@angular/forms';
 import { ContactApiService } from '../../core/services/contact-api-service';
+import { ToastService } from '../../core/services/toast-service';
 
 @Component({
   selector: 'app-contact-page',
@@ -14,8 +15,8 @@ import { ContactApiService } from '../../core/services/contact-api-service';
 })
 export class ContactPage implements OnInit {
   loading = false;
-  sent = false;
-  errorMsg = '';
+
+  private toast = inject(ToastService);
 
   constructor(private contactApi: ContactApiService) {}
 
@@ -107,8 +108,11 @@ export class ContactPage implements OnInit {
   }
 
   onSubmit() {
-    this.errorMsg = '';
-    this.sent = false;
+    // Angular's NgForm puts `novalidate` on the <form>, so the template's
+    // `required` attributes never fire — without this guard an empty form
+    // reaches the API and comes back 422.
+    if (this.loading || !this.validate()) return;
+
     this.loading = true;
 
     // The API's ContactDto has no `subject` field and the backend runs
@@ -128,17 +132,47 @@ export class ContactPage implements OnInit {
 
     this.contactApi.send(payload).subscribe({
       next: () => {
-        this.sent = true;
         this.loading = false;
-        // reset fields if you want
-        // this.name = this.email = this.phone = this.message = '';
+        this.toast.success('Message sent', 'Check your inbox for a confirmation email.');
         this.resetForm();
       },
       error: (err) => {
         this.loading = false;
-        this.errorMsg = err?.error?.message || 'Something went wrong. Please try again.';
+        // The API returns an array of strings for 422 validation errors.
+        const detail = err?.error?.message;
+        this.toast.error(
+          'Message not sent',
+          Array.isArray(detail) ? detail[0] : detail || 'Please try again, or give us a call.',
+        );
       },
     });
+  }
+
+  /** Mirrors the backend's ContactDto rules so the visitor is told what is missing. */
+  private validate(): boolean {
+    const { name, email, message, agreedToTerms } = this.formData;
+
+    if (name.trim().length < 2) {
+      this.toast.error('Please enter your name');
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      this.toast.error('Please enter a valid email address');
+      return false;
+    }
+
+    if (message.trim().length < 5) {
+      this.toast.error('Please enter a message');
+      return false;
+    }
+
+    if (!agreedToTerms) {
+      this.toast.error('Please accept the Privacy Policy and Terms & Conditions');
+      return false;
+    }
+
+    return true;
   }
 
   resetForm() {
