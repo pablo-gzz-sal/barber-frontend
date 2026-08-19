@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UI_TEXT } from '../../constants/app-text';
 import { CustomerService } from '../../services/customer-service';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { Cart } from '../../services/cart';
 import { SearchOverlay } from '../../../features/search-overlay/search-overlay';
 import { Search } from '../../services/search';
@@ -14,10 +14,19 @@ interface DayHours {
   open: string | null; // "09:00"
   close: string | null; // "21:00"
 }
+
+interface MenuItem {
+  label: string;
+  route: string;
+  /** Set when the item leaves the app entirely (rendered as a target=_blank anchor). */
+  externalUrl?: string;
+  preview: string;
+}
+
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, SearchOverlay],
+  imports: [CommonModule, SearchOverlay, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -58,42 +67,41 @@ export class Header implements OnInit {
   };
 
   // NEW: menu items with preview images
-  menuItems = [
+  menuItems: MenuItem[] = [
     {
       label: 'HOME',
       route: '/',
-      preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'SHOP',
       route: '/shop',
-      preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'MILBON',
       route: '/milton',
-      preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
+      // Opens the SalonInteractive storefront, not the in-app /milbon page. Preserved as-is
+      // — '/milton' was a sentinel navigateTo() intercepted; naming the URL here lets the
+      // template render a real external anchor instead of a JS-only button.
+      externalUrl:
+        'https://shop.saloninteractive.com/store/josephbattistillc?utm_source=SalonInteractive&utm_medium=web&utm_campaign=ShareMyStore',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'SERVICES',
       route: '/services',
-      preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'ABOUT US',
       route: '/about',
-      preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
     {
       label: 'CONTACT',
       route: '/contact',
-      preview:
-        'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
+      preview: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/MenuImage.png?v=1774592103',
     },
   ];
 
@@ -229,19 +237,25 @@ export class Header implements OnInit {
     this.activePreviewIndex = i;
   }
 
+  /**
+   * Nav items are real anchors now, so the browser performs the navigation and this only
+   * closes the menu. Kept as a method because both menus share the behaviour.
+   */
+  closeMenus(): void {
+    this.isMenuOpen = false;
+    this.isDesktopDropdownOpen = false;
+  }
+
   navigateTo(route: string) {
-    if (route === '/milton') {
-      const url =
-        'https://shop.saloninteractive.com/store/josephbattistillc?utm_source=SalonInteractive&utm_medium=web&utm_campaign=ShareMyStore';
-      window.open(url, '_blank', 'noopener,noreferrer');
-      this.isMenuOpen = false;
-      this.isDesktopDropdownOpen = false;
+    const item = this.menuItems.find((i) => i.route === route);
+    if (item?.externalUrl) {
+      window.open(item.externalUrl, '_blank', 'noopener,noreferrer');
+      this.closeMenus();
       return;
     }
 
     this.router.navigateByUrl(route);
-    this.isMenuOpen = false;
-    this.isDesktopDropdownOpen = false;
+    this.closeMenus();
   }
 
   loginWithShopify() {

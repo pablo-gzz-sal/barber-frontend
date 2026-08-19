@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UI_TEXT } from '../../constants/app-text';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { BUSINESS } from '../../seo/seo-content';
 
 @Component({
   selector: 'app-footer',
@@ -12,6 +13,8 @@ import { RouterLink } from '@angular/router';
 })
 export class Footer {
   protected readonly text = UI_TEXT;
+  /** Real href rather than a (click) handler, so it is focusable and crawlable. */
+  protected readonly bookingUrl = BUSINESS.bookingUrl;
   content = {
     brand: {
       title: 'JOSEPH BATTISTI',

@@ -34,9 +34,9 @@
 
         <!-- CTA -->
         <div class="mt-10">
-          <button
-            (click)="onShop()"
-            class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-white text-black hover:bg-black border border-white hover:text-white rounded-[5px] text-base"
+          <a
+            [routerLink]="['/product', '7328094027961']"
+            class="inline-block cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-white text-black hover:bg-black border border-white hover:text-white rounded-[5px] text-base"
           >
             <span class="relative z-10">Shop Now</span>
 
@@ -45,7 +45,7 @@
               class="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
             >
             </span>
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -53,7 +53,6 @@
 </section>
 
 <section class="relative w-full overflow-hidden bg-black text-white">
-
   <!-- ===== MOBILE / TABLET (stacked) ===== -->
   <div class="lg:hidden flex flex-col">
     <!-- Image -->
@@ -69,9 +68,7 @@
     <div class="px-6 py-10 sm:py-12 bg-white text-black">
       <div class="max-w-lg mx-auto sm:mx-0">
         <div class="font-extralight font-['Inter']">
-          <h2 class="text-4xl sm:text-5xl font-extralight leading-tight tracking-[0.08em]">
-            MEET
-          </h2>
+          <h2 class="text-4xl sm:text-5xl font-extralight leading-tight tracking-[0.08em]">MEET</h2>
           <h2 class="text-4xl sm:text-5xl font-extralight leading-tight tracking-[0.08em] mt-3">
             JOSEPH
           </h2>
@@ -85,58 +82,54 @@
         </p>
 
         <div class="mt-10 flex">
-          <button
-            (click)="onAbout()"
-            class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-transparent border border-black hover:text-black rounded-[5px] text-base"
+          <a
+            routerLink="/about"
+            class="inline-block cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-transparent border border-black hover:text-black rounded-[5px] text-base"
           >
             {{ content.btnText }}
-          </button>
+          </a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ===== DESKTOP (overlay) ===== -->
-<div class="hidden lg:block relative h-[600px]">
-  <!-- Background image -->
-  <div class="absolute inset-0">
-    <img
-      src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
-      alt="Joseph Battisti"
-      class="w-full h-full object-cover object-left-top grayscale"
-    />
-  </div>
+  <div class="hidden lg:block relative h-[600px]">
+    <!-- Background image -->
+    <div class="absolute inset-0">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/JosephBannerImage.png?v=1774592131"
+        alt="Joseph Battisti"
+        class="w-full h-full object-cover object-left-top grayscale"
+      />
+    </div>
 
-  <!-- Content overlaid on the right -->
-  <div class="absolute inset-0 z-10 w-full px-6 py-24 pl-[68%]">
-    <div class="flex items-center h-full">
-      <div class="w-full max-w-lg">
-        <div class="font-extralight font-['Inter'] text-black">
-          <h2 class="text-7xl font-extralight leading-[54px] tracking-[0.08em]">
-            MEET
-          </h2>
-          <h2 class="text-7xl font-extralight leading-[54px] tracking-[0.08em] mt-10">
-            JOSEPH
-          </h2>
-          <h2 class="text-7xl font-extralight leading-[54px] tracking-[0.08em] mt-10">
-            BATTISTI
-          </h2>
-        </div>
+    <!-- Content overlaid on the right -->
+    <div class="absolute inset-0 z-10 w-full px-6 py-24 pl-[68%]">
+      <div class="flex items-center h-full">
+        <div class="w-full max-w-lg">
+          <div class="font-extralight font-['Inter'] text-black">
+            <h2 class="text-7xl font-extralight leading-[54px] tracking-[0.08em]">MEET</h2>
+            <h2 class="text-7xl font-extralight leading-[54px] tracking-[0.08em] mt-10">JOSEPH</h2>
+            <h2 class="text-7xl font-extralight leading-[54px] tracking-[0.08em] mt-10">
+              BATTISTI
+            </h2>
+          </div>
 
-        <p class="mt-7 text-sm font-light leading-7 text-black max-w-md">
-          {{ content.bio }}
-        </p>
+          <p class="mt-7 text-sm font-light leading-7 text-black max-w-md">
+            {{ content.bio }}
+          </p>
 
-        <div class="mt-10 flex">
-          <button
-            (click)="onAbout()"
-            class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-transparent border border-black hover:text-black rounded-[5px] text-base"
-          >
-            {{ content.btnText }}
-          </button>
+          <div class="mt-10 flex">
+            <a
+              routerLink="/about"
+              class="inline-block cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-transparent border border-black hover:text-black rounded-[5px] text-base"
+            >
+              {{ content.btnText }}
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </section>

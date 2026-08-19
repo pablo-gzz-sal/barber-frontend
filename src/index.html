@@ -2,9 +2,51 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>BarberFrontend</title>
+    <title>Joseph Battisti Salon | Hair Salon Upper East Side NYC</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Upper East Side hair salon specializing in precision cuts, color, and extensions with Joseph Battisti's Hair Kinetics™ technique. Book online today."
+    />
+
+    <!--
+      GO-LIVE: three things flip together on the day josephbattisti.com points at this app.
+        1. this robots tag  -> index, follow, max-image-preview:large, max-snippet:-1
+        2. environment.prod.ts -> siteIndexable: true
+        3. public/robots.txt   -> Allow: / and uncomment the Sitemap line
+      Until then josephbattisti.com serves the old Shopify store, and letting this build
+      be indexed would put two identical salons in the results competing with each other.
+      The runtime Seo service rewrites this tag for JS-capable crawlers; robots.txt and
+      this static tag are what everything else sees.
+    -->
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="https://josephbattisti.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Joseph Battisti Salon" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Joseph Battisti Salon | Hair Salon Upper East Side NYC" />
+    <meta
+      property="og:description"
+      content="Upper East Side hair salon specializing in precision cuts, color, and extensions with Joseph Battisti's Hair Kinetics™ technique. Book online today."
+    />
+    <meta property="og:url" content="https://josephbattisti.com/" />
+    <meta
+      property="og:image"
+      content="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Joseph Battisti Salon | Hair Salon Upper East Side NYC" />
+    <meta
+      name="twitter:description"
+      content="Upper East Side hair salon specializing in precision cuts, color, and extensions with Joseph Battisti's Hair Kinetics™ technique. Book online today."
+    />
+    <meta
+      name="twitter:image"
+      content="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"
+    />
+
     <link rel="icon" type="image/svg+xml" href="assets/svg/whiteLogo.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,6 +59,101 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap"
       rel="stylesheet"
     />
+
+    <!--
+      Site-wide structured data. This is the ONLY schema a crawler that doesn't run JS can
+      see today, since the app is client-rendered — everything page-specific is injected at
+      runtime by core/seo/seo.ts and only reaches renderers that execute JavaScript.
+
+      Deliberately has no data-seo="page" attribute: the Seo service strips the tagged
+      blocks on every navigation, and this one has to survive so page schema can keep
+      referencing #salon by @id.
+
+      Mirrors siteGraph() in src/app/core/seo/schema.ts — change the business details in
+      core/seo/seo-content.ts and update this block to match.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": ["HairSalon", "LocalBusiness"],
+            "@id": "https://josephbattisti.com/#salon",
+            "name": "Joseph Battisti Salon",
+            "url": "https://josephbattisti.com/",
+            "logo": "https://josephbattisti.com/assets/svg/blackLogo.svg",
+            "image": "https://josephbattisti.com/assets/svg/blackLogo.svg",
+            "telephone": "+1-212-628-5639",
+            "priceRange": "$$$",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "136 East 73rd St",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "postalCode": "10021",
+              "addressCountry": "US"
+            },
+            "openingHoursSpecification": [
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "https://schema.org/Tuesday",
+                "opens": "10:00",
+                "closes": "16:00"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "https://schema.org/Wednesday",
+                "opens": "09:00",
+                "closes": "21:00"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "https://schema.org/Thursday",
+                "opens": "09:00",
+                "closes": "21:00"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "https://schema.org/Friday",
+                "opens": "09:00",
+                "closes": "19:00"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "https://schema.org/Saturday",
+                "opens": "09:00",
+                "closes": "17:00"
+              }
+            ],
+            "sameAs": [
+              "https://www.instagram.com/officialjosephbattistisalon/",
+              "https://www.facebook.com/JosephBattistiSalon/"
+            ],
+            "areaServed": [
+              { "@type": "Place", "name": "Upper East Side, Manhattan" },
+              { "@type": "City", "name": "New York" }
+            ],
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=Joseph%20Battisti%20Salon%2C%20136%20East%2073rd%20St%2C%20New%20York%2C%20NY%2010021",
+            "potentialAction": {
+              "@type": "ReserveAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://booking.mangomint.com/307273",
+                "inLanguage": "en-US"
+              },
+              "result": { "@type": "Reservation", "name": "Salon appointment" }
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://josephbattisti.com/#website",
+            "url": "https://josephbattisti.com/",
+            "name": "Joseph Battisti Salon",
+            "publisher": { "@id": "https://josephbattisti.com/#salon" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <app-root></app-root>

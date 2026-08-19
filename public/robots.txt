@@ -1,0 +1,14 @@
+# Joseph Battisti Salon
+#
+# GO-LIVE: while this app is served from barber-frontend-kura.onrender.com, crawling is
+# blocked — josephbattisti.com still serves the old Shopify store and two indexable copies
+# of the same salon would compete with each other.
+#
+# On the day the domain points here, replace the Disallow below with `Allow: /` and
+# uncomment the Sitemap line. Flip environment.prod.ts -> siteIndexable: true and remove
+# the static noindex tag in src/index.html at the same time.
+
+User-agent: *
+Disallow: /
+
+# Sitemap: https://josephbattisti.com/sitemap.xml

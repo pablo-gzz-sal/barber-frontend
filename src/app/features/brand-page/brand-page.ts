@@ -22,6 +22,9 @@ import { ShopBestSellers } from '../shop/shop-best-sellers/shop-best-sellers';
 import { ActualSale } from '../shop/actual-sale/actual-sale';
 import { BRAND_BANNERS } from '../../shared/utils/brandBannerImages';
 import { Filter } from '../../shared/components/filter/filter';
+import { Seo } from '../../core/seo/seo';
+import { BRAND_SEO_BY_HANDLE, SEO_PAGES } from '../../core/seo/seo-content';
+import { brandPageSchema } from '../../core/seo/schema';
 
 // type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
 type BrandPageMode = 'single' | 'single-branded' | 'group';
@@ -106,7 +109,8 @@ export class BrandPage implements OnInit {
     private route: ActivatedRoute,
     private shopifyService: Shopify,
     private location: Location,
-  ) { }
+    private seo: Seo,
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -141,7 +145,7 @@ export class BrandPage implements OnInit {
       .pipe(
         switchMap((res: any) => {
           const collection = res?.collection ?? res;
-          const filtersMeta = res.metafields.find((m: { key: string; }) => m.key === 'filters');
+          const filtersMeta = res.metafields.find((m: { key: string }) => m.key === 'filters');
           this.filters = filtersMeta ? JSON.parse(filtersMeta.value) : [];
           if (!collection?.id) {
             this.notFound = true;
@@ -183,7 +187,13 @@ export class BrandPage implements OnInit {
         this.brandHeroUrl = res.brandHeroUrl || 'assets/images/brand-hero-placeholder.jpg';
         this.brandAboutImageUrl =
           res.brandAboutImageUrl || 'assets/images/brand-about-placeholder.jpg';
-        this.whyWeLoveText = res.metafields['whywelove'].value || this.whyWeLoveText;
+        // Neither loadSingleMode nor loadGroupMode returns `metafields`, so this threw a
+        // TypeError on every brand page — silently, because the assignments above had
+        // already landed. Both modes already resolve whyWeLoveText from the collection, so
+        // this is a redundant last-chance read; guarded rather than removed to keep intent.
+        this.whyWeLoveText = res.metafields?.['whywelove']?.value || this.whyWeLoveText;
+
+        this.applySeo(handle);
       });
   }
 
@@ -199,7 +209,8 @@ export class BrandPage implements OnInit {
       logoUrl: collection?.image?.src ?? collection?.image?.url ?? '',
     };
 
-    const noBestSellers = collection.metafields.find((m: any) => m.key === 'nobestsellers')?.value === 'true';
+    const noBestSellers =
+      collection.metafields.find((m: any) => m.key === 'nobestsellers')?.value === 'true';
     this.bestSellersDisabled = noBestSellers;
 
     const brandHeroUrl =
@@ -283,7 +294,8 @@ export class BrandPage implements OnInit {
     const img = collection?.image?.src ?? collection?.image?.url ?? '';
     const rawFilter = collection.metafields.find((m: any) => m.key === 'needsfilter')?.value;
     this.needsFilter = rawFilter === 'true';
-    const noBestSellers = collection.metafields.find((m: any) => m.key === 'nobestsellers')?.value === 'true';
+    const noBestSellers =
+      collection.metafields.find((m: any) => m.key === 'nobestsellers')?.value === 'true';
     this.bestSellersDisabled = noBestSellers;
     const brand: BrandVM = {
       name: collection.title,
@@ -431,7 +443,6 @@ export class BrandPage implements OnInit {
       const inStock =
         p?.in_stock ?? (variants.length ? variants.some((v: any) => v?.available !== false) : true);
 
-
       return {
         id: String(p.id),
         handle: p.handle,
@@ -442,6 +453,39 @@ export class BrandPage implements OnInit {
         filterTag: p.filterTag ?? null, // ← direct from metafield
         inStock,
       };
+    });
+  }
+
+  /**
+   * Overrides the generic /shop/brand fallback set by the router once the collection has
+   * loaded. Copy comes from BRAND_SEO where Steph supplied it, and falls back to the
+   * Shopify collection title for any handle her list doesn't cover.
+   */
+  private applySeo(handle: string): void {
+    const path = `/shop/brand/${handle}`;
+    const preset = BRAND_SEO_BY_HANDLE[handle];
+    const name = preset?.name ?? this.brand?.name ?? SEO_PAGES.brand.title;
+    const title = preset?.title ?? `${name} | Joseph Battisti Salon NYC`;
+    const description =
+      preset?.description ??
+      `Shop ${name} at Joseph Battisti Salon on Manhattan's Upper East Side.`;
+
+    this.seo.apply({
+      title,
+      description,
+      path,
+      image: this.brandHeroUrl,
+      jsonLd: brandPageSchema(
+        this.seo.siteOrigin,
+        { handle, name, description },
+        this.products.map((p) => ({
+          id: p.id,
+          title: p.title,
+          price: p.price,
+          imageUrl: p.imageUrl,
+          inStock: p.inStock,
+        })),
+      ),
     });
   }
 

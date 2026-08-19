@@ -1,45 +1,42 @@
 <section class="bg-white text-black overflow-hidden">
-
   <!-- Main two-column block -->
-<div class="w-full">
-  <div class="flex flex-col lg:flex-row min-h-[360px] lg:min-h-[500px]">
+  <div class="w-full">
+    <div class="flex flex-col lg:flex-row min-h-[360px] lg:min-h-[500px]">
+      <!-- Left: image — exactly half -->
+      <div class="w-full lg:w-1/2 relative overflow-hidden h-[260px] sm:h-[360px] lg:h-auto">
+        <img
+          [src]="content.images[0]"
+          alt="Salon Interior Main"
+          class="w-full h-full object-cover object-center"
+        />
+      </div>
 
-    <!-- Left: image — exactly half -->
-    <div class="w-full lg:w-1/2 relative overflow-hidden h-[260px] sm:h-[360px] lg:h-auto">
-      <img
-        [src]="content.images[0]"
-        alt="Salon Interior Main"
-        class="w-full h-full object-cover object-center"
-      />
-    </div>
+      <!-- Right: content — exactly half -->
+      <div
+        class="w-full lg:w-1/2 flex items-center justify-start px-8 py-12 sm:px-12 md:px-16 lg:px-20 xl:px-24"
+      >
+        <div class="w-full max-w-md flex flex-col lg:px-8 items-start gap-5 md:gap-6">
+          <h2
+            class="self-stretch justify-start text-black text-3xl lg:text-5xl font-medium font-['Inter'] lg:leading-[64px] tracking-[0.06em]"
+          >
+            {{ content.title }}
+          </h2>
 
-    <!-- Right: content — exactly half -->
-    <div class="w-full lg:w-1/2 flex items-center justify-start px-8 py-12 sm:px-12 md:px-16 lg:px-20 xl:px-24">
-      <div class="w-full max-w-md flex flex-col lg:px-8 items-start gap-5 md:gap-6">
-        <h2
-          class="self-stretch justify-start text-black text-3xl lg:text-5xl font-medium font-['Inter'] lg:leading-[64px] tracking-[0.06em]"
-        >
-          {{ content.title }}
-        </h2>
+          <p class="text-stone-700 font-light tracking-[0.04em] text-sm leading-7">
+            {{ content.description }}
+          </p>
 
-        <p
-          class="text-stone-700 font-light tracking-[0.04em] text-sm leading-7"
-        >
-          {{ content.description }}
-        </p>
-
-        <button
-          (click)="onAbout()"
-          class="cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-transparent border border-black hover:text-black rounded-[5px] text-base"
-        >
-          <span class="relative z-10">{{ content.btnText }}</span>
-          <span
-            class="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-          ></span>
-        </button>
+          <a
+            routerLink="/contact"
+            class="inline-block cursor-pointer group relative overflow-hidden px-4 py-3 leading-4 capitalize transition-all duration-300 ease-out bg-black text-white hover:bg-transparent border border-black hover:text-black rounded-[5px] text-base"
+          >
+            <span class="relative z-10">{{ content.btnText }}</span>
+            <span
+              class="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+            ></span>
+          </a>
+        </div>
       </div>
     </div>
-
   </div>
-</div>
 </section>

@@ -5,6 +5,7 @@ import { Footer } from '../../core/components/footer/footer';
 import { FormsModule } from '@angular/forms';
 import { ContactApiService } from '../../core/services/contact-api-service';
 import { ToastService } from '../../core/services/toast-service';
+import { OPENING_HOURS } from '../../core/seo/seo-content';
 
 @Component({
   selector: 'app-contact-page',
@@ -20,15 +21,22 @@ export class ContactPage implements OnInit {
 
   constructor(private contactApi: ContactApiService) {}
 
-  weeklyHours = [
-    { day: 'Sunday', hours: 'Closed' },
-    { day: 'Monday', hours: 'Closed' },
-    { day: 'Tuesday', hours: '10 AM–4 PM' },
-    { day: 'Wednesday', hours: '9 AM–9 PM' },
-    { day: 'Thursday', hours: '9 AM–9 PM' },
-    { day: 'Friday', hours: '9 AM–7 PM' },
-    { day: 'Saturday', hours: '9 AM–5 PM' },
-  ];
+  /**
+   * Derived from OPENING_HOURS rather than restated, so the hours a visitor reads and the
+   * hours in LocalBusiness schema can never disagree (Steph §7).
+   */
+  weeklyHours = OPENING_HOURS.map((h) => ({
+    day: h.day,
+    hours: h.opens && h.closes ? `${this.to12h(h.opens)}–${this.to12h(h.closes)}` : 'Closed',
+  }));
+
+  /** '10:00' -> '10 AM', '16:00' -> '4 PM', '09:30' -> '9:30 AM'. */
+  private to12h(time24: string): string {
+    const [h, m] = time24.split(':').map(Number);
+    const suffix = h >= 12 ? 'PM' : 'AM';
+    const hour = h % 12 === 0 ? 12 : h % 12;
+    return m ? `${hour}:${String(m).padStart(2, '0')} ${suffix}` : `${hour} ${suffix}`;
+  }
 
   formData = {
     name: '',

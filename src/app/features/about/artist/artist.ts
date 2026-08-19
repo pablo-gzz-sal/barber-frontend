@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-artist',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   standalone: true,
   templateUrl: './artist.html',
   styleUrl: './artist.css',
 })
 export class Artist implements OnInit {
   protected readonly text = UI_TEXT;
-  constructor(private router: Router) {}
   content = {
     label: 'THE ARTIST',
     bio: 'Learn more about his award winning method and approach to hair.',
@@ -21,13 +20,5 @@ export class Artist implements OnInit {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-  }
-
-  onAbout() {
-    this.router.navigate(['/about']);
-  }
-
-  onShop() {
-    this.router.navigate(['/product/7328094027961']);
   }
 }

@@ -53,9 +53,7 @@ export class ActualSale implements OnInit, OnChanges {
 
     this.products$ = this.shop.getSaleProducts(fetchLimit, 0, brandKey || undefined).pipe(
       map((res: any) => this.asArray(res?.sale)),
-      map((products: any[]) =>
-        hasBrand ? products.slice(0, 4) : this.pickRandom(products, 4),
-      ),
+      map((products: any[]) => (hasBrand ? products.slice(0, 4) : this.pickRandom(products, 4))),
       map((products: any[]) => products.map((p) => this.toSaleCard(p))),
       catchError((error) => {
         console.error('Failed to load sale products', error);
@@ -77,7 +75,9 @@ export class ActualSale implements OnInit, OnChanges {
   }
 
   private normalizeBrandKey(brand?: string | null): string {
-    return String(brand ?? '').trim().toLowerCase();
+    return String(brand ?? '')
+      .trim()
+      .toLowerCase();
   }
 
   private asArray(res: any): any[] {
@@ -92,10 +92,10 @@ export class ActualSale implements OnInit, OnChanges {
     const variants = Array.isArray(p?.variants)
       ? p.variants
       : Array.isArray(p?.variants?.nodes)
-      ? p.variants.nodes
-      : Array.isArray(p?.variants?.edges)
-      ? p.variants.edges.map((e: any) => e?.node)
-      : [];
+        ? p.variants.nodes
+        : Array.isArray(p?.variants?.edges)
+          ? p.variants.edges.map((e: any) => e?.node)
+          : [];
 
     const prices = variants
       .map((v: any) => Number(v?.price))
@@ -120,9 +120,5 @@ export class ActualSale implements OnInit, OnChanges {
           ? `$${minCompare.toFixed(2)}`
           : '',
     };
-  }
-
-  onShopSale(): void {
-    this.router.navigate(['/sale']);
   }
 }

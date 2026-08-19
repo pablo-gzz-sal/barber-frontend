@@ -126,8 +126,8 @@
 
     <!-- Center: Logo -->
     <div class="cursor-pointer absolute left-1/2 -translate-x-1/2">
-      <a href="/" class="flex flex-col items-center group cursor-pointer">
-        <img src="assets/svg/whiteLogo.svg" class="h-14 my-2" alt="" />
+      <a routerLink="/" class="flex flex-col items-center group cursor-pointer">
+        <img src="assets/svg/whiteLogo.svg" class="h-14 my-2" alt="Joseph Battisti Salon" />
       </a>
     </div>
 
@@ -241,15 +241,15 @@
       >
         <span class="icon-wrap">
           <!-- grid -->
-<svg
-  class="grid-icon"
-  width="16"
-  height="15"
-  viewBox="0 0 28 27"
-  style="transform: scale(0.75);"
-  fill="currentColor"
-  xmlns="http://www.w3.org/2000/svg"
->
+          <svg
+            class="grid-icon"
+            width="16"
+            height="15"
+            viewBox="0 0 28 27"
+            style="transform: scale(0.75)"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <rect width="6.5" height="6.5" rx="1" />
             <rect x="10.5" width="6.5" height="6.5" rx="1" />
             <rect x="21" width="6.5" height="6.5" rx="1" />
@@ -283,17 +283,37 @@
     <div class="col-span-5 px-12 py-16 flex flex-col bg-black justify-center desktop-menu-nav">
       <div class="space-y-1">
         <ng-container *ngFor="let item of menuItems; let i = index">
-          <button
-            type="button"
-            class="my-3 cursor-pointer menu-stagger-item w-full text-left flex items-center justify-between py-2 text-6xl tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover leading-[60px] tracking-[2.89px]"
-            [class.text-white]="isRouteActive(item.route) || i === activePreviewIndex"
-            [class.menu-item-active]="isRouteActive(item.route)"
-            (mouseenter)="setPreview(i)"
-            (focus)="setPreview(i)"
-            (click)="navigateTo(item.route)"
-          >
-            <span class="font-thin">{{ item.label }}</span>
-          </button>
+          <!--
+            Anchors, not buttons: the primary navigation is how a crawler discovers every
+            page on the site, and a (click) handler is invisible to one.
+          -->
+          @if (item.externalUrl) {
+            <a
+              [href]="item.externalUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="my-3 cursor-pointer menu-stagger-item w-full text-left flex items-center justify-between py-2 text-6xl tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover leading-[60px] tracking-[2.89px]"
+              [class.text-white]="i === activePreviewIndex"
+              (mouseenter)="setPreview(i)"
+              (focus)="setPreview(i)"
+              (click)="closeMenus()"
+            >
+              <span class="font-thin">{{ item.label }}</span>
+            </a>
+          } @else {
+            <a
+              [routerLink]="item.route"
+              class="my-3 cursor-pointer menu-stagger-item w-full text-left flex items-center justify-between py-2 text-6xl tracking-wide transition-all duration-300 text-white/30 hover:text-white menu-item-hover leading-[60px] tracking-[2.89px]"
+              [class.text-white]="isRouteActive(item.route) || i === activePreviewIndex"
+              [class.menu-item-active]="isRouteActive(item.route)"
+              [attr.aria-current]="isRouteActive(item.route) ? 'page' : null"
+              (mouseenter)="setPreview(i)"
+              (focus)="setPreview(i)"
+              (click)="closeMenus()"
+            >
+              <span class="font-thin">{{ item.label }}</span>
+            </a>
+          }
         </ng-container>
       </div>
     </div>
@@ -323,15 +343,32 @@
     <nav class="flex-1 flex flex-col min-h-0 overflow-hidden">
       <div class="flex flex-col gap-4 mt-8">
         <ng-container *ngFor="let item of menuItems; let i = index">
-          <button
-            type="button"
-            class="menu-stagger-item mobile-menu-link block leading-tight tracking-widest text-5xl"
-            [class.mobile-menu-link-active]="isRouteActive(item.route) || i === activePreviewIndex"
-            (mouseenter)="setPreview(i)"
-            (click)="setPreview(i); navigateTo(item.route)"
-          >
-            {{ item.label }}
-          </button>
+          @if (item.externalUrl) {
+            <a
+              [href]="item.externalUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="menu-stagger-item mobile-menu-link block leading-tight tracking-widest text-5xl"
+              [class.mobile-menu-link-active]="i === activePreviewIndex"
+              (mouseenter)="setPreview(i)"
+              (click)="setPreview(i); closeMenus()"
+            >
+              {{ item.label }}
+            </a>
+          } @else {
+            <a
+              [routerLink]="item.route"
+              class="menu-stagger-item mobile-menu-link block leading-tight tracking-widest text-5xl"
+              [class.mobile-menu-link-active]="
+                isRouteActive(item.route) || i === activePreviewIndex
+              "
+              [attr.aria-current]="isRouteActive(item.route) ? 'page' : null"
+              (mouseenter)="setPreview(i)"
+              (click)="setPreview(i); closeMenus()"
+            >
+              {{ item.label }}
+            </a>
+          }
         </ng-container>
       </div>
 

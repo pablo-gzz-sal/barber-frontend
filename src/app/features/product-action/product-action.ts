@@ -9,6 +9,8 @@ import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast-service';
+import { Seo } from '../../core/seo/seo';
+import { productSchema, stripHtml, truncate } from '../../core/seo/schema';
 
 type ShopifyImage = {
   src: string;
@@ -66,6 +68,7 @@ export class ProductAction {
   private cart = inject(Cart);
   private shopify = inject(Shopify);
   private toast = inject(ToastService);
+  private seo = inject(Seo);
 
   loading = signal(true);
   error = signal<string | null>(null);
@@ -134,13 +137,11 @@ export class ProductAction {
         .filter((m) => m.src); // drops anything with empty src
     }
 
-    return (p.images ?? []).map(
-      (img): MediaItem => ({
-        type: 'image',
-        src: img.src,
-        thumb: img.src,
-      }),
-    );
+    return (p.images ?? []).map((img): MediaItem => ({
+      type: 'image',
+      src: img.src,
+      thumb: img.src,
+    }));
   });
 
   // Active media, respects variant-image matching
@@ -209,7 +210,7 @@ export class ProductAction {
     this.shopify.getProductById(this.id).subscribe({
       next: (p: ShopifyProduct) => {
         this.product.set(p);
-        console.log(p);
+        this.applySeo(p);
 
         this.shopify.getProductVariants(this.id).subscribe({
           next: (res) => {
@@ -230,6 +231,34 @@ export class ProductAction {
         this.error.set(e?.message ?? 'Failed to load product');
         this.loading.set(false);
       },
+    });
+  }
+
+  /**
+   * Replaces the generic /product fallback the router set with the real product, once
+   * Shopify has answered. Product markup wasn't in Steph's spec, but the data is already
+   * loaded here and it is the highest-value schema on a store page.
+   */
+  private applySeo(p: ShopifyProduct): void {
+    const price = p.variants?.[0]?.price ?? null;
+    const image = p.image?.src ?? p.images?.[0]?.src;
+    const summary = truncate(stripHtml(p.body_html), 155);
+
+    this.seo.apply({
+      title: `${p.title} | Joseph Battisti Salon NYC`,
+      description:
+        summary || `Shop ${p.title} at Joseph Battisti Salon on Manhattan's Upper East Side.`,
+      path: `/product/${this.id}`,
+      image,
+      ogType: 'product',
+      jsonLd: productSchema(this.seo.siteOrigin, {
+        id: String(this.id),
+        title: p.title,
+        descriptionHtml: p.body_html,
+        image,
+        price,
+        inStock: p.in_stock,
+      }),
     });
   }
 

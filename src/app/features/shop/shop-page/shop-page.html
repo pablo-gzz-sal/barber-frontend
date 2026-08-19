@@ -1,4 +1,9 @@
 <app-header></app-header>
+<!--
+  /shop had no <h1> at all — just two <h3> copies of the banner card, one per breakpoint.
+  Single heading here; the visible cards stay presentational.
+-->
+<h1 class="sr-only">Shop Products We Love</h1>
 <section class="bg-white pt-6 sm:pt-8 lg:pt-10 pb-0">
   <div class="mx-auto w-full">
     <div class="relative overflow-hidden">
@@ -7,10 +12,7 @@
         <img
           src="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Shop-PageBanner.png?v=1774466087"
           alt="Shop Products We Love"
-          class="w-full object-cover object-center
-                 h-[180px] sm:h-[240px] md:h-[300px] lg:h-[24rem]
-                 transition-transform duration-[1200ms] ease-out
-                 hover:scale-[1.03]"
+          class="w-full object-cover object-center h-[180px] sm:h-[240px] md:h-[300px] lg:h-[24rem] transition-transform duration-[1200ms] ease-out hover:scale-[1.03]"
         />
 
         <!-- subtle overlays (desktop only) -->
@@ -19,20 +21,15 @@
 
         <!-- Overlay Card (sm and up) -->
         <div
-          class="hidden sm:block absolute left-8 md:left-10 lg:left-14 top-1/2 -translate-y-1/2 z-10
-                 w-[320px] md:w-[360px] lg:w-[400px]
-                 bg-black/90 text-white rounded-2xl
-                 px-7 md:px-8 py-7 md:py-8
-                 shadow-[0_25px_60px_rgba(0,0,0,0.45)]
-                 ring-1 ring-white/10"
+          class="hidden sm:block absolute left-8 md:left-10 lg:left-14 top-1/2 -translate-y-1/2 z-10 w-[320px] md:w-[360px] lg:w-[400px] bg-black/90 text-white rounded-2xl px-7 md:px-8 py-7 md:py-8 shadow-[0_25px_60px_rgba(0,0,0,0.45)] ring-1 ring-white/10"
         >
-          <h3 class="font-serif text-2xl md:text-3xl leading-[1.08]">
+          <p aria-hidden="true" class="font-serif text-2xl md:text-3xl leading-[1.08]">
             Shop Products<br />We Love
-          </h3>
+          </p>
 
           <p class="mt-4 text-xs md:text-[13px] leading-relaxed text-white/78">
-            A curated selection of the world’s leading haircare and beauty innovators—chosen
-            by Joseph Battisti for their quality, performance, and artistry.
+            A curated selection of the world’s leading haircare and beauty innovators—chosen by
+            Joseph Battisti for their quality, performance, and artistry.
           </p>
         </div>
       </div>
@@ -40,17 +37,15 @@
       <!-- Mobile Card (below image) -->
       <div class="sm:hidden px-5 pt-5">
         <div
-          class="bg-black text-white rounded-2xl
-                 px-6 py-6 shadow-[0_18px_40px_rgba(0,0,0,0.25)]
-                 ring-1 ring-black/10"
+          class="bg-black text-white rounded-2xl px-6 py-6 shadow-[0_18px_40px_rgba(0,0,0,0.25)] ring-1 ring-black/10"
         >
-          <h3 class="font-serif text-2xl leading-[1.08]">
+          <p aria-hidden="true" class="font-serif text-2xl leading-[1.08]">
             Shop Products<br />We Love
-          </h3>
+          </p>
 
           <p class="mt-4 text-sm leading-relaxed text-white/80">
-            A curated selection of the world’s leading haircare and beauty innovators—chosen
-            by Joseph Battisti for their quality, performance, and artistry.
+            A curated selection of the world’s leading haircare and beauty innovators—chosen by
+            Joseph Battisti for their quality, performance, and artistry.
           </p>
         </div>
       </div>
@@ -58,11 +53,9 @@
   </div>
 </section>
 
-
-
 <app-shop-best-sellers [generalBestSeller]="true"></app-shop-best-sellers>
 <app-shop-brands></app-shop-brands>
 <!-- <app-shop-by></app-shop-by> -->
- <app-actual-sale />
+<app-actual-sale />
 
 <app-footer></app-footer>

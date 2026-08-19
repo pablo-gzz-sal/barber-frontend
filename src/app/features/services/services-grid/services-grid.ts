@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-services-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './services-grid.html',
   styleUrl: './services-grid.css',
 })
@@ -54,14 +54,6 @@ export class ServicesGrid {
     },
   };
 
-  constructor(private router: Router) {}
-
-  onBrand(link: string) {
-    console.log(`/shop/brand/${link}`);
-    
-    this.router.navigate([`/shop/brand/${link}`]);
-  }
-
   openBooking(url: string) {
     const a = document.createElement('a');
     a.href = url;
@@ -72,13 +64,5 @@ export class ServicesGrid {
     document.body.appendChild(a);
     a.click();
     a.remove();
-  }
-
-  onAllServices() {
-    this.router.navigate(['/services']);
-  }
-
-  onBrands() {
-    this.router.navigate(['/shop']);
   }
 }

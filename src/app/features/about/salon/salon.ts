@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-salon',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   standalone: true,
   templateUrl: './salon.html',
   styleUrl: './salon.css',
@@ -13,26 +13,20 @@ import { Router } from '@angular/router';
 export class Salon implements OnInit {
   protected readonly text = UI_TEXT;
 
-  constructor(private router: Router) {}
-
   content = {
     quote: "Battisti's chair is a haven for escapees from too-trendy stylists.",
     title: 'From Manhattan to Los Angeles',
-    description: 'Come visit us at our New York City salon, or catch Joseph regularly in Rochester, NY or Los Angeles, CA.',
+    description:
+      'Come visit us at our New York City salon, or catch Joseph regularly in Rochester, NY or Los Angeles, CA.',
     btnText: 'Learn More',
     images: [
       'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/salonHero.jpg?v=1773360111g',
       'assets/images/salon-interior-2.jpg',
-      'assets/images/salon-products.jpg'
-    ]
+      'assets/images/salon-products.jpg',
+    ],
   };
 
-    ngOnInit() {
+  ngOnInit() {
     window.scrollTo(0, 0);
   }
-
-  onAbout() {
-    this.router.navigate(['/contact']);
-  }
-
 }

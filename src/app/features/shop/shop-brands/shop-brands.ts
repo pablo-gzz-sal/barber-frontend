@@ -139,12 +139,13 @@ export class ShopBrands {
     // },
   ].sort((a, b) => a.name.localeCompare(b.name));
 
-  onBrand(link: string) {
-    if (link === 'milbon') {
-      this.router.navigate(['/milbon']);
-    } else {
-      this.router.navigate([`/shop/brand/${link}`]);
-    }
+  /**
+   * Brand tiles are real <a routerLink> elements, not click handlers: these 22 collection
+   * pages have no other inbound link anywhere on the site, so a JS-only navigation left
+   * every one of them orphaned and undiscoverable.
+   */
+  routeFor(link: string): string[] {
+    return link === 'milbon' ? ['/milbon'] : ['/shop/brand', link];
   }
 
   // brands: any[] = [];
