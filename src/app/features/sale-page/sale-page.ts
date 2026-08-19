@@ -6,13 +6,9 @@ import { Shopify } from '../../core/services/shopify';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 import { Filter } from '../../shared/components/filter/filter';
+import { IS_BROWSER } from '../../core/platform';
 
-type CategoryKey =
-  | 'all'
-  | 'shampoo'
-  | 'conditioner'
-  | 'treatment'
-  | 'styling'
+type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'treatment' | 'styling';
 
 interface SaleProductVM {
   id: string;
@@ -77,7 +73,7 @@ export class SalePage implements OnInit, OnDestroy {
   // ---------- Data ----------
 
   private loadSale(): void {
-    window.scrollTo(0, 0);
+    if (IS_BROWSER) window.scrollTo(0, 0);
 
     this.loading = true;
     this.notFound = false;
@@ -136,20 +132,14 @@ export class SalePage implements OnInit, OnDestroy {
   }
 
   private resolveCategory(p: any): CategoryKey {
-    const haystack = [
-      p?.product_type ?? '',
-      p?.title ?? '',
-      p?.tags ?? '',
-      p?.handle ?? '',
-    ]
+    const haystack = [p?.product_type ?? '', p?.title ?? '', p?.tags ?? '', p?.handle ?? '']
       .join(' ')
       .toLowerCase();
 
     if (/shampoo/.test(haystack)) return 'shampoo';
     if (/conditioner/.test(haystack)) return 'conditioner';
     if (/(treatment|mask|serum|oil)/.test(haystack)) return 'treatment';
-    if (/(style|styling|spray|mousse|gel|cream|pomade)/.test(haystack))
-      return 'styling';
+    if (/(style|styling|spray|mousse|gel|cream|pomade)/.test(haystack)) return 'styling';
     return 'all';
   }
 

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
 import { SERVICES_CONTENT } from './services.data';
+import { IS_BROWSER } from '../../core/platform';
 
 @Component({
   selector: 'app-services-page',
@@ -15,7 +16,7 @@ export class ServicesPage implements OnInit {
   protected readonly content = SERVICES_CONTENT;
 
   ngOnInit() {
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    if (IS_BROWSER) window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }
 
   openBooking(url: string) {

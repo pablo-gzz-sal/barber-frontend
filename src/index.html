@@ -17,11 +17,22 @@
         3. public/robots.txt   -> Allow: / and uncomment the Sitemap line
       Until then josephbattisti.com serves the old Shopify store, and letting this build
       be indexed would put two identical salons in the results competing with each other.
-      The runtime Seo service rewrites this tag for JS-capable crawlers; robots.txt and
-      this static tag are what everything else sees.
+      The Seo service rewrites this tag per page; robots.txt and this static tag are the
+      backstop for anything that reads the file without rendering it.
     -->
     <meta name="robots" content="noindex, nofollow" />
-    <link rel="canonical" href="https://josephbattisti.com/" />
+
+    <!--
+      The title, description and og:* values below are defaults, not the homepage's copy
+      having been promoted. Prerendering renders this file once per route and the Seo
+      service overwrites them with that route's own values, so what ships for /services is
+      /services' metadata. They survive only in index.csr.html, the shell served for the
+      two client-rendered routes.
+
+      That is also why there is no canonical or og:url here. Angular adds both at render
+      time with the correct URL; a hard-coded homepage canonical would ride along into the
+      shell and tell Google every product page is a duplicate of the front page.
+    -->
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Joseph Battisti Salon" />
@@ -31,7 +42,6 @@
       property="og:description"
       content="Upper East Side hair salon specializing in precision cuts, color, and extensions with Joseph Battisti's Hair Kinetics™ technique. Book online today."
     />
-    <meta property="og:url" content="https://josephbattisti.com/" />
     <meta
       property="og:image"
       content="https://cdn.shopify.com/s/files/1/0573/6602/0281/files/josephHeroCut.png?v=1773792821"

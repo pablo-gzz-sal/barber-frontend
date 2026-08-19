@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UI_TEXT } from '../../../core/constants/app-text';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { IS_BROWSER } from '../../../core/platform';
 
 @Component({
   selector: 'app-salon',
@@ -27,6 +28,6 @@ export class Salon implements OnInit {
   };
 
   ngOnInit() {
-    window.scrollTo(0, 0);
+    if (IS_BROWSER) window.scrollTo(0, 0);
   }
 }

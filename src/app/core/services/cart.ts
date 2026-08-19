@@ -1,4 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
+import { IS_BROWSER } from '../platform';
 
 export type CartItem = {
   variantId: string; // REQUIRED for Shopify cart permalink
@@ -18,9 +19,7 @@ export class Cart {
   private readonly _items = signal<CartItem[]>(this.read());
 
   // ✅ header badge
-  readonly count = computed(() =>
-    this._items().reduce((sum, i) => sum + (Number(i.qty) || 0), 0),
-  );
+  readonly count = computed(() => this._items().reduce((sum, i) => sum + (Number(i.qty) || 0), 0));
 
   // ✅ cart list consumers
   readonly items = computed(() => this._items());
@@ -62,38 +61,34 @@ export class Cart {
     this.commit(cleaned);
   }
 
-updateQty(variantId: string, qty: number) {
-  const nextQty = Number(qty) || 0;
-  const items = [...this._items()];
+  updateQty(variantId: string, qty: number) {
+    const nextQty = Number(qty) || 0;
+    const items = [...this._items()];
 
-  const idx = items.findIndex((i) => String(i.variantId) === String(variantId));
-  if (idx === -1) return;
+    const idx = items.findIndex((i) => String(i.variantId) === String(variantId));
+    if (idx === -1) return;
 
-  if (nextQty <= 0) {
-    items.splice(idx, 1);
+    if (nextQty <= 0) {
+      items.splice(idx, 1);
+      this.commit(items);
+      return;
+    }
+
+    items[idx] = { ...items[idx], qty: nextQty };
     this.commit(items);
-    return;
   }
 
-  items[idx] = { ...items[idx], qty: nextQty };
-  this.commit(items);
-}
-
-remove(variantId: string) {
-  const items = this._items().filter((i) => String(i.variantId) !== String(variantId));
-  this.commit(items);
-}
-
+  remove(variantId: string) {
+    const items = this._items().filter((i) => String(i.variantId) !== String(variantId));
+    this.commit(items);
+  }
 
   clear() {
     this.commit([]);
   }
 
   subtotal(): number {
-    return this._items().reduce(
-      (sum, i) => sum + (Number(i.price) || 0) * (Number(i.qty) || 0),
-      0,
-    );
+    return this._items().reduce((sum, i) => sum + (Number(i.price) || 0) * (Number(i.qty) || 0), 0);
   }
 
   /**
@@ -115,10 +110,15 @@ remove(variantId: string) {
 
   private commit(items: CartItem[]) {
     this._items.set(items);
+    if (!IS_BROWSER) return;
     localStorage.setItem(this.key, JSON.stringify(items));
   }
 
   private read(): CartItem[] {
+    // Runs at construction — before anything can guard the call site — and this service is
+    // injected by the header, so every prerendered page would fail here without the check.
+    if (!IS_BROWSER) return [];
+
     try {
       const raw = localStorage.getItem(this.key);
       const items = raw ? (JSON.parse(raw) as CartItem[]) : [];

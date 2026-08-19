@@ -7,6 +7,7 @@ import { Cart } from '../../services/cart';
 import { SearchOverlay } from '../../../features/search-overlay/search-overlay';
 import { Search } from '../../services/search';
 import { filter } from 'rxjs';
+import { IS_BROWSER } from '../../platform';
 
 type DayKey = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
 
@@ -106,8 +107,20 @@ export class Header implements OnInit {
   ];
 
   ngOnInit() {
-    this.updateHeaderHours();
-    setInterval(() => this.updateHeaderHours(), 60_000);
+    // Both of these are browser-only, for different reasons.
+    //
+    // The hours strip answers "are they open right now", which is true for about a minute.
+    // Prerendering would freeze one build's answer into every page until the next deploy —
+    // a page shipped on a Wednesday morning would keep insisting the salon is closed. The
+    // fields start empty and the client fills them in on boot; the authoritative opening
+    // hours are in the LocalBusiness schema, which is prerendered and complete.
+    //
+    // The timer would also stop the build finishing: prerendering ends when the app runs
+    // out of pending work, and something that re-arms every minute never gets there.
+    if (IS_BROWSER) {
+      this.updateHeaderHours();
+      setInterval(() => this.updateHeaderHours(), 60_000);
+    }
 
     this.currentRoute = this.router.url;
     this.syncPreviewWithRoute(this.currentRoute);

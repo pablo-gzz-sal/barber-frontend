@@ -25,6 +25,7 @@ import { Filter } from '../../shared/components/filter/filter';
 import { Seo } from '../../core/seo/seo';
 import { BRAND_SEO_BY_HANDLE, SEO_PAGES } from '../../core/seo/seo-content';
 import { brandPageSchema } from '../../core/seo/schema';
+import { IS_BROWSER } from '../../core/platform';
 
 // type CategoryKey = 'all' | 'shampoo' | 'conditioner' | 'styling';
 type BrandPageMode = 'single' | 'single-branded' | 'group';
@@ -119,7 +120,7 @@ export class BrandPage implements OnInit {
   }
 
   private loadPage(): void {
-    window.scrollTo(0, 0);
+    if (IS_BROWSER) window.scrollTo(0, 0);
 
     this.loading = true;
     this.notFound = false;
@@ -176,6 +177,13 @@ export class BrandPage implements OnInit {
         }),
       )
       .subscribe((res: any) => {
+        // Before the early return: a brand's title, description and schema come from
+        // BRAND_SEO, not from Shopify. Leaving this after the guard meant a collection that
+        // failed to load lost its metadata entirely — which the prerender pass turns from a
+        // transient runtime glitch into a page shipped with the wrong title until the next
+        // deploy, for every brand, if the API happens to be cold during a build.
+        this.applySeo(handle);
+
         if (!res) return;
 
         this.mode = res.mode;
@@ -193,6 +201,8 @@ export class BrandPage implements OnInit {
         // this is a redundant last-chance read; guarded rather than removed to keep intent.
         this.whyWeLoveText = res.metafields?.['whywelove']?.value || this.whyWeLoveText;
 
+        // Again, now that products and this.brand are populated: the first call could only
+        // emit the collection-level fields, this one adds the product ItemList.
         this.applySeo(handle);
       });
   }

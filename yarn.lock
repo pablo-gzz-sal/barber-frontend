@@ -279,10 +279,25 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/platform-server@20.3.16":
+  version "20.3.16"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-20.3.16.tgz#70429000538a24db8b4ef61cee16db8eadfa3c0e"
+  integrity sha512-LxQscYd3UCWV8H3sdlnM05UB60MZVuVsdsHvXdkJ9+WOQjVDN1l1rYhj2aDL/5KkaRd/nqo0yFRnVjwceXDJhQ==
+  dependencies:
+    tslib "^2.3.0"
+    xhr2 "^0.2.0"
+
 "@angular/router@^20.3.0":
   version "20.3.16"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-20.3.16.tgz#c986039bf5546ffe59314bbf139d4561cbed78b6"
   integrity sha512-e1LiQFZaajKqc00cY5FboIrWJZSMnZ64GDp5R0UejritYrqorQQQNOqP1W85BMuY2owibMmxVfX+dJg/Mc8PuQ==
+  dependencies:
+    tslib "^2.3.0"
+
+"@angular/ssr@20.3.15":
+  version "20.3.15"
+  resolved "https://registry.yarnpkg.com/@angular/ssr/-/ssr-20.3.15.tgz#62d7ab5f5182c010fa8821f1be115bf14686832b"
+  integrity sha512-FT2jrzFZgfcRIdKguUmA5FrdNpiBnFsnzeqXxu5Kp+YRd3YPYzUz3N3kxWSCbBoGeprnefxKFjcLMfSMQhQ/gQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -4769,6 +4784,11 @@ ws@~8.18.3:
   version "8.18.3"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.3.tgz#b56b88abffde62791c639170400c93dcb0c95472"
   integrity sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==
+
+xhr2@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.2.1.tgz#4e73adc4f9cfec9cbd2157f73efdce3a5f108a93"
+  integrity sha512-sID0rrVCqkVNUn8t6xuv9+6FViXjUVXq8H5rWOH2rz9fDNQEd4g0EA2XlcEdJXRz5BMEn4O1pJFdT+z4YHhoWw==
 
 y18n@^5.0.5:
   version "5.0.8"

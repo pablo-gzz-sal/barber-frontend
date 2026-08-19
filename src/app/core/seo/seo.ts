@@ -106,9 +106,13 @@ export class Seo {
     const head = this.doc.head;
     if (!head) return;
 
-    head
-      .querySelectorAll(`script[type="application/ld+json"][${PAGE_LD_ATTR}="${PAGE_LD_VALUE}"]`)
-      .forEach((node) => node.remove());
+    // Array.from, not NodeList.forEach: this now also runs under the prerender pass, whose
+    // DOM implementation is not the browser's and does not give NodeList array methods.
+    Array.from(
+      head.querySelectorAll(
+        `script[type="application/ld+json"][${PAGE_LD_ATTR}="${PAGE_LD_VALUE}"]`,
+      ),
+    ).forEach((node) => node.remove());
 
     if (!blocks.length) return;
 

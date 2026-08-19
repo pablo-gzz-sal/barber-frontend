@@ -4,6 +4,7 @@ import { Footer } from '../../../core/components/footer/footer';
 import { ShopBestSellers } from '../shop-best-sellers/shop-best-sellers';
 import { ShopBrands } from '../shop-brands/shop-brands';
 import { ActualSale } from '../actual-sale/actual-sale';
+import { IS_BROWSER } from '../../../core/platform';
 
 @Component({
   selector: 'app-shop-page',
@@ -14,6 +15,6 @@ import { ActualSale } from '../actual-sale/actual-sale';
 })
 export class ShopPage implements OnInit {
   ngOnInit() {
-    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+    if (IS_BROWSER) window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }
 }

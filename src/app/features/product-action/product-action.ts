@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment';
 import { ToastService } from '../../core/services/toast-service';
 import { Seo } from '../../core/seo/seo';
 import { productSchema, stripHtml, truncate } from '../../core/seo/schema';
+import { IS_BROWSER } from '../../core/platform';
 
 type ShopifyImage = {
   src: string;
@@ -196,7 +197,7 @@ export class ProductAction {
   canAdd = computed(() => !!this.selectedVariantId() && this.selectedVariantAvailable());
 
   ngOnInit() {
-    window.scrollTo(0, 0);
+    if (IS_BROWSER) window.scrollTo(0, 0);
     this.id = this.route.snapshot.paramMap.get('id');
     if (!this.id) {
       this.error.set('Missing product id');

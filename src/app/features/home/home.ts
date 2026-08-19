@@ -13,6 +13,7 @@ import { Salon } from '../about/salon/salon';
 import { ShopSale } from '../shop/shop-sale/shop-sale';
 import { Footer } from '../../core/components/footer/footer';
 import { ActualSale } from '../shop/actual-sale/actual-sale';
+import { IS_BROWSER } from '../../core/platform';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -40,6 +41,8 @@ export class Home implements OnInit {
   }
 
   checkForReturnedCheckout() {
+    if (!IS_BROWSER) return;
+
     const pending = sessionStorage.getItem('pending_shopify_checkout');
     const at = Number(sessionStorage.getItem('pending_shopify_checkout_at') || 0);
 

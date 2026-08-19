@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Header } from '../../core/components/header/header';
 import { Footer } from '../../core/components/footer/footer';
+import { IS_BROWSER } from '../../core/platform';
 import {
   AfterViewInit,
   Component,
@@ -145,7 +146,7 @@ export class AboutPage implements AfterViewInit, OnInit {
   trackByIdx = (i: number) => i;
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
+    if (IS_BROWSER) window.scrollTo(0, 0);
   }
 
   toggleVideo(video: HTMLVideoElement) {

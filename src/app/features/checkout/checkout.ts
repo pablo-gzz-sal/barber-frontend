@@ -6,6 +6,7 @@ import { Footer } from '../../core/components/footer/footer';
 import { Shopify } from '../../core/services/shopify';
 import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
 import { ToastService } from '../../core/services/toast-service';
+import { IS_BROWSER } from '../../core/platform';
 
 type HydratedCartItem = CartItem & {
   title?: string;
@@ -41,7 +42,7 @@ export class Checkout implements OnInit {
   }
 
   ngOnInit() {
-    window.scrollTo(0, 0);
+    if (IS_BROWSER) window.scrollTo(0, 0);
     this.loadItems();
   }
 
@@ -206,7 +207,7 @@ export class Checkout implements OnInit {
     this.cart.checkout('josephbattisti-com.myshopify.com');
   }
 
-    onBack() {
+  onBack() {
     window.history.back();
   }
 }

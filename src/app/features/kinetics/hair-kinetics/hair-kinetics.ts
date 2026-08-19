@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, afterNextRender } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
@@ -16,7 +16,7 @@ type Feature = {
   templateUrl: './hair-kinetics.html',
   styleUrl: './hair-kinetics.css',
 })
-export class HairKinetics implements OnInit, AfterViewInit, OnDestroy {
+export class HairKinetics implements OnDestroy {
   @ViewChild('scrollRail') scrollRail!: ElementRef<HTMLElement>;
 
   scrollPosition = 0;
@@ -81,7 +81,12 @@ export class HairKinetics implements OnInit, AfterViewInit, OnDestroy {
     ],
   };
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) {
+    // The rail measures itself and then drives an endless requestAnimationFrame loop.
+    // Neither exists in the prerender pass, and an animation that never settles would
+    // stop the build from deciding the page was finished.
+    afterNextRender(() => this.measureAndStart());
+  }
 
   // triple list so the loop always looks continuous
   get duplicatedFeatures(): Feature[] {
@@ -92,20 +97,16 @@ export class HairKinetics implements OnInit, AfterViewInit, OnDestroy {
     return [...base, ...base, ...base];
   }
 
-  ngOnInit() {}
-
-  ngAfterViewInit(): void {
+  private measureAndStart(): void {
     // Measure height of ONE set (first N items)
     // We render 3 sets; so one set height = total / 3.
-    requestAnimationFrame(() => {
-      const rail = this.scrollRail?.nativeElement;
-      if (!rail) return;
+    const rail = this.scrollRail?.nativeElement;
+    if (!rail) return;
 
-      const total = rail.scrollHeight;
-      this.oneSetHeight = total / 3;
+    const total = rail.scrollHeight;
+    this.oneSetHeight = total / 3;
 
-      this.start();
-    });
+    this.start();
   }
 
   ngOnDestroy() {

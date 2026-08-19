@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ContactApiService } from '../../core/services/contact-api-service';
 import { ToastService } from '../../core/services/toast-service';
 import { OPENING_HOURS } from '../../core/seo/seo-content';
+import { IS_BROWSER } from '../../core/platform';
 
 @Component({
   selector: 'app-contact-page',
@@ -112,7 +113,7 @@ export class ContactPage implements OnInit {
   };
 
   ngOnInit() {
-    window.scroll(0, 0);
+    if (IS_BROWSER) window.scroll(0, 0);
   }
 
   onSubmit() {
