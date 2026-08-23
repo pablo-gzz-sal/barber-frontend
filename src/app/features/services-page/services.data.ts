@@ -42,6 +42,13 @@ export const SERVICES_CONTENT = {
         note: 'Consultation fee goes toward the cost of extensions.',
         bookingUrl: 'https://booking.mangomint.com/josephbattistisalon?serviceId=109',
       },
+      {
+        name: 'Wig Consultation',
+        price: '$100.00',
+        description: '',
+        note: 'Consultation fee goes toward the cost of a wig.',
+        bookingUrl: 'https://booking.mangomint.com/josephbattistisalon?serviceId=115',
+      },
     ],
   },
   chemicalTreatments: {
@@ -49,12 +56,12 @@ export const SERVICES_CONTENT = {
     services: [
       {
         name: 'Botanical Smoother',
-        price: '$600.00',
+        price: '$475.00+',
         bookingUrl: 'https://booking.mangomint.com/josephbattistisalon?serviceId=45',
       },
       {
         name: 'Keratin Treatment',
-        price: '$450.00',
+        price: '$325.00+',
         bookingUrl: 'https://booking.mangomint.com/josephbattistisalon?serviceId=48',
       },
     ],
