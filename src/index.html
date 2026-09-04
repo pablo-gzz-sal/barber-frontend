@@ -11,16 +11,15 @@
     />
 
     <!--
-      GO-LIVE: three things flip together on the day josephbattisti.com points at this app.
-        1. this robots tag  -> index, follow, max-image-preview:large, max-snippet:-1
-        2. environment.prod.ts -> siteIndexable: true
-        3. public/robots.txt   -> Allow: / and uncomment the Sitemap line
-      Until then josephbattisti.com serves the old Shopify store, and letting this build
-      be indexed would put two identical salons in the results competing with each other.
-      The Seo service rewrites this tag per page; robots.txt and this static tag are the
-      backstop for anything that reads the file without rendering it.
+      The Seo service rewrites this tag per page (checkout and 404 still force noindex).
+      This static tag and public/robots.txt are the backstop for anything that reads the
+      file without rendering it, so the two have to agree with environment.prod.ts ->
+      siteIndexable. All three went live together with the domain.
     -->
-    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1"
+    />
 
     <!--
       The title, description and og:* values below are defaults, not the homepage's copy

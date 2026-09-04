@@ -8,10 +8,9 @@ export const environment = {
   /** Origin used for canonical URLs, og:url and sitemap.xml. No trailing slash. */
   siteUrl: 'https://josephbattisti.com',
   /**
-   * GO-LIVE FLAG. Keep false while the app is served from barber-frontend-kura.onrender.com:
-   * josephbattisti.com currently serves the old Shopify store, and two indexable copies of
-   * the same salon would compete with each other. Flip to true — and swap public/robots.txt
-   * to Allow — on the day the domain points here.
+   * Live: josephbattisti.com points at this app, so the Seo service emits real robots
+   * directives. This travels with the static noindex tag in src/index.html and the
+   * Allow rule in public/robots.txt — all three flipped together at go-live.
    */
-  siteIndexable: false,
+  siteIndexable: true,
 };
