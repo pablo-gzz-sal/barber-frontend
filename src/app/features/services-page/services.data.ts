@@ -176,7 +176,7 @@ export const SERVICES_CONTENT = {
     services: [
       {
         name: "Women's Haircut",
-        price: '$85.00',
+        price: '$125.00',
         bookingUrl: 'https://booking.mangomint.com/josephbattistisalon?serviceId=43',
       },
       {
