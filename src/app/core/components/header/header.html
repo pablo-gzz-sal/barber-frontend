@@ -332,11 +332,19 @@
 </div>
 
 <!-- Mobile Menu Overlay - FULLSCREEN -->
-<div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[100]">
-  <div class="absolute inset-0 bg-black" (click)="toggleMenu()"></div>
+<div *ngIf="isMenuOpen" class="lg:hidden fixed inset-0 z-[100] bg-black">
+  <div class="absolute inset-0" (click)="toggleMenu()"></div>
 
-  <div class="relative h-dvh flex flex-col pt-20 px-6 pb-6 text-white animate-mobile-menu">
-    <nav class="flex-1 flex flex-col min-h-0 overflow-hidden">
+  <!--
+    h-full, not h-dvh: the black ground is the fixed element above, and Android Chrome does
+    not resolve `dvh` and a fixed `inset-0` against the same box while its URL bar slides in
+    and out. When dvh won, this panel ran taller than the black behind it and the last button
+    spilled onto the white page underneath. Matching the parent exactly removes the seam.
+  -->
+  <div
+    class="relative h-full flex flex-col pt-20 px-6 mobile-menu-panel text-white animate-mobile-menu"
+  >
+    <nav class="mobile-menu-scroll flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-contain">
       <div class="flex flex-col gap-4 mt-8">
         <ng-container *ngFor="let item of menuItems; let i = index">
           @if (item.externalUrl) {
