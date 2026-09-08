@@ -776,3 +776,25 @@
 .mobile-menu-action:hover {
   color: rgb(255 255 255 / 1);
 }
+
+/*
+  Replaces a plain pb-6. Android's gesture bar and the iPhone home indicator both sit inside
+  the viewport the menu is measured against, so a fixed bottom padding leaves the last button
+  underneath them.
+*/
+.mobile-menu-panel {
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+/*
+  The links scroll on short viewports so the buttons underneath stay reachable, but the menu
+  is a full-bleed black panel and a track down its edge reads as a stray artefact.
+*/
+.mobile-menu-scroll {
+  scrollbar-width: none;
+}
+
+.mobile-menu-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}

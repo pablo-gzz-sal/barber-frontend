@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UI_TEXT } from '../../constants/app-text';
 import { CustomerService } from '../../services/customer-service';
@@ -31,7 +31,7 @@ interface MenuItem {
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header implements OnInit {
+export class Header implements OnInit, OnDestroy {
   protected readonly text = UI_TEXT;
   private router = inject(Router);
   private customer = inject(CustomerService);
@@ -40,6 +40,8 @@ export class Header implements OnInit {
 
   isMenuOpen = false;
   isOpen = false;
+  private scrollLocked = false;
+  private lockedScrollY = 0;
   cartCount = this.cart.count;
   isClosing = false;
 
@@ -218,7 +220,68 @@ export class Header implements OnInit {
   }
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.setMobileMenu(!this.isMenuOpen);
+  }
+
+  private setMobileMenu(open: boolean): void {
+    this.isMenuOpen = open;
+
+    if (open) {
+      this.lockBodyScroll();
+    } else {
+      this.unlockBodyScroll();
+    }
+  }
+
+  /**
+   * The mobile menu is a fixed overlay, so without this the document underneath keeps
+   * scrolling behind it: on iOS a drag anywhere over the menu moves the page and flashes the
+   * scrollbar down the right edge while nothing visible changes. `overflow: hidden` on <body>
+   * alone is not enough there — Safari ignores it and scrolls the document anyway — so the
+   * body is pinned with `position: fixed` and the offset restored on close.
+   */
+  private lockBodyScroll(): void {
+    if (!IS_BROWSER || this.scrollLocked) return;
+
+    this.lockedScrollY = window.scrollY;
+
+    const body = document.body.style;
+    body.position = 'fixed';
+    body.top = `-${this.lockedScrollY}px`;
+    body.left = '0';
+    body.right = '0';
+    body.width = '100%';
+    body.overflow = 'hidden';
+
+    this.scrollLocked = true;
+  }
+
+  private unlockBodyScroll(): void {
+    if (!IS_BROWSER || !this.scrollLocked) return;
+
+    const body = document.body.style;
+    body.position = '';
+    body.top = '';
+    body.left = '';
+    body.right = '';
+    body.width = '';
+    body.overflow = '';
+
+    this.scrollLocked = false;
+
+    // html has `scroll-behavior: smooth` globally, which would animate this restore into a
+    // visible scroll-back. Suppress it for the one jump.
+    const root = document.documentElement;
+    const previousBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, this.lockedScrollY);
+    root.style.scrollBehavior = previousBehavior;
+  }
+
+  ngOnDestroy(): void {
+    // Header is re-created per page, so a navigation from an open menu would otherwise leave
+    // <body> pinned and the whole site unscrollable.
+    this.unlockBodyScroll();
   }
 
   // NEW: desktop dropdown controls
@@ -255,7 +318,7 @@ export class Header implements OnInit {
    * closes the menu. Kept as a method because both menus share the behaviour.
    */
   closeMenus(): void {
-    this.isMenuOpen = false;
+    this.setMobileMenu(false);
     this.isDesktopDropdownOpen = false;
   }
 

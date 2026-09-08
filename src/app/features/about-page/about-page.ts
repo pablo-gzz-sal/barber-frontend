@@ -4,11 +4,13 @@ import { Footer } from '../../core/components/footer/footer';
 import { IS_BROWSER } from '../../core/platform';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 @Component({
@@ -20,10 +22,14 @@ import {
 })
 export class AboutPage implements AfterViewInit, OnInit {
   @ViewChild('viewport', { static: true }) viewport!: ElementRef<HTMLElement>;
+  private cdr = inject(ChangeDetectorRef);
   // protected readonly content = UI_TEXT.ABOUT;
   // Tune these to match your design
   slideWidth = 360; // width of each "slot" on the rail (NOT the image size)
   gap = 32;
+
+  /** Widest a slide is ever allowed to be; updateRail() narrows it on small screens. */
+  private readonly maxSlideWidth = 360;
   content = {
     hero: {
       title: 'Our Story',
@@ -56,12 +62,12 @@ export class AboutPage implements AfterViewInit, OnInit {
       title: 'MEET THE TEAM',
       members: [
         {
-          name: 'Megan Richardson',
+          name: 'Raquel Campbell',
           image:
-            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/meganHero.png?v=1773360103',
-          bio: 'Senior stylist specializing in precision cuts and color correction with 10+ years of experience.',
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/raquellCampbell.jpg?v=1773360105',
+          bio: '',
           colorImage:
-            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Megan_Richardson-Color.png?v=1774807088',
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/WhatsApp_Image_2026-02-13_at_17.18.28.jpg?v=1774807333',
         },
         {
           name: 'Nicole Chan',
@@ -107,12 +113,12 @@ export class AboutPage implements AfterViewInit, OnInit {
             'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/WhatsApp_Image_2026-02-13_at_17.18.07.jpg?v=1774807333',
         },
         {
-          name: 'Raquel Campbell',
+          name: 'Megan Richardson',
           image:
-            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/raquellCampbell.jpg?v=1773360105',
-          bio: '',
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/meganHero.png?v=1773360103',
+          bio: 'Senior stylist specializing in precision cuts and color correction with 10+ years of experience.',
           colorImage:
-            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/WhatsApp_Image_2026-02-13_at_17.18.28.jpg?v=1774807333',
+            'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Megan_Richardson-Color.png?v=1774807088',
         },
       ],
     },
@@ -160,7 +166,11 @@ export class AboutPage implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
+    // updateRail() measures the DOM and writes slideWidth/railTransform, both of which are
+    // bound in the template. Doing that after the view has been checked is exactly the
+    // NG0100 case, so re-run change detection rather than leaving a dev-mode error behind.
     this.updateRail();
+    this.cdr.detectChanges();
   }
 
   @HostListener('window:resize')
@@ -189,6 +199,12 @@ export class AboutPage implements AfterViewInit, OnInit {
     if (!vp) return;
 
     const viewportWidth = vp.clientWidth;
+
+    // The rail is clipped to this viewport, and the active slide is centred in it. A slide
+    // wider than the viewport therefore hangs off BOTH edges, and the name sitting above the
+    // card — which is laid out against the slide, not the card — loses its first letter to
+    // the clip ("Nicole Chan" rendered as "licole Chan" on a 375px screen).
+    this.slideWidth = Math.min(this.maxSlideWidth, viewportWidth);
 
     const step = this.slideWidth + this.gap; // distance per item
     const activeCenter = this.activeIndex * step + this.slideWidth / 2;

@@ -47,3 +47,14 @@
     .about-page {
       scroll-behavior: smooth;
     }
+
+/*
+  Was a flat text-3xl. A slide is only as wide as the carousel viewport on a phone, so at
+  30px the longer names ("Megan Richardson", "Nebiya Copeland") ran past the slide on a 320px
+  screen and wrapped mid-name. The clamp holds 30px everywhere the slide reaches its full
+  360px and eases down on narrower screens; 1.5rem keeps the longest name on one line at 320.
+*/
+.team-name-active {
+  font-size: clamp(1.5rem, 8vw, 1.875rem);
+  line-height: 1.2;
+}
