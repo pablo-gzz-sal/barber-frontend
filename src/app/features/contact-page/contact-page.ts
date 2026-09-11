@@ -39,6 +39,20 @@ export class ContactPage implements OnInit {
     return m ? `${hour}:${String(m).padStart(2, '0')} ${suffix}` : `${hour} ${suffix}`;
   }
 
+  /**
+   * Google Maps link for a location's address block. Uses the documented Maps URL scheme, so
+   * it hands off to the native Maps app on iOS/Android and opens maps.google.com on desktop.
+   * Built from the address lines only — the salon names contain '@' and punctuation that make
+   * the search less reliable than a plain street address.
+   */
+  mapsUrl(address: { line1: string; line2: string; line3?: string }): string {
+    const query = [address.line1, address.line2, address.line3]
+      .filter((line) => !!line?.trim())
+      .join(', ');
+
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  }
+
   formData = {
     name: '',
     email: '',

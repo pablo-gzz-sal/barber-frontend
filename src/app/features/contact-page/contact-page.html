@@ -202,8 +202,18 @@
                 <address
                   class="not-italic text-black lg:text-base leading-7 space-y-1 tracking-[0.05em]"
                 >
-                  <div>{{ content.locations.featured.address.line1 }}</div>
-                  <div>{{ content.locations.featured.address.line2 }}</div>
+                  <a
+                    [href]="mapsUrl(content.locations.featured.address)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    [attr.aria-label]="
+                      'Open the ' + content.locations.featured.name + ' address in Google Maps'
+                    "
+                    class="block space-y-1 text-black hover:underline"
+                  >
+                    <div>{{ content.locations.featured.address.line1 }}</div>
+                    <div>{{ content.locations.featured.address.line2 }}</div>
+                  </a>
                 </address>
 
                 <a
@@ -243,11 +253,19 @@
               </h3>
 
               <address class="not-italic text-sm space-y-1 mb-5 leading-7 tracking-[0.05em]">
-                <div>{{ location.address.line1 }}</div>
-                <div>{{ location.address.line2 }}</div>
-                @if (location.address.line3) {
-                  <div>{{ location.address.line3 }}</div>
-                }
+                <a
+                  [href]="mapsUrl(location.address)"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  [attr.aria-label]="'Open the ' + location.name + ' address in Google Maps'"
+                  class="block space-y-1 text-black hover:underline"
+                >
+                  <div>{{ location.address.line1 }}</div>
+                  <div>{{ location.address.line2 }}</div>
+                  @if (location.address.line3) {
+                    <div>{{ location.address.line3 }}</div>
+                  }
+                </a>
                 <a
                   [href]="'tel:' + location.phone"
                   class="text-sm mt-4 block tracking-wide text-black hover:underline leading-7"
