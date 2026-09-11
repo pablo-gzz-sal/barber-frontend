@@ -55,7 +55,7 @@ export class AboutPage implements AfterViewInit, OnInit {
       tvFeature: {
         title: 'TV Feature',
         description:
-          "Joseph's Expertise was showcased on national television, bringing his artistry to the FX series American Sports Story: Aaron Hernandez on Hulu. His work continues to be recognized across both beauty and entertainment industries.",
+          "Joseph's expertise was showcased on national television, bringing his artistry to the FX series American Sports Story: Aaron Hernandez on Hulu. His work continues to be recognized across both beauty and entertainment industries.",
       },
     },
     team: {
