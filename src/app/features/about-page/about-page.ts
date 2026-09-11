@@ -144,7 +144,7 @@ export class AboutPage implements AfterViewInit, OnInit {
     },
   };
 
-  activeIndex = 1; // center Nicole by default
+  activeIndex = 0; // Raquel leads the carousel, so she is the one centred on arrival
   railTransform = 'translateX(0px)';
 
   playing = false;
