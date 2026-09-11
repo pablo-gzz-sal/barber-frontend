@@ -46,8 +46,7 @@
     </div>
   </div>
 
-  <!-- Main Image with Labels -->
-  <!-- Main Image with Labels -->
+  <!-- Main Image -->
   <div class="relative h-screen w-full pt-20 md:pt-24">
     <!-- Background Image -->
     <div class="absolute inset-0">
@@ -56,54 +55,75 @@
         alt="Hair Treatments"
         class="w-full h-full object-cover transition-opacity duration-300"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70"></div>
+
+      <!--
+        ===== PREVIOUS DESIGN (kept for easy revert) =====
+        Dark gradient overlay over the rotating hero images.
+        Removed per Joey's request so each image shows clean.
+        To restore: uncomment the single div below.
+
+        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70"></div>
+      -->
     </div>
 
-    <!-- Floating Labels (same style/positions as before) -->
-    <div class="relative z-20 h-full" (mouseleave)="onLeaveOptions()">
-      @for (opt of activeOptions; track opt.id) {
-        <button
-          type="button"
-          class="absolute animate-fade-in group"
-          [ngStyle]="{
-            top: opt.position.top,
-            left: opt.position.left,
-            right: opt.position.right,
-            bottom: opt.position.bottom,
-            transform: opt.position.transform,
-          }"
-        >
-          <div
-            class="flex flex-col"
-            [class.items-start]="opt.position.align === 'start'"
-            [class.items-center]="opt.position.align === 'center'"
-            [class.items-end]="opt.position.align === 'end'"
+    <!--
+      ===== PREVIOUS DESIGN (kept for easy revert) =====
+      Floating service labels positioned over the hero image (Botanical Smoother,
+      Keratin, Highlight, Balayage, etc.), plus the hover interaction that swapped
+      the hero image for the option's hoverImage.
+      Removed per Joey's request so each image shows clean.
+
+      To restore: uncomment the block below AND the gradient overlay above.
+      All supporting code is still intact and untouched in treatments-hero.ts
+      (tabOptions, hoveredOptionId, onHoverOption, onLeaveOptions, activeOptions,
+      and the hover branch inside the heroImageSrc getter), so nothing else needs
+      to change.
+
+      <div class="relative z-20 h-full" (mouseleave)="onLeaveOptions()">
+        @for (opt of activeOptions; track opt.id) {
+          <button
+            type="button"
+            class="absolute animate-fade-in group"
+            [ngStyle]="{
+              top: opt.position.top,
+              left: opt.position.left,
+              right: opt.position.right,
+              bottom: opt.position.bottom,
+              transform: opt.position.transform,
+            }"
           >
-            <span
-              class="text-[10px] tracking-[0.2em] mb-1 transition-colors duration-300"
-              [class.text-white/70]="hoveredOptionId === opt.id"
-              [class.text-white/50]="hoveredOptionId !== opt.id"
+            <div
+              class="flex flex-col"
+              [class.items-start]="opt.position.align === 'start'"
+              [class.items-center]="opt.position.align === 'center'"
+              [class.items-end]="opt.position.align === 'end'"
             >
-              {{ opt.number }}
-            </span>
+              <span
+                class="text-[10px] tracking-[0.2em] mb-1 transition-colors duration-300"
+                [class.text-white/70]="hoveredOptionId === opt.id"
+                [class.text-white/50]="hoveredOptionId !== opt.id"
+              >
+                {{ opt.number }}
+              </span>
 
-            <span
-              class="text-lg md:text-xl tracking-[0.15em] font-light transition-all duration-300 uppercase"
-              [class.text-white]="hoveredOptionId === opt.id"
-              [class.text-white/85]="hoveredOptionId !== opt.id"
-              [class.opacity-100]="hoveredOptionId === opt.id"
-              [class.opacity-90]="hoveredOptionId !== opt.id"
-            >
-              {{ opt.title }}
-            </span>
+              <span
+                class="text-lg md:text-xl tracking-[0.15em] font-light transition-all duration-300 uppercase"
+                [class.text-white]="hoveredOptionId === opt.id"
+                [class.text-white/85]="hoveredOptionId !== opt.id"
+                [class.opacity-100]="hoveredOptionId === opt.id"
+                [class.opacity-90]="hoveredOptionId !== opt.id"
+              >
+                {{ opt.title }}
+              </span>
 
-            <!-- subtle underline on hover (optional) -->
-            <span
-              class="mt-2 h-[1px] w-10 bg-white/0 group-hover:bg-white/40 transition-all duration-300"
-            ></span>
-          </div>
-        </button>
-      }
-    </div>
+              (subtle underline on hover, optional)
+              <span
+                class="mt-2 h-[1px] w-10 bg-white/0 group-hover:bg-white/40 transition-all duration-300"
+              ></span>
+            </div>
+          </button>
+        }
+      </div>
+    -->
   </div>
 </section>
