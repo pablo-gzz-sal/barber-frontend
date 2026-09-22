@@ -110,6 +110,21 @@
               ></textarea>
             </div>
 
+            <!-- Honeypot: moved off-screen rather than display:none (some bots skip those),
+                 hidden from screen readers and out of the tab order. People never fill it;
+                 bots that fill every input do, and the API silently drops those. -->
+            <div aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden">
+              <label for="contact-website">Website</label>
+              <input
+                id="contact-website"
+                type="text"
+                [(ngModel)]="formData.website"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </div>
+
             <!-- Terms Checkbox -->
             <div class="flex items-center justify-between gap-3">
               <div>
