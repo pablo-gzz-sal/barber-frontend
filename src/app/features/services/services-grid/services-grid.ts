@@ -22,22 +22,22 @@ export class ServicesGrid {
       cards: [
         {
           title: 'Hair Extensions',
-          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/hairExtension.jpg?v=1773881386',
+          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Extensions.png?v=1790107029',
           bookingUrl: 'https://booking.mangomint.com/307273?showOnlyScId=6',
         },
         {
           title: 'Treatments',
-          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/hairKinetics.png?v=1773360123',
+          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Treatment.png?v=1790107028',
           bookingUrl: 'https://booking.mangomint.com/307273?showOnlyScId=9',
         },
         {
           title: 'Color',
-          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/servicesHairHero.jpg?v=1773360116',
+          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Color.png?v=1790107027',
           bookingUrl: 'https://booking.mangomint.com/307273?showOnlyScId=5',
         },
         {
           title: 'Styling',
-          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/stylingService.png?v=1773360105',
+          img: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Styling.png?v=1790107028',
           bookingUrl: 'https://booking.mangomint.com/307273?showOnlyScId=11',
         },
       ],
