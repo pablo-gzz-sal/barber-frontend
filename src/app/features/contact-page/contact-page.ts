@@ -59,6 +59,7 @@ export class ContactPage implements OnInit {
     phone: '',
     subject: '',
     message: '',
+    website: '', // honeypot
     agreedToTerms: false,
   };
 
@@ -151,6 +152,9 @@ export class ContactPage implements OnInit {
       email: this.formData.email,
       phone: this.formData.phone,
       message,
+      // Honeypot: only sent when filled (i.e. by a bot), so real visitors' payloads
+      // stay exactly what the API has always accepted.
+      ...(this.formData.website ? { website: this.formData.website } : {}),
     };
 
     this.contactApi.send(payload).subscribe({
@@ -161,6 +165,13 @@ export class ContactPage implements OnInit {
       },
       error: (err) => {
         this.loading = false;
+        if (err?.status === 429) {
+          this.toast.error(
+            'Too many messages',
+            'Please wait a few minutes before trying again, or give us a call.',
+          );
+          return;
+        }
         // The API returns an array of strings for 422 validation errors.
         const detail = err?.error?.message;
         this.toast.error(
@@ -205,6 +216,7 @@ export class ContactPage implements OnInit {
       phone: '',
       subject: '',
       message: '',
+      website: '',
       agreedToTerms: false,
     };
   }

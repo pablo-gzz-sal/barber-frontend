@@ -6,6 +6,8 @@ export interface ContactPayload {
   email: string;
   phone?: string;
   message: string;
+  /** Honeypot; the API drops submissions where it is filled. */
+  website?: string;
 }
 
 @Injectable({ providedIn: 'root' })
