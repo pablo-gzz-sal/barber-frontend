@@ -43,10 +43,10 @@ export class TreatmentsHero {
 
   // default hero image per tab
   private tabHeroImage: Record<TabId, string> = {
-    extensions: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Extensions.jpg?v=1773360159',
-    treatments: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Treatments.jpg?v=1773360145',
-    color: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Color.jpg?v=1773360143',
-    styling: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Styling.jpg?v=1773360148',
+    extensions: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Extensions.png?v=1790107029',
+    treatments: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Treatment.png?v=1790107028',
+    color: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Color.png?v=1790107027',
+    styling: 'https://cdn.shopify.com/s/files/1/0573/6602/0281/files/Styling.png?v=1790107028',
   };
 
   // options shown inside each tab
