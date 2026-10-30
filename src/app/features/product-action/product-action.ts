@@ -166,10 +166,19 @@ export class ProductAction {
     return items[this.activeMediaIndex()] ?? items[0];
   });
 
-  shopUrl = computed(() => {
-    const p = this.product();
-    if (!p?.handle) return null;
-    return `${environment.shopifyStorefrontUrl}/products/${p.handle}`;
+  /**
+   * Express-checkout permalink for the selected variant — the same
+   * /cart/VARIANT_ID:QTY form the cart uses, which Shopify answers with its hosted
+   * checkout (Shop Pay included).
+   *
+   * Must not be a /products/:handle storefront link: Shopify bounces *.myshopify.com
+   * storefront URLs to the store's primary domain, and that domain now serves this app,
+   * which has no /products route — so the shopper landed on the homepage.
+   */
+  checkoutUrl = computed(() => {
+    const v = this.selectedVariant();
+    if (!v?.id) return null;
+    return `${environment.shopifyStorefrontUrl}/cart/${v.id}:${this.qty()}`;
   });
 
   /** Is the currently selected variant purchasable? */
@@ -193,7 +202,7 @@ export class ProductAction {
     return typeof qty === 'number' ? qty : null;
   });
 
-  canBuy = computed(() => !!this.shopUrl() && this.selectedVariantAvailable());
+  canBuy = computed(() => !!this.checkoutUrl() && this.selectedVariantAvailable());
   canAdd = computed(() => !!this.selectedVariantId() && this.selectedVariantAvailable());
 
   ngOnInit() {
@@ -384,9 +393,20 @@ export class ProductAction {
   }
 
   buyWithShop() {
-    const url = this.shopUrl();
-    if (!url) return;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const url = this.checkoutUrl();
+    if (!url) {
+      this.toast.error('Please select a variant');
+      return;
+    }
+
+    const v = this.selectedVariant();
+    if (v?.available === false) {
+      this.toast.error('This item is out of stock');
+      return;
+    }
+
+    // Same tab, like the cart's checkout: a popup-blocked buy button looks broken.
+    window.location.href = url;
   }
 
   addToCart() {
