@@ -190,7 +190,7 @@ export class Checkout implements OnInit {
     this.items.update((list) => list.filter((x) => String(x.variantId) !== String(item.variantId)));
 
     this.refresh();
-    this.toast.success('Item removed frpm cart');
+    this.toast.success('Item removed from cart');
   }
 
   goPay() {
